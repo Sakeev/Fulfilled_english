@@ -18,7 +18,8 @@ const CoursesPage = () => {
           bgcolor: 
           "#d1e09424",
           // 'green',
-          display: 'flex', justifyContent: 'flex-start'}}>
+          display: 'flex', justifyContent: 'flex-start',
+          height: '100%'}}>
           <Navbar />
           <Main />
       </Box>
