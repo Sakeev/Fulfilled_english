@@ -13,9 +13,9 @@ const CoursesPage = () => {
       }}>
       <Sidebar />
       
-        <Box sx={{
+      <Box sx={{
           bgcolor: 
-          "#d1e09424",
+          "#fff",
           // 'green',
           display: 'flex', justifyContent: 'flex-start'}}>
           <Main />
