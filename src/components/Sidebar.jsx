@@ -10,7 +10,7 @@ import { useAuth } from '../contexts/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import sticker from '../assets/images/sidebar.svg'
-// import { Logo } from "./images";
+import Logo from "../assets/images/logo.png";
 
 const theme = createTheme({
   palette: {
@@ -47,13 +47,15 @@ export default function Appbar() {
     margin: '10px 5px',
     backgroundColor: '#83c5be',
     color: '#006D77',
-    textTransform: 'lowercase'
+    border: '1px solid #83c5be',
+    textTransform: 'none',
   }
 
   return (
       <Box sx={sidebarStyle}>
-        <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
-          <Typography sx={{}}>Logo</Typography>
+        <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 3}}>
+          <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '20px'}}/>
+          <Typography variant="h6" style={{marginLeft: '20px', color: '#006d77'}}>Fluently English</Typography>
         </Box>
         <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
           <ThemeProvider theme={theme}>
