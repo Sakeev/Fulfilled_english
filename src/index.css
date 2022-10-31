@@ -48,6 +48,7 @@
   height: 3.5vw;
   width: 70%; /* Full width */
   background-color: #83c5be; /* Grey background */
+  border-radius: 5px;
 }
 
 .skills {
@@ -55,10 +56,20 @@
   padding-top: 10px; /* Add top padding */
   padding-bottom: 10px; /* Add bottom padding */
   color: #83c5be; /* White text color */
+  animation: cubic-bezier(0, 1.25, 0.98, -0.09);
 }
 
 .balance {
   height: 3.5vw;
-
   background-color: #e29578;
+  animation: 1s ease-out 0s 1 slideInLeft;
 } /* Green */
+
+@keyframes slideInLeft {
+  0% {
+    width: 100px;
+  }
+  100% {
+    width: 90%;
+  }
+}

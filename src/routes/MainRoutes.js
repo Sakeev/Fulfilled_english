@@ -34,6 +34,7 @@ const MainRoutes = () => {
       element: <NotFoundPage />,
       id: 3,
     },
+    
   ];
   const PUBLIC_ROUTES = [
     {

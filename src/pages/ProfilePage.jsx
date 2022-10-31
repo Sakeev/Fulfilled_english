@@ -1,6 +1,7 @@
 import { Box, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import image from "../components/images/Sticker_pack02_Группа 18.png";
 
 const ProfilePage = () => {
   let handleCount = (e) => {
@@ -45,8 +46,36 @@ const ProfilePage = () => {
             height: "100%",
             width: "30%",
             borderRight: "2px solid #83C5BE",
+            margin: "0 auto !important",
+            display: "flex",
+            flexDirection: "column",
           }}
-        ></Box>
+        >
+          <div style={{width:"100%" , display:"flex" , justifyContent:"center" , flexDirection:"column" , marginTop:"50%"}}>
+          <img
+            src={image}
+            style={{
+              width: "50%",
+              height: "70%",
+              paddingTop: "5%",
+              paddingBottom: "5%",
+              alignSelf: "center",
+            }}
+          />
+          <p style={{ margin: "0 auto" }}>Дастан</p>
+          <p style={{ margin: "0 auto" }}>Буларкиев</p>
+          <p style={{ margin: "0 auto" }}>07.05.01</p>
+
+          <button style={{  border: "none",
+                  width: "30%",
+                  height: "3.8vw",
+                  borderRadius: "5px",
+                  backgroundColor: "#006D77",
+                  color: "white",
+                  margin:"20px auto",
+                  fontSize: "1vw",  }}> Вернуться назад</button>
+          </div>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -84,6 +113,7 @@ const ProfilePage = () => {
                 alignItems: "center",
               }}
             >
+              
               <p
                 style={{
                   fontSize: "1.3vw",
@@ -131,6 +161,7 @@ const ProfilePage = () => {
                 type="text"
               />
               <div style={{ height: "1vw" }}></div>
+              
               <div
                 style={{
                   width: "100%",
@@ -159,6 +190,7 @@ const ProfilePage = () => {
                   maxLength={60}
                   onInput={handleCount}
                 />
+                
                 <div
                   style={{
                     border: "none",
@@ -175,7 +207,10 @@ const ProfilePage = () => {
                 >
                   <output></output>
                 </div>
+                
+                
               </div>
+              <h3 style={{paddingTop:"20px"}}>О себе</h3>
               <div
                 style={{
                   marginTop: "3%",
@@ -235,6 +270,10 @@ const ProfilePage = () => {
                 }}
                 className={style}
               />
+              <div style={{display:"flex" , justifyContent:'space-between' , width:"70%" , paddingTop:"20px"}}>
+              <p>Ваш прогресс </p>
+              <p>9/10 занятий</p>
+              </div>
               <div class="container">
                 <div
                   className="balance"
@@ -242,12 +281,15 @@ const ProfilePage = () => {
                     width: `${progresswidth}%`,
                     fontSize: "1.3vw",
                     color: "#006D77",
+                    borderTopLeftRadius:"5px",
+                    borderBottomLeftRadius:"5px"
                   }}
                 >
-                  <p>Your balance</p>
+                  
                 </div>
               </div>
               <div style={{ height: "1vw" }}></div>
+              
               <button
                 style={{
                   border: "none",
@@ -257,11 +299,14 @@ const ProfilePage = () => {
                   backgroundColor: "#006D77",
                   color: "white",
                   fontSize: "1.1vw",
-                  marginTop: "1%",
+
+                  marginBottom:"20px"
                 }}
               >
                 save
               </button>
+              
+              
             </Box>
             <p></p>
           </Box>
