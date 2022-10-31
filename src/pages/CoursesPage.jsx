@@ -1,25 +1,22 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import Appbar from '../components/Appbar';
+import Sidebar from '../components/Sidebar';
 import Main from '../components/Main'
-import Navbar from '../components/Navbar';
 
 const CoursesPage = () => {
     return (
       <Box sx={{
-        bgcolor: 
-        'green',
-          height: '100vh',
-        overflowY: 'hidden'
+        height: '100vh',
+        overflowY: 'hidden',
+        display: 'flex',
       }}>
-      <Appbar />
+      <Sidebar />
       
-        <Box sx={{
+      <Box sx={{
           bgcolor: 
-          "#d1e09424",
+          "#fff",
           // 'green',
           display: 'flex', justifyContent: 'flex-start'}}>
-          <Navbar />
           <Main />
       </Box>
       </Box>
