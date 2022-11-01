@@ -34,7 +34,7 @@ const Main = () => {
     }
 
     return (
-        <Box sx={{mt: 1, display: 'flex', flexDirection: 'column', width: '75vw', padding: '0 2%' }}>
+        <Box sx={{mt: 4, display: 'flex', flexDirection: 'column', width: '75vw', padding: '0 2%' }}>
             <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                 <Box sx={{width: '65%'}}>
                     <Paper elevation={isHover ? 16 : 1} sx={{m: 2,height: '28vh', cursor: 'pointer', maxHeight: "220px", width: "100%", p: 2, bgcolor:'#EDF6F9', 
