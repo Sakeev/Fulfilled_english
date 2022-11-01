@@ -28,6 +28,10 @@ export default function Appbar() {
   const { user, checkAuth, logout } = useAuth();
 
   const navigate = useNavigate()
+  const foo = ()=>{
+    logout();
+    navigate("/")
+  }
 
   React.useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -60,7 +64,7 @@ export default function Appbar() {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
               <Button sx={btnStyle}>Домашнее задание</Button>
               <Button sx={btnStyle}>Эссе</Button>
-              <Button sx={btnStyle}>Выйти из аккаунта</Button>
+              <Button sx={btnStyle} onClick={foo}>Выйти из аккаунта</Button>
             </Box>
             <Box>
               <img src={sticker} alt="" style={{width: '200px'}} />

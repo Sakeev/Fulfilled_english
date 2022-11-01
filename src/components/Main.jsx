@@ -1,8 +1,11 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import sticker from '../assets/images/startlesson.svg'
 
 const Main = () => {
+
+    // const navigate = useNavigate()
 
     const [isHover, setIsHover] = useState(false);
 
@@ -19,10 +22,10 @@ const Main = () => {
             <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                 <Box sx={{width: '65%'}}>
                     <Paper elevation={isHover ? 16 : 1} sx={{m: 2,height: '28vh', cursor: 'pointer', maxHeight: "220px", width: "100%", p: 2, bgcolor:'#EDF6F9', 
-                        borderRadius: "50px 10px 10px", display: 'flex', justifyContent: 'space-around', alignItems: 'center'}} onClick={()=>alert('вы начали занятие')} onMouseOver={()=>handleMouseOver()} onMouseOut={()=>handleMouseOut()}>
+                        borderRadius: "50px 10px 10px", display: 'flex', justifyContent: 'space-around', alignItems: 'center'}} onClick={window.open('/class','_blank')} onMouseOver={()=>handleMouseOver()} onMouseOut={()=>handleMouseOut()}>
                         <Box sx={{height: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
                             <Typography variant="p" sx={{color: '#83C5BE'}}>До занятия осталось: 5:43</Typography>
-                            <Typography variant="h5" sx={{color: '#006D77'}}>Начать занятие</Typography>
+                            <Typography variant="h5" sx={{color: '#006D77'}} >Начать занятие</Typography>
                         </Box>
                         <img style={{width: '20%', margin: '0 0 20px 0'}} src={sticker} alt="" />
                     </Paper>
