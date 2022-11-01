@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextProvider';
 
 const NotFoundPage = () => {
-    const navigate = useNavigate()
-    const {user} = useAuth()
-    useEffect(()=>{
-        !user? navigate('/'): navigate('/home')
-    },[])
+    // const navigate = useNavigate()
+    // const {user} = useAuth()
+    // useEffect(()=>{
+    //     !user? navigate('/'): navigate('/home')
+    // },[])
     return (
         <>
             <Box sx={{display: "flex",}}>

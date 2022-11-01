@@ -7,10 +7,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../contexts/AuthContextProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import sticker from '../assets/images/sidebar.svg'
-// import { Logo } from "./images";
+import Logo from "../assets/images/logo.png";
 
 const theme = createTheme({
   palette: {
@@ -51,15 +51,31 @@ export default function Appbar() {
     margin: '10px 5px',
     backgroundColor: '#83c5be',
     color: '#006D77',
-    textTransform: 'lowercase'
+    border: '1px solid #83c5be',
+    textTransform: 'none',
+  }
+
+  function Copyright(props) {
+    return (
+      <Typography
+        variant="body3"
+        color="text.secondary"
+        align="center"
+        {...props}
+
+      >
+        {'Copyright © '}Fluently English {new Date().getFullYear()}{'.'}
+      </Typography>
+    );
   }
 
   return (
       <Box sx={sidebarStyle}>
-        <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
-          <Typography sx={{}}>Logo</Typography>
+        <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5}}>
+          <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '40px', mt: 2}}/>
+          <Typography variant="h6" style={{marginLeft: '20px', color: '#006d77'}}>Fluently English</Typography>
         </Box>
-        <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+        <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', mt: 5}}>
           <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
               <Button sx={btnStyle}>Домашнее задание</Button>
@@ -70,7 +86,9 @@ export default function Appbar() {
               <img src={sticker} alt="" style={{width: '200px'}} />
             </Box>
             <Box>
-              <Typography variant='p'>footer</Typography>
+              <Typography variant='p'>
+                <Copyright sx={{ fontSize: '12px', display:'flex', justifyContent: 'center'}} />
+              </Typography>
             </Box>
           </ThemeProvider>
         </Box>
