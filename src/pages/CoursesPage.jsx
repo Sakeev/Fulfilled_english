@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import Main from '../components/Main'
 
 const CoursesPage = () => {
+  
     return (
       <Box sx={{
         height: '100vh',
