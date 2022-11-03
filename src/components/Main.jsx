@@ -20,7 +20,6 @@ const calendar = {
 }
 
 const Main = () => {
-
     const [isHover, setIsHover] = useState(false);
 
     const handleMouseOver = () => {
@@ -56,9 +55,7 @@ const Main = () => {
                 </Box>
             </Box>
 
-
-
-            <Box >
+            <Box>
                 <Paper elevation={1} sx={{ m: 2,height: '28vh', maxHeight: "220px", width: "100%", p: 2, bgcolor:'#EDF6F9', 
                     borderRadius: "10px", display: 'flex', flexDirection:'column', justifyContent: 'space-evenly', alignItems: 'space-between'}}>
                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>

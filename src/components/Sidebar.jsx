@@ -60,7 +60,7 @@ export default function Appbar() {
         <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
           <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-              <Button sx={btnStyle}>Домашнее задание</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Домашнее задание</Button>
               <Button sx={btnStyle}>Эссе</Button>
               <Button sx={btnStyle}>Выйти из аккаунта</Button>
             </Box>

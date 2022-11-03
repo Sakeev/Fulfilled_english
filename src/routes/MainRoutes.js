@@ -7,6 +7,7 @@ import NotFoundPage from "../components/NotFoundPage";
 import AuthPage from "../pages/AuthPage";
 import CoursesPage from "../pages/CoursesPage";
 import { useAuth } from "../contexts/AuthContextProvider";
+import TasksPage from "../pages/TasksPage";
 
 const MainRoutes = () => {
   const { user, checkAuth, logout } = useAuth();
@@ -33,6 +34,11 @@ const MainRoutes = () => {
       element: <NotFoundPage />,
       id: 3,
     },
+    {
+      link: "/tasks",
+      element: <TasksPage />,
+      id: 4,
+    }
   ];
   const PUBLIC_ROUTES = [
     {
