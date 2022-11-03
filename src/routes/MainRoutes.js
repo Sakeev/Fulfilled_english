@@ -1,16 +1,15 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { ADMIN } from "../helpers/consts";
-import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
 import NotFoundPage from "../components/NotFoundPage";
 import AuthPage from "../pages/AuthPage";
 import CoursesPage from "../pages/CoursesPage";
 import { useAuth } from "../contexts/AuthContextProvider";
 import TasksPage from "../pages/TasksPage";
+import ClassPage from "../pages/ClassPage";
 
 const MainRoutes = () => {
-  const { user, checkAuth, logout } = useAuth();
+  const { user, checkAuth } = useAuth();
 
   React.useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -20,19 +19,24 @@ const MainRoutes = () => {
 
   const PRIVATE_ROUTES = [
     {
-      link: "/",
+      link: "/home",
       element: <CoursesPage />,
       id: 1,
     },
     {
+      link: "/class",
+      element: <ClassPage />,
+      id: 2,
+    },
+    {
       link: "/register",
       element: <Registration />,
-      id: 2,
+      id: 3,
     },
     {
       link: "*",
       element: <NotFoundPage />,
-      id: 3,
+      id: 4,
     },
     {
       link: "/tasks",
