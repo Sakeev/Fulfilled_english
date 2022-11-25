@@ -9,17 +9,17 @@ import TasksPage from "../pages/TasksPage";
 import ClassPage from "../pages/ClassPage";
 
 const MainRoutes = () => {
-  const { user, checkAuth } = useAuth();
+  // const { user, checkAuth } = useAuth();
 
-  React.useEffect(() => {
-    if (localStorage.getItem("token")) {
-      checkAuth();
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     checkAuth();
+  //   }
+  // }, []);
 
   const PRIVATE_ROUTES = [
     {
-      link: "/home",
+      link: "/",
       element: <CoursesPage />,
       id: 1,
     },
@@ -65,11 +65,11 @@ const MainRoutes = () => {
   return (
     <>
       <Routes>
-        {user
+        {true
           ? PRIVATE_ROUTES.map((item) => (
               <Route
                 path={item.link}
-                element={user ? item.element : <Navigate replace to="*" />}
+                element={true ? item.element : <Navigate replace to="*" />}
                 key={item.id}
               />
             ))

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import Sidebar from '../components/Sidebar';
-import Tasks from '../components/tasks/Tasks';
+import Tasks from '../components/tasks/@index';
 
 const TasksPage = () => {
   return (

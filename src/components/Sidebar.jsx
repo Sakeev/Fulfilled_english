@@ -15,7 +15,7 @@ import Logo from "../assets/images/logo.png";
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#83C5BE',
+      main: '#9bd0cb',
     },
     secondary: {
       main: '#E29578',
@@ -44,15 +44,19 @@ export default function Appbar() {
     flexDirection: 'column',
     maxWidth: '20vw',
     minWidth: '300px',
-    borderRight: '3px solid #83C5BE'
+    // boxShadow: '4px 0px 10px -2px rgba(115,115,115,0.75)',
+    borderRight: '2px solid #9bd0cb',
   }
 
   const btnStyle = {
     margin: '10px 5px',
-    backgroundColor: '#83c5be',
+    backgroundColor: '#9bd0cb',
     color: '#006D77',
-    border: '1px solid #83c5be',
     textTransform: 'none',
+    "&:hover": {
+      backgroundColor: '#006D77',
+      color: '#9bd0cb'
+    }
   }
 
   function Copyright(props) {
@@ -71,7 +75,7 @@ export default function Appbar() {
 
   return (
       <Box sx={sidebarStyle}>
-        <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5}}>
+        <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5, cursor: 'pointer'}} onClick={()=>navigate('/')}>
           <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '40px', mt: 2}}/>
           <Typography variant="h6" style={{marginLeft: '20px', color: '#006d77'}}>Fluently English</Typography>
         </Box>
