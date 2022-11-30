@@ -1,5 +1,5 @@
 import React from 'react';
-import Essey from '../components/tasks/Essey';
+import Essay from '../components/tasks/Essay';
 import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
 const EsseyPage = () => {
@@ -11,7 +11,7 @@ const EsseyPage = () => {
         display: 'flex',
       }}>
             <Sidebar />
-            <Essey/>
+            <Essay/>
             </Box>
         </div>
     );
