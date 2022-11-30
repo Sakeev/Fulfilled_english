@@ -7,7 +7,7 @@ import CoursesPage from "../pages/CoursesPage";
 import { useAuth } from "../contexts/AuthContextProvider";
 import TasksPage from "../pages/TasksPage";
 import ClassPage from "../pages/ClassPage";
-import EsseyPage from "../pages/EsseyPage";
+import EssayPage from "../pages/EssayPage";
 
 const MainRoutes = () => {
   // const { user, checkAuth } = useAuth();
@@ -46,7 +46,7 @@ const MainRoutes = () => {
     },
     {
       link: "/essey",
-      element: <EsseyPage />,
+      element: <EssayPage />,
       id: 5,
     },
   ];
