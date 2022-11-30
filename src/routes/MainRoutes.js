@@ -7,6 +7,7 @@ import CoursesPage from "../pages/CoursesPage";
 import { useAuth } from "../contexts/AuthContextProvider";
 import TasksPage from "../pages/TasksPage";
 import ClassPage from "../pages/ClassPage";
+import EsseyPage from "../pages/EsseyPage";
 
 const MainRoutes = () => {
   // const { user, checkAuth } = useAuth();
@@ -42,7 +43,12 @@ const MainRoutes = () => {
       link: "/tasks",
       element: <TasksPage />,
       id: 4,
-    }
+    },
+    {
+      link: "/essey",
+      element: <EsseyPage />,
+      id: 5,
+    },
   ];
   const PUBLIC_ROUTES = [
     {
@@ -60,6 +66,7 @@ const MainRoutes = () => {
       element: <NotFoundPage />,
       id: 3,
     },
+    
   ];
 
   return (
