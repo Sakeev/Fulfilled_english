@@ -8,6 +8,7 @@ import { useAuth } from "../contexts/AuthContextProvider";
 import TasksPage from "../pages/TasksPage";
 import ClassPage from "../pages/ClassPage";
 import EssayPage from "../pages/EssayPage";
+import ProfilePage from '../pages/ProfilePage';
 
 const MainRoutes = () => {
   // const { user, checkAuth } = useAuth();
@@ -49,6 +50,11 @@ const MainRoutes = () => {
       element: <EssayPage />,
       id: 5,
     },
+    {
+       link: '/profile',
+       element: <ProfilePage />,
+       id: 6,
+     },
   ];
   const PUBLIC_ROUTES = [
     {
