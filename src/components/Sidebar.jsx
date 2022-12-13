@@ -44,8 +44,15 @@ export default function Appbar() {
     flexDirection: 'column',
     maxWidth: '20vw',
     minWidth: '300px',
+    height: '100vh',
     // boxShadow: '4px 0px 10px -2px rgba(115,115,115,0.75)',
     borderRight: '2px solid #9bd0cb',
+    position: 'fixed',
+  }
+
+  const sidebarContainer = {
+    maxWidth: '20vw',
+    minWidth: '300px',
   }
 
   const btnStyle = {
@@ -74,6 +81,7 @@ export default function Appbar() {
   }
 
   return (
+    <Box sx={sidebarContainer}>
       <Box sx={sidebarStyle}>
         <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5, cursor: 'pointer'}} onClick={()=>navigate('/')}>
           <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '40px', mt: 2}}/>
@@ -97,5 +105,6 @@ export default function Appbar() {
           </ThemeProvider>
         </Box>
       </Box>
+    </Box>
   );
 }
