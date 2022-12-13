@@ -7,7 +7,7 @@ const TasksPage = () => {
   return (
     <Box sx={{
       height: '100vh',
-      overflowY: 'hidden',
+      // overflowY: 'hidden',
       display: 'flex',
     }}>
     <Sidebar />

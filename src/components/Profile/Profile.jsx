@@ -7,11 +7,17 @@ import './Profile.scss';
 const Profile = () => {
     const navigate = useNavigate();
 
+    function check(arr) {
+        console.log(this)
+    }
+
+    check([1,2,3]);
+
     const user = {
         name: 'Дастан',
         lastName: 'Буларкиев',
         birthDate: '07.05.2001',
-        image: '../../assets/images/photo_2022-11-16 16.52.00.jpeg',
+        image: '../../assets/images/student.jpg',
         aboutMe: '',
         something: '',
     };
@@ -31,7 +37,7 @@ const Profile = () => {
             <div className="profile-user">
                 <div className="profile-avatar">
                     <img
-                        src={require('../../assets/images/photo_2022-11-16 16.52.00.jpeg')}
+                        src={require('../../assets/images/student.jpg')}
                         alt="User image"
                     />
                 </div>

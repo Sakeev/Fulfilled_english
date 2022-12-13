@@ -10,6 +10,7 @@ const answerBox = {
   justifyContent: 'center',
   alignItems: 'center',
   cursor: 'pointer',
+  transition: '150ms',
   "&:hover": {
     bgcolor: '#9bd0cb'
   }
