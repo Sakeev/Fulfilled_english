@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
+import HomePageSchedule from './teachers/HomePageSchedule';
 
 const avatarImg = {
     width: '70px',
@@ -130,7 +131,7 @@ const Main = () => {
                 </Box>
             </Box>
 
-            <Box>
+            {/* <Box>
                 <Paper
                     elevation={1}
                     sx={{
@@ -183,7 +184,8 @@ const Main = () => {
                         ></Box>
                     </Box>
                 </Paper>
-            </Box>
+            </Box> */}
+            <HomePageSchedule />
 
             <Box
                 sx={{
