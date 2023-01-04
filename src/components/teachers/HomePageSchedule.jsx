@@ -16,7 +16,9 @@ const innerBox = {
   border: '1px solid #83C5BE',
   borderRadius: "10px",
   width: '100%',
-  height: '80%'
+  height: '80%',
+  "&:hover": { bgcolor: '#83C5BE' },
+  cursor: 'pointer',
 }
 
 const HomePageSchedule = () => {
@@ -43,7 +45,7 @@ const HomePageSchedule = () => {
           </Box>
           <Box sx={boxStyle}>
             <h4>10:20 - 12:20</h4>
-            <Box sx={{...innerBox, bgcolor: '#83C5BE'}}></Box>
+            <Box sx={innerBox}></Box>
           </Box>
           <Box sx={boxStyle}>
             <h4>10:20 - 12:20</h4>
