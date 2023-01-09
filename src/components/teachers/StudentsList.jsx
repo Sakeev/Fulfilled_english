@@ -1,6 +1,6 @@
 import React from 'react';
 
-const studentsList = [{name: 'Sultan', progress: 74}, {name: 'Nurnisa', progress: 96}, {name: 'Someone', progress: 55}]
+const studentsList = [{name: 'Sultan', progress: 74}, {name: 'Someone', progress: 96}, {name: 'Someone Another', progress: 55}]
 
 const container = {
   width: '75%',
@@ -40,8 +40,9 @@ const StudentsList = () => {
         studentsList.map((item) => (
           <div style={studentRow}>
             <div style={{width: '40%'}}>{item.name}</div>
-            <div style={{ backgroundColor: '#9bd0cb', width: '25%', borderRadius: '10px' }}>
-              <div style={{width: item.progress + "%", height: '100%', borderRadius: '10px 0 0 10px',  backgroundColor: '#E29578'}}></div>
+            <div style={{ backgroundColor: '#9bd0cb', width: '25%', borderRadius: '10px', position: 'relative' }}>
+              <span style={{color: 'white', fontSize: '15px', alignItems: 'center', position:'absolute',display: 'flex', justifyContent: 'center', width: '100%', height: '100%'}}>{item.progress} %</span>
+              <div style={{display: 'flex',width: item.progress + "%", height: '100%', borderRadius: '10px',  backgroundColor: '#E29578'}}></div>
             </div>
           </div>
         ))

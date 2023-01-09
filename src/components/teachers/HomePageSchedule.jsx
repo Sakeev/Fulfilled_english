@@ -17,6 +17,7 @@ const innerBox = {
   borderRadius: "10px",
   width: '100%',
   height: '80%',
+  transition: '150ms',
   "&:hover": { bgcolor: '#83C5BE' },
   cursor: 'pointer',
 }

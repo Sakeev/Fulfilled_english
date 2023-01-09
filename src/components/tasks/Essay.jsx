@@ -22,7 +22,7 @@ const Essay = () => {
                 </Typography>
                 <Button sx={{backgroundColor:"#83C5BE" , color:"#006D77"}}>перевести</Button>
                 </Box>
-                <input onChange={(e)=>setEssay(e.target.value)} style={{width:"70%" , height:"50%" , borderRadius:"22px" , border:"2px solid #006D77" , marginBottom:"5%"}} ></input>
+                <textarea onChange={(e)=>setEssay(e.target.value)} style={{width:"70%" , height:"50%" , borderRadius:"22px" , border:"2px solid #006D77" , marginBottom:"5%", padding: '20px', fontSize: '20px'}} />
                 <Button onClick={()=>sendEssay(essey)} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }}>Отправить</Button>
             </Box>
             

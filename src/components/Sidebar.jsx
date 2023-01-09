@@ -92,6 +92,7 @@ export default function Appbar() {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
               <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Домашнее задание</Button>
               <Button sx={btnStyle} onClick={()=>navigate('/essay')}>Эссе</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Студенты</Button>
               <Button sx={btnStyle} onClick={foo}>Выйти из аккаунта</Button>
             </Box>
             <Box>
