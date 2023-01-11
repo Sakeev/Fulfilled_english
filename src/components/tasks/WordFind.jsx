@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { useTasks } from '../../contexts/TasksContextProvider';
 
 const answerBox = {
   mr: 1,
@@ -19,6 +20,9 @@ const answerBox = {
 const WordFind = ({taskBox}) => {
   const [answer, setAnswer] = useState('___')
 
+  const {dispatch} = useTasks();
+  // console.log(dispatch);
+
   return (
     <>
       <Box sx={taskBox}>
@@ -26,8 +30,18 @@ const WordFind = ({taskBox}) => {
           <Box sx={{padding: '20px 0'}}>
             <Typography>Tom has <strong>{answer}</strong> out. He'll be back in about an hour.</Typography>
             <Box sx={{display: 'flex', mt: 1}}>
-              <Box sx={answerBox} onClick={()=>setAnswer('been')}>been</Box>
-              <Box sx={answerBox} onClick={()=>setAnswer('gone')}>gone</Box>
+            <Box sx={answerBox} onClick={()=>{dispatch({
+                type:"GET_WORD",
+                payload:'been',
+              })
+              setAnswer('been');
+              }}>gone</Box>
+              <Box sx={answerBox} onClick={()=>{dispatch({
+                type:"GET_WORD",
+                payload:'gone',
+              })
+              setAnswer('gone');
+              }}>gone</Box>
             </Box>
           </Box>
         </Box>

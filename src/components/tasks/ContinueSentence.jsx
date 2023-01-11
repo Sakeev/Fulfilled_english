@@ -1,5 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const styles = {
   main: {
@@ -30,7 +32,26 @@ const styles = {
 const data = ['lorem some', 'words', 'have to', 'get'];
 const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
+
+
+
 const ContinueSentence = ({taskBox}) => {
+  const obj={
+    first:[]
+  }
+
+
+console.log(obj);
+const pushFunc=(item)=>{
+  if(obj.first.length < 2){
+    obj.first.push(item)
+  }
+  else{
+    obj.first.splice(1,1,item)
+  }
+}
+
+
   return (
     <>
       <Box sx={taskBox}>
@@ -39,7 +60,10 @@ const ContinueSentence = ({taskBox}) => {
           <Box sx={styles.wordsContainer}>
             {
               data.map((item) => (
-                <Typography sx={styles.words}>{item}</Typography>
+                <Typography onClick={()=>{
+                  pushFunc(item)
+                  console.log(obj);
+                } } sx={styles.words}>{item}</Typography>
               ))
             }
           </Box>
