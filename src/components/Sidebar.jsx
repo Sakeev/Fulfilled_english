@@ -42,8 +42,8 @@ export default function Appbar() {
   const sidebarStyle = {
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '20vw',
-    minWidth: '300px',
+    width: '18vw',
+    minWidth: '200px',
     height: '100vh',
     // boxShadow: '4px 0px 10px -2px rgba(115,115,115,0.75)',
     borderRight: '2px solid #9bd0cb',
@@ -52,7 +52,8 @@ export default function Appbar() {
 
   const sidebarContainer = {
     maxWidth: '20vw',
-    minWidth: '300px',
+    width: "18vw",
+    minWidth: '200px',
   }
 
   const btnStyle = {
@@ -96,7 +97,7 @@ export default function Appbar() {
               <Button sx={btnStyle} onClick={foo}>Выйти из аккаунта</Button>
             </Box>
             <Box>
-              <img src={sticker} alt="" style={{width: '200px'}} />
+              <img src={sticker} alt="" style={{width: '20vmin'}} />
             </Box>
             <Box>
               <Typography variant='p'>

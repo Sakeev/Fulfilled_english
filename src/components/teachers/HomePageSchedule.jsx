@@ -1,6 +1,7 @@
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const boxStyle = {
   display: 'flex',
@@ -23,6 +24,9 @@ const innerBox = {
 }
 
 const HomePageSchedule = () => {
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Paper
@@ -40,19 +44,19 @@ const HomePageSchedule = () => {
               alignItems: 'center',
           }}
       >
-          <Box sx={boxStyle}>
+          <Box sx={boxStyle} onClick={() => navigate('/schedule')}>
             <h4>10:20 - 12:20</h4>
             <Box sx={innerBox}></Box>
           </Box>
-          <Box sx={boxStyle}>
+          <Box sx={boxStyle} onClick={() => navigate('/schedule')}>
             <h4>10:20 - 12:20</h4>
             <Box sx={innerBox}></Box>
           </Box>
-          <Box sx={boxStyle}>
+          <Box sx={boxStyle} onClick={() => navigate('/schedule')}>
             <h4>10:20 - 12:20</h4>
             <Box sx={innerBox}></Box>
           </Box>
-          <Box sx={boxStyle}>
+          <Box sx={boxStyle} onClick={() => navigate('/schedule')}>
             <h4>10:20 - 12:20</h4>
             <Box sx={innerBox}></Box>
           </Box>
