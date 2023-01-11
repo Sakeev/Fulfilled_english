@@ -17,7 +17,7 @@ const CoursesPage = () => {
           bgcolor: 
           "#fff",
           // 'green',
-          display: 'flex', justifyContent: 'flex-start'}}>
+          display: 'flex', justifyContent: 'center', width: '100%'}}>
           <Main />
       </Box>
       </Box>

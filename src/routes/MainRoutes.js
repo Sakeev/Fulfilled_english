@@ -9,6 +9,8 @@ import TasksPage from "../pages/TasksPage";
 import ClassPage from "../pages/ClassPage";
 import EssayPage from "../pages/EssayPage";
 import ProfilePage from '../pages/ProfilePage';
+import StudentsListPage from "../pages/teachers/StudentsPage";
+import SchedulePage from "../pages/teachers/SchedulePage";
 
 const MainRoutes = () => {
   // const { user, checkAuth } = useAuth();
@@ -54,7 +56,17 @@ const MainRoutes = () => {
        link: '/profile',
        element: <ProfilePage />,
        id: 6,
-     },
+    },
+    {
+      link: '/students',
+      element: <StudentsListPage />,
+      id: 7,
+    },
+    {
+      link: '/schedule',
+      element: <SchedulePage />,
+      id: 8,
+    }
   ];
   const PUBLIC_ROUTES = [
     {
