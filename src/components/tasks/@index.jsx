@@ -1,6 +1,8 @@
 import { Box, Button, createTheme, TextField, ThemeProvider, Typography } from '@mui/material';
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
+import { useTasks } from '../../contexts/TasksContextProvider';
 import ContinueSentence from './ContinueSentence';
 import FillInps from './FillInps';
 import Sentence from './Sentence';
@@ -26,7 +28,15 @@ const theme = createTheme({
   }
 })
 
+
+
 const Tasks = () => {
+  const {handleTask  , tasks} = useTasks();
+  console.log(tasks);
+
+  useEffect(()=>{
+    handleTask()
+  },[])
 
   return (
     <ThemeProvider theme={theme}>

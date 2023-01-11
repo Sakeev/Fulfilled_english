@@ -14,24 +14,40 @@ const AuthContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const register = async (user) => {
-    const config = {
-      headers: { "Content-Type": "multipart/form-data" },
-    };
-    let formData = new FormData();
-    formData.append("email", user.email);
-    formData.append("password", user.password);
-    formData.append("password_confirmation", user.password_confirmation);
-    formData.append("full_name", user.full_name);
+  // const register = async (email, password) => {
+  //   const config = {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   };
+  //   let formData = new FormData();
+  //   formData.append("email", email);
+  //   formData.append("password", password);
 
+  //   try {
+  //     const res = await axios.post(`${AUTH_API}`, formData);
+  //     localStorage.setItem("token", JSON.stringify(res.data));
+  //     localStorage.setItem("username", email);
+  //     console.log(res);
+  //   } catch (e) {
+  //     console.log(e);
+  //     setError("error occured");
+  //   }
+  // };
+  const token=async(email , password)=>{
+    let formData = {
+      email,
+      password,
+    };
+    
+    console.log(formData)
     try {
-      const res = await axios.post(`${AUTH_API}/register/`, formData, config);
+      const res  = await axios.post(`${AUTH_API}`,formData ) 
+          localStorage.setItem("token", JSON.stringify(res.data));
+      localStorage.setItem("username", email);
       console.log(res);
-    } catch (e) {
-      console.log(e);
-      setError("error occured");
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
 
   //   const activation = async (str) => {
   //     const config = {
@@ -101,25 +117,26 @@ const AuthContextProvider = ({ children }) => {
       let userName = localStorage.getItem("username");
       setUser(userName);
     } catch (error) {
-      logout();
+      
     }
   }
 
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setUser("");
-  }
+  // function logout() {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("username");
+  //   setUser("");
+  // }
 
   return (
     <authContext.Provider
       value={{
-        register,
+        
+        token,
         login,
         user,
         error,
         checkAuth,
-        logout,
+        
       }}
     >
       {children}

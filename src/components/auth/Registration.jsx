@@ -55,10 +55,11 @@ const [email, setEmail] = React.useState('');
 const [password, setPassword] = React.useState('');
 const [password_confirmation, setPassword_confirmation] = React.useState('');
 const [full_name, setFull_name] = React.useState('');
-const { register, error } = useAuth();
+const { token, error } = useAuth();
 
-function handleRegister(email, password, password_confirmation, full_name) {
-  register({ email, password, password_confirmation, full_name });
+console.log(email , password);
+function handleRegister() {
+  token(email,password);
 }
 
 
@@ -176,7 +177,7 @@ const modal = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={()=> {handleRegister(email, password, password_confirmation, full_name); modal()}}
+                onClick={()=> {token(email , password); modal()}}
                 >
                 Зарегистрироваться
               </Button>

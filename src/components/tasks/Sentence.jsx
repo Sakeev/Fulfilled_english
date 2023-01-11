@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { useTasks } from '../../contexts/TasksContextProvider';
 
 const words = [['competition', 'the', 'won', 'I', 'have'], ['won', 'three', 'Oscars.', 'has', 'He']]
 
@@ -49,7 +50,11 @@ const styles = {
 }
 
 const Sentence = ({taskBox}) => {
+
+  const {dispatch , sent} = useTasks()
   
+  // console.log(sent[0].slice(1,2));
+
   const checkFields = () =>{
     let res = words.map(item => [])
     return res
@@ -62,15 +67,41 @@ const Sentence = ({taskBox}) => {
     newAns.push(pickedWord[0]);
     let res = [...answer];
     res[index] = res[index].concat([...newAns])
+
+    console.log(answer);
     setAnswer(res);
   }
+
+  const handleSent=()=>{
+    dispatch(
+      {
+        type:'GET_SENT',
+        payload:answer,
+      }
+    )
+  }
+  console.log(sent[0]);
+  const handleRemoveSent=( arrInd, index)=>{
+    dispatch({
+      type:'GET_SENT',
+      payload:sent[arrInd].slice(index, index+1),
+    })
+  }
+
+  useEffect((
+    sent
+  )=>{},[answer])
+
+  console.log(sent);
 
   const handleWordBack = (ind, index) => {
     words[index].splice(ind, 0, answer[index][ind])
     let newAns = [...answer];
-    newAns[index].splice(ind, 1);
+    newAns[index].splice(ind,1);
     setAnswer(newAns);
   }
+
+  console.log(answer);
 
   return (
     <>
@@ -83,14 +114,20 @@ const Sentence = ({taskBox}) => {
                   <Box sx={styles.words_box} key={'id' + index}>
                     {
                       item.map((word, ind) => (
-                        <Typography key={'inner' + ind} sx={styles.word} onClick={()=>handleWord(ind, index)}>{word}</Typography>
+                        <Typography key={'inner' + ind} sx={styles.word} onClick={()=>{
+                          handleWord(ind, index)
+                          handleSent();
+                        } }>{word}</Typography>
                       ))
                     }
                   </Box>
                   <Box sx={styles.answer_block} key={'key' + index}>
                     {
                       answer[index]?.map((item, ind) => (
-                        <Typography key={'inner_ans' + ind} sx={styles.answer} onClick={()=>handleWordBack(ind, index)}>{item}</Typography>
+                        <Typography key={'inner_ans' + ind} sx={styles.answer} onClick={()=>{
+                          handleWordBack(ind, index)
+                          handleRemoveSent(index, ind)
+                        } }>{item}</Typography>
                       ))
                     }
                   </Box>
