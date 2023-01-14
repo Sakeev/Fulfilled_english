@@ -31,7 +31,7 @@ const theme = createTheme();
 export default function Login() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { login, error } = useAuth();
+  const { login, error  , token} = useAuth();
   // console.log(email, password);
 
   function handleLogin(email, password) {
@@ -103,7 +103,7 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={()=>handleLogin(email, password)}
+                onClick={()=>login(email , password) }
               >
                 Войти
               </Button>

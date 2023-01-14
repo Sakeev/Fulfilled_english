@@ -18,6 +18,7 @@ export const useTasks = () => {
     wordFind:[],
     fillInps:[],
     sent:[],
+    answers:[],
   };
 
   const reducer = (state = INIT_STATE, action) => {
@@ -32,6 +33,8 @@ export const useTasks = () => {
         return { ...state, fillInps: action.payload };
       case 'GET_SENT':
         return { ...state, sent: action.payload };
+        case 'ANSWERS':
+        return { ...state, answers: action.payload };
       default:
         return state;
     }
@@ -45,11 +48,12 @@ const TasksContextProvider = ({children}) => {
 
 
     const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : "";
-    console.log(token.access);
+    // console.log(token.access);
     const API = 'http://35.238.162.84/room/tasks/'
     
     const config = {
         headers : {
+          "Content-Type": "application/json",
     "Authorization": `Bearer ${token.access}` 
 }
       };
@@ -57,7 +61,7 @@ const TasksContextProvider = ({children}) => {
     const handleTask=async()=>{
         try {
             const res =  await axios(`${API}`,config);  
-            console.log(res);    
+            console.log( res);    
             dispatch(
                 {
                     type:"GET_TASKS",
@@ -69,6 +73,35 @@ const TasksContextProvider = ({children}) => {
         }
       
     }
+
+
+    const getAnswers=async()=>{
+      try {
+        const res = await axios('http://35.238.162.84/room/answers/' , config)
+        console.log(res);
+        dispatch({
+          type:'ANSWERS',
+          payload:res.data,
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const handleAnswer=async(obj)=>{
+
+  try {
+    const res = await axios.post(`http://35.238.162.84/room/answers/` , obj , config);
+    console.log(res);
+} catch (error) {
+  console.log(error);
+  
+}
+
+      
+
+
+    }
  
     // console.log(state);
 
@@ -77,7 +110,12 @@ const TasksContextProvider = ({children}) => {
         handleTask,
         tasks:state.tasks,
         sent:state.sent,
+        fillInps:state.fillInps,
         dispatch,
+        wordFind:state.wordFind,
+        handleAnswer,
+        getAnswers,
+        answers:state.answers
     }
 
     return (

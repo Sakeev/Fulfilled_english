@@ -35,7 +35,7 @@ const WordFind = ({taskBox}) => {
                 payload:'been',
               })
               setAnswer('been');
-              }}>gone</Box>
+              }}>been</Box>
               <Box sx={answerBox} onClick={()=>{dispatch({
                 type:"GET_WORD",
                 payload:'gone',
