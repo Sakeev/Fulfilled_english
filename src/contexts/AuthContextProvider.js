@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AUTH_API } from "../helpers/consts";
 
@@ -42,8 +42,9 @@ const AuthContextProvider = ({ children }) => {
     try {
       const res  = await axios.post(`${AUTH_API}`,formData ) 
           localStorage.setItem("token", JSON.stringify(res.data));
-      localStorage.setItem("username", email);
+      localStorage.setItem("user", email);
       console.log(res);
+      navigate('/')
     } catch (error) {
       console.log(error);
     }
@@ -80,17 +81,22 @@ const AuthContextProvider = ({ children }) => {
     console.log(formData);
 
     try {
-      let res = await axios.post(`${AUTH_API}/login/`, formData, config);
+      let res = await axios.post(`${AUTH_API}`, formData, config);
       console.log(res);
       localStorage.setItem("token", JSON.stringify(res.data));
       localStorage.setItem("username", username);
+      console.log(username);
       setUser(username);
-      navigate("/home");
+      navigate("/");
+      console.log(user);
     } catch (error) {
       setError("error occured");
     }
   }
 
+//   useEffect(()=>{
+// console.log(user);
+//   },[user])
   async function checkAuth() {
     let token = JSON.parse(localStorage.getItem("token"));
     try {
@@ -115,7 +121,7 @@ const AuthContextProvider = ({ children }) => {
       );
 
       let userName = localStorage.getItem("username");
-      setUser(userName);
+      // setUser(userName);
     } catch (error) {
       
     }

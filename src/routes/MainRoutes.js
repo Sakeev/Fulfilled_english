@@ -13,13 +13,15 @@ import StudentsListPage from "../pages/teachers/StudentsPage";
 import SchedulePage from "../pages/teachers/SchedulePage";
 
 const MainRoutes = () => {
-  // const { user, checkAuth } = useAuth();
+  const {  checkAuth } = useAuth();
 
-  // React.useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     checkAuth();
-  //   }
-  // }, []);
+  const user = localStorage.getItem("username");
+  console.log(user);
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      checkAuth();
+    }
+  }, []);
 
   const PRIVATE_ROUTES = [
     {
@@ -90,11 +92,11 @@ const MainRoutes = () => {
   return (
     <>
       <Routes>
-        {true
+        {user
           ? PRIVATE_ROUTES.map((item) => (
               <Route
                 path={item.link}
-                element={true ? item.element : <Navigate replace to="*" />}
+                element={user? item.element : <Navigate replace to="*" />}
                 key={item.id}
               />
             ))

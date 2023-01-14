@@ -19,7 +19,7 @@ const inputBox = {
 
 const FillInps = ({ taskBox }) => {
 
-  const {dispatch} = useTasks();
+  const {dispatch , } = useTasks();
   const [inps , setInps] = useState({
     first:'',
     second:'',
@@ -34,7 +34,7 @@ const FillInps = ({ taskBox }) => {
   useEffect(()=>{
     handleInp(inps);
   },[inps])
-  // console.log(inps);
+  console.log(inps);
   return (
     <>
       <Box sx={taskBox}>

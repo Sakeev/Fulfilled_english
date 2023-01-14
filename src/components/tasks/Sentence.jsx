@@ -80,11 +80,13 @@ const Sentence = ({taskBox}) => {
       }
     )
   }
-  console.log(sent[0]);
+  // console.log(sent[0]);
   const handleRemoveSent=( arrInd, index)=>{
+    sent[arrInd].splice(index, 1 , ' ');
+    console.log(sent[arrInd]);
     dispatch({
       type:'GET_SENT',
-      payload:sent[arrInd].slice(index, index+1),
+      payload:sent[arrInd],
     })
   }
 
@@ -92,7 +94,7 @@ const Sentence = ({taskBox}) => {
     sent
   )=>{},[answer])
 
-  console.log(sent);
+  // console.log(sent);
 
   const handleWordBack = (ind, index) => {
     words[index].splice(ind, 0, answer[index][ind])
@@ -101,7 +103,7 @@ const Sentence = ({taskBox}) => {
     setAnswer(newAns);
   }
 
-  console.log(answer);
+  // console.log(answer);
 
   return (
     <>

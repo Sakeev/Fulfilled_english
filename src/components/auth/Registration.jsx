@@ -177,7 +177,7 @@ const modal = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={()=> {token(email , password); modal()}}
+                onClick={()=> { modal()}}
                 >
                 Зарегистрироваться
               </Button>
