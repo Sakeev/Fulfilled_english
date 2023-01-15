@@ -16,7 +16,6 @@ const MainRoutes = () => {
   const {  checkAuth } = useAuth();
 
   const user = localStorage.getItem("username");
-  console.log(user);
   React.useEffect(() => {
     if (localStorage.getItem("token")) {
       checkAuth();
@@ -76,11 +75,11 @@ const MainRoutes = () => {
       element: <AuthPage />,
       id: 1,
     },
-    {
-      link: "/register",
-      element: <Registration />,
-      id: 2,
-    },
+    // {
+    //   link: "/register",
+    //   element: <Registration />,
+    //   id: 2,
+    // },
     {
       link: "*",
       element: <NotFoundPage />,

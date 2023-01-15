@@ -109,9 +109,9 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item sx={{margin: '0 auto'}}>
-                  <Link href="/register" variant="body2">
+                  {/* <Link href="/register" variant="body2">
                     {"Нет аккаунта? Зарегистрируйся"}
-                  </Link>
+                  </Link> */}
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

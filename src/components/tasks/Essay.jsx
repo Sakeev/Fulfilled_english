@@ -4,11 +4,10 @@ import React from 'react';
 import { useState } from 'react';
 
 const Essay = () => {
-    const [essey , setEssay] = useState('');
-    let API=`sulaLoh228`
+    const [essay , setEssay] = useState('');
 
-    const sendEssay = async (essey)=>{
-       const data =  await axios.post(API , essey);
+    const sendEssay = async (essay)=>{
+        console.log('Send request for essay here')
     }
     return (
         <div style={{width:"100%" , height:"100%"}}>
@@ -23,9 +22,8 @@ const Essay = () => {
                 <Button sx={{backgroundColor:"#83C5BE" , color:"#006D77"}}>перевести</Button>
                 </Box>
                 <textarea onChange={(e)=>setEssay(e.target.value)} style={{width:"70%" , height:"50%" , borderRadius:"22px" , border:"2px solid #006D77" , marginBottom:"5%", padding: '20px', fontSize: '20px'}} />
-                <Button onClick={()=>sendEssay(essey)} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }}>Отправить</Button>
+                <Button onClick={()=>sendEssay(essay)} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }}>Отправить</Button>
             </Box>
-            
         </div>
     );
 };
