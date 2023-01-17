@@ -14,9 +14,9 @@ import SchedulePage from '../pages/teachers/SchedulePage';
 
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
-
     const user = localStorage.getItem('username');
-    console.log(user);
+    console.log('sdfghj');
+
     React.useEffect(() => {
         if (localStorage.getItem('token')) {
             checkAuth();

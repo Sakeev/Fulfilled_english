@@ -33,7 +33,7 @@ const AuthContextProvider = ({ children }) => {
             localStorage.setItem('user', email);
             navigate('/');
         } catch (error) {
-            console.log(error);
+            setError(error);
         }
     };
 
@@ -75,13 +75,13 @@ const AuthContextProvider = ({ children }) => {
         } catch (error) {
             setIsLoading(false);
             if (error.response.status === 401) {
-                console.log(error.response.status);
                 setErrorObj((prev) => {
                     return {
                         ...prev,
                         passwordError: {
                             status: true,
-                            message: 'Неправильный пароль или почта',
+                            message:
+                                'Неверный адрес электронной почты или пароль',
                         },
                         emailError: {
                             status: false,
@@ -103,7 +103,7 @@ const AuthContextProvider = ({ children }) => {
             const Authorization = `Bearer ${token.access}`;
 
             let res = await axios.post(
-                `${AUTH_API}/token/refresh/`,
+                `${AUTH_API}refresh/`,
                 {
                     refresh: token.refresh,
                 },
@@ -123,6 +123,8 @@ const AuthContextProvider = ({ children }) => {
             let userName = localStorage.getItem('username');
             setUser(userName);
         } catch (error) {
+            localStorage.setItem('username', '');
+            setUser('');
             setError('error occured');
         }
     }
