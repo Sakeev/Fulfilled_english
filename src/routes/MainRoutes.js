@@ -15,6 +15,7 @@ import SchedulePage from '../pages/teachers/SchedulePage';
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
 
+<<<<<<< HEAD
     const user = localStorage.getItem('username');
     console.log(user);
     React.useEffect(() => {
@@ -87,6 +88,80 @@ const MainRoutes = () => {
             id: 3,
         },
     ];
+=======
+  const user = localStorage.getItem("username");
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      checkAuth();
+    }
+  }, []);
+
+  const PRIVATE_ROUTES = [
+    {
+      link: "/",
+      element: <CoursesPage />,
+      id: 1,
+    },
+    {
+      link: "/class",
+      element: <ClassPage />,
+      id: 2,
+    },
+    {
+      link: "/register",
+      element: <Registration />,
+      id: 3,
+    },
+    {
+      link: "*",
+      element: <NotFoundPage />,
+      id: 4,
+    },
+    {
+      link: "/tasks",
+      element: <TasksPage />,
+      id: 4,
+    },
+    {
+      link: "/essay",
+      element: <EssayPage />,
+      id: 5,
+    },
+    {
+       link: '/profile',
+       element: <ProfilePage />,
+       id: 6,
+    },
+    {
+      link: '/students',
+      element: <StudentsListPage />,
+      id: 7,
+    },
+    {
+      link: '/schedule',
+      element: <SchedulePage />,
+      id: 8,
+    }
+  ];
+  const PUBLIC_ROUTES = [
+    {
+      link: "/",
+      element: <AuthPage />,
+      id: 1,
+    },
+    // {
+    //   link: "/register",
+    //   element: <Registration />,
+    //   id: 2,
+    // },
+    {
+      link: "*",
+      element: <NotFoundPage />,
+      id: 3,
+    },
+    
+  ];
+>>>>>>> 095d737dbb20927d6b2d94f23e6d731fac48ec1b
 
     return (
         <>
