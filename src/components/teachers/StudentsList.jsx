@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useUsers } from '../../contexts/UsersContextProvider';
 
-const studentsList = [{name: 'Sultan', progress: 74}, {name: 'Someone', progress: 96}, {name: 'Someone Another', progress: 55}]
+// const studentsList = [{name: 'Sultan', progress: 74}, {name: 'Someone', progress: 96}, {name: 'Someone Another', progress: 55}]
 
 const container = {
   width: '75%',
@@ -30,6 +31,13 @@ const studentRow = {
 }
 
 const StudentsList = () => {
+
+  const { getStudents, studentsList } = useUsers();
+
+  useEffect(() => {
+    getStudents();
+  }, [])
+  
   return (
     <div style={container}>
       <div style={headers}>
@@ -37,12 +45,12 @@ const StudentsList = () => {
         <h2>Progress</h2>
       </div>
       {
-        studentsList.map((item) => (
-          <div style={studentRow}>
-            <div style={{width: '40%'}}>{item.name}</div>
+        studentsList?.map((student, index) => (
+          <div style={studentRow} key={index}>
+            <div style={{width: '40%'}}>{student.first_name} {student.last_name}</div>
             <div style={{ backgroundColor: '#9bd0cb', width: '25%', borderRadius: '10px', position: 'relative' }}>
-              <span style={{color: 'white', fontSize: '15px', alignItems: 'center', position:'absolute',display: 'flex', justifyContent: 'center', width: '100%', height: '100%'}}>{item.progress} %</span>
-              <div style={{display: 'flex',width: item.progress + "%", height: '100%', borderRadius: '10px',  backgroundColor: '#E29578'}}></div>
+              <span style={{color: 'white', fontSize: '15px', alignItems: 'center', position:'absolute',display: 'flex', justifyContent: 'center', width: '100%', height: '100%'}}>25 %</span>
+              <div style={{display: 'flex',width: "25%", height: '100%', borderRadius: '10px',  backgroundColor: '#E29578'}}></div>
             </div>
           </div>
         ))

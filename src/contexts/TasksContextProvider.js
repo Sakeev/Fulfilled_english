@@ -61,7 +61,7 @@ const TasksContextProvider = ({children}) => {
     const handleTask=async()=>{
         try {
             const res =  await axios(`${API}`,config);  
-            console.log( res);    
+            // console.log( res);    
             dispatch(
                 {
                     type:"GET_TASKS",
@@ -78,7 +78,7 @@ const TasksContextProvider = ({children}) => {
     const getAnswers=async()=>{
       try {
         const res = await axios('http://35.238.162.84/room/answers/' , config)
-        console.log(res);
+        // console.log(res);
         dispatch({
           type:'ANSWERS',
           payload:res.data,

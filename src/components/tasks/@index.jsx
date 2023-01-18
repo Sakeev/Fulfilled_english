@@ -2,6 +2,7 @@ import { Box, Button, createTheme, TextField, ThemeProvider, Typography } from '
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ContinueSentence from './ContinueSentence';
 import FillInps from './FillInps';
@@ -37,6 +38,8 @@ const Tasks = () => {
 
   const [count , setCount] = useState('');
 
+  const navigate = useNavigate();
+
   useEffect(()=>{
     handleTask()
   },[])
@@ -52,7 +55,7 @@ const Tasks = () => {
     "tasks":1,
   }
 
-  console.log(wordFind.toString());
+  
 
 
   let formData = new FormData();
@@ -86,7 +89,7 @@ const Tasks = () => {
 
   const abc = JSON.stringify(finalObj);
    
-  console.log(ansObj);
+  
 
   {
     
@@ -105,7 +108,8 @@ const Tasks = () => {
           setCount('go')
           }}>Отправить</Button>
           <Button variant="success" onClick={()=>{
-          alertAnswers()
+
+          navigate('/results')
           }}>Посмотреть результаты</Button>
       </Box>
       {/* <img style={{position: 'absolute', left: '1000px', top: '100px'}} src="https://plus.unsplash.com/premium_photo-1661759476421-af5519793034?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8em9vbSUyMGNhbGx8ZW58MHx8MHx8&w=1000&q=80" alt='2' width='400' height="300" /> */}

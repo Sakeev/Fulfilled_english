@@ -40,15 +40,80 @@ const ContinueSentence = ({taskBox}) => {
     first:[]
   }
 
+  const [arr , setArr] = useState({
+first:[],
+second:[],
+third:[],
+fourth:[],
+  })
 
-console.log(obj);
+// console.log(obj);
 const pushFunc=(item)=>{
   if(obj.first.length < 2){
     obj.first.push(item)
   }
   else{
     obj.first.splice(1,1,item)
+    
   }
+}
+const checkArr = (index) => {
+  for(let key in arr){
+    arr[key].forEach((i, index2)=>{
+        if(i.id === index){
+          const newArr = {...arr}
+          console.log(newArr, '-------------------');
+          newArr[key].splice(0, 1)
+          setArr(newArr)
+          
+        }
+    })
+  }
+}
+
+const addArr = (item, index) => {
+
+  if(arr.first.length < 2) {
+    checkArr(index);
+    const newArr = JSON.parse(JSON.stringify(arr))
+
+    newArr.first.push({
+        word: item,
+        picked: true,
+        id: index,
+    })
+    setArr(newArr)
+  }
+  //      else if(arr.second.length <2) {
+      
+  //     const newArr = {...arr}
+  //     newArr.second.push ( {
+  //         word:item,
+  //         picked:true,
+  //         id:index,
+  //     })
+  //   }
+  //     else if(arr.third.length <2) {
+        
+  //       const newArr = {...arr}
+  //       newArr.third.push ( {
+  //           word:item,
+  //           picked:true,
+  //           id:index,
+  //       })
+  //     }
+  //      else if(arr.fourth.length <2) {
+          
+  //         const newArr = {...arr}
+  //         newArr.fourth.push ( {
+  //             word:item,
+  //             picked:true,
+  //             id:index,
+  //         })
+  // }
+  
+
+
 }
 
 
@@ -59,18 +124,22 @@ const pushFunc=(item)=>{
         <Box sx={styles.main}>
           <Box sx={styles.wordsContainer}>
             {
-              data.map((item) => (
-                <Typography onClick={()=>{
-                  pushFunc(item)
-                  console.log(obj);
-                } } sx={styles.words}>{item}</Typography>
+              data.map((item , index) => (
+                <Typography key={index} sx={styles.words} onClick={()=>{
+                  // pushFunc(item)
+
+                  addArr(item,index);
+                }}>{item}</Typography>
               ))
             }
           </Box>
           <Box sx={styles.wordsContainer}>
             {
-              dataSecond.map((item) => (
-                <Typography sx={styles.words}>{item}</Typography>
+              dataSecond.map((item , index) => (
+                <Typography key={index + data.length} sx={styles.words} onClick={()=>{
+                  addArr(item, index + data.length)
+
+                }}>{item}</Typography>
               ))
             }
           </Box>

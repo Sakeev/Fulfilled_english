@@ -11,6 +11,7 @@ import EssayPage from '../pages/EssayPage';
 import ProfilePage from '../pages/ProfilePage';
 import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
+import TasksResultPage from '../pages/TasksResultPage';
 
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
