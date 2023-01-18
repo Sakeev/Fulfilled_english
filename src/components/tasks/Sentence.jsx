@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useTasks } from '../../contexts/TasksContextProvider';
-
+import {useNavigate} from 'react-router-dom'
 const words = [
     ['competition', 'the', 'won', 'I', 'have'],
     ['won', 'three', 'Oscars.', 'has', 'He'],
@@ -54,6 +54,8 @@ const styles = {
 
 const Sentence = ({ taskBox }) => {
     const { dispatch, sent } = useTasks();
+
+  const navigate = useNavigate()
 
     // console.log(sent[0].slice(1,2));
 
