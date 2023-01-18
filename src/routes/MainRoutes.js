@@ -17,7 +17,7 @@ const MainRoutes = () => {
     const { checkAuth } = useAuth();
 
     const user = localStorage.getItem('username');
-    console.log(user);
+
     React.useEffect(() => {
         if (localStorage.getItem('token')) {
             checkAuth();
