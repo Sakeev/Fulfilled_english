@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AUTH_API } from "../helpers/consts";
-import axios from "axios";
-import api from "../http";
+import React, { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AUTH_API } from '../helpers/consts';
+import axios from 'axios';
+import api from '../http';
 
 export const authContext = createContext();
 
@@ -11,13 +11,13 @@ export const useAuth = () => {
 };
 
 const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState("");
-    const [error, setError] = useState("");
+    const [user, setUser] = useState('');
+    const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [errorObj, setErrorObj] = useState({
-        emailError: { status: false, message: "" },
-        passwordError: { status: false, message: "" },
-        loginDataError: { status: false, statusCode: 0, message: "" },
+        emailError: { status: false, message: '' },
+        passwordError: { status: false, message: '' },
+        loginDataError: { status: false, statusCode: 0, message: '' },
     });
 
     const navigate = useNavigate();
@@ -30,9 +30,9 @@ const AuthContextProvider = ({ children }) => {
 
         try {
             const res = await axios.post(`${AUTH_API}`, formData);
-            localStorage.setItem("token", JSON.stringify(res.data));
-            localStorage.setItem("user", email);
-            navigate("/");
+            localStorage.setItem('token', JSON.stringify(res.data));
+            localStorage.setItem('user', email);
+            navigate('/');
         } catch (error) {
             setError(error);
         }
@@ -44,11 +44,11 @@ const AuthContextProvider = ({ children }) => {
                 ...prev,
                 emailError: {
                     status: !email,
-                    message: !email ? "Введите вашу почту" : "",
+                    message: !email ? 'Введите вашу почту' : '',
                 },
                 passwordError: {
                     status: !password,
-                    message: !password ? "Введите пароль" : "",
+                    message: !password ? 'Введите пароль' : '',
                 },
             };
         });
@@ -56,24 +56,22 @@ const AuthContextProvider = ({ children }) => {
         if (!email || !password) return;
 
         const config = {
-            headers: { "Content-Type": "application/json" },
+            headers: { 'Content-Type': 'application/json' },
         };
 
         let formData = new FormData();
-        formData.append("email", email);
-        formData.append("password", password);
+        formData.append('email', email);
+        formData.append('password', password);
 
         try {
             setIsLoading(true);
-            const res = await api.post("account/api/token/", formData, config);
+            let res = await axios.post(`${AUTH_API}`, formData, config);
 
-            // let res = await axios.post(`${AUTH_API}`, formData, config);
-
-            localStorage.setItem("token", JSON.stringify(res.data));
-            localStorage.setItem("username", email);
+            localStorage.setItem('token', JSON.stringify(res.data));
+            localStorage.setItem('username', email);
 
             setUser(email);
-            navigate("/");
+            navigate('/');
         } catch (error) {
             console.dir(error);
             if (error.response.status === 401) {
@@ -83,11 +81,11 @@ const AuthContextProvider = ({ children }) => {
                         passwordError: {
                             status: true,
                             message:
-                                "Неверный адрес электронной почты или пароль",
+                                'Неверный адрес электронной почты или пароль',
                         },
                         emailError: {
                             status: false,
-                            message: "",
+                            message: '',
                         },
                     };
                 });
@@ -101,7 +99,7 @@ const AuthContextProvider = ({ children }) => {
     }
 
     async function checkAuth() {
-        let token = JSON.parse(localStorage.getItem("token"));
+        let token = JSON.parse(localStorage.getItem('token'));
 
         try {
             const Authorization = `Bearer ${token.access}`;
@@ -117,33 +115,34 @@ const AuthContextProvider = ({ children }) => {
             );
 
             localStorage.setItem(
-                "token",
+                'token',
                 JSON.stringify({
                     refresh: res.data.refresh,
                     access: res.data.access,
                 })
             );
 
-            let userName = localStorage.getItem("username");
+            let userName = localStorage.getItem('username');
             setUser(userName);
         } catch (error) {
-            localStorage.setItem("username", "");
-            setUser("");
-            setError("error occured");
+            localStorage.setItem('username', '');
+            setUser('');
+            setError('error occured');
         }
     }
 
-    // function logout() {
-    //   localStorage.removeItem("token");
-    //   localStorage.removeItem("username");
-    //   setUser("");
-    // }
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        setUser('');
+    }
 
     return (
         <authContext.Provider
             value={{
                 token,
                 login,
+                logout,
                 user,
                 errorObj,
                 checkAuth,
