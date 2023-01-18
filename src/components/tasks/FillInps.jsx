@@ -34,7 +34,7 @@ const FillInps = ({ taskBox }) => {
   useEffect(()=>{
     handleInp(inps);
   },[inps])
-  console.log(inps);
+  // console.log(inps);
   return (
     <>
       <Box sx={taskBox}>
