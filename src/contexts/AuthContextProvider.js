@@ -1,153 +1,152 @@
-import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AUTH_API } from "../helpers/consts";
+import React, { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AUTH_API } from '../helpers/consts';
+import axios from 'axios';
 
 export const authContext = createContext();
 
 export const useAuth = () => {
-  return useContext(authContext);
+    return useContext(authContext);
 };
 
 const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+    const [user, setUser] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorObj, setErrorObj] = useState({
+        emailError: { status: false, message: '' },
+        passwordError: { status: false, message: '' },
+        loginDataError: { status: false, statusCode: 0, message: '' },
+    });
 
-  // const register = async (email, password) => {
-  //   const config = {
-  //     headers: { "Content-Type": "multipart/form-data" },
-  //   };
-  //   let formData = new FormData();
-  //   formData.append("email", email);
-  //   formData.append("password", password);
+    const navigate = useNavigate();
 
-  //   try {
-  //     const res = await axios.post(`${AUTH_API}`, formData);
-  //     localStorage.setItem("token", JSON.stringify(res.data));
-  //     localStorage.setItem("username", email);
-  //     console.log(res);
-  //   } catch (e) {
-  //     console.log(e);
-  //     setError("error occured");
-  //   }
-  // };
-  const token=async(email , password)=>{
-    let formData = {
-      email,
-      password,
-    };
-    
-    console.log(formData)
-    try {
-      const res  = await axios.post(`${AUTH_API}`,formData ) 
-          localStorage.setItem("token", JSON.stringify(res.data));
-      localStorage.setItem("user", email);
-      console.log(res);
-      navigate('/')
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    const token = async (email, password) => {
+        let formData = {
+            email,
+            password,
+        };
 
-  //   const activation = async (str) => {
-  //     const config = {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     };
-  //     let formData = new FormData();
-  //     formData.append("activation_code", str);
-  //     navigate("/login");
-  //     try {
-  //       const res = await axios.post(
-  //         `${AUTH_API}/activation/`,
-  //         {
-  //           activation_code: str,
-  //         },
-  //         config
-  //       );
-  //       console.log(res);
-  //     } catch (error) {
-  //       setError("error activation");
-  //     }
-  //   };
-
-  async function login(username, password) {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    let formData = new FormData();
-    formData.append("email", username);
-    formData.append("password", password);
-    console.log(formData);
-
-    try {
-      let res = await axios.post(`${AUTH_API}`, formData, config);
-      console.log(res);
-      localStorage.setItem("token", JSON.stringify(res.data));
-      localStorage.setItem("username", username);
-      console.log(username);
-      setUser(username);
-      navigate("/");
-      console.log(user);
-    } catch (error) {
-      setError("error occured");
-    }
-  }
-
-//   useEffect(()=>{
-// console.log(user);
-//   },[user])
-  async function checkAuth() {
-    let token = JSON.parse(localStorage.getItem("token"));
-    try {
-      const Authorization = `Bearer ${token.access}`;
-
-      let res = await axios.post(
-        `${AUTH_API}refresh/`,
-        {
-          refresh: token.refresh,
-        },
-        {
-          headers: { Authorization },
+        try {
+            const res = await axios.post(`${AUTH_API}`, formData);
+            localStorage.setItem('token', JSON.stringify(res.data));
+            localStorage.setItem('user', email);
+            navigate('/');
+        } catch (error) {
+            console.log(error);
         }
-      );
+    };
 
-      localStorage.setItem(
-        "token",
-        JSON.stringify({
-          refresh: token.refresh,
-          access: res.data.access,
-        })
-      );
+    async function login(email, password) {
+        setErrorObj((prev) => {
+            return {
+                ...prev,
+                emailError: {
+                    status: !email,
+                    message: !email ? 'Введите вашу почту' : '',
+                },
+                passwordError: {
+                    status: !password,
+                    message: !password ? 'Введите пароль' : '',
+                },
+            };
+        });
 
-      let userName = localStorage.getItem("username");
-      // setUser(userName);
-    } catch (error) {
-      
+        if (!email || !password) return;
+
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+        };
+
+        let formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+
+        try {
+            setIsLoading(true);
+            let res = await axios.post(`${AUTH_API}`, formData, config);
+            setIsLoading(false);
+
+            localStorage.setItem('token', JSON.stringify(res.data));
+            localStorage.setItem('username', email);
+
+            setUser(email);
+            navigate('/');
+        } catch (error) {
+            setIsLoading(false);
+            if (error.response.status === 401) {
+                console.log(error.response.status);
+                setErrorObj((prev) => {
+                    return {
+                        ...prev,
+                        passwordError: {
+                            status: true,
+                            message: 'Неправильный пароль или почта',
+                        },
+                        emailError: {
+                            status: false,
+                            message: '',
+                        },
+                    };
+                });
+                console.log(errorObj);
+            }
+
+            setError(error.response.statusText);
+        }
     }
-  }
 
-  // function logout() {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("username");
-  //   setUser("");
-  // }
+    async function checkAuth() {
+        let token = JSON.parse(localStorage.getItem('token'));
 
-  return (
-    <authContext.Provider
-      value={{
-        
-        token,
-        login,
-        user,
-        error,
-        checkAuth,
-        
-      }}
-    >
-      {children}
-    </authContext.Provider>
-  );
+        try {
+            const Authorization = `Bearer ${token.access}`;
+
+            let res = await axios.post(
+                `${AUTH_API}refresh/`,
+                {
+                    refresh: token.refresh,
+                },
+                {
+                    headers: { Authorization },
+                }
+            );
+
+            localStorage.setItem(
+                'token',
+                JSON.stringify({
+                    refresh: res.data.refresh,
+                    access: res.data.access,
+                })
+            );
+
+            let userName = localStorage.getItem('username');
+            setUser(userName);
+        } catch (error) {
+            setError('error occured');
+        }
+    }
+
+    // function logout() {
+    //   localStorage.removeItem("token");
+    //   localStorage.removeItem("username");
+    //   setUser("");
+    // }
+
+    return (
+        <authContext.Provider
+            value={{
+                token,
+                login,
+                user,
+                errorObj,
+                checkAuth,
+                isLoading,
+            }}
+        >
+            {children}
+        </authContext.Provider>
+    );
 };
 
 export default AuthContextProvider;
