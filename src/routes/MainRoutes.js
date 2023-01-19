@@ -1,87 +1,89 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import Registration from "../components/auth/Registration";
-import NotFoundPage from "../components/NotFoundPage";
-import AuthPage from "../pages/AuthPage";
-import CoursesPage from "../pages/CoursesPage";
-import { useAuth } from "../contexts/AuthContextProvider";
-import TasksPage from "../pages/TasksPage";
-import ClassPage from "../pages/ClassPage";
-import EssayPage from "../pages/EssayPage";
-import ProfilePage from "../pages/ProfilePage";
-import StudentsListPage from "../pages/teachers/StudentsPage";
-import SchedulePage from "../pages/teachers/SchedulePage";
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Registration from '../components/auth/Registration';
+import NotFoundPage from '../components/NotFoundPage';
+import AuthPage from '../pages/AuthPage';
+import CoursesPage from '../pages/CoursesPage';
+import { useAuth } from '../contexts/AuthContextProvider';
+import TasksPage from '../pages/TasksPage';
+import ClassPage from '../pages/ClassPage';
+import EssayPage from '../pages/EssayPage';
+import ProfilePage from '../pages/ProfilePage';
+import StudentsListPage from '../pages/teachers/StudentsPage';
+import SchedulePage from '../pages/teachers/SchedulePage';
+import TasksResultPage from '../pages/TasksResultPage';
 
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
-    const user = localStorage.getItem("username");
+
+    const user = localStorage.getItem('username');
 
     React.useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem('token')) {
             checkAuth();
         }
     }, []);
 
     const PRIVATE_ROUTES = [
         {
-            link: "/",
+            link: '/',
             element: <CoursesPage />,
             id: 1,
         },
         {
-            link: "/class",
+            link: '/class',
             element: <ClassPage />,
             id: 2,
         },
         {
-            link: "/register",
+            link: '/register',
             element: <Registration />,
             id: 3,
         },
         {
-            link: "*",
+            link: '*',
             element: <NotFoundPage />,
             id: 4,
         },
         {
-            link: "/tasks",
+            link: '/tasks',
             element: <TasksPage />,
             id: 4,
         },
         {
-            link: "/essay",
+            link: '/essay',
             element: <EssayPage />,
             id: 5,
         },
         {
-            link: "/profile",
+            link: '/profile',
             element: <ProfilePage />,
             id: 6,
         },
         {
-            link: "/students",
+            link: '/students',
             element: <StudentsListPage />,
             id: 7,
         },
         {
-            link: "/schedule",
+            link: '/schedule',
             element: <SchedulePage />,
             id: 8,
         },
     ];
     const PUBLIC_ROUTES = [
         {
-            link: "/",
+            link: '/',
             element: <AuthPage />,
             id: 1,
         },
         {
-            link: "/register",
+            link: '/register',
             element: <Registration />,
             id: 2,
         },
         {
-            link: "*",
+            link: '*',
             element: <NotFoundPage />,
             id: 3,
         },

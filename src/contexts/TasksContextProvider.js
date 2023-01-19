@@ -53,32 +53,43 @@ const TasksContextProvider = ({ children }) => {
 
     const handleTask = async () => {
         try {
-            const res = await axios(`${API}`, config);
-            console.log(res);
-            dispatch({
-                type: "GET_TASKS",
-                payload: res.data,
-            });
+            const res =  await axios(`${API}`,config);  
+            // console.log( res);    
+            dispatch(
+                {
+                    type:"GET_TASKS",
+                    payload:res.data,
+                }
+            )
         } catch (error) {
             console.log(error);
         }
     };
 
-    const getAnswers = async () => {
-        try {
-            const res = await axios(
-                "http://35.238.162.84/room/answers/",
-                config
-            );
-            console.log(res);
-            dispatch({
-                type: "ANSWERS",
-                payload: res.data,
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const getAnswers=async()=>{
+      try {
+        const res = await axios('http://35.238.162.84/room/answers/' , config)
+        // console.log(res);
+        dispatch({
+          type:'ANSWERS',
+          payload:res.data,
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const handleAnswer=async(obj)=>{
+
+  try {
+    const res = await axios.post(`http://35.238.162.84/room/answers/` , obj , config);
+    console.log(res);
+} catch (error) {
+  console.log(error);
+  
+}
+
+      
 
     const handleAnswer = async (obj) => {
         try {
