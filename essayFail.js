@@ -41,16 +41,82 @@ const Essay = () => {
 
     const API = 'http://35.238.162.84/room/essa/';
 
+    const renderText = () => {
+        let textToHighlight = text;
+
+        for (let highlightedPart of highlightedParts) {
+            const spanPart = `<span style="background-color: ${
+                highlightedPart.color
+            }">${textToHighlight.slice(
+                highlightedPart.start,
+                highlightedPart.end
+            )}</span>`;
+
+            textToHighlight =
+                textToHighlight.slice(0, highlightedPart.start) +
+                spanPart +
+                textToHighlight.slice(highlightedPart.end);
+        }
+
+        return textToHighlight;
+    };
+
+    const renderTexta = () => {
+        let textToHighlight = text;
+        let indexesToPass = 0;
+
+        for (let highlightedPart of highlightedParts) {
+            const spanPart = `<span style="background-color: ${
+                highlightedPart.color
+            }">${textToHighlight.slice(
+                highlightedPart.start + indexesToPass,
+                highlightedPart.end + indexesToPass
+            )}</span>`;
+
+            console.log('----------------------------------------------------');
+            console.log(textToHighlight);
+            console.log(
+                textToHighlight.slice(
+                    indexesToPass,
+                    highlightedPart.start + indexesToPass
+                )
+            );
+            console.log(spanPart);
+            console.log(
+                textToHighlight.slice(highlightedPart.end + indexesToPass)
+            );
+
+            textToHighlight =
+                textToHighlight.slice(0, indexesToPass) +
+                textToHighlight.slice(
+                    indexesToPass,
+                    highlightedPart.start + indexesToPass
+                ) +
+                spanPart +
+                textToHighlight.slice(highlightedPart.end + indexesToPass);
+
+            indexesToPass =
+                spanPart.length - (highlightedPart.end - highlightedPart.start);
+            console.log(indexesToPass);
+        }
+
+        return textToHighlight;
+    };
+
+    useEffect(() => {
+        console.log(renderText());
+        textRef.current.innerHTML = renderText();
+    }, [highlightedParts]);
+
     const sendEssay = async (essay) => {
-        if (essay.split(' ').length < 10) return setEssayError(true);
+        if (essay.split(' ').length < 50) return setEssayError(true);
 
         const essayData = {
             title: 'Test title',
             description: essay,
         };
 
-        // const data = await api.post(API, essayData);
-        const data = await api.get(API);
+        const data = await api.post(API, essayData);
         console.log(data);
     };
 
@@ -114,6 +180,24 @@ const Essay = () => {
                 >
                     Отправить
                 </Button>
+                <input type="color" ref={colorInputRef} />
+                <p
+                    ref={textRef}
+                    onMouseUp={(e) => {
+                        const selection = window.getSelection();
+                        const highlightedPart = {
+                            start: selection.baseOffset,
+                            end: selection.extentOffset,
+                            color: colorInputRef.current.value,
+                        };
+
+                        setHighlightedParts((prev) => {
+                            return [...prev, highlightedPart];
+                        });
+                    }}
+                >
+                    {text}
+                </p>
             </Box>
         </div>
     );
