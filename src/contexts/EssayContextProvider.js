@@ -1,17 +1,16 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
-import axios from "axios";
-import { API } from "../helpers/consts";
-import api from "../http";
+import React, { createContext, useContext, useReducer } from 'react';
+import { API } from '../helpers/consts';
+import api from '../http';
 
 export const essayContext = createContext();
 
 const INIT_STATE = {
-    essay: [],
+    essay: {},
 };
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case "GET_ESSAY":
+        case 'GET_ESSAY':
             return { ...state, essay: action.payload };
         default:
             return state;
@@ -27,10 +26,14 @@ const EssayContextProvider = ({ children }) => {
 
     const getEssay = async () => {
         try {
-            const { data } = await api.get(`${API}room/essa/`);
+            let { data } = await api.get(`${API}room/essa/`);
+
+            if (data.length === 0) {
+                data = [{ id: -1 }];
+            }
 
             dispatch({
-                type: "GET_ESSAY",
+                type: 'GET_ESSAY',
                 payload: data[0],
             });
         } catch (error) {
