@@ -1,17 +1,20 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import { API } from '../helpers/consts';
-import api from '../http';
+import React, { createContext, useContext, useReducer } from "react";
+import { API } from "../helpers/consts";
+import api from "../http";
 
 export const essayContext = createContext();
 
 const INIT_STATE = {
     essay: {},
+    students: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case 'GET_ESSAY':
+        case "GET_ESSAY":
             return { ...state, essay: action.payload };
+        case "GET_STUDENTS":
+            return { ...state, students: action.payload };
         default:
             return state;
     }
@@ -33,8 +36,21 @@ const EssayContextProvider = ({ children }) => {
             }
 
             dispatch({
-                type: 'GET_ESSAY',
+                type: "GET_ESSAY",
                 payload: data[0],
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getStudents = async () => {
+        try {
+            let { data } = await api.get(`${API}account/users/`);
+
+            dispatch({
+                type: "GET_STUDENTS",
+                payload: data,
             });
         } catch (error) {
             console.log(error);
@@ -44,6 +60,8 @@ const EssayContextProvider = ({ children }) => {
     const values = {
         essay: state.essay,
         getEssay,
+        students: state.students,
+        getStudents,
     };
 
     return (
