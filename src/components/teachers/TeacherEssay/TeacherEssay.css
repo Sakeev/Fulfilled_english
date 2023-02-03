@@ -1,0 +1,115 @@
+.essay-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 50px;
+    max-height: 90vh;
+    height: 80vh;
+    border: 1px solid #9bd0cb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.essay-headers {
+    color: #006d77;
+    border-bottom: 1px solid #9bd0cb;
+    height: 5%;
+}
+
+.essay-columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2em 20% 1em 0;
+    color: #006d77;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-bottom: 1px solid #9bd0cb;
+    margin-bottom: 1rem;
+}
+
+.essay-columns p {
+    width: 30%;
+}
+
+.essay-columns p:last-child {
+    width: 10%;
+}
+
+.essay-students-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+}
+
+.essay-student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #9bd0cb;
+    margin-bottom: 1rem;
+    color: #006d77;
+    font-size: 1rem;
+}
+
+.essay-student-info {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.essay-student-info p,
+.essay-student-info div {
+    display: flex;
+    align-items: center;
+    width: 28%;
+    word-wrap: break-word;
+}
+
+/* STYLING MUI START */
+
+.essay-student-info div div {
+    width: 60%;
+}
+
+.essay-student-info div div div {
+    width: 100%;
+}
+
+.essay-student-info .css-v4u5dn-MuiInputBase-root-MuiInput-root.Mui-disabled {
+    color: #006d77 !important;
+}
+
+.essay-student-info
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root.Mui-disabled:before {
+    border: none;
+}
+
+.essay-student-info
+    .css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+    -webkit-text-fill-color: #006d77;
+}
+
+.essay-student-info .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+    font-family: 'Overpass';
+}
+
+/* STYLING MUI END */
+
+.essay-student-info .essay-icon {
+    width: 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.essay-student-info img {
+    width: 2rem;
+    margin: 0;
+    padding: 0;
+}

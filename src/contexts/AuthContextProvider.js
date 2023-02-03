@@ -43,7 +43,7 @@ const AuthContextProvider = ({ children }) => {
         passwordError: { status: false, message: '' },
         loginDataError: { status: false, statusCode: 0, message: '' },
     });
-
+    console.log(state.userId);
     const navigate = useNavigate();
 
     const token = async (email, password) => {
@@ -56,8 +56,8 @@ const AuthContextProvider = ({ children }) => {
             const { data } = await axios.post(`${AUTH_API}`, formData);
             const { access, refresh } = data;
 
-            dispatch({ type: 'SET_USER_ID', payload: data.id });
-            dispatch({ type: 'SET_IS_TEACHER', payload: data.is_teacher });
+            // dispatch({ type: 'SET_USER_ID', payload: data.id });
+            // dispatch({ type: 'SET_IS_TEACHER', payload: data.is_teacher });
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }));
             localStorage.setItem('user', email);
@@ -147,10 +147,10 @@ const AuthContextProvider = ({ children }) => {
 
             const { access, refresh } = data;
 
-            console.log(data);
+            // console.log(data);
 
-            dispatch({ type: 'SET_USER_ID', payload: data.id });
-            dispatch({ type: 'SET_IS_TEACHER', payload: data.is_teacher });
+            // dispatch({ type: 'SET_USER_ID', payload: data.id });
+            // dispatch({ type: 'SET_IS_TEACHER', payload: data.is_teacher });
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }));
 
