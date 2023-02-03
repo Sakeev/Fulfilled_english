@@ -1,41 +1,42 @@
-import { Button, IconButton, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useEssay } from '../../../contexts/EssayContextProvider';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContextProvider';
-import correct from '../../../assets/images/correct.png';
-import incorrect from '../../../assets/images/cross.png';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, IconButton, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useEssay } from "../../../contexts/EssayContextProvider";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContextProvider";
+import correct from "../../../assets/images/correct.png";
+import incorrect from "../../../assets/images/cross.png";
+import EditIcon from "@mui/icons-material/Edit";
 
-import './TeacherEssay.css';
+import "./TeacherEssay.css";
 
 const btnStyle = {
-    margin: '10px 5px',
-    backgroundColor: '#9bd0cb',
-    color: '#006D77',
-    textTransform: 'upper',
-    '&:hover': {
-        backgroundColor: '#006D77',
-        color: '#9bd0cb',
+    margin: "10px 5px",
+    backgroundColor: "#9bd0cb",
+    color: "#006D77",
+    textTransform: "upper",
+    "&:hover": {
+        backgroundColor: "#006D77",
+        color: "#9bd0cb",
     },
 };
 
 const TeacherEssay = () => {
-    const [studentsWithoutEssay, setStudentsWithoutEssay] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
     const [editTitleId, setEditTitleId] = useState(null);
-    const [essayTitle, setEssayTitle] = useState('');
-    const { students, essays, getStudents, getEssays } = useEssay();
+    const [essayTitle, setEssayTitle] = useState("");
+    const { students, essays, getStudents, getEssays, updateEssayTitle } =
+        useEssay();
     const { userId } = useAuth();
 
     useEffect(() => {
         // getStudents();
         // getEssays();
+        // console.log(essays);
     }, []);
 
     const getStudentEssay = (id) => {
         const studentEssay = essays.filter((essay) => essay.student === id);
-        const noEssay = { title: 'No essay', deadline: '-', text: '' };
+        const noEssay = { title: "No essay", deadline: "-", text: "" };
 
         if (studentEssay.length) return studentEssay[0];
         else return noEssay;
@@ -52,7 +53,7 @@ const TeacherEssay = () => {
         } else {
             setEditTitle(false);
             setEditTitleId(null);
-            setEssayTitle('');
+            setEssayTitle("");
         }
     };
 
@@ -75,9 +76,9 @@ const TeacherEssay = () => {
                         <div
                             className="essay-student-info"
                             style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
                             }}
                         >
                             <p>{student.email}</p>
@@ -99,15 +100,18 @@ const TeacherEssay = () => {
                                 />
 
                                 <IconButton
+                                    disabled={
+                                        getStudentEssay(student.id).accepted
+                                    }
                                     onClick={() =>
                                         onClickEditIcon(student.id, index)
                                     }
                                     color={
                                         editTitle && index === editTitleId
-                                            ? 'primary'
-                                            : ''
+                                            ? "primary"
+                                            : ""
                                     }
-                                    sx={{ marginLeft: '0.25em' }}
+                                    sx={{ marginLeft: "0.25em" }}
                                 >
                                     <EditIcon fontSize="inherit" />
                                 </IconButton>
@@ -136,14 +140,14 @@ const TeacherEssay = () => {
                             <Button
                                 sx={{
                                     ...btnStyle,
-                                    width: 'auto',
-                                    whiteSpace: 'nowrap',
-                                    marginRight: '5%',
+                                    width: "auto",
+                                    whiteSpace: "nowrap",
+                                    marginRight: "5%",
                                 }}
                             >
                                 {getStudentEssay(student.id).text.length
-                                    ? 'view essay'
-                                    : 'send essay'}
+                                    ? "view essay"
+                                    : "send essay"}
                             </Button>
                         </Link>
                     </li>
