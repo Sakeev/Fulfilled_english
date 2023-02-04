@@ -1,69 +1,31 @@
-import React, { createContext, useContext, useReducer } from "react";
-import { API } from "../helpers/consts";
-import api from "../http";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useReducer,
+    useState,
+} from 'react';
+import { API } from '../helpers/consts';
+import api from '../http';
 
 export const essayContext = createContext();
 
 const INIT_STATE = {
     essay: {},
-    essays: [
-        {
-            id: 1,
-            title: "About myself",
-            description:
-                "Write an essay about yourself. Essay have to contain at least 100 words.",
-            text: "ERTAY GAY",
-            teacher_text: "",
-            checked: false,
-            accepted: true,
-            student: 2,
-            teacher: 4,
-            deadline: "12.02.2023",
-        },
-        {
-            id: 8,
-            title: "About myself",
-            description:
-                "Write an essay about yourself. Essay have to contain at least 100 words.",
-            text: "",
-            teacher_text: "",
-            checked: false,
-            accepted: false,
-            student: 3,
-            teacher: 4,
-            deadline: "24.03.2023",
-        },
-    ],
+    essays: [],
     student: {},
-    students: [
-        {
-            id: 2,
-            email: "jbarakanov@gmail.com",
-            username: "jaanger",
-            date_joined: "2023-02-03T14:43:24.452301Z",
-            about: "",
-        },
-        {
-            id: 3,
-            email: "jbarakanov@inbox.ru",
-            username: "jaanger2",
-            date_joined: "2023-02-03T14:43:53.996988Z",
-            about: "",
-        },
-    ],
+    students: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case "GET_ESSAY":
+        case 'GET_ESSAY':
             return { ...state, essay: action.payload };
-        case "SET_ESSAY":
-            return { ...state, essay: action.payload };
-        case "GET_ESSAYS":
+        case 'GET_ESSAYS':
             return { ...state, essays: action.payload };
-        case "GET_STUDENTS":
-            return { ...state, students: action.payload };
-        case "SET_STUDENTS":
+        case 'GET_STUDENT':
+            return { ...state, student: action.payload };
+        case 'GET_STUDENTS':
             return { ...state, students: action.payload };
         default:
             return state;
@@ -76,6 +38,12 @@ export const useEssay = () => {
 
 const EssayContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        getStudents();
+        getEssays();
+    }, []);
 
     const getEssay = async (id = undefined) => {
         try {
@@ -83,7 +51,7 @@ const EssayContextProvider = ({ children }) => {
                 const { data } = await api.get(`${API}room/essa/${id}/`);
 
                 dispatch({
-                    type: "GET_ESSAY",
+                    type: 'GET_ESSAY',
                     payload: data,
                 });
             } else {
@@ -94,7 +62,7 @@ const EssayContextProvider = ({ children }) => {
                 }
 
                 dispatch({
-                    type: "GET_ESSAY",
+                    type: 'GET_ESSAY',
                     payload: data[0],
                 });
             }
@@ -107,10 +75,22 @@ const EssayContextProvider = ({ children }) => {
         try {
             let { data } = await api.get(`${API}room/essa/`);
 
-            // console.log(data);
+            dispatch({
+                type: 'GET_ESSAYS',
+                payload: data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getStudent = async (id) => {
+        try {
+            let { data } = await api.get(`${API}account/profile/${id}/`);
+            console.log(data);
 
             dispatch({
-                type: "GET_ESSAYS",
+                type: 'GET_STUDENT',
                 payload: data,
             });
         } catch (error) {
@@ -123,7 +103,7 @@ const EssayContextProvider = ({ children }) => {
             let { data } = await api.get(`${API}account/users/`);
 
             dispatch({
-                type: "GET_STUDENTS",
+                type: 'GET_STUDENTS',
                 payload: data,
             });
         } catch (error) {
@@ -131,17 +111,28 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
-    const updateEssayTitle = async (essayId) => {
+    const updateEssay = async (essayId, newTitle) => {
         try {
-            let { data } = await api.patch(`${API}room/essa/${essayId}/`);
+            setLoading(true);
 
-            dispatch({
-                type: "SET_ESSAY",
-                payload: data,
-            });
+            await api.patch(`${API}room/essa/${essayId}/`, newTitle);
+
+            getEssays();
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const getStudentEssay = (id) => {
+        const studentEssay = state.essays.filter(
+            (essay) => essay.student === id
+        );
+        const noEssay = { title: 'No essay', deadline: '-', text: '' };
+
+        if (studentEssay.length) return studentEssay[0];
+        else return noEssay;
     };
 
     const values = {
@@ -149,8 +140,13 @@ const EssayContextProvider = ({ children }) => {
         getEssay,
         essays: state.essays,
         getEssays,
+        student: state.student,
         students: state.students,
+        getStudent,
         getStudents,
+        updateEssay,
+        getStudentEssay,
+        loading,
     };
 
     return (

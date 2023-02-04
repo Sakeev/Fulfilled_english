@@ -1,63 +1,41 @@
-import { Button, IconButton, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useEssay } from "../../../contexts/EssayContextProvider";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../../contexts/AuthContextProvider";
-import correct from "../../../assets/images/correct.png";
-import incorrect from "../../../assets/images/cross.png";
-import EditIcon from "@mui/icons-material/Edit";
+import { Button } from '@mui/material';
+import { useState } from 'react';
+import { useEssay } from '../../../contexts/EssayContextProvider';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContextProvider';
+import correct from '../../../assets/images/correct.png';
+import incorrect from '../../../assets/images/cross.png';
 
-import "./TeacherEssay.css";
+import './TeacherEssay.css';
+import EditEssayTitle from './EditEssayTitle';
 
 const btnStyle = {
-    margin: "10px 5px",
-    backgroundColor: "#9bd0cb",
-    color: "#006D77",
-    textTransform: "upper",
-    "&:hover": {
-        backgroundColor: "#006D77",
-        color: "#9bd0cb",
+    margin: '10px 5px',
+    backgroundColor: '#9bd0cb',
+    color: '#006D77',
+    textTransform: 'upper',
+    '&:hover': {
+        backgroundColor: '#006D77',
+        color: '#9bd0cb',
     },
 };
 
 const TeacherEssay = () => {
     const [editTitle, setEditTitle] = useState(false);
     const [editTitleId, setEditTitleId] = useState(null);
-    const [essayTitle, setEssayTitle] = useState("");
-    const { students, essays, getStudents, getEssays, updateEssayTitle } =
-        useEssay();
+    const [essayTitle, setEssayTitle] = useState('');
+
+    const { students, getStudentEssay } = useEssay();
     const { userId } = useAuth();
 
-    useEffect(() => {
-        // getStudents();
-        // getEssays();
-        // console.log(essays);
-    }, []);
-
-    const getStudentEssay = (id) => {
-        const studentEssay = essays.filter((essay) => essay.student === id);
-        const noEssay = { title: "No essay", deadline: "-", text: "" };
-
-        if (studentEssay.length) return studentEssay[0];
-        else return noEssay;
+    const essayTitleObj = {
+        editTitle,
+        setEditTitle,
+        editTitleId,
+        setEditTitleId,
+        essayTitle,
+        setEssayTitle,
     };
-
-    const onClickEditIcon = (studentId, index) => {
-        if (editTitle && index === editTitleId) {
-            setEditTitle(false);
-            console.log(essayTitle);
-        } else if (!editTitle) {
-            setEditTitle(true);
-            setEditTitleId(index);
-            setEssayTitle(getStudentEssay(studentId).title);
-        } else {
-            setEditTitle(false);
-            setEditTitleId(null);
-            setEssayTitle("");
-        }
-    };
-
-    // console.log(students);
 
     return (
         <div className="essay-container">
@@ -70,53 +48,24 @@ const TeacherEssay = () => {
                 <p>Deadline:</p>
                 <p>Status:</p>
             </div>
+            {!students.length && <h2>You haven't students yet</h2>}
             <ul className="essay-students-list">
                 {students.map((student, index) => (
                     <li className="essay-student" key={index}>
                         <div
                             className="essay-student-info"
                             style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
                             }}
                         >
                             <p>{student.email}</p>
-                            <div>
-                                {/* <p> */}
-                                <TextField
-                                    onChange={(e) =>
-                                        setEssayTitle(e.target.value)
-                                    }
-                                    disabled={
-                                        !(editTitle && index === editTitleId)
-                                    }
-                                    variant="standard"
-                                    value={
-                                        editTitle && index === editTitleId
-                                            ? essayTitle
-                                            : getStudentEssay(student.id).title
-                                    }
-                                />
-
-                                <IconButton
-                                    disabled={
-                                        getStudentEssay(student.id).accepted
-                                    }
-                                    onClick={() =>
-                                        onClickEditIcon(student.id, index)
-                                    }
-                                    color={
-                                        editTitle && index === editTitleId
-                                            ? "primary"
-                                            : ""
-                                    }
-                                    sx={{ marginLeft: "0.25em" }}
-                                >
-                                    <EditIcon fontSize="inherit" />
-                                </IconButton>
-                                {/* </p> */}
-                            </div>
+                            <EditEssayTitle
+                                essayTitleObj={essayTitleObj}
+                                student={student}
+                                index={index}
+                            />
                             <p>{getStudentEssay(student.id).deadline}</p>
                             <div className="essay-icon">
                                 <img
@@ -128,28 +77,37 @@ const TeacherEssay = () => {
                                 />
                             </div>
                         </div>
-                        <Link
-                            to={
-                                getStudentEssay(student.id).text.length
-                                    ? `/essay/view/${
-                                          getStudentEssay(student.id).id
-                                      }`
-                                    : `/essay/send/${userId}`
-                            }
+                        <Button
+                            disabled={!getStudentEssay(student.id).text.length}
+                            sx={{
+                                ...btnStyle,
+                                width: 'auto',
+                                whiteSpace: 'nowrap',
+                                marginRight: '5%',
+                            }}
+                            onClick={() => {
+                                if (getStudentEssay(student.id).text.length) {
+                                    localStorage.setItem(
+                                        'studentId',
+                                        student.id
+                                    );
+                                }
+                            }}
                         >
-                            <Button
-                                sx={{
-                                    ...btnStyle,
-                                    width: "auto",
-                                    whiteSpace: "nowrap",
-                                    marginRight: "5%",
-                                }}
+                            <Link
+                                to={
+                                    getStudentEssay(student.id).text.length
+                                        ? `/essay/view/${
+                                              getStudentEssay(student.id).id
+                                          }`
+                                        : `/essay/send/${userId}`
+                                }
                             >
                                 {getStudentEssay(student.id).text.length
-                                    ? "view essay"
-                                    : "send essay"}
-                            </Button>
-                        </Link>
+                                    ? 'view essay'
+                                    : 'essay have sent'}
+                            </Link>
+                        </Button>
                     </li>
                 ))}
             </ul>

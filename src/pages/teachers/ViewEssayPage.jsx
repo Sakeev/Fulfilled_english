@@ -1,4 +1,4 @@
-import ViewEssay from '../../components/teachers/ViewEssay';
+import ViewEssay from '../../components/teachers/TeacherEssay/ViewEssay';
 import Sidebar from '../../components/Sidebar';
 
 const container = {

@@ -1,4 +1,4 @@
-import SendEssay from '../../components/teachers/SendEssay';
+import SendEssay from '../../components/teachers/TeacherEssay/SendEssay';
 import Sidebar from '../../components/Sidebar';
 import { Box } from '@mui/material';
 
