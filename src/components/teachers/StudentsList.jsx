@@ -37,6 +37,8 @@ const StudentsList = () => {
   useEffect(() => {
     getStudents();
   }, [])
+
+  console.log(studentsList.length)
   
   return (
     <div style={container}>
@@ -45,7 +47,8 @@ const StudentsList = () => {
         <h2>Progress</h2>
       </div>
       {
-        studentsList?.map((student, index) => (
+        studentsList.length ? 
+         studentsList.map((student, index) => (
           <div style={studentRow} key={index}>
             <div style={{width: '40%'}}>{student.first_name} {student.last_name}</div>
             <div style={{ backgroundColor: '#9bd0cb', width: '25%', borderRadius: '10px', position: 'relative' }}>
@@ -54,6 +57,8 @@ const StudentsList = () => {
             </div>
           </div>
         ))
+         :
+        <h5 style={{marginTop: '20px'}}>loading...</h5>
       }
     </div>
   );
