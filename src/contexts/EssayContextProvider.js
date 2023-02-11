@@ -47,6 +47,7 @@ const EssayContextProvider = ({ children }) => {
 
     const getEssay = async (id = undefined) => {
         try {
+            setLoading(true);
             if (id) {
                 const { data } = await api.get(`${API}room/essa/${id}/`);
 
@@ -68,11 +69,14 @@ const EssayContextProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const getEssays = async () => {
         try {
+            setLoading(true);
             let { data } = await api.get(`${API}room/essa/`);
 
             dispatch({
@@ -81,11 +85,14 @@ const EssayContextProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const getStudent = async (id) => {
         try {
+            setLoading(true);
             let { data } = await api.get(`${API}account/profile/${id}/`);
             console.log(data);
 
@@ -95,11 +102,14 @@ const EssayContextProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const getStudents = async () => {
         try {
+            setLoading(true);
             let { data } = await api.get(`${API}account/users/`);
 
             dispatch({
@@ -108,6 +118,8 @@ const EssayContextProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 

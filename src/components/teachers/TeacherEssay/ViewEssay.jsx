@@ -21,6 +21,7 @@ const ViewEssay = () => {
     const { getEssay, essay, getStudent, student, updateEssay } = useEssay();
     const { userId, isTeacher, user } = useAuth();
     const [teacherEssayText, setTeacherEssayText] = useState('');
+    const [saved, setSaved] = useState(false);
     const params = useParams();
 
     useEffect(() => {
@@ -29,7 +30,11 @@ const ViewEssay = () => {
     }, []);
 
     useEffect(() => {
-        setTeacherEssayText(essay.text);
+        if (essay.teacher_text) {
+            setTeacherEssayText(essay.teacher_text);
+        } else {
+            setTeacherEssayText(essay.text);
+        }
     }, [essay]);
 
     const sendEssay = async () => {
@@ -68,28 +73,54 @@ const ViewEssay = () => {
                 <p className="view-essay-p">
                     <span>Description:</span> {essay.description}
                 </p>
+
                 <div className="essay-view-textareas">
-                    <textarea
-                        className={essay.accepted ? 'unactive' : ''}
-                        readOnly={essay.accepted}
-                        value={essay.text}
-                    />
-                    <textarea
-                        onChange={(e) => setTeacherEssayText(e.target.value)}
-                        value={teacherEssayText}
-                    />
+                    <div className="essay-view-textarea">
+                        <p>Student version</p>
+                        <textarea
+                            className={essay.accepted ? 'unactive' : ''}
+                            readOnly={essay.accepted}
+                            value={essay.text}
+                        />
+                    </div>
+                    <div className="essay-view-textarea">
+                        <p>Teacher version</p>
+                        <textarea
+                            onChange={(e) =>
+                                setTeacherEssayText(e.target.value)
+                            }
+                            value={teacherEssayText}
+                            className={essay.checked ? 'unactive' : ''}
+                        />
+                    </div>
                 </div>
-                <Button
-                    onClick={() => {
-                        updateEssay(essay.id, {
-                            teacher_text: teacherEssayText,
-                            checked: true,
-                        });
-                    }}
-                    sx={{ ...btnStyle }}
-                >
-                    {essay.checked ? 'essay have sent back' : 'send back'}
-                </Button>
+                <div className="view-essay-btns">
+                    <Button
+                        onClick={() => {
+                            updateEssay(essay.id, {
+                                teacher_text: teacherEssayText,
+                                checked: true,
+                            });
+                        }}
+                        disabled={essay.checked}
+                        sx={{ ...btnStyle }}
+                    >
+                        {essay.checked ? 'essay have sent back' : 'send back'}
+                    </Button>
+                    {!essay.checked && (
+                        <Button
+                            onClick={() => {
+                                setSaved(true);
+                                updateEssay(essay.id, {
+                                    teacher_text: teacherEssayText,
+                                });
+                            }}
+                            sx={{ ...btnStyle }}
+                        >
+                            {saved ? 'saved!' : 'save edited essay'}
+                        </Button>
+                    )}
+                </div>
             </Box>
         </div>
     );
