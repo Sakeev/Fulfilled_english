@@ -1,28 +1,28 @@
-import { Box, Button, Typography } from "@mui/material";
-import React from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
-import { useEssay } from "../../../contexts/EssayContextProvider";
-import api from "../../../http";
-import noEssay from "../../../assets/images/munara.jpeg";
+import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import { useEffect } from 'react';
+import { useRef } from 'react';
+import { useState } from 'react';
+import { useEssay } from '../../../contexts/EssayContextProvider';
+import api from '../../../http';
+import noEssay from '../../../assets/images/munara.jpeg';
 
-import "./Essay.css";
-import { useAuth } from "../../../contexts/AuthContextProvider";
+import './Essay.css';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const btnStyle = {
-    margin: "10px 5px",
-    backgroundColor: "#9bd0cb",
-    color: "#006D77",
-    textTransform: "upper",
-    "&:hover": {
-        backgroundColor: "#006D77",
-        color: "#9bd0cb",
+    margin: '10px 5px',
+    backgroundColor: '#9bd0cb',
+    color: '#006D77',
+    textTransform: 'upper',
+    '&:hover': {
+        backgroundColor: '#006D77',
+        color: '#9bd0cb',
     },
 };
 
 const Essay = () => {
-    const [essayText, setEssayText] = useState("");
+    const [essayText, setEssayText] = useState('');
     const [essayError, setEssayError] = useState(false);
     const [sent, setSent] = useState(false);
     // const [editText, setEditText] = useState();
@@ -39,7 +39,7 @@ const Essay = () => {
 
     // console.log(essay);
 
-    const API = "http://35.238.162.84/";
+    const API = 'http://35.238.162.84/';
 
     const sendEssay = async () => {
         // if (essay.split(' ').length < 10) return setEssayError(true);
@@ -50,7 +50,7 @@ const Essay = () => {
 
         await api.patch(`${API}room/essa/${essay.id}/`, data);
         getEssay();
-        console.log("success");
+        console.log('success');
     };
 
     if (!essay.id) {
@@ -63,12 +63,12 @@ const Essay = () => {
         return (
             <Typography
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "#006D77",
-                    fontWeight: "bold",
-                    fontSize: "32px",
-                    margin: "10% auto 0",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    color: '#006D77',
+                    fontWeight: 'bold',
+                    fontSize: '32px',
+                    margin: '10% auto 0',
                 }}
             >
                 Your teacher have not sent essay yet
@@ -78,42 +78,42 @@ const Essay = () => {
     }
 
     return (
-        <div style={{ width: "100%", height: "100%" }}>
+        <div style={{ width: '100%', height: '100%' }}>
             <Box
                 sx={{
-                    width: "60%",
-                    margin: "auto",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "flex-start",
+                    width: essay.checked ? '75%' : '60%',
+                    margin: 'auto',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
                 }}
             >
                 <Typography
                     sx={{
-                        paddingBottom: "1%",
-                        color: "#006D77",
-                        fontWeight: "bold",
-                        fontSize: "32px",
+                        paddingBottom: '1%',
+                        color: '#006D77',
+                        fontWeight: 'bold',
+                        fontSize: '32px',
                     }}
                 >
                     Essay
                 </Typography>
                 <Box
                     sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%",
-                        paddingBottom: "3%",
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        paddingBottom: '3%',
                     }}
                 >
                     <Typography
                         sx={{
-                            color: "#006D77",
-                            fontSize: "24px",
-                            fontWeight: "bold",
+                            color: '#006D77',
+                            fontSize: '24px',
+                            fontWeight: 'bold',
                         }}
                     >
                         Theme: {essay.title}
@@ -122,35 +122,55 @@ const Essay = () => {
                 </Box>
                 <Typography
                     sx={{
-                        color: "#006D77",
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        paddingBottom: "5%",
+                        color: '#006D77',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        paddingBottom: '5%',
                     }}
                 >
                     Description: {essay.description}
                 </Typography>
-                <textarea
-                    className={essay.accepted ? "unactive" : ""}
-                    readOnly={essay.accepted}
-                    onChange={(e) => setEssayText(e.target.value)}
-                    value={essay.accepted ? essay.text : essayText}
-                ></textarea>
+                <div className="student-essay-textareas">
+                    <textarea
+                        className={
+                            essay.accepted && !essay.checked ? 'unactive' : ''
+                        }
+                        readOnly={essay.accepted}
+                        onChange={(e) => setEssayText(e.target.value)}
+                        value={essay.accepted ? essay.text : essayText}
+                    ></textarea>
+                    {essay.checked && (
+                        <textarea
+                            readOnly
+                            value={essay.teacher_text}
+                        ></textarea>
+                    )}
+                </div>
                 {essayError && (
-                    <p style={{ marginBottom: "1rem", color: "#006D77" }}>
+                    <p style={{ marginBottom: '1rem', color: '#006D77' }}>
                         Эссе должно состоять минимум из 50 слов.
                     </p>
                 )}
-                <Button
-                    disabled={essay.accepted}
-                    onClick={() => sendEssay(essayText)}
-                    sx={{
-                        ...btnStyle,
-                        width: "auto",
-                    }}
-                >
-                    {essay.accepted ? "essay have sent" : "send"}
-                </Button>
+                {!essay.checked && (
+                    <div className="student-essay-btns">
+                        <Button
+                            disabled={essay.accepted}
+                            onClick={() => sendEssay(essayText)}
+                            sx={{
+                                ...btnStyle,
+                                width: 'auto',
+                            }}
+                        >
+                            {essay.accepted ? 'essay have sent' : 'send'}
+                        </Button>
+                        {essay.accepted && (
+                            <p>
+                                Your teacher will check your essay as soon as
+                                possible.
+                            </p>
+                        )}
+                    </div>
+                )}
             </Box>
         </div>
     );

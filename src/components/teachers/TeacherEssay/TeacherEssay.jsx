@@ -25,7 +25,7 @@ const TeacherEssay = () => {
     const [editTitleId, setEditTitleId] = useState(null);
     const [essayTitle, setEssayTitle] = useState('');
 
-    const { students, getStudentEssay } = useEssay();
+    const { students, getStudentEssay, loading } = useEssay();
     const { userId } = useAuth();
 
     const essayTitleObj = {
@@ -36,6 +36,14 @@ const TeacherEssay = () => {
         essayTitle,
         setEssayTitle,
     };
+
+    if (loading) {
+        return (
+            <div className="loader-wrapper">
+                <div className="loader"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="essay-container">

@@ -18,7 +18,7 @@ import ViewEssayPage from '../pages/teachers/ViewEssayPage';
 
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
-    const isTeacher = true;
+    const isTeacher = false;
 
     const user = localStorage.getItem('username');
 

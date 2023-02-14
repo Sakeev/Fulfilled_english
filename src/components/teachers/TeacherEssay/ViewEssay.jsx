@@ -4,6 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import checked from '../../../assets/images/correct.png';
 import api from '../../../http';
 
 const btnStyle = {
@@ -18,7 +19,8 @@ const btnStyle = {
 };
 
 const ViewEssay = () => {
-    const { getEssay, essay, getStudent, student, updateEssay } = useEssay();
+    const { getEssay, essay, getStudent, student, updateEssay, loading } =
+        useEssay();
     const { userId, isTeacher, user } = useAuth();
     const [teacherEssayText, setTeacherEssayText] = useState('');
     const [saved, setSaved] = useState(false);
@@ -42,7 +44,9 @@ const ViewEssay = () => {
         // getEssay();
     };
 
-    if (!essay.id) {
+    console.log(essay.checked);
+
+    if (loading) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
@@ -107,7 +111,7 @@ const ViewEssay = () => {
                     >
                         {essay.checked ? 'essay have sent back' : 'send back'}
                     </Button>
-                    {!essay.checked && (
+                    {!essay.checked ? (
                         <Button
                             onClick={() => {
                                 setSaved(true);
@@ -119,6 +123,8 @@ const ViewEssay = () => {
                         >
                             {saved ? 'saved!' : 'save edited essay'}
                         </Button>
+                    ) : (
+                        <img src={checked} />
                     )}
                 </div>
             </Box>

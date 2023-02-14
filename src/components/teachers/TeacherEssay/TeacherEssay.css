@@ -166,8 +166,8 @@ a {
 
 .view-essay-btns {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     width: 49%;
     margin-top: 2em;
 }
@@ -175,4 +175,10 @@ a {
 .view-essay-btns button {
     width: 45%;
     margin: 0;
+}
+
+.view-essay-btns img {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 45% 0 0;
 }

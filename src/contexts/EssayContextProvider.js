@@ -123,13 +123,17 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
-    const updateEssay = async (essayId, newTitle) => {
+    const updateEssay = async (essayId, newFields) => {
         try {
             setLoading(true);
 
-            await api.patch(`${API}room/essa/${essayId}/`, newTitle);
+            await api.patch(`${API}room/essa/${essayId}/`, newFields);
 
             getEssays();
+
+            if (newFields.checked) {
+                getEssay(essayId);
+            }
         } catch (error) {
             console.log(error);
         } finally {
