@@ -55,3 +55,7 @@ td {
 .modal select {
   padding: 2% 4%;
 }
+
+.today-active {
+  background-color: #E29578 !important;
+}
