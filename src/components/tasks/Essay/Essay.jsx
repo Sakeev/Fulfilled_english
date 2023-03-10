@@ -1,48 +1,32 @@
-import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
-import { useEffect } from 'react';
-import { useRef } from 'react';
-import { useState } from 'react';
 import { useEssay } from '../../../contexts/EssayContextProvider';
+import { useAuth } from '../../../contexts/AuthContextProvider';
+import { Button, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import api from '../../../http';
+import React from 'react';
+
 import noEssay from '../../../assets/images/munara.jpeg';
 
 import './Essay.css';
-import { useAuth } from '../../../contexts/AuthContextProvider';
 
-const btnStyle = {
-    margin: '10px 5px',
-    backgroundColor: '#9bd0cb',
-    color: '#006D77',
-    textTransform: 'upper',
-    '&:hover': {
-        backgroundColor: '#006D77',
-        color: '#9bd0cb',
-    },
-};
+const API = 'http://35.238.162.84/';
 
 const Essay = () => {
     const [essayText, setEssayText] = useState('');
-    const [essayError, setEssayError] = useState(false);
-    const [sent, setSent] = useState(false);
-    // const [editText, setEditText] = useState();
-    // const [highlightedParts, setHighlightedParts] = useState([]);
-    // const textRef = useRef();
-    // const colorInputRef = useRef();
+    const [edit, setEdit] = useState(false);
 
     const { getEssay, essay } = useEssay();
-    const { userId, isTeacher } = useAuth();
 
     useEffect(() => {
         getEssay();
     }, []);
 
-    // console.log(essay);
-
-    const API = 'http://35.238.162.84/';
+    useEffect(() => {
+        setEssayText(essay.text);
+    }, [essay]);
 
     const sendEssay = async () => {
-        // if (essay.split(' ').length < 10) return setEssayError(true);
         const data = {
             text: essayText,
             accepted: true,
@@ -50,7 +34,11 @@ const Essay = () => {
 
         await api.patch(`${API}room/essa/${essay.id}/`, data);
         getEssay();
-        console.log('success');
+        setEdit(false);
+    };
+
+    const onEdit = () => {
+        setEdit((prev) => !prev);
     };
 
     if (!essay.id) {
@@ -78,100 +66,47 @@ const Essay = () => {
     }
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
-            <Box
-                sx={{
-                    width: essay.checked ? '75%' : '60%',
-                    margin: 'auto',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                }}
-            >
-                <Typography
-                    sx={{
-                        paddingBottom: '1%',
-                        color: '#006D77',
-                        fontWeight: 'bold',
-                        fontSize: '32px',
-                    }}
-                >
-                    Essay
-                </Typography>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                        paddingBottom: '3%',
-                    }}
-                >
-                    <Typography
-                        sx={{
-                            color: '#006D77',
-                            fontSize: '24px',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        Theme: {essay.title}
-                    </Typography>
-                    <Button sx={btnStyle}>translate</Button>
-                </Box>
-                <Typography
-                    sx={{
-                        color: '#006D77',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        paddingBottom: '5%',
-                    }}
-                >
-                    Description: {essay.description}
-                </Typography>
+        <div className="student-essay-wrapper">
+            <div className="student-essay">
+                <h2>Essay</h2>
+                <div className="student-essay-info-text">
+                    <div className="student-essay-subject">
+                        <span>Subject: </span>
+                        <span className="black">{essay.title}</span>
+                    </div>
+                    <div className="student-essay-status">
+                        <span>Status:</span>
+                        <span>{essay.checked ? '' : ' not'} checked</span>
+                    </div>
+                </div>
                 <div className="student-essay-textareas">
                     <textarea
-                        className={
-                            essay.accepted && !essay.checked ? 'unactive' : ''
-                        }
-                        readOnly={essay.accepted}
+                        className={essay.accepted && !edit ? 'unactive' : ''}
+                        readOnly={essay.accepted && !edit}
                         onChange={(e) => setEssayText(e.target.value)}
-                        value={essay.accepted ? essay.text : essayText}
+                        value={essayText}
                     ></textarea>
-                    {essay.checked && (
+                    {/* {essay.checked && (
                         <textarea
                             readOnly
                             value={essay.teacher_text}
                         ></textarea>
+                    )} */}
+                </div>
+                <div className="student-essay-btns">
+                    <Button
+                        disabled={essay.accepted && !edit}
+                        onClick={() => sendEssay(essayText)}
+                    >
+                        {edit ? 'save changes' : 'send'}
+                    </Button>
+                    {essay.accepted && (
+                        <Button disabled={essay.checked} onClick={onEdit}>
+                            edit
+                        </Button>
                     )}
                 </div>
-                {essayError && (
-                    <p style={{ marginBottom: '1rem', color: '#006D77' }}>
-                        Эссе должно состоять минимум из 50 слов.
-                    </p>
-                )}
-                {!essay.checked && (
-                    <div className="student-essay-btns">
-                        <Button
-                            disabled={essay.accepted}
-                            onClick={() => sendEssay(essayText)}
-                            sx={{
-                                ...btnStyle,
-                                width: 'auto',
-                            }}
-                        >
-                            {essay.accepted ? 'essay have sent' : 'send'}
-                        </Button>
-                        {essay.accepted && (
-                            <p>
-                                Your teacher will check your essay as soon as
-                                possible.
-                            </p>
-                        )}
-                    </div>
-                )}
-            </Box>
+            </div>
         </div>
     );
 };

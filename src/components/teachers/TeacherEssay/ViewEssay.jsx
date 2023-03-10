@@ -5,7 +5,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import checked from '../../../assets/images/correct.png';
+import cancelled from '../../../assets/images/cancelled.png';
 import api from '../../../http';
+import { highlightSelection } from '../../../helpers/essay';
+import { useRef } from 'react';
+import EssayMistakes from './EssayMistakes';
 
 const btnStyle = {
     margin: '10px 5px',
@@ -24,7 +28,10 @@ const ViewEssay = () => {
     const { userId, isTeacher, user } = useAuth();
     const [teacherEssayText, setTeacherEssayText] = useState('');
     const [saved, setSaved] = useState(false);
+    const [selection, setSelection] = useState(null);
     const params = useParams();
+    const colorFills = useRef();
+    const mistakeColors = ['aqua', 'red', 'green'];
 
     useEffect(() => {
         getEssay(params.essayId);
@@ -44,7 +51,31 @@ const ViewEssay = () => {
         // getEssay();
     };
 
-    console.log(essay.checked);
+    const onMouseUp = (event) => {
+        const userSelection = window.getSelection();
+        const s = userSelection.toString();
+
+        if (s.trim() === '') {
+            return;
+        }
+
+        setSelection(userSelection.getRangeAt(0));
+        // console.log(userSelection.getRangeAt(0));
+
+        colorFills.current.style.left = event.clientX + 'px';
+        colorFills.current.style.top = `calc(${event.clientY}px - 3rem`;
+        colorFills.current.style.opacity = 1;
+
+        console.log(s);
+        // highlightSelection();
+    };
+
+    const colorFillHandler = (class_) => {
+        highlightSelection(selection, class_);
+        colorFills.current.style.left = 0;
+        colorFills.current.style.top = 0;
+        colorFills.current.style.opacity = 0;
+    };
 
     if (loading) {
         return (
@@ -56,6 +87,31 @@ const ViewEssay = () => {
 
     return (
         <div className="view-essay">
+            <div
+                onMouseLeave={() => {
+                    colorFills.current.style.opacity = 0;
+                }}
+                ref={colorFills}
+                className="view-essay-color-fills"
+            >
+                <div
+                    onClick={() => colorFillHandler('highlight-aqua')}
+                    className="view-essay-color-fill"
+                ></div>
+                <div
+                    onClick={() => colorFillHandler('highlight-red')}
+                    className="view-essay-color-fill"
+                ></div>
+                <div
+                    onClick={() => colorFillHandler('highlight-green')}
+                    className="view-essay-color-fill"
+                ></div>
+                <img
+                    onClick={() => colorFillHandler('highlight-white')}
+                    src={cancelled}
+                    alt="cancel selection"
+                />
+            </div>
             <Box
                 sx={{
                     width: '80%',
@@ -81,11 +137,17 @@ const ViewEssay = () => {
                 <div className="essay-view-textareas">
                     <div className="essay-view-textarea">
                         <p>Student version</p>
-                        <textarea
+                        <div
+                            className="text-area"
+                            onMouseUp={(event) => onMouseUp(event)}
+                        >
+                            {essay.text}
+                        </div>
+                        {/* <textarea
                             className={essay.accepted ? 'unactive' : ''}
                             readOnly={essay.accepted}
                             value={essay.text}
-                        />
+                        /> */}
                     </div>
                     <div className="essay-view-textarea">
                         <p>Teacher version</p>
@@ -98,6 +160,7 @@ const ViewEssay = () => {
                         />
                     </div>
                 </div>
+                <EssayMistakes mistakeColors={mistakeColors} />
                 <div className="view-essay-btns">
                     <Button
                         onClick={() => {

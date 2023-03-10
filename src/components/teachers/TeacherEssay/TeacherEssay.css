@@ -122,12 +122,62 @@ a {
     padding: 0;
 }
 
-/* VIEW ESSAY STYLES */
+/* VIEW ESSAY */
+
+.highlight-aqua {
+    background-color: aqua;
+}
+
+.highlight-red {
+    background-color: red;
+}
+
+.highlight-green {
+    background-color: green;
+}
+
+.highlight-white {
+    background-color: white;
+}
 
 .view-essay {
     width: 100%;
     height: 100%;
     color: #006d77;
+}
+
+.view-essay-color-fills {
+    position: absolute;
+    opacity: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 2.5rem;
+    width: 9.5rem;
+    background-color: white;
+    box-shadow: 0.2rem 0.2rem 0.5rem -0.125rem black;
+    border-radius: 0.2rem;
+}
+
+.view-essay-color-fills .view-essay-color-fill {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 0.2rem;
+    background-color: aqua;
+}
+
+.view-essay-color-fills img {
+    height: 2rem;
+    width: 2rem;
+    margin: 0;
+}
+
+.view-essay-color-fills .view-essay-color-fill:nth-child(2) {
+    background-color: red;
+}
+
+.view-essay-color-fills .view-essay-color-fill:nth-child(3) {
+    background-color: green;
 }
 
 .view-essay-h2 {
@@ -149,7 +199,7 @@ a {
     gap: 1em;
     width: 100%;
     height: 50vh;
-    margin-block: 1em;
+    margin: 1em 0 0.5em;
 }
 
 .essay-view-textareas .essay-view-textarea {
@@ -160,8 +210,29 @@ a {
     font-size: 1.5rem;
 }
 
+.essay-view-textarea .text-area {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    width: 100%;
+    height: 85%;
+    border-radius: 16px;
+    border: 2px solid #006d77;
+    color: black;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+    outline: #006d77;
+    text-align: justify;
+}
+
 .essay-view-textarea textarea {
-    height: 100%;
+    height: 85%;
+    text-align: justify;
+}
+
+.essay-view-textarea .text-area span {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    /* border-radius: 0.25rem; */
 }
 
 .view-essay-btns {
@@ -182,3 +253,77 @@ a {
     height: 2rem;
     margin: 0 45% 0 0;
 }
+
+/* VIEW ESSAY END */
+
+/* ESSAY MISTAKE */
+
+.mistakes {
+    /* border: 0.125rem solid #006d77; */
+    /* border-radius: 0.5rem;
+    padding: 0.5em 0.375em; */
+}
+
+.mistakes-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 0.0625em solid #9bd0cb;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
+.mistakes-header img {
+    width: 2rem;
+    margin: 0 1rem 0 0;
+}
+
+.mistakes-header div.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    height: 2rem;
+}
+
+.mistakes-header .mistakes-colors {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0 1rem 0 0;
+}
+
+.mistakes-header .mistakes-colors .mistake-color {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 0.125rem;
+}
+
+.mistakes-header .mistakes-colors .mistake-color.color-selected {
+    border: 0.125rem solid black;
+}
+
+.mistakes-colored-mistakes .mistakes-colored-mistake {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.0625em solid #9bd0cb;
+    padding-bottom: 0.375em;
+    margin-bottom: 1em;
+}
+
+.mistakes-colored-mistakes
+    .mistakes-colored-mistake
+    .mistakes-color-description {
+    display: flex;
+    align-items: center;
+}
+
+.mistakes-colored-mistakes .mistakes-colored-mistake img {
+    width: 1.25rem;
+    margin: 0;
+}
+
+.mistakes-colored-mistakes .mistakes-colored-mistake .mistakes-colored-circle {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.25em;
+}
+
+/* ESSAY MISTAKE END */

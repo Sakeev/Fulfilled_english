@@ -8,6 +8,7 @@ import incorrect from '../../../assets/images/cross.png';
 
 import './TeacherEssay.css';
 import EditEssayTitle from './EditEssayTitle';
+import { useEffect } from 'react';
 
 const btnStyle = {
     margin: '10px 5px',
@@ -24,9 +25,14 @@ const TeacherEssay = () => {
     const [editTitle, setEditTitle] = useState(false);
     const [editTitleId, setEditTitleId] = useState(null);
     const [essayTitle, setEssayTitle] = useState('');
+    const [teacherStudents, setTeacherStudents] = useState([]);
 
     const { students, getStudentEssay, loading } = useEssay();
     const { userId } = useAuth();
+
+    useEffect(() => {
+        setTeacherStudents(students);
+    }, [students]);
 
     const essayTitleObj = {
         editTitle,

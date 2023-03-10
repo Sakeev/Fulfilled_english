@@ -1,46 +1,106 @@
-textarea {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 1rem;
+.black {
+    color: black !important;
+    font-weight: 400 !important;
+}
+
+.student-essay-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.student-essay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+    width: 60%;
+    margin: auto;
+}
+
+.student-essay a {
+    text-decoration: none;
+}
+
+.student-essay h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1em;
+}
+
+.student-essay .student-essay-info-text {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.student-essay .student-essay-info-text span {
+    color: #006d77;
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.student-essay .student-essay-textareas {
+    display: flex;
+    height: 50%;
+    width: 100%;
+    padding-block: 3em 2em;
+}
+
+.student-essay-textareas textarea {
+    font-size: 1.125rem;
     width: 100%;
     height: 100%;
     border-radius: 16px;
     border: 2px solid #006d77;
     margin-bottom: 1rem;
-    padding: 0.5rem 0.75rem;
+    padding: 1em 1.25em;
     resize: none;
     outline: #006d77;
 }
 
-textarea.unactive {
-    background-color: rgb(224, 222, 222);
-    outline: rgb(224, 222, 222);
-    border-color: rgb(224, 222, 222);
-    color: rgb(155, 150, 150);
-    pointer-events: none;
+.student-essay-textareas textarea::-webkit-scrollbar {
+    width: 1.25em;
 }
 
-img {
-    width: 50%;
-    margin: 20px auto 0;
+.student-essay-textareas textarea::-webkit-scrollbar-track {
+    margin-block: 0.25em;
 }
 
-a {
-    text-decoration: none;
+.student-essay-textareas textarea::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: #83c5be;
+    border-radius: 100vw;
+    border: 0.25em solid transparent;
 }
 
-.student-essay-textareas {
+.student-essay-textareas textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #639b96;
+}
+
+.student-essay-textareas textarea.unactive {
+    color: #aeb5b7;
+}
+
+.student-essay .student-essay-btns {
     display: flex;
-    gap: 1rem;
-    height: 50%;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
 }
 
-.student-essay-btns {
-    display: flex;
-    align-items: center;
+.student-essay-btns .MuiButtonBase-root {
+    min-width: 10em;
+    background-color: #83c5be;
+    color: #006d77;
+    text-transform: uppercase;
 }
 
-.student-essay-btns p {
-    color: #006d77;
-    margin-left: 1rem;
+.student-essay-btns .MuiButtonBase-root:hover {
+    background-color: #006d77;
+    color: #83c5be;
+}
+
+.student-essay-btns .Mui-disabled {
+    background-color: #edf6f9;
+    color: #006d77 !important;
 }
