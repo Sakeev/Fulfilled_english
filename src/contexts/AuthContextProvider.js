@@ -29,6 +29,7 @@ const AuthContextProvider = ({ children }) => {
 
         try {
             const res = await axios.post(`${AUTH_API}`, formData);
+            localStorage.setItem('Token' , JSON.stringify(res.data.access))
             localStorage.setItem('token', JSON.stringify(res.data));
             localStorage.setItem('user', email);
             navigate('/');
