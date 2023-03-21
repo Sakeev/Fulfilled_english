@@ -12,6 +12,8 @@ import ProfilePage from '../pages/ProfilePage';
 import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
+import Case1 from '../components/tasks/Case1';
+import Progress from '../components/tasks/Progress';
 
 const MainRoutes = () => {
     const { checkAuth } = useAuth();
@@ -69,6 +71,16 @@ const MainRoutes = () => {
             link: '/schedule',
             element: <SchedulePage />,
             id: 8,
+        },
+        {
+            link: '/task/case/:id/task/:task_id',
+            element: <Case1 />,
+            id: 9,
+        },
+        {
+            link: '/task/case/:id/task/:task_id/results',
+            element: <TasksResultPage/>,
+            id: 10,
         },
     ];
     const PUBLIC_ROUTES = [

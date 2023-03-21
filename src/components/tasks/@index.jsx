@@ -21,6 +21,25 @@ const taskBox = {
   flexDirection: 'column',
 }
 
+const casesBox={
+    width:'20%',
+    height:'10%',
+    backgroundColor:'#9bd0cb',
+    color:'#006D77',
+    borderRadius:'5px',
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    margin:'5%'
+}
+const casesMainBox={
+  width:'100%',
+  height:'100%',
+  display:'flex',
+  flexWrap:'wrap',
+  
+}
+
 const theme = createTheme({
   palette: {
     secondary: {
@@ -32,18 +51,21 @@ const theme = createTheme({
 
 
 const Tasks = () => {
-  const {handleTask  , tasks , sent , fillInps , wordFind , handleAnswer , getAnswers , answers} = useTasks();
+  const {handleTask, handleCase,cases , tasks , sent , fillInps , wordFind , handleAnswer , getAnswers , answers} = useTasks();
   
   const result = answers.slice(answers.length-3,answers.length) ;  
 
   const [count , setCount] = useState('');
 
+
+
   const navigate = useNavigate();
 
   useEffect(()=>{
-    handleTask()
+    handleTask();
+    handleCase()
   },[])
-
+  console.log(cases);
   const ansObj = {
     sent,
     fillInps,
@@ -91,30 +113,22 @@ const Tasks = () => {
    
   
 
-  {
-    
-  }
+  
 
+  
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={mainBox}>
-        <WordFind taskBox={taskBox} />
-        <FillInps taskBox={taskBox} />
-        <Sentence taskBox={taskBox} />
-        <ContinueSentence />
-        <Button variant="success" onClick={()=>{
-          sendAnswers()
-          setCount('go')
-          }}>Отправить</Button>
-          <Button variant="success" onClick={()=>{
-
-          navigate('/results')
-          }}>Посмотреть результаты</Button>
+        <h1 style={{color:'#006D77'}}>Cases</h1>
+        <Box  style={casesMainBox}>
+        {cases?.map((e , key)=>(
+          <div key={e.id} style={casesBox} onClick={()=>navigate(`/task/case/${e.id}/task/1`)}>{e.title}</div>
+        ))}
+          </Box>
       </Box>
-      {/* <img style={{position: 'absolute', left: '1000px', top: '100px'}} src="https://plus.unsplash.com/premium_photo-1661759476421-af5519793034?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8em9vbSUyMGNhbGx8ZW58MHx8MHx8&w=1000&q=80" alt='2' width='400' height="300" /> */}
-    </ThemeProvider>
-  );
+    </ThemeProvider> 
+  ); 
 };
 
 export default Tasks;
