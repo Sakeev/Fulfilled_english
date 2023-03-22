@@ -8,32 +8,25 @@ const ClassPage = () => {
   const [username, setUsername] = useState('');
   const room_pk = 1;
   const request_id = Date.now();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    localStorage.setItem('Token' , token.access)
+  }, []);
 
   const sendMessage = () => {
-    // const message = {
-    //   message: `my message`,
-    //   action: 'create',
-    //   request_id: request_id,
-    //   pk: 8,
-    // };
     socket.current.send(JSON.stringify({
         message: value,
         action: "create_message",
         request_id: request_id,
-        pk: 8,
     }));
 
     setValue('');
   };
 
   const connect = () => {
-    const token = (localStorage.getItem('Token'));
-    // const access = token.access;
-    // console.log(access);
+    const token = localStorage.getItem('Token');
     socket.current = new WebSocket(
-      `ws://35.239.173.63/ws/chat/?token=${token}`
-    );
+      `ws://35.239.173.63/ws/chat/?token=${token}`);
     socket.current.onopen = function () {
         const joinMessage = {
             pk: 1,
