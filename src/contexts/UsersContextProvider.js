@@ -20,20 +20,24 @@ const reducer = (state = init_state, action) => {
 
 const UsersContextProvider = ({children}) => {
 
-  const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : "";
 
-  const config = {
-    headers : {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token.access}`,
-    }
-  };
+  const getConfig = () => {
+    const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : "";
+
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token.access}`,
+      }
+    };
+    return config;
+}
 
   const [state, dispatch] = useReducer(reducer, init_state)
 
   const getStudents = async () => {
     try {
-      let { data } = await axios(`${API}account/users/`, config);
+      let { data } = await axios(`${API}account/users/`, getConfig());
       dispatch({
         type: "GET_STUDENTS",
         payload: data,
