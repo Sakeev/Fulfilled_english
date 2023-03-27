@@ -33,7 +33,7 @@ const MainRoutes = () => {
             id: 1,
         },
         {
-            link: '/class',
+            link: '/classwork',
             element: <ClassPage />,
             id: 2,
         },
