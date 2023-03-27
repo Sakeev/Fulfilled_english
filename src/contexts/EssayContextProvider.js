@@ -117,6 +117,7 @@ const EssayContextProvider = ({ children }) => {
                 payload: data,
             });
         } catch (error) {
+            setLoading(false);
             console.log(error);
         } finally {
             setLoading(false);
@@ -130,11 +131,8 @@ const EssayContextProvider = ({ children }) => {
             await api.patch(`${API}room/essa/${essayId}/`, newFields);
 
             getEssays();
-
-            if (newFields.checked) {
-                getEssay(essayId);
-            }
         } catch (error) {
+            setLoading(false);
             console.log(error);
         } finally {
             setLoading(false);

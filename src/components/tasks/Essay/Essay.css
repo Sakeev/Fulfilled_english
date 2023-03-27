@@ -4,8 +4,25 @@
 }
 
 .student-essay-wrapper {
-    height: 100%;
+    height: 100vh;
     width: 100%;
+}
+
+.student-essay-wrapper .MuiButtonBase-root {
+    min-width: 10em;
+    background-color: #83c5be;
+    color: #006d77;
+    text-transform: uppercase;
+}
+
+.student-essay-wrapper .MuiButtonBase-root:hover {
+    background-color: #006d77;
+    color: #83c5be;
+}
+
+.student-essay-wrapper .Mui-disabled {
+    background-color: #edf6f9;
+    color: #006d77 !important;
 }
 
 .student-essay {
@@ -41,44 +58,110 @@
 
 .student-essay .student-essay-textareas {
     display: flex;
-    height: 50%;
+    flex-direction: column;
+    gap: 1.5em;
+    max-height: 70vh;
     width: 100%;
-    padding-block: 3em 2em;
+    padding-block: 2em 0.5em;
 }
 
-.student-essay-textareas textarea {
+.student-essay-textareas .student-essay-corrections {
+    padding: 1em 1em 1em 2em;
+    font-size: 1.125rem;
+    border: 0.125rem solid #006d77;
+    border-radius: 1rem;
+    overflow: auto;
+}
+
+.student-essay-corrections > p {
+    margin-bottom: 0.5em;
+}
+
+.student-essay-corrections ul {
+    list-style: none;
+}
+
+.student-essay-corrections ul .student-essay-correction {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.student-essay-corrections ul .student-essay-correction div {
+    width: 1em;
+    height: 1em;
+}
+
+.student-essay-corrections .student-essay-correction img {
+    width: 1rem;
+    cursor: pointer;
+}
+
+.student-essay-textareas .student-essay-text {
     font-size: 1.125rem;
     width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    border: 2px solid #006d77;
-    margin-bottom: 1rem;
-    padding: 1em 1.25em;
+    height: 40vh;
+    border-radius: 1rem;
+    border: 0.125rem solid #006d77;
+    margin-bottom: 1em;
+    padding: 1em 1em 2em 2em;
     resize: none;
     outline: #006d77;
+    overflow: auto;
 }
 
-.student-essay-textareas textarea::-webkit-scrollbar {
-    width: 1.25em;
+.student-essay-textareas .student-essay-corrections {
+    width: 100%;
 }
 
-.student-essay-textareas textarea::-webkit-scrollbar-track {
+.student-essay-corrections .student-essay-correction input {
+    width: auto;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 0.1rem transparent solid;
+    outline: none;
+}
+
+.student-essay-corrections .student-essay-correction input:focus {
+    border-bottom: 0.1rem #006d77 solid;
+}
+
+.student-essay-corrections .student-essay-correction input:hover {
+    border-bottom: 0.1rem #006d77 solid;
+}
+
+.student-essay-corrections .student-essay-correction input:disabled {
+    background-color: transparent;
+    color: black;
+}
+
+.student-essay-corrections .student-essay-correction input:disabled:hover {
+    border-bottom: 0.1rem transparent solid;
+}
+
+.student-essay-textareas .info-window::-webkit-scrollbar {
+    width: 1.5em;
+}
+
+.student-essay-textareas .info-window::-webkit-scrollbar-track {
     margin-block: 0.25em;
 }
 
-.student-essay-textareas textarea::-webkit-scrollbar-thumb {
+.student-essay-textareas .info-window::-webkit-scrollbar-thumb {
     background-clip: content-box;
     background-color: #83c5be;
     border-radius: 100vw;
-    border: 0.25em solid transparent;
+    border: 0.5em solid transparent;
 }
 
-.student-essay-textareas textarea::-webkit-scrollbar-thumb:hover {
+.student-essay-textareas .info-window::-webkit-scrollbar-thumb:hover {
     background-color: #639b96;
 }
 
-.student-essay-textareas textarea.unactive {
+.student-essay-textareas .student-essay-text.unactive {
     color: #aeb5b7;
+    pointer-events: none;
 }
 
 .student-essay .student-essay-btns {
@@ -88,7 +171,7 @@
     width: 100%;
 }
 
-.student-essay-btns .MuiButtonBase-root {
+/* .student-essay-btns .MuiButtonBase-root {
     min-width: 10em;
     background-color: #83c5be;
     color: #006d77;
@@ -103,4 +186,4 @@
 .student-essay-btns .Mui-disabled {
     background-color: #edf6f9;
     color: #006d77 !important;
-}
+} */

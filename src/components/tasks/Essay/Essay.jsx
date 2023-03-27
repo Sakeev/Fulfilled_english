@@ -4,6 +4,7 @@ import { Button, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import api from '../../../http';
+import { useRef } from 'react';
 import React from 'react';
 
 import noEssay from '../../../assets/images/munara.jpeg';
@@ -15,6 +16,7 @@ const API = 'http://35.238.162.84/';
 const Essay = () => {
     const [essayText, setEssayText] = useState('');
     const [edit, setEdit] = useState(false);
+    const highlightedEssayText = useRef();
 
     const { getEssay, essay } = useEssay();
 
@@ -24,11 +26,15 @@ const Essay = () => {
 
     useEffect(() => {
         setEssayText(essay.text);
+        if (highlightedEssayText.current) {
+            highlightedEssayText.current.innerHTML = essay.html_text;
+        }
     }, [essay]);
 
     const sendEssay = async () => {
         const data = {
             text: essayText,
+            html_text: essayText,
             accepted: true,
         };
 
@@ -80,18 +86,45 @@ const Essay = () => {
                     </div>
                 </div>
                 <div className="student-essay-textareas">
-                    <textarea
-                        className={essay.accepted && !edit ? 'unactive' : ''}
-                        readOnly={essay.accepted && !edit}
-                        onChange={(e) => setEssayText(e.target.value)}
-                        value={essayText}
-                    ></textarea>
-                    {/* {essay.checked && (
+                    {essay.checked && (
+                        <div className="student-essay-corrections info-window">
+                            <p>Here is the teachers corrections:</p>
+                            <ul>
+                                {essay.mistakes.map((mistake, index) => {
+                                    return (
+                                        <li
+                                            key={index}
+                                            className="student-essay-correction"
+                                        >
+                                            <div
+                                                className="correction-color"
+                                                style={{
+                                                    backgroundColor:
+                                                        mistake.color,
+                                                }}
+                                            ></div>
+                                            <p>{mistake.description}</p>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    )}
+                    {essay.checked ? (
+                        <div
+                            ref={highlightedEssayText}
+                            className="unactive student-essay-text info-window"
+                        ></div>
+                    ) : (
                         <textarea
-                            readOnly
-                            value={essay.teacher_text}
-                        ></textarea>
-                    )} */}
+                            className={`${
+                                essay.accepted && !edit ? 'unactive' : ''
+                            } student-essay-text info-window`}
+                            readOnly={essay.accepted && !edit}
+                            onChange={(e) => setEssayText(e.target.value)}
+                            value={essayText}
+                        />
+                    )}
                 </div>
                 <div className="student-essay-btns">
                     <Button

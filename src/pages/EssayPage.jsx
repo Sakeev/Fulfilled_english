@@ -2,7 +2,8 @@ import React from 'react';
 import Essay from '../components/tasks/Essay/Essay';
 import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
-const EsseyPage = () => {
+
+const EssayPage = () => {
     return (
         <div>
             <Box
@@ -19,4 +20,4 @@ const EsseyPage = () => {
     );
 };
 
-export default EsseyPage;
+export default EssayPage;

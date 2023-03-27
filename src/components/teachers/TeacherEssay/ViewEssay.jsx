@@ -1,37 +1,24 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
 import { useAuth } from '../../../contexts/AuthContextProvider';
-import { Box, Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import checked from '../../../assets/images/correct.png';
 import cancelled from '../../../assets/images/cancelled.png';
 import api from '../../../http';
 import { highlightSelection } from '../../../helpers/essay';
 import { useRef } from 'react';
-import EssayMistakes from './EssayMistakes';
-
-const btnStyle = {
-    margin: '10px 5px',
-    backgroundColor: '#9bd0cb',
-    color: '#006D77',
-    textTransform: 'upper',
-    '&:hover': {
-        backgroundColor: '#006D77',
-        color: '#9bd0cb',
-    },
-};
 
 const ViewEssay = () => {
     const { getEssay, essay, getStudent, student, updateEssay, loading } =
         useEssay();
     const { userId, isTeacher, user } = useAuth();
-    const [teacherEssayText, setTeacherEssayText] = useState('');
-    const [saved, setSaved] = useState(false);
+    const [mistakesArr, setMistakesArr] = useState([]);
     const [selection, setSelection] = useState(null);
+    const [edit, setEdit] = useState(false);
+    const colorFillsRef = useRef();
+    const essayRef = useRef();
     const params = useParams();
-    const colorFills = useRef();
-    const mistakeColors = ['aqua', 'red', 'green'];
 
     useEffect(() => {
         getEssay(params.essayId);
@@ -39,17 +26,24 @@ const ViewEssay = () => {
     }, []);
 
     useEffect(() => {
-        if (essay.teacher_text) {
-            setTeacherEssayText(essay.teacher_text);
-        } else {
-            setTeacherEssayText(essay.text);
-        }
+        setMistakesArr(() => {
+            const newArr = [];
+            for (let i in essay.mistakes) {
+                newArr[i] = {
+                    id: essay.mistakes[i].id,
+                    color: essay.mistakes[i].color,
+                    description: essay.mistakes[i].description,
+                };
+            }
+            return newArr;
+        });
     }, [essay]);
 
-    const sendEssay = async () => {
-        // await api.patch(`${API}room/essa/${essay.id}/`, data);
-        // getEssay();
-    };
+    useEffect(() => {
+        if (essayRef.current && essay.id) {
+            essayRef.current.innerHTML = essay.html_text;
+        }
+    }, [essayRef.current, essay]);
 
     const onMouseUp = (event) => {
         const userSelection = window.getSelection();
@@ -60,21 +54,60 @@ const ViewEssay = () => {
         }
 
         setSelection(userSelection.getRangeAt(0));
-        // console.log(userSelection.getRangeAt(0));
 
-        colorFills.current.style.left = event.clientX + 'px';
-        colorFills.current.style.top = `calc(${event.clientY}px - 3rem`;
-        colorFills.current.style.opacity = 1;
-
-        console.log(s);
-        // highlightSelection();
+        colorFillsRef.current.style.left = event.clientX + 'px';
+        colorFillsRef.current.style.top = `calc(${event.clientY}px - 3rem`;
+        colorFillsRef.current.style.opacity = 1;
     };
 
     const colorFillHandler = (class_) => {
         highlightSelection(selection, class_);
-        colorFills.current.style.left = 0;
-        colorFills.current.style.top = 0;
-        colorFills.current.style.opacity = 0;
+        colorFillsRef.current.style.left = 0;
+        colorFillsRef.current.style.top = 0;
+        colorFillsRef.current.style.opacity = 0;
+
+        console.log(essayRef.current.innerHTML);
+    };
+
+    const createMarker = async () => {
+        const data = {
+            color: 'orange',
+            description: 'something',
+        };
+
+        await api.post(
+            `http://35.239.173.63/room/essa/${essay.id}/add_mistake/`,
+            data
+        );
+        getEssay();
+    };
+
+    const onMistakeChange = (e, index) => {
+        setMistakesArr((prev) => {
+            const newMistakesArr = JSON.parse(JSON.stringify(prev));
+            newMistakesArr[index].description = e.target.value;
+            return newMistakesArr;
+        });
+    };
+
+    const onMistakeBlur = async (index) => {
+        const data = { ...mistakesArr[index] };
+
+        await api.patch(
+            `http://35.239.173.63/room/essa/${essay.id}/update_mistake/`,
+            data
+        );
+    };
+
+    const deleteMistake = async (index) => {
+        const data = { data: { id: mistakesArr[index].id } };
+
+        await api.delete(
+            `http://35.239.173.63/room/essa/${essay.id}/delete_mistake/`,
+            data
+        );
+
+        getEssay(essay.id);
     };
 
     if (loading) {
@@ -86,16 +119,16 @@ const ViewEssay = () => {
     }
 
     return (
-        <div className="view-essay">
+        <div className="student-essay-wrapper">
             <div
                 onMouseLeave={() => {
-                    colorFills.current.style.opacity = 0;
+                    colorFillsRef.current.style.opacity = 0;
                 }}
-                ref={colorFills}
+                ref={colorFillsRef}
                 className="view-essay-color-fills"
             >
                 <div
-                    onClick={() => colorFillHandler('highlight-aqua')}
+                    onClick={() => colorFillHandler('highlight-orange')}
                     className="view-essay-color-fill"
                 ></div>
                 <div
@@ -112,85 +145,114 @@ const ViewEssay = () => {
                     alt="cancel selection"
                 />
             </div>
-            <Box
-                sx={{
-                    width: '80%',
-                    margin: '3rem auto 0',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                }}
-            >
-                <h2 className="view-essay-h2">Theme: {essay.title}</h2>
-                <p className="view-essay-p">
-                    <span>Student email:</span> {student.email}
-                </p>
-                <p className="view-essay-p">
-                    <span>Student username:</span> {student.username}
-                </p>
-                <p className="view-essay-p">
-                    <span>Description:</span> {essay.description}
-                </p>
-
-                <div className="essay-view-textareas">
-                    <div className="essay-view-textarea">
-                        <p>Student version</p>
-                        <div
-                            className="text-area"
-                            onMouseUp={(event) => onMouseUp(event)}
-                        >
-                            {essay.text}
-                        </div>
-                        {/* <textarea
-                            className={essay.accepted ? 'unactive' : ''}
-                            readOnly={essay.accepted}
-                            value={essay.text}
-                        /> */}
+            <div className="student-essay">
+                <h2>Essay</h2>
+                <div className="student-essay-info-text">
+                    <div className="student-essay-subject">
+                        <span>Subject: </span>
+                        <span className="black">{essay.title}</span>
                     </div>
-                    <div className="essay-view-textarea">
-                        <p>Teacher version</p>
-                        <textarea
-                            onChange={(e) =>
-                                setTeacherEssayText(e.target.value)
-                            }
-                            value={teacherEssayText}
-                            className={essay.checked ? 'unactive' : ''}
-                        />
+                    <div className="student-essay-status">
+                        <span>Student: </span>
+                        <span>
+                            {' '}
+                            <a href="#">{student.username}</a>{' '}
+                        </span>
                     </div>
                 </div>
-                <EssayMistakes mistakeColors={mistakeColors} />
-                <div className="view-essay-btns">
+                <div className="student-essay-textareas">
+                    <div className="teacher-essay-corrections-wrapper">
+                        <div className="student-essay-corrections info-window">
+                            <p>Here is the teachers corrections:</p>
+                            <ul>
+                                {mistakesArr.map((mistake, index) => {
+                                    return (
+                                        <li
+                                            key={index}
+                                            className="student-essay-correction"
+                                        >
+                                            <div
+                                                className="correction-color"
+                                                style={{
+                                                    backgroundColor:
+                                                        mistake.color,
+                                                }}
+                                            />
+                                            <input
+                                                disabled={essay.checked}
+                                                onBlur={() =>
+                                                    onMistakeBlur(index)
+                                                }
+                                                onChange={(e) =>
+                                                    onMistakeChange(e, index)
+                                                }
+                                                value={mistake.description}
+                                                type="text"
+                                            />
+                                            <img
+                                                onClick={() =>
+                                                    deleteMistake(index)
+                                                }
+                                                src={require('../../../assets/images/delete.png')}
+                                                alt="delete"
+                                            />
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                        <Button
+                            disabled={essay.checked}
+                            onClick={createMarker}
+                            className="teacher-essay-create-marker"
+                        >
+                            Create marker
+                        </Button>
+                        <div className="view-essay-color-picker">
+                            <div className="view-essay-color-fill"></div>
+                            <div className="view-essay-color-fill"></div>
+                            <div className="view-essay-color-fill"></div>
+                        </div>
+                    </div>
+                    <div
+                        ref={essayRef}
+                        onMouseUp={(event) => onMouseUp(event)}
+                        className={`${
+                            edit ? '' : 'unactive'
+                        } student-essay-text info-window`}
+                    />
+                </div>
+                <div className="student-essay-btns">
                     <Button
-                        onClick={() => {
-                            updateEssay(essay.id, {
-                                teacher_text: teacherEssayText,
+                        disabled={essay.checked}
+                        onClick={async () => {
+                            await updateEssay(essay.id, {
                                 checked: true,
                             });
+                            getEssay(essay.id);
                         }}
-                        disabled={essay.checked}
-                        sx={{ ...btnStyle }}
                     >
-                        {essay.checked ? 'essay have sent back' : 'send back'}
+                        send
                     </Button>
-                    {!essay.checked ? (
-                        <Button
-                            onClick={() => {
-                                setSaved(true);
-                                updateEssay(essay.id, {
-                                    teacher_text: teacherEssayText,
+                    <Button
+                        disabled={essay.checked}
+                        onClick={async () => {
+                            if (edit) {
+                                await updateEssay(essay.id, {
+                                    html_text: essayRef.current.innerHTML,
                                 });
-                            }}
-                            sx={{ ...btnStyle }}
-                        >
-                            {saved ? 'saved!' : 'save edited essay'}
-                        </Button>
-                    ) : (
-                        <img src={checked} />
-                    )}
+
+                                getEssay(essay.id);
+                            }
+                            setEdit((prev) => {
+                                return !prev;
+                            });
+                        }}
+                    >
+                        {edit ? 'save' : 'edit'}
+                    </Button>
                 </div>
-            </Box>
+            </div>
         </div>
     );
 };
