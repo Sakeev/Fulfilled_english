@@ -1,0 +1,61 @@
+table {
+  font-size: small;
+}
+
+tr > th, td {
+  width: 12.5%;
+}
+
+th {
+
+}
+
+td {
+  padding: 2% 1%;
+  text-align: center;
+  border-bottom: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
+}
+
+.table_schedule th {
+  background-color: #9bd0cb;
+  padding: 1%;
+}
+
+.lesson_block {
+  background-color: #c2e7e4;
+  border-radius: 2px;
+  padding: 5%;
+}
+
+.overlay {
+  background-color: rgb(255, 255, 255, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: #9bd0cb;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 20%;
+  height: 20%;
+  border-radius: 5px;
+}
+
+.modal select {
+  padding: 2% 4%;
+}
+
+.today-active {
+  background-color: #E29578 !important;
+}

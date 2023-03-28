@@ -94,10 +94,11 @@ export default function Appbar() {
         <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', mt: 3}}>
           <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Домашнее задание</Button>
-              <Button sx={btnStyle} onClick={()=>navigate('/essay')}>Эссе</Button>
-              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Студенты</Button>
-              <Button sx={btnStyle} onClick={foo}>Выйти из аккаунта</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Homework</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/essay ')}>Essay</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Students</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/schedule')}>Schedule</Button>
+              <Button sx={btnStyle} onClick={foo}>Log out</Button>
             </Box>
             <Box sx={{alignSelf: 'center'}}>
               <img src={sticker} alt="" style={{width: '160px'}} />
