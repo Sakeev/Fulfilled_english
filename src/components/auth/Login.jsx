@@ -40,7 +40,6 @@ export default function Login() {
         login,
         errorObj: { emailError, passwordError },
         isLoading,
-        token,
     } = useAuth();
 
     return (

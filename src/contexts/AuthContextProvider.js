@@ -29,11 +29,12 @@ const AuthContextProvider = ({ children }) => {
 
         try {
             const res = await axios.post(`${AUTH_API}`, formData);
+            localStorage.setItem('Token' , JSON.stringify(res.data.access))
             localStorage.setItem('token', JSON.stringify(res.data));
             localStorage.setItem('user', email);
             navigate('/');
         } catch (error) {
-            console.log(error);
+            setError(error);
         }
     };
 
@@ -65,7 +66,6 @@ const AuthContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             let res = await axios.post(`${AUTH_API}`, formData, config);
-            setIsLoading(false);
 
             localStorage.setItem('token', JSON.stringify(res.data));
             localStorage.setItem('username', email);
@@ -73,15 +73,15 @@ const AuthContextProvider = ({ children }) => {
             setUser(email);
             navigate('/');
         } catch (error) {
-            setIsLoading(false);
+            console.dir(error);
             if (error.response.status === 401) {
-                console.log(error.response.status);
                 setErrorObj((prev) => {
                     return {
                         ...prev,
                         passwordError: {
                             status: true,
-                            message: 'Неправильный пароль или почта',
+                            message:
+                                'Неверный адрес электронной почты или пароль',
                         },
                         emailError: {
                             status: false,
@@ -93,6 +93,8 @@ const AuthContextProvider = ({ children }) => {
             }
 
             setError(error.response.statusText);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -123,21 +125,24 @@ const AuthContextProvider = ({ children }) => {
             let userName = localStorage.getItem('username');
             setUser(userName);
         } catch (error) {
+            localStorage.setItem('username', '');
+            setUser('');
             setError('error occured');
         }
     }
 
-    // function logout() {
-    //   localStorage.removeItem("token");
-    //   localStorage.removeItem("username");
-    //   setUser("");
-    // }
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        setUser('');
+    }
 
     return (
         <authContext.Provider
             value={{
                 token,
                 login,
+                logout,
                 user,
                 errorObj,
                 checkAuth,

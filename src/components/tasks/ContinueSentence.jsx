@@ -40,6 +40,7 @@ const ContinueSentence = ({ taskBox }) => {
         fourth: [],
     });
 
+
     const checkWordsPairs = (id) => {
         for (let key in wordsPairs) {
             wordsPairs[key].forEach((wordObj, wordObjIndex) => {
