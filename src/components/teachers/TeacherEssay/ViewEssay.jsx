@@ -1,18 +1,17 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
-import { useAuth } from '../../../contexts/AuthContextProvider';
-import { Button } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { highlightSelection } from '../../../helpers/essay';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
+import api from '../../../http';
 
 import cancelled from '../../../assets/images/cancelled.png';
-import api from '../../../http';
-import { highlightSelection } from '../../../helpers/essay';
-import { useRef } from 'react';
 
 const ViewEssay = () => {
     const { getEssay, essay, getStudent, student, updateEssay, loading } =
         useEssay();
-    const { userId, isTeacher, user } = useAuth();
+
+    const [showPicker, setShowPicker] = useState(false);
     const [mistakesArr, setMistakesArr] = useState([]);
     const [selection, setSelection] = useState(null);
     const [edit, setEdit] = useState(false);
@@ -26,17 +25,7 @@ const ViewEssay = () => {
     }, []);
 
     useEffect(() => {
-        setMistakesArr(() => {
-            const newArr = [];
-            for (let i in essay.mistakes) {
-                newArr[i] = {
-                    id: essay.mistakes[i].id,
-                    color: essay.mistakes[i].color,
-                    description: essay.mistakes[i].description,
-                };
-            }
-            return newArr;
-        });
+        if (essay.id) setMistakesArr(essay.mistakes);
     }, [essay]);
 
     useEffect(() => {
@@ -65,20 +54,23 @@ const ViewEssay = () => {
         colorFillsRef.current.style.left = 0;
         colorFillsRef.current.style.top = 0;
         colorFillsRef.current.style.opacity = 0;
-
-        console.log(essayRef.current.innerHTML);
     };
 
-    const createMarker = async () => {
+    const onCreateMarker = async () => {
+        setShowPicker((prev) => !prev);
+    };
+
+    const createMistake = async (color) => {
         const data = {
-            color: 'orange',
-            description: 'something',
+            color: color,
+            description: '',
         };
 
         await api.post(
             `http://35.239.173.63/room/essa/${essay.id}/add_mistake/`,
             data
         );
+        setShowPicker(false);
         getEssay();
     };
 
@@ -201,17 +193,32 @@ const ViewEssay = () => {
                                 })}
                             </ul>
                         </div>
-                        <Button
-                            disabled={essay.checked}
-                            onClick={createMarker}
-                            className="teacher-essay-create-marker"
-                        >
-                            Create marker
-                        </Button>
-                        <div className="view-essay-color-picker">
-                            <div className="view-essay-color-fill"></div>
-                            <div className="view-essay-color-fill"></div>
-                            <div className="view-essay-color-fill"></div>
+                        <div className="view-essay-create-marker">
+                            <Button
+                                disabled={essay.checked}
+                                onClick={onCreateMarker}
+                                className="teacher-essay-create-marker"
+                            >
+                                Create marker
+                            </Button>
+                            <div
+                                className={`view-essay-color-picker ${
+                                    showPicker ? 'show' : ''
+                                }`}
+                            >
+                                <div
+                                    onClick={() => createMistake('orange')}
+                                    className="view-essay-color orange"
+                                ></div>
+                                <div
+                                    onClick={() => createMistake('red')}
+                                    className="view-essay-color red"
+                                ></div>
+                                <div
+                                    onClick={() => createMistake('green')}
+                                    className="view-essay-color green"
+                                ></div>
+                            </div>
                         </div>
                     </div>
                     <div

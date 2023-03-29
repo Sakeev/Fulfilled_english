@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Registration from '../components/auth/Registration';
 import NotFoundPage from '../components/NotFoundPage';
 import AuthPage from '../pages/AuthPage';
@@ -17,15 +17,14 @@ import SendEssayPage from '../pages/teachers/SendEssayPage';
 import ViewEssayPage from '../pages/teachers/ViewEssayPage';
 
 const MainRoutes = () => {
-    const { checkAuth } = useAuth();
-    const isTeacher = true;
+    const { checkAuth, isTeacher } = useAuth();
+    const navigate = useNavigate();
 
     const user = localStorage.getItem('username');
 
     React.useEffect(() => {
-        if (localStorage.getItem('token')) {
-            checkAuth();
-        }
+        if (localStorage.getItem('token')) checkAuth();
+        else navigate('/');
     }, []);
 
     const PRIVATE_ROUTES = [

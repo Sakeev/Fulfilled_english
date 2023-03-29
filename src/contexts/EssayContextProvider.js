@@ -110,7 +110,8 @@ const EssayContextProvider = ({ children }) => {
     const getStudents = async () => {
         try {
             setLoading(true);
-            let { data } = await api.get(`${API}account/users/`);
+            const { data } = await api.get(`${API}account/users/`);
+            console.log(data);
 
             dispatch({
                 type: 'GET_STUDENTS',

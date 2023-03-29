@@ -1,6 +1,6 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
-import { useAuth } from '../../../contexts/AuthContextProvider';
 import { Button, Typography } from '@mui/material';
+import { API } from '../../../helpers/consts';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import api from '../../../http';
@@ -10,8 +10,6 @@ import React from 'react';
 import noEssay from '../../../assets/images/munara.jpeg';
 
 import './Essay.css';
-
-const API = 'http://35.238.162.84/';
 
 const Essay = () => {
     const [essayText, setEssayText] = useState('');
