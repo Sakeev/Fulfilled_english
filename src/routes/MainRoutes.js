@@ -13,7 +13,6 @@ import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
 import TeacherEssayPage from '../pages/teachers/TeacherEssayPage';
-import SendEssayPage from '../pages/teachers/SendEssayPage';
 import ViewEssayPage from '../pages/teachers/ViewEssayPage';
 
 const MainRoutes = () => {
@@ -93,18 +92,11 @@ const MainRoutes = () => {
     ];
 
     if (isTeacher) {
-        PRIVATE_ROUTES.push(
-            {
-                link: '/essay/send/:teacherId',
-                element: <SendEssayPage />,
-                id: PRIVATE_ROUTES.length + 1,
-            },
-            {
-                link: '/essay/view/:essayId',
-                element: <ViewEssayPage />,
-                id: PRIVATE_ROUTES.length + 2,
-            }
-        );
+        PRIVATE_ROUTES.push({
+            link: '/essay/view/:essayId',
+            element: <ViewEssayPage />,
+            id: PRIVATE_ROUTES.length + 2,
+        });
     }
 
     return (

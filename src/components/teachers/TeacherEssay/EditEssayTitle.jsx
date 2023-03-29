@@ -3,11 +3,11 @@ import { useEssay } from '../../../contexts/EssayContextProvider';
 import EditIcon from '@mui/icons-material/Edit';
 
 const EditEssayTitle = ({ essayTitleObj, student, index }) => {
+    const { updateEssay, loading, getStudentEssay } = useEssay();
+
     const { editTitle, setEditTitle } = essayTitleObj;
     const { editTitleId, setEditTitleId } = essayTitleObj;
     const { essayTitle, setEssayTitle } = essayTitleObj;
-
-    const { updateEssay, loading, getStudentEssay } = useEssay();
 
     const onClickEditIcon = (studentId, index) => {
         if (editTitle && index === editTitleId) {

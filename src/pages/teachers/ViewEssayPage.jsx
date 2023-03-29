@@ -6,13 +6,11 @@ const container = {
     display: 'flex',
 };
 
-const ViewEssayPage = () => {
-    return (
-        <div style={container}>
-            <Sidebar />
-            <ViewEssay />
-        </div>
-    );
-};
+const ViewEssayPage = () => (
+    <div style={container}>
+        <Sidebar />
+        <ViewEssay />
+    </div>
+);
 
 export default ViewEssayPage;
