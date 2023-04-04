@@ -19,6 +19,7 @@ const INIT_STATE = {
     casesDetail:{},
     singleCase:[],
     caseInfo:{},
+    taskProgress:[],
 };
 
 const reducer = (state = INIT_STATE, action) => {
@@ -42,7 +43,11 @@ const reducer = (state = INIT_STATE, action) => {
         case 'CASE_INFO':
             return { ...state, caseInfo: action.payload };  
         case 'SINGLE_CASE':
-            return { ...state, singleCase: action.payload }; 
+            return { ...state, singleCase: action.payload };
+        case 'PROGRESS_OBJECT':
+            return { ...state, progObj: action.payload };
+        case 'TASK_PROGRESS':
+            return { ...state, taskProgress: [ ...state.taskProgress ,action.payload] }; 
         default:
             return state;
     }
@@ -50,12 +55,13 @@ const reducer = (state = INIT_STATE, action) => {
 const TasksContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
-    const API = 'http://35.238.162.84/room/tasks/';
+    const API = 'http://35.239.173.63/room/tasks/';
     const getConfig=()=>{
     const token = localStorage.getItem('token')
         ? JSON.parse(localStorage.getItem('token'))
         : '';
     // console.log(token.access);
+
 
     
     const config = {
@@ -69,7 +75,7 @@ const TasksContextProvider = ({ children }) => {
     const handleTask = async () => {
         try {
             const res = await axios(`${API}`, getConfig());
-            console.log( res);
+            
             dispatch({
                 type: 'GET_TASKS',
                 payload: res.data,
@@ -82,7 +88,7 @@ const TasksContextProvider = ({ children }) => {
     const getAnswers = async () => {
         try {
             const res = await axios(
-                'http://35.238.162.84/room/answers/',
+                'http://35.239.173.63/room/answers/',
                 getConfig()
             );
             // console.log(res);
@@ -98,17 +104,16 @@ const TasksContextProvider = ({ children }) => {
     const handleAnswer = async (obj , id) => {
         try {
             const res = await axios.post(
-                `http://35.238.162.84/room/tasks/${id}/answer/`,
+                `http://35.239.173.63/room/tasks/${id}/answer/`,
                 obj,
                 getConfig()
             );
-            console.log(res);
         } catch (error) {
             console.log(error);
         }
     };
     const handleCase=async()=>{
-        const {data} = await axios('http://35.238.162.84/room/case_tasks/' , getConfig());
+        const {data} = await axios('http://35.239.173.63/room/get_lesson/' , getConfig());
         
         dispatch({
             type:"CASE",
@@ -117,24 +122,44 @@ const TasksContextProvider = ({ children }) => {
     }
 
     const handleCaseDetail=async(id , task_id)=>{
-        const {data} = await axios(`http://35.238.162.84/room/case_tasks/${id}/?task=${task_id}` ,getConfig())
+        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/?task=${task_id}` ,getConfig())
         dispatch({
             type:'CASE_DETAIL',
             payload:data,
         })
     }
     const singleCase = async(id)=>{
-        const {data} = await axios(`http://35.238.162.84/room/case/${id}/` , getConfig())
+        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/` , getConfig())
         dispatch({
             type:'SINGLE_CASE',
             payload:data,
         })
+        return data
     }
     const infoCase =async(id)=>{
-        const {data} = await axios(`http://35.238.162.84/room/case_tasks/${id}/` , getConfig())
-        console.log(data);
+        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/` , getConfig())
+        // console.log(data);
         dispatch({
             type:'CASE_INFO',
+            payload:data,
+        })
+    }
+    
+    const editProgress = async(obj , caseIndex)=>{
+        if(obj.task0){
+            console.log('patch' , obj);
+        let resObj={
+            "json_field":obj
+        }
+        const {data} = await axios.patch(`http://35.239.173.63/room/case_tasks/${caseIndex}/` , resObj , getConfig());
+        
+        }
+    }
+
+    const getProgress = async(caseIndex)=>{
+        const {data} = await axios.get(`http://35.239.173.63/room/case_tasks/${caseIndex}/` , getConfig());
+        dispatch({
+            type:'PROGRESS_OBJECT',
             payload:data,
         })
     }
@@ -159,6 +184,10 @@ const TasksContextProvider = ({ children }) => {
         oneCase:state.singleCase,
         caseInfo:state.caseInfo,
         infoCase,
+        taskProgress:state.taskProgress,
+        editProgress,
+        getProgress,
+        progObj:state.progObj,
     };
 
     return (

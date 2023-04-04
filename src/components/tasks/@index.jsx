@@ -22,22 +22,20 @@ const taskBox = {
 }
 
 const casesBox={
-    width:'20%',
-    height:'10%',
+    width:'40%',
+    height:'10vh',
     backgroundColor:'#9bd0cb',
     color:'#006D77',
     borderRadius:'5px',
     display:'flex',
     justifyContent:'center',
     alignItems:'center',
-    margin:'5%'
+    margin:'5%',
+    
 }
 const casesMainBox={
   width:'100%',
   height:'100%',
-  display:'flex',
-  flexWrap:'wrap',
-  
 }
 
 const theme = createTheme({
@@ -51,21 +49,20 @@ const theme = createTheme({
 
 
 const Tasks = () => {
-  const {handleTask, handleCase,cases , tasks , sent , fillInps , wordFind , handleAnswer , getAnswers , answers} = useTasks();
+  const {handleTask,oneCase, taskProgress,handleCase,cases , tasks , sent , fillInps , wordFind , handleAnswer , getAnswers , answers} = useTasks();
   
   const result = answers.slice(answers.length-3,answers.length) ;  
 
   const [count , setCount] = useState('');
 
 
-
   const navigate = useNavigate();
 
   useEffect(()=>{
     handleTask();
-    handleCase()
+    handleCase();
   },[])
-  console.log(cases);
+  // console.log(taskProgress);
   const ansObj = {
     sent,
     fillInps,
@@ -111,19 +108,34 @@ const Tasks = () => {
 
   const abc = JSON.stringify(finalObj);
    
-  
+  // console.log();
 
-  
+  const [doneTasks , setDoneTasks] = useState(0);
 
-  
+  const [countStyle , setCountStyle] = useState('');
+// console.log(cases);
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={mainBox}>
         <h1 style={{color:'#006D77'}}>Cases</h1>
         <Box  style={casesMainBox}>
-        {cases?.map((e , key)=>(
-          <div key={e.id} style={casesBox} onClick={()=>navigate(`/task/case/${e.id}/task/1`)}>{e.title}</div>
+        {cases.case_tasks?.map((e , key )=>(
+          <Box key={e.id} sx={{display:'flex' , alignItems:'center'}}>
+          <div  style={casesBox} onClick={()=>navigate(`/task/case/${e.id}/task/1`)}>{e.title} </div>
+          {
+  e.passed_quantity === e.quantity_task ? (
+    <p style={{ color: "#006D77" }}>
+      {e?.passed_quantity}/{e.quantity_task}
+    </p>
+  ) : (
+    <p style={{ color: "#E29578" }}>
+      {e?.passed_quantity}/{e.quantity_task}
+    </p>
+  )
+}
+          {/* <p>{taskProgress[key]?.doneTasks}/{e.quantity_task}</p> */}
+          </Box>
         ))}
           </Box>
       </Box>

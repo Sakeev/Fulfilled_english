@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import './classPage.css'
 const ClassPage = () => {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState('');
@@ -12,6 +12,10 @@ const ClassPage = () => {
     const token = JSON.parse(localStorage.getItem('token'))
     localStorage.setItem('Token' , token.access)
   }, []);
+  
+
+
+
 
   const sendMessage = () => {
     socket.current.send(JSON.stringify({
@@ -64,7 +68,7 @@ const ClassPage = () => {
           console.log('RealTime', data.data);
           switch (data.action) {
             case 'retrieve':
-              console.log(data.data);
+              console.log(data.data.current_users[0]);
               setUsername(data.data.host.username);
               setMessages(data.data.messages);
               break;
@@ -116,8 +120,9 @@ const ClassPage = () => {
             {mess.event === 'connection' ? (
               <div>{mess.text} connected</div>
             ) : (
-              <div>
-                {mess.username}. {mess.text}{' '}
+              <div className='message-bubble'>
+                <span style={{color:'blue'}}>{mess.user.username}</span>: <span style={{fontSize:'40px'}}> </span>
+                <p>{mess.text}{' '} </p>
               </div>
             )}
           </div>
