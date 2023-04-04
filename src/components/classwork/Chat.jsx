@@ -1,17 +1,103 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { DefaultEditor } from 'react-simple-wysiwyg';
+
+const messagesTest = [
+  {
+    id: 1,
+    event: '123',
+    text: 'hello',
+    user: {
+      username: 'Admin'
+    }
+  },
+  {
+    id: 2,
+    event: '123',
+    text: 'how are you',
+    user: {
+      username: 'Admin'
+    }
+  },
+  {
+    id: 3,
+    event: '123',
+    text: 'hello, good and you?',
+    user: {
+      username: 'Student'
+    }
+  },
+  {
+    id: 4,
+    event: '123',
+    text: 'great, thanks',
+    user: {
+      username: 'Admin'
+    }
+  },
+  {
+    id: 4,
+    event: '123',
+    text: 'great, thanks',
+    user: {
+      username: 'Admin'
+    }
+  },{
+    id: 4,
+    event: '123',
+    text: 'great, thanks',
+    user: {
+      username: 'Admin'
+    }
+  }
+]
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState('');
+  const [html, setHtml] = useState('')
   const socket = useRef();
   const [connected, setConnected] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(localStorage.getItem('username'));
   const room_pk = 1;
   const request_id = Date.now();
 
+  const connect = () => {
+    const token = localStorage.getItem('Token');
+    socket.current = new WebSocket(
+      `ws://35.239.173.63/ws/chat/?token=${token}`);
+    socket.current.onopen = function () {
+        const joinMessage = {
+            pk: room_pk,
+            action: "join_room",
+            request_id: request_id,
+        };
+        socket.current.send(JSON.stringify(joinMessage));
+        const retrieveMessage = {
+            pk: room_pk,
+            action: "retrieve",
+            request_id: request_id,
+        };
+        socket.current.send(JSON.stringify(retrieveMessage));
+        const subscribeMessage = {
+            pk: room_pk,
+            action: "subscribe_to_messages_in_room",
+            request_id: request_id,
+        };
+        socket.current.send(JSON.stringify(subscribeMessage));
+        const subscribeInstanceMessage = {
+            pk: room_pk,
+            action: "subscribe_instance",
+            request_id: request_id,
+        };
+        socket.current.send(JSON.stringify(subscribeInstanceMessage));
+        setConnected(true);
+    };
+  };
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
-    localStorage.setItem('Token' , token.access)
+    localStorage.setItem('Token' , token.access);
+    connect();
   }, []);
 
   const sendMessage = () => {
@@ -24,38 +110,6 @@ const Chat = () => {
     setValue('');
   };
 
-  const connect = () => {
-    const token = localStorage.getItem('Token');
-    socket.current = new WebSocket(
-      `ws://35.239.173.63/ws/chat/?token=${token}`);
-    socket.current.onopen = function () {
-        const joinMessage = {
-            pk: 1,
-            action: "join_room",
-            request_id: request_id,
-        };
-        socket.current.send(JSON.stringify(joinMessage));
-        const retrieveMessage = {
-            pk: 1,
-            action: "retrieve",
-            request_id: request_id,
-        };
-        socket.current.send(JSON.stringify(retrieveMessage));
-        const subscribeMessage = {
-            pk: 1,
-            action: "subscribe_to_messages_in_room",
-            request_id: request_id,
-        };
-        socket.current.send(JSON.stringify(subscribeMessage));
-        const subscribeInstanceMessage = {
-            pk: 1,
-            action: "subscribe_instance",
-            request_id: request_id,
-        };
-        socket.current.send(JSON.stringify(subscribeInstanceMessage));
-        setConnected(true);
-    };
-  };
 
   useEffect(() => {
     if (connected) {
@@ -78,8 +132,8 @@ const Chat = () => {
           }
         };
 
-        socket.current.onclose = () => {
-          console.log('WebSocket is closed');
+        socket.current.onclose = (e) => {
+          console.log('WebSocket is closed', e);
         };
         socket.current.onerror = () => {
           console.log('WebSocket error');
@@ -102,27 +156,30 @@ const Chat = () => {
     );
   }
   return (
-    <div>
-      <div id="username">{username} connected</div>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <button onClick={sendMessage}>send</button>
-      {messages.map((mess) => {
-        return (
-          <div key={mess.id}>
-            {mess.event === 'connection' ? (
-              <div>{mess.text} connected</div>
-            ) : (
-              <div>
-                <b>{mess.user.username}:</b> {mess.text}{' '}<hr/>
-              </div>
-            )}
-          </div>
-        );
-      })}
+    <div className='chat'>
+      {/* <div className='chat__messages'>
+        {messagesTest.map((mess) => {
+          return (
+            <div key={mess.id} className={`chat__message ${mess.user.username == 'Admin' ? 'left-message' : 'right-message'}`}>
+              <p className='chat__message-icon'>{mess.user.username.charAt(0)}</p>
+              <p>{mess.text}</p>
+            </div>
+          );
+        })}
+      </div> */}
+      {/* <form action="" onSubmit={(e) => {
+        e.preventDefault();
+        sendMessage();
+      }}>
+        <input
+          className='chat__inp'
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <button className='chat__btn'>send</button>
+      </form> */}
+      <DefaultEditor value={html} onChange={(e) => setHtml(e.target.value)}  />
     </div>
   );
 };
