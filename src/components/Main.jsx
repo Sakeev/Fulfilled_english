@@ -67,7 +67,7 @@ const Main = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center',
                         }}
-                        onClick={() => window.open('/class', '_blank')}
+                        onClick={() => navigate('/classwork')}
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >
