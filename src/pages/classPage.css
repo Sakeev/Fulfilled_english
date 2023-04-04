@@ -7,10 +7,10 @@
     position: relative;
     margin-left: 20px;
     max-width: 40%;
-  }
-  
-  .message-bubble:before {
-    content: "";
+}
+
+.message-bubble:before {
+    content: '';
     position: absolute;
     border-style: solid;
     border-width: 10px 10px 10px 0;
@@ -20,11 +20,10 @@
     z-index: 1;
     left: -10px;
     top: 10px;
-  }
-  
-  .message-bubble p {
+}
+
+.message-bubble p {
     margin: 0;
     padding: 0;
     color: #333;
-  }
-  
+}
