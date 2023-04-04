@@ -21,8 +21,7 @@ const TasksResult = () => {
     useEffect(()=>{
         infoCase(id)
         getAnswers();
-        handleTask();
-        console.log(answers);    
+        handleTask(); 
     },[])
     console.log();
     const [color , setColor] = useState('#83C5BE')
@@ -33,7 +32,6 @@ const TasksResult = () => {
     caseInfo.tasks?.map((item)=>{
         results.push(item.answers[item.answers.length-1]?.accepted)
     })
-    console.log(results);
     const isAllTrue = results.every(item => {
         return item === true;
       });
@@ -74,51 +72,105 @@ const TasksResult = () => {
         margin:'5%',
         fontSize:'24px'
     }
-    return (
-        <>
-         <div >
-                    <div>
-                        <h1 style={{margin:'3%'}}>Tasks</h1>
-                    </div>
-                    <div style={{display:"flex" , justifyContent:'space-between' , width:'70%' , margin:'0 auto' , alignItems:'center'}}>
-  <p style={{fontSize:'24px'}}>Present Simple</p>
-  <div className='main' style={{display:'flex' , alignItems:'center' }}>
-   
-    <div className='text' style={{marginRight:'2%'}}>
-      <p className='parag' style={{margin:'3%' , fontWeight:'bolder'}}>{text}</p>
-    </div>
-    <div className='sign' style={{backgroundColor:'#83C5BE' , borderRadius:'50%' , width:'48px' , height:'48px' , textAlign:'center' , display:`${dis}` , justifyContent:'center' , marginLeft:'auto' }}>
-      <p style={{alignSelf:'center'}}>?</p>
-    </div>
-  </div>
-</div>
-                    <div style={{display:'flex' , margin:'0 auto' , width:'80%'}}>
-                    <div style={yourAnswer}>
-                    <p style={{fontSize:'24px' , margin:'5%' , textAlign:'center' , color:`${color}`}}>Your answers</p>
-                    {caseInfo.tasks?.map((item , index)=>(
-                        <div key={item.id}>
-                        {item.answers[item.answers.length-1]?.accepted?
-                        (<p style={{color:`#83C5BE` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
-                        :
-                        (<p style={{color:`#E29578` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
-                    }
-                        
+    const [isTeacher , setTeacher] = useState('');
+    useEffect(()=>{
+        let isTeacher = JSON.parse(localStorage.getItem('isTeacher'));
+        setTeacher(isTeacher);
+    },[])
+
+
+    if(isTeacher){
+        return (
+            <>
+             <div >
+                        <div>
+                            <h1 style={{margin:'3%'}}>Tasks</h1>
                         </div>
-                    ))}    
-                    </div>
-                    <div style={rightAnswers}>
-                    <p style={{fontSize:'24px' , margin:'5%' , textAlign:'center'}}>Right answer</p>
-                    {caseInfo.tasks?.map((item , index)=>(
-                        <div key={item.id}>
-                        <p style={{color:"#83C5BE" , margin:'5%'}}> {index+1}.  {item.right_answer}</p>  
+                        <div style={{display:"flex" , justifyContent:'space-between' , width:'70%' , margin:'0 auto' , alignItems:'center'}}>
+      <p style={{fontSize:'24px'}}>Present Simple</p>
+      <div className='main' style={{display:'flex' , alignItems:'center' }}>
+       
+        <div className='text' style={{marginRight:'2%'}}>
+          <p className='parag' style={{margin:'3%' , fontWeight:'bolder'}}>{text}</p>
+        </div>
+        <div className='sign' style={{backgroundColor:'#83C5BE' , borderRadius:'50%' , width:'48px' , height:'48px' , textAlign:'center' , display:`${dis}` , justifyContent:'center' , marginLeft:'auto' }}>
+          <p style={{alignSelf:'center'}}>?</p>
+        </div>
+      </div>
+    </div>
+                        <div style={{display:'flex' , margin:'0 auto' , width:'80%'}}>
+                        <div style={yourAnswer}>
+                        <p style={{fontSize:'24px' , margin:'5%' , textAlign:'center' , color:`${color}`}}>Your answers</p>
+                        {caseInfo.tasks?.map((item , index)=>(
+                            <div key={item.id}>
+                            {item.answers[item.answers.length-1]?.accepted?
+                            (<p style={{color:`#83C5BE` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
+                            :
+                            (<p style={{color:`#E29578` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
+                        }
+                            
+                            </div>
+                        ))}    
                         </div>
-                    ))}   
+                        <div style={rightAnswers}>
+                        <p style={{fontSize:'24px' , margin:'5%' , textAlign:'center'}}>Right answer</p>
+                        {caseInfo.tasks?.map((item , index)=>(
+                            <div key={item.id}>
+                            <p style={{color:"#83C5BE" , margin:'5%'}}> {index+1}.  {item.right_answer}</p>  
+                            </div>
+                        ))}   
+                        </div>
                     </div>
-                </div>
-                </div>
-           
-        </>
-    );
+                    </div>
+               
+            </>
+        );    
+    }
+    else{
+        return (
+            <>
+             <div style={{width:'200%' , margin:'0 auto'}}>
+                            <h1 style={{margin:'3%'}}>Tasks</h1>
+                 <div style={{display:'flex' , justifyContent:'center'}}>
+                 <div>
+                        </div>
+                        <div style={{display:"flex" , justifyContent:'space-between' , width:'70%' , margin:'0 auto' , alignItems:'center'}}>
+      <p style={{fontSize:'24px'}}>Present Simple</p>
+      <div className='main' style={{display:'flex' , alignItems:'center' }}>
+       
+        <div className='text' style={{marginRight:'2%'}}>
+          <p className='parag' style={{margin:'3%' , fontWeight:'bolder'}}>{text}</p>
+        </div>
+        <div className='sign' style={{backgroundColor:'#83C5BE' , borderRadius:'50%' , width:'48px' , height:'48px' , textAlign:'center' , display:`${dis}` , justifyContent:'center' , marginLeft:'auto' }}>
+          <p style={{alignSelf:'center'}}>?</p>
+        </div>
+      </div>
+    </div>
+                 </div>
+                        <div style={{display:'flex' , marginLeft:'22%' , width:'80%'}}>
+                        <div style={yourAnswer}>
+                        <p style={{fontSize:'24px' , margin:'5%' , textAlign:'center' , color:`${color}`}}>Your answers</p>
+                        {caseInfo.tasks?.map((item , index)=>(
+                            <div key={item.id}>
+                            {item.answers[item.answers.length-1]?.accepted?
+                            (<p style={{color:`#83C5BE` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
+                            :
+                            (<p style={{color:`#E29578` , margin:'5%'}}> {index+1}.  {item.answers[item.answers.length-1]?.answer}</p>)
+                        }
+                            
+                            </div>
+                        ))}    
+                        </div>
+                        false
+                    </div>
+                    </div>
+               
+            </>
+        );
+        
+    }
+    
+
 };
 
 export default TasksResult;

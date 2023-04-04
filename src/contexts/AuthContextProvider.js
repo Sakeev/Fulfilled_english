@@ -66,7 +66,8 @@ const AuthContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             let res = await axios.post(`${AUTH_API}`, formData, config);
-
+            localStorage.setItem('isTeacher' , JSON.stringify(res.data.is_teacher))
+            console.log(res);
             localStorage.setItem('token', JSON.stringify(res.data));
             localStorage.setItem('username', email);
 
@@ -134,6 +135,7 @@ const AuthContextProvider = ({ children }) => {
     function logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('isTeacher')
         setUser('');
     }
 

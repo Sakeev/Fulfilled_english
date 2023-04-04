@@ -10,7 +10,7 @@ export default function PagBar({count}) {
   const handleChange = (event, value) => {
     setPage(value);
   };
-  console.log(page);
+  // console.log(page);
   const navigate = useNavigate();
 
   React.useEffect(()=>{
