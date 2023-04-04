@@ -14,6 +14,8 @@ import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
 import TeacherEssayPage from '../pages/teachers/TeacherEssayPage';
 import ViewEssayPage from '../pages/teachers/ViewEssayPage';
+import Case1 from '../components/tasks/Case1';
+import Progress from '../components/tasks/Progress';
 
 const MainRoutes = () => {
     const { checkAuth, isTeacher } = useAuth();
@@ -33,7 +35,7 @@ const MainRoutes = () => {
             id: 1,
         },
         {
-            link: '/class',
+            link: '/classwork',
             element: <ClassPage />,
             id: 2,
         },
@@ -71,6 +73,16 @@ const MainRoutes = () => {
             link: '/schedule',
             element: <SchedulePage />,
             id: 8,
+        },
+        {
+            link: '/task/case/:id/task/:task_id',
+            element: <Case1 />,
+            id: 9,
+        },
+        {
+            link: '/task/case/:id/task/:task_id/results',
+            element: <TasksResultPage />,
+            id: 10,
         },
     ];
     const PUBLIC_ROUTES = [

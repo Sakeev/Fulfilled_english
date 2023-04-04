@@ -1,11 +1,33 @@
-import React from 'react';
+import { Box, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import Chat from '../components/classwork/Chat';
+import ClassWorkLayout from '../components/classwork/ClassWorkLayout';
+import Sidebar from '../components/Sidebar'
+import "./ClassPage.css"
 
 const ClassPage = () => {
-    return (
-        <div>
-            <button onClick={()=>window.open('/home','_blank')}>click</button>
-        </div>
-    );
-};
+
+  return (
+    <Box sx={{ 
+      display: 'flex',
+      }}>
+      <Sidebar />
+      <Box sx={{ margin: '20px', height: '90vh', width: '30vw' }}>
+        <ClassWorkLayout />
+        <Box sx={{ height: '50%;', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Typography component={"p"}>
+            zoom link here
+          </Typography>
+        </Box>
+        <Box sx={{ height: '50%;', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          {/* <Chat /> */}
+        </Box>
+      </Box>
+      <Box sx={{ margin: '20px', width: '40%', backgroundColor: 'lightcoral' }}>
+        tasks
+      </Box>
+    </Box>
+  );
+}
 
 export default ClassPage;

@@ -85,19 +85,23 @@ export default function Appbar() {
     <Box sx={sidebarContainer}>
       <Box sx={sidebarStyle}>
         <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5, cursor: 'pointer'}} onClick={()=>navigate('/')}>
-          <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '40px', mt: 2}}/>
-          <Typography variant="h6" style={{marginLeft: '20px', color: '#006d77'}}>Fluently English</Typography>
+          <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '20px', mt: 2}}/>
+          <Box>
+            <Typography component={"p"} style={{marginLeft: '20px', color: '#006d77', fontSize: '18px', fontWeight: '500'}}>Fluently</Typography>
+            <Typography component={"p"} style={{marginLeft: '20px', color: '#006d77', fontSize: '18px', fontWeight: '500'}}>English</Typography>
+          </Box>
         </Box>
-        <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', mt: 5}}>
+        <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', mt: 3}}>
           <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Домашнее задание</Button>
-              <Button sx={btnStyle} onClick={()=>navigate('/essay')}>Эссе</Button>
-              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Студенты</Button>
-              <Button sx={btnStyle} onClick={foo}>Выйти из аккаунта</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Homework</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/essay ')}>Essay</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Students</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/schedule')}>Schedule</Button>
+              <Button sx={btnStyle} onClick={foo}>Log out</Button>
             </Box>
-            <Box>
-              <img src={sticker} alt="" style={{width: '20vmin'}} />
+            <Box sx={{alignSelf: 'center'}}>
+              <img src={sticker} alt="" style={{width: '160px'}} />
             </Box>
             <Box>
               <Typography variant='p'>
