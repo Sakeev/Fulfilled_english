@@ -1,25 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { DefaultEditor } from 'react-simple-wysiwyg';
+import React, { useEffect, useState } from 'react';
+import { BtnBold, BtnBulletList, BtnClearFormatting, BtnItalic, BtnLink, BtnNumberedList, BtnRedo, BtnStrikeThrough, BtnStyles, BtnUnderline, BtnUndo, DefaultEditor, Editor, EditorProvider, HtmlButton, Separator, Toolbar } from 'react-simple-wysiwyg';
 import { ReadyState } from 'react-use-websocket';
 import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
+import { isTeacher } from '../../helpers/funcs';
 
 const room_pk = 1;
 const request_id = new Date().getTime();
-
-function isUserEvent(message) {
-  let evt = JSON.parse(message.data);
-  return evt.type === 'userevent';
-}
 
 function isDocumentEvent(message) {
   let evt = JSON.parse(message.data);
   return evt.type === 'contentchange';
 }
 
-
 const ClassWorkLayout = () => {
   const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
-  console.log(request_id);
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(socketUrl , {
     onOpen: () => {
       console.log('WebSocket connection established.');
@@ -50,13 +44,14 @@ const ClassWorkLayout = () => {
     },
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-        // console.log(data);
-        // console.log('RealTime', data.data);
         switch (data.action) {
           case 'retrieve':
             console.log(data.data);
             break;
           case 'create':
+            if(!isTeacher){
+              setHtml(data.data.text)
+            }
             console.log(data.action, data.data);
             break;
           default:
@@ -64,13 +59,22 @@ const ClassWorkLayout = () => {
         }
     },
     share: true,
-    filter: () => false,
+    filter: isDocumentEvent,
     retryOnError: false,
     onClose: (e) => console.log(e),
     shouldReconnect: () => false
   });
 
   const [html, setHtml] = useState(lastJsonMessage?.data.editorContent || '');
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => sendJsonMessage({
+      message: html,
+      action: "create_message",
+      request_id: request_id,
+    }), 500);
+    return () => clearTimeout(timeOut);
+  }, [html])
   
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -81,20 +85,40 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
-    setHtml(e.target.value);
-    sendJsonMessage({
-      message: e.target.value,
-      action: "create_message",
-      request_id: request_id,
-    });
+    setHtml(e.target.value);;
   }
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <span>The WebSocket is currently {connectionStatus}</span>
-      
 
-      <DefaultEditor value={html} onChange={handleHtmlChange} />
+      <EditorProvider>
+        <Editor containerProps={{ style: { height: '40vh', maxHeight: '500px', width: '100%' } }} value={html} onChange={handleHtmlChange} disabled={!isTeacher()}>
+          {
+            isTeacher() ?
+            <Toolbar>
+            <BtnUndo />
+            <BtnRedo />
+            <Separator />
+            <BtnBold />
+            <BtnItalic />
+            <BtnUnderline />
+            <BtnStrikeThrough />
+            <Separator />
+            <BtnNumberedList />
+            <BtnBulletList />
+            <Separator />
+            <BtnLink />
+            <BtnClearFormatting />
+            <HtmlButton />
+            <Separator />
+            <BtnStyles />
+          </Toolbar>
+          :
+          <></>
+          }
+        </Editor>
+      </EditorProvider>
     </div>
   );
 };
