@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BtnBold, BtnBulletList, BtnClearFormatting, BtnItalic, BtnLink, BtnNumberedList, BtnRedo, BtnStrikeThrough, BtnStyles, BtnUnderline, BtnUndo, DefaultEditor, Editor, EditorProvider, HtmlButton, Separator, Toolbar } from 'react-simple-wysiwyg';
 import { ReadyState } from 'react-use-websocket';
 import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
 import { isTeacher } from '../../helpers/funcs';
+import { Button } from '@mui/material';
+import ClassTasks from './ClassTasks';
 
 const room_pk = 1;
 const request_id = new Date().getTime();
@@ -14,6 +16,14 @@ function isDocumentEvent(message) {
 
 const ClassWorkLayout = () => {
   const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
+  const [lesson, setLesson] = useState({})
+  const [html, setHtml] = useState('');
+  const [playing, setPlaying] = useState(false);
+
+  const tasks = useCallback((data) => {
+    setLesson(data);
+  }, [lesson])
+
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(socketUrl , {
     onOpen: () => {
       console.log('WebSocket connection established.');
@@ -47,9 +57,10 @@ const ClassWorkLayout = () => {
         switch (data.action) {
           case 'retrieve':
             console.log(data.data);
+            tasks(data.data.lesson)
             break;
           case 'create':
-            if(!isTeacher){
+            if(!isTeacher()){
               setHtml(data.data.text)
             }
             console.log(data.action, data.data);
@@ -65,7 +76,6 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false
   });
 
-  const [html, setHtml] = useState(lastJsonMessage?.data.editorContent || '');
 
   useEffect(() => {
     const timeOut = setTimeout(() => sendJsonMessage({
@@ -89,36 +99,44 @@ const ClassWorkLayout = () => {
   }
 
   return (
-    <div style={{ width: '100%' }}>
-      <span>The WebSocket is currently {connectionStatus}</span>
+    <div style={{ width: '80%', height: '95vh', margin: '40px 0 0 30px', display: 'flex' }}>
+      <div style={{ width: '40%', height: '100%', minWidth: '300px' }}>
+        <div style={{ height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Button color="warning">Zoom link</Button>
+        </div>
+        <span>The WebSocket is currently {connectionStatus}</span>
 
-      <EditorProvider>
-        <Editor containerProps={{ style: { height: '40vh', maxHeight: '500px', width: '100%' } }} value={html} onChange={handleHtmlChange} disabled={!isTeacher()}>
-          {
-            isTeacher() ?
-            <Toolbar>
-            <BtnUndo />
-            <BtnRedo />
-            <Separator />
-            <BtnBold />
-            <BtnItalic />
-            <BtnUnderline />
-            <BtnStrikeThrough />
-            <Separator />
-            <BtnNumberedList />
-            <BtnBulletList />
-            <Separator />
-            <BtnLink />
-            <BtnClearFormatting />
-            <HtmlButton />
-            <Separator />
-            <BtnStyles />
-          </Toolbar>
-          :
-          <></>
-          }
-        </Editor>
-      </EditorProvider>
+        <EditorProvider>
+          <Editor containerProps={{ style: { height: '40vh', maxHeight: '500px', width: '100%' } }} value={html} onChange={handleHtmlChange} disabled={!isTeacher()}>
+            {
+              isTeacher() ?
+              <Toolbar>
+              <BtnUndo />
+              <BtnRedo />
+              <Separator />
+              <BtnBold />
+              <BtnItalic />
+              <BtnUnderline />
+              <BtnStrikeThrough />
+              <Separator />
+              <BtnNumberedList />
+              <BtnBulletList />
+              <Separator />
+              <BtnLink />
+              <BtnClearFormatting />
+              <HtmlButton />
+              <Separator />
+              <BtnStyles />
+            </Toolbar>
+            :
+            <></>
+            }
+          </Editor>
+        </EditorProvider>
+      </div>
+      <div style={{ margin: '0 30px' }}>
+        <ClassTasks lesson={lesson} playing={playing} />
+      </div>
     </div>
   );
 };
