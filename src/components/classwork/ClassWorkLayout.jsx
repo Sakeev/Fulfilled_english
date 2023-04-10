@@ -76,6 +76,15 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false
   });
 
+  useEffect(() => {
+    console.log(123)
+    sendJsonMessage({
+      playing: playing,
+      action: "audio_play",
+      request_id: request_id,
+    })
+  }, [playing])
+
 
   useEffect(() => {
     const timeOut = setTimeout(() => sendJsonMessage({
@@ -135,7 +144,7 @@ const ClassWorkLayout = () => {
         </EditorProvider>
       </div>
       <div style={{ margin: '0 30px' }}>
-        <ClassTasks lesson={lesson} playing={playing} />
+        <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} />
       </div>
     </div>
   );

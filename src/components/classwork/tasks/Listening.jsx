@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Audio from './Audio';
 
-const Listening = ({ task = [], playing}) => {
+const Listening = ({ task = [], playing, setPlaying}) => {
 
   // const [duration, setDuration] = useState(0);
   // const [appTime, setAppTime] = useState(0);
@@ -15,7 +15,7 @@ const Listening = ({ task = [], playing}) => {
             <p className='listening-text' key={index}>{text}</p>
           ))
         }
-        <Audio audioSource='/sound/metamarphosis.mp3' playing={playing} />
+        <Audio audioSource='/sound/metamarphosis.mp3' playing={playing} setPlaying={setPlaying} />
       </div>
     </>
   );
