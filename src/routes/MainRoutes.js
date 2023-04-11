@@ -24,8 +24,10 @@ const MainRoutes = () => {
     const user = localStorage.getItem('username');
 
     React.useEffect(() => {
-        if (localStorage.getItem('token')) checkAuth();
-        else navigate('/');
+        if (user) {
+            if (localStorage.getItem('token')) checkAuth();
+            else navigate('/');
+        }
     }, []);
 
     const PRIVATE_ROUTES = [

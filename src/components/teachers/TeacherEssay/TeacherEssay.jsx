@@ -5,10 +5,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import correct from '../../../assets/images/correct.png';
 import incorrect from '../../../assets/images/cross.png';
+import EditEssayTitle from './EditEssayTitle';
 
 import './TeacherEssay.css';
-import EditEssayTitle from './EditEssayTitle';
-import { useEffect } from 'react';
 
 const btnStyle = {
     margin: '10px 5px',
@@ -21,6 +20,10 @@ const btnStyle = {
     },
 };
 
+// localhost/room/essa/ POST - Create essay for student
+// localhost/room/get_lesson/ GET - Get lesson for teacher and for student
+// localhost/room/essa/ PATCH - Check student essay for teacher
+
 const TeacherEssay = () => {
     const { students, getStudentEssay, loading } = useEssay();
     const { userId } = useAuth();
@@ -28,11 +31,6 @@ const TeacherEssay = () => {
     const [editTitle, setEditTitle] = useState(false);
     const [editTitleId, setEditTitleId] = useState(null);
     const [essayTitle, setEssayTitle] = useState('');
-    // const [teacherStudents, setTeacherStudents] = useState([]);
-
-    // useEffect(() => {
-    //     setTeacherStudents(students);
-    // }, [students]);
 
     const essayTitleObj = {
         editTitle,

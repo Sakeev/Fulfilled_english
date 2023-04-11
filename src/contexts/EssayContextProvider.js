@@ -15,6 +15,7 @@ const INIT_STATE = {
     essays: [],
     student: {},
     students: [],
+    lesson: {},
 };
 
 const reducer = (state = INIT_STATE, action) => {
@@ -27,6 +28,8 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, student: action.payload };
         case 'GET_STUDENTS':
             return { ...state, students: action.payload };
+        case 'GET_LESSON':
+            return { ...state, lesson: action.payload };
         default:
             return state;
     }
@@ -39,11 +42,30 @@ export const useEssay = () => {
 const EssayContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
     const [loading, setLoading] = useState(false);
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
-        getStudents();
-        getEssays();
+        if (username) {
+            getStudents();
+            getEssays();
+        }
     }, []);
+
+    const getLesson = async () => {
+        try {
+            setLoading(true);
+            const { data } = await api.get(`${API}room/get_lesson/`);
+
+            dispatch({
+                type: 'GET_LESSON',
+                payload: data,
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const getEssay = async (id = undefined) => {
         try {
@@ -162,6 +184,8 @@ const EssayContextProvider = ({ children }) => {
         updateEssay,
         getStudentEssay,
         loading,
+        getLesson,
+        lesson: state.lesson,
     };
 
     return (
