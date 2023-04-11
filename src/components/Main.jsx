@@ -1,9 +1,22 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Modal, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
 import HomePageSchedule from './teachers/HomePageSchedule';
+import CreateRoom from './classwork/CreateRoom';
+
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const avatarImg = {
     width: '70px',
@@ -21,10 +34,17 @@ const calendar = {
     bgcolor: '#edf6f9',
 };
 
+
 const Main = () => {
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    document.addEventListener('keydown', (e) => {
+        if(e.key == 'Escape') {
+            setShowModal(false);
+        }
+    })
 
     const handleMouseOver = (setFunc) => {
         setFunc(true);
@@ -67,7 +87,7 @@ const Main = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center',
                         }}
-                        onClick={() => navigate('/classwork')}
+                        onClick={() => setShowModal(true)}
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >
@@ -93,6 +113,16 @@ const Main = () => {
                             alt=""
                         />
                     </Paper>
+                    <Modal
+                        open={showModal}
+                        onClose={() => setShowModal(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        >
+                        <Box sx={modalStyle}>
+                            <CreateRoom />
+                        </Box>
+                    </Modal>
                 </Box>
                 <Box sx={{ width: '30%' }}>
                     <Paper

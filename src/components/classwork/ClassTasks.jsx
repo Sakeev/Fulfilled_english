@@ -5,7 +5,7 @@ import Listening from './tasks/Listening';
 const ClassTasks = ({lesson, playing, setPlaying}) => {
 
   const renderTask = (task) => {
-    switch (task.title) {
+    switch (task.title.toLowerCase()) {
       case "vocabulary":
         return <Vocabulary task={task.tasks} />
       case "listening":
