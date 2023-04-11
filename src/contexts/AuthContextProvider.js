@@ -1,15 +1,33 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AUTH_API } from '../helpers/consts';
 import axios from 'axios';
+import api from '../http';
 
 export const authContext = createContext();
+
+const INIT_STATE = {
+    userId: 0,
+    isTeacher: false,
+};
+
+const reducer = (state = INIT_STATE, action) => {
+    switch (action.type) {
+        case 'SET_USER_ID':
+            return { ...state, userId: action.payload };
+        case 'SET_IS_TEACHER':
+            return { ...state, isTeacher: action.payload };
+        default:
+            return state;
+    }
+};
 
 export const useAuth = () => {
     return useContext(authContext);
 };
 
 const AuthContextProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, INIT_STATE);
     const [user, setUser] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -28,10 +46,14 @@ const AuthContextProvider = ({ children }) => {
         };
 
         try {
-            const res = await axios.post(`${AUTH_API}`, formData);
-            localStorage.setItem('Token' , JSON.stringify(res.data.access))
-            localStorage.setItem('token', JSON.stringify(res.data));
+            const { data } = await axios.post(`${AUTH_API}`, formData);
+            const { access, refresh, isTeacher } = data;
+
+            dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher });
+
+            localStorage.setItem('token', JSON.stringify({ access, refresh }));
             localStorage.setItem('user', email);
+            localStorage.setItem('isTeacher', JSON.stringify(isTeacher));
             navigate('/');
         } catch (error) {
             setError(error);
@@ -59,22 +81,25 @@ const AuthContextProvider = ({ children }) => {
             headers: { 'Content-Type': 'application/json' },
         };
 
-        let formData = new FormData();
+        const formData = new FormData();
+
         formData.append('email', email);
         formData.append('password', password);
 
         try {
             setIsLoading(true);
-            let res = await axios.post(`${AUTH_API}`, formData, config);
-            localStorage.setItem('isTeacher' , JSON.stringify(res.data.is_teacher))
-            console.log(res);
-            localStorage.setItem('token', JSON.stringify(res.data));
+            let { data } = await api.post(`${AUTH_API}`, formData, config);
+            const { access, refresh, is_teacher } = data;
+
+            localStorage.setItem('token', JSON.stringify({ access, refresh }));
             localStorage.setItem('username', email);
+            localStorage.setItem('isTeacher', JSON.stringify(is_teacher));
+
+            dispatch({ type: 'SET_IS_TEACHER', payload: is_teacher });
 
             setUser(email);
             navigate('/');
         } catch (error) {
-            console.dir(error);
             if (error.response.status === 401) {
                 setErrorObj((prev) => {
                     return {
@@ -90,7 +115,6 @@ const AuthContextProvider = ({ children }) => {
                         },
                     };
                 });
-                console.log(errorObj);
             }
 
             setError(error.response.statusText);
@@ -100,12 +124,12 @@ const AuthContextProvider = ({ children }) => {
     }
 
     async function checkAuth() {
-        let token = JSON.parse(localStorage.getItem('token'));
+        const token = JSON.parse(localStorage.getItem('token'));
 
         try {
             const Authorization = `Bearer ${token.access}`;
 
-            let res = await axios.post(
+            const { data } = await api.post(
                 `${AUTH_API}refresh/`,
                 {
                     refresh: token.refresh,
@@ -115,15 +139,12 @@ const AuthContextProvider = ({ children }) => {
                 }
             );
 
-            localStorage.setItem(
-                'token',
-                JSON.stringify({
-                    refresh: res.data.refresh,
-                    access: res.data.access,
-                })
-            );
+            const { access, refresh } = data;
+            const userName = localStorage.getItem('username');
+            const isTeacher = JSON.parse(localStorage.getItem('isTeacher'));
 
-            let userName = localStorage.getItem('username');
+            localStorage.setItem('token', JSON.stringify({ access, refresh }));
+            dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher });
             setUser(userName);
         } catch (error) {
             localStorage.setItem('username', '');
@@ -135,24 +156,27 @@ const AuthContextProvider = ({ children }) => {
     function logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        localStorage.removeItem('isTeacher')
+        localStorage.removeItem('isTeacher');
+
+        dispatch({ type: 'SET_IS_TEACHER', payload: false });
+
         setUser('');
     }
 
+    const values = {
+        token,
+        login,
+        logout,
+        user,
+        errorObj,
+        checkAuth,
+        isLoading,
+        userId: state.userId,
+        isTeacher: state.isTeacher,
+    };
+
     return (
-        <authContext.Provider
-            value={{
-                token,
-                login,
-                logout,
-                user,
-                errorObj,
-                checkAuth,
-                isLoading,
-            }}
-        >
-            {children}
-        </authContext.Provider>
+        <authContext.Provider value={values}>{children}</authContext.Provider>
     );
 };
 

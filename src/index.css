@@ -4,35 +4,33 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Overpass";
+    font-family: 'Overpass';
 }
 
 .loader-wrapper {
     width: 100%;
-    height: 100%;
-    position: fixed;
+    height: 100vh;
     top: 0;
     left: 0;
-    /* background-color: #0b0b0b; */
     display: grid;
     place-items: center;
-  }
+}
 
-  .loader {
-    border: 12px solid #83C5BE;
-    border-top: 12px solid #E29578;
+.loader {
+    border: 12px solid #83c5be;
+    border-top: 12px solid #e29578;
     border-radius: 50%;
     width: 100px;
     height: 100px;
     animation: spin 1s linear infinite;
-  }
+}
 
-  @keyframes spin {
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}

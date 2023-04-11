@@ -1,0 +1,336 @@
+h2 {
+    color: #006d77;
+}
+
+a {
+    color: inherit;
+}
+
+.essay-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 50px;
+    max-height: 90vh;
+    height: 80vh;
+    border: 1px solid #9bd0cb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.essay-headers {
+    color: #006d77;
+    border-bottom: 1px solid #9bd0cb;
+    height: 5%;
+}
+
+.essay-columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2em 20% 1em 0;
+    color: #006d77;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-bottom: 1px solid #9bd0cb;
+    margin-bottom: 1rem;
+}
+
+.essay-columns p {
+    width: 30%;
+}
+
+.essay-columns p:last-child {
+    width: 10%;
+}
+
+.essay-students-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+}
+
+.essay-student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #9bd0cb;
+    margin-bottom: 1rem;
+    color: #006d77;
+    font-size: 1rem;
+}
+
+.essay-student-info {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.essay-student-info p,
+.essay-student-info div {
+    display: flex;
+    align-items: center;
+    width: 28%;
+    word-wrap: break-word;
+}
+
+/* STYLING MUI START */
+
+.essay-student-info div div {
+    width: 60%;
+}
+
+.essay-student-info div div div {
+    width: 100%;
+}
+
+.essay-student-info .css-v4u5dn-MuiInputBase-root-MuiInput-root.Mui-disabled {
+    color: #006d77 !important;
+}
+
+.essay-student-info
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root.Mui-disabled:before {
+    border: none;
+}
+
+.essay-student-info
+    .css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+    -webkit-text-fill-color: #006d77;
+}
+
+.essay-student-info .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+    font-family: 'Overpass';
+}
+
+/* STYLING MUI END */
+
+.essay-student-info .essay-icon {
+    width: 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.essay-student-info img {
+    width: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* VIEW ESSAY */
+
+.highlight-orange {
+    color: orange;
+}
+
+.highlight-red {
+    color: red;
+}
+
+.highlight-green {
+    color: green;
+}
+
+.highlight-white {
+    color: black;
+}
+
+.view-essay {
+    width: 100%;
+    height: 100%;
+    color: #006d77;
+}
+
+.view-essay-color-fills {
+    position: absolute;
+    opacity: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25em;
+    padding: 0.375em;
+    background-color: white;
+    box-shadow: 0.2rem 0.2rem 0.5rem -0.125rem rgba(0, 0, 0, 0.45);
+    border: 0.0625rem solid #83c5be;
+    border-radius: 0.375rem;
+}
+
+.view-essay-color-fills .view-essay-color-fill {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 0.2rem;
+    background-color: orange;
+}
+
+.view-essay-color-fills img {
+    height: 2rem;
+    width: 2rem;
+    margin: 0;
+}
+
+.view-essay-color-fills .view-essay-color-fill:nth-child(2) {
+    background-color: red;
+}
+
+.view-essay-color-fills .view-essay-color-fill:nth-child(3) {
+    background-color: green;
+}
+
+.view-essay-h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5em;
+}
+
+.view-essay-p {
+    font-size: 1rem;
+    margin-bottom: 0.5em;
+}
+
+.view-essay-p span {
+    font-weight: bold;
+}
+
+.essay-view-textareas {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    height: 50vh;
+    margin: 1em 0 0.5em;
+}
+
+.essay-view-textareas .essay-view-textarea {
+    width: 50%;
+}
+
+.essay-view-textarea p {
+    font-size: 1.5rem;
+}
+
+.essay-view-textarea .text-area {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    width: 100%;
+    height: 85%;
+    border-radius: 16px;
+    border: 2px solid #006d77;
+    color: black;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+    outline: #006d77;
+    text-align: justify;
+}
+
+.essay-view-textarea textarea {
+    height: 85%;
+    text-align: justify;
+}
+
+.essay-view-textarea .text-area span {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    /* border-radius: 0.25rem; */
+}
+
+.view-essay-btns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 49%;
+    margin-top: 2em;
+}
+
+.view-essay-btns button {
+    width: 45%;
+    margin: 0;
+}
+
+.view-essay-btns img {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 45% 0 0;
+}
+
+/* VIEW ESSAY END */
+
+/* ----------------------------------------------------------------------------------------------- */
+
+.teacher-essay-corrections-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+    max-height: 40%;
+}
+
+.student-essay-create-marker.MuiButtonBase-root {
+    min-width: 10em;
+    background-color: #006d77;
+    color: #83c5be;
+    text-transform: uppercase;
+}
+
+.student-essay-create-marker.MuiButtonBase-root:hover {
+    background-color: #83c5be;
+    color: #006d77;
+}
+
+.student-essay-create-marker.Mui-disabled {
+    background-color: #edf6f9;
+    color: #006d77 !important;
+}
+
+/* COLOR PICKER */
+
+.view-essay-create-marker {
+    display: flex;
+    align-items: flex-end;
+    gap: 1em;
+}
+
+.view-essay-color-picker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25em;
+    padding: 0.375em;
+    background-color: white;
+    box-shadow: 0.2rem 0.2rem 0.5rem -0.125rem rgba(0, 0, 0, 0.45);
+    border: 0.0625rem solid #83c5be;
+    border-radius: 0.375rem;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.view-essay-color-picker.show {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.view-essay-color-picker .view-essay-color {
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 0.2rem;
+    border: 0.1rem solid transparent;
+    background-color: orange;
+}
+
+.view-essay-color-picker .view-essay-color:hover {
+    border: 0.1rem solid #006d77;
+}
+
+.view-essay-color-picker .view-essay-color.orange {
+    background-color: orange;
+}
+
+.view-essay-color-picker .view-essay-color.red {
+    background-color: red;
+}
+
+.view-essay-color-picker .view-essay-color.green {
+    background-color: green;
+}

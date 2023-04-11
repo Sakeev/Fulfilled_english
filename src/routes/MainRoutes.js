@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Registration from '../components/auth/Registration';
 import NotFoundPage from '../components/NotFoundPage';
 import AuthPage from '../pages/AuthPage';
@@ -12,18 +12,20 @@ import ProfilePage from '../pages/ProfilePage';
 import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
+import TeacherEssayPage from '../pages/teachers/TeacherEssayPage';
+import ViewEssayPage from '../pages/teachers/ViewEssayPage';
 import Case1 from '../components/tasks/Case1';
 import Progress from '../components/tasks/Progress';
 
 const MainRoutes = () => {
-    const { checkAuth } = useAuth();
+    const { checkAuth, isTeacher } = useAuth();
+    const navigate = useNavigate();
 
     const user = localStorage.getItem('username');
 
     React.useEffect(() => {
-        if (localStorage.getItem('token')) {
-            checkAuth();
-        }
+        if (localStorage.getItem('token')) checkAuth();
+        else navigate('/');
     }, []);
 
     const PRIVATE_ROUTES = [
@@ -54,7 +56,7 @@ const MainRoutes = () => {
         },
         {
             link: '/essay',
-            element: <EssayPage />,
+            element: isTeacher ? <TeacherEssayPage /> : <EssayPage />,
             id: 5,
         },
         {
@@ -79,7 +81,7 @@ const MainRoutes = () => {
         },
         {
             link: '/task/case/:id/task/:task_id/results',
-            element: <TasksResultPage/>,
+            element: <TasksResultPage />,
             id: 10,
         },
     ];
@@ -100,6 +102,14 @@ const MainRoutes = () => {
             id: 3,
         },
     ];
+
+    if (isTeacher) {
+        PRIVATE_ROUTES.push({
+            link: '/essay/view/:essayId',
+            element: <ViewEssayPage />,
+            id: PRIVATE_ROUTES.length + 2,
+        });
+    }
 
     return (
         <>

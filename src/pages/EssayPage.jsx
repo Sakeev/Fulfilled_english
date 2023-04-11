@@ -1,20 +1,23 @@
 import React from 'react';
-import Essay from '../components/tasks/Essay';
+import Essay from '../components/tasks/Essay/Essay';
 import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
-const EsseyPage = () => {
+
+const EssayPage = () => {
     return (
         <div>
-            <Box sx={{
-        height: '100vh',
-        overflowY: 'hidden',
-        display: 'flex',
-      }}>
-            <Sidebar />
-            <Essay/>
+            <Box
+                sx={{
+                    height: '100vh',
+                    overflowY: 'hidden',
+                    display: 'flex',
+                }}
+            >
+                <Sidebar />
+                <Essay />
             </Box>
         </div>
     );
 };
 
-export default EsseyPage;
+export default EssayPage;

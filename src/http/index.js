@@ -1,5 +1,5 @@
-import axios from "axios";
-import { API } from "../helpers/consts";
+import { API } from '../helpers/consts';
+import axios from 'axios';
 
 const api = axios.create({
     withCredentials: true,
@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
+    const token = JSON.parse(localStorage.getItem('token'));
     config.withCredentials = false;
 
     if (!token) return config;
@@ -16,15 +16,5 @@ api.interceptors.request.use((config) => {
 
     return config;
 });
-
-// api.interceptors.response.use(
-//     (config) => {
-//         return config;
-//     },
-//     (error) => {
-//         if (error.response.status === 401) {
-//         }
-//     }
-// );
 
 export default api;
