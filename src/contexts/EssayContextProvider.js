@@ -16,11 +16,14 @@ const INIT_STATE = {
     student: {},
     students: [],
     lesson: {},
+    lessons: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
         case 'GET_ESSAY':
+            return { ...state, essay: action.payload };
+        case 'SET_ESSAY':
             return { ...state, essay: action.payload };
         case 'GET_ESSAYS':
             return { ...state, essays: action.payload };
@@ -30,6 +33,8 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, students: action.payload };
         case 'GET_LESSON':
             return { ...state, lesson: action.payload };
+        case 'GET_LESSONS':
+            return { ...state, lessons: action.payload };
         default:
             return state;
     }
@@ -47,7 +52,7 @@ const EssayContextProvider = ({ children }) => {
     useEffect(() => {
         if (username) {
             getStudents();
-            getEssays();
+            // getEssays();
         }
     }, []);
 
@@ -58,6 +63,22 @@ const EssayContextProvider = ({ children }) => {
 
             dispatch({
                 type: 'GET_LESSON',
+                payload: data,
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getLessons = async () => {
+        try {
+            setLoading(true);
+            const { data } = await api.get(`${API}room/get_lessons/`);
+
+            dispatch({
+                type: 'GET_LESSONS',
                 payload: data,
             });
         } catch (error) {
@@ -96,14 +117,13 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
-    const getEssays = async () => {
+    const setEssay = async (stundetEssay) => {
         try {
             setLoading(true);
-            let { data } = await api.get(`${API}room/essa/`);
 
             dispatch({
-                type: 'GET_ESSAYS',
-                payload: data,
+                type: 'SET_ESSAY',
+                payload: stundetEssay,
             });
         } catch (error) {
             console.log(error);
@@ -112,11 +132,26 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
+    // const getEssays = async () => {
+    //     try {
+    //         setLoading(true);
+    //         let { data } = await api.get(`${API}room/essa/`);
+
+    //         dispatch({
+    //             type: 'GET_ESSAYS',
+    //             payload: data,
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
     const getStudent = async (id) => {
         try {
             setLoading(true);
             let { data } = await api.get(`${API}account/profile/${id}/`);
-            console.log(data);
 
             dispatch({
                 type: 'GET_STUDENT',
@@ -133,7 +168,6 @@ const EssayContextProvider = ({ children }) => {
         try {
             setLoading(true);
             const { data } = await api.get(`${API}account/users/`);
-            console.log(data);
 
             dispatch({
                 type: 'GET_STUDENTS',
@@ -153,7 +187,7 @@ const EssayContextProvider = ({ children }) => {
 
             await api.patch(`${API}room/essa/${essayId}/`, newFields);
 
-            getEssays();
+            // getEssays();
         } catch (error) {
             setLoading(false);
             console.log(error);
@@ -176,7 +210,7 @@ const EssayContextProvider = ({ children }) => {
         essay: state.essay,
         getEssay,
         essays: state.essays,
-        getEssays,
+        // getEssays,
         student: state.student,
         students: state.students,
         getStudent,
@@ -186,6 +220,9 @@ const EssayContextProvider = ({ children }) => {
         loading,
         getLesson,
         lesson: state.lesson,
+        getLessons,
+        lessons: state.lessons,
+        setEssay,
     };
 
     return (

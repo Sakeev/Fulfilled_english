@@ -1,4 +1,5 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 import { API } from '../../../helpers/consts';
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
@@ -17,7 +18,9 @@ const Essay = () => {
     const highlightedEssayText = useRef();
 
     useEffect(() => {
-        getLesson();
+        let isTeacher = localStorage.getItem('isTeacher');
+        isTeacher = isTeacher ? JSON.parse(isTeacher) : isTeacher;
+        if (!isTeacher) getLesson();
     }, []);
 
     useEffect(() => {
