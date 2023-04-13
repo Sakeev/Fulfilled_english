@@ -15,7 +15,7 @@ const INIT_STATE = {
     essays: [],
     student: {},
     students: [],
-    lesson: {},
+    lesson: null,
     lessons: [],
 };
 
@@ -56,10 +56,13 @@ const EssayContextProvider = ({ children }) => {
         }
     }, []);
 
-    const getLesson = async () => {
+    const getLesson = async (id = undefined) => {
         try {
             setLoading(true);
-            const { data } = await api.get(`${API}room/get_lesson/`);
+            const formData = id ? { user_id: id } : {};
+            const { data } = await api.get(`${API}room/get_lesson/`, {
+                params: formData,
+            });
 
             dispatch({
                 type: 'GET_LESSON',
@@ -88,28 +91,15 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
-    const getEssay = async (id = undefined) => {
+    const getEssay = async (id) => {
         try {
             setLoading(true);
-            if (id) {
-                const { data } = await api.get(`${API}room/essa/${id}/`);
+            const { data } = await api.get(`${API}room/essa/${id}/`);
 
-                dispatch({
-                    type: 'GET_ESSAY',
-                    payload: data,
-                });
-            } else {
-                let { data } = await api.get(`${API}room/essa/`);
-
-                if (data.length === 0) {
-                    data = [{ id: -1 }];
-                }
-
-                dispatch({
-                    type: 'GET_ESSAY',
-                    payload: data[0],
-                });
-            }
+            dispatch({
+                type: 'GET_ESSAY',
+                payload: data,
+            });
         } catch (error) {
             console.log(error);
         } finally {

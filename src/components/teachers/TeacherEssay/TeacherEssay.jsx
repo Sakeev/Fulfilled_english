@@ -110,9 +110,7 @@ const TeacherEssay = () => {
                                         setEssay(essay.user_essay[0]);
                                 }}
                             >
-                                <Link
-                                    to={`/essay/view/${essay.user_essay[0]?.id}`}
-                                >
+                                <Link to={`/essay/view/${lesson.user?.id}`}>
                                     {essay.user_essay[0]?.checked
                                         ? 'essay have sent'
                                         : 'view essay'}

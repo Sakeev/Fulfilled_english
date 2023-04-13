@@ -107,7 +107,7 @@ const MainRoutes = () => {
 
     if (isTeacher) {
         PRIVATE_ROUTES.push({
-            link: '/essay/view/:essayId',
+            link: '/essay/view/:studentId',
             element: <ViewEssayPage />,
             id: PRIVATE_ROUTES.length + 2,
         });
