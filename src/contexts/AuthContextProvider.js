@@ -52,7 +52,7 @@ const AuthContextProvider = ({ children }) => {
             dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher });
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }));
-            localStorage.setItem('user', email);
+            localStorage.setItem('username', email);
             localStorage.setItem('isTeacher', JSON.stringify(isTeacher));
             navigate('/');
         } catch (error) {

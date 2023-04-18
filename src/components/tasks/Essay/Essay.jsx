@@ -1,71 +1,63 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
-import { Button, Typography } from '@mui/material';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 import { API } from '../../../helpers/consts';
+import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import api from '../../../http';
 import { useRef } from 'react';
 import React from 'react';
 
-import noEssay from '../../../assets/images/munara.jpeg';
-
 import './Essay.css';
 
 const Essay = () => {
+    const { getLesson, lesson, loading } = useEssay();
+    const [essayTemplate, setEssayTemplate] = useState(null);
     const [essayText, setEssayText] = useState('');
-    const [edit, setEdit] = useState(false);
+    const [essay, setEssay] = useState(null);
     const highlightedEssayText = useRef();
 
-    const { getEssay, essay } = useEssay();
-
     useEffect(() => {
-        getEssay();
+        let isTeacher = localStorage.getItem('isTeacher');
+        isTeacher = isTeacher ? JSON.parse(isTeacher) : isTeacher;
+        if (!isTeacher) getLesson();
     }, []);
 
     useEffect(() => {
-        setEssayText(essay.text);
-        if (highlightedEssayText.current) {
-            highlightedEssayText.current.innerHTML = essay.html_text;
+        if (lesson.essay) {
+            setEssayTemplate(lesson.essay[0]);
         }
-    }, [essay]);
+    }, [lesson]);
+
+    useEffect(() => {
+        if (essayTemplate) {
+            if (essayTemplate.user_essay[0]) {
+                setEssay(essayTemplate.user_essay[0]);
+                setEssayText(essayTemplate.user_essay[0].text);
+                if (highlightedEssayText.current) {
+                    highlightedEssayText.current.innerHTML =
+                        essayTemplate.user_essay[0].html_text;
+                }
+            }
+        }
+    }, [essayTemplate]);
 
     const sendEssay = async () => {
         const data = {
             text: essayText,
             html_text: essayText,
-            accepted: true,
+            essay: essayTemplate.id,
         };
 
-        await api.patch(`${API}room/essa/${essay.id}/`, data);
-        getEssay();
-        setEdit(false);
+        await api.post(`${API}room/essa/`, data);
+        getLesson();
     };
 
-    const onEdit = () => {
-        setEdit((prev) => !prev);
-    };
-
-    if (!essay.id) {
+    if (!essayTemplate || loading) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
-        );
-    } else if (essay.id === -1) {
-        return (
-            <Typography
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    color: '#006D77',
-                    fontWeight: 'bold',
-                    fontSize: '32px',
-                    margin: '10% auto 0',
-                }}
-            >
-                Your teacher have not sent essay yet
-                <img src={noEssay} alt="no essay" />
-            </Typography>
         );
     }
 
@@ -76,19 +68,19 @@ const Essay = () => {
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
                         <span>Subject: </span>
-                        <span className="black">{essay.title}</span>
+                        <span className="black">{essayTemplate?.title}</span>
                     </div>
                     <div className="student-essay-status">
                         <span>Status:</span>
-                        <span>{essay.checked ? '' : ' not'} checked</span>
+                        <span>{essay?.checked ? '' : ' not'} checked</span>
                     </div>
                 </div>
                 <div className="student-essay-textareas">
-                    {essay.checked && (
+                    {essay?.checked && (
                         <div className="student-essay-corrections info-window">
                             <p>Here is the teachers corrections:</p>
                             <ul>
-                                {essay.mistakes.map((mistake, index) => {
+                                {essay?.mistakes.map((mistake, index) => {
                                     return (
                                         <li
                                             key={index}
@@ -108,7 +100,7 @@ const Essay = () => {
                             </ul>
                         </div>
                     )}
-                    {essay.checked ? (
+                    {essay?.checked ? (
                         <div
                             ref={highlightedEssayText}
                             className="unactive student-essay-text info-window"
@@ -116,9 +108,9 @@ const Essay = () => {
                     ) : (
                         <textarea
                             className={`${
-                                essay.accepted && !edit ? 'unactive' : ''
+                                essay ? 'unactive' : ''
                             } student-essay-text info-window`}
-                            readOnly={essay.accepted && !edit}
+                            readOnly={!!essay}
                             onChange={(e) => setEssayText(e.target.value)}
                             value={essayText}
                         />
@@ -126,16 +118,11 @@ const Essay = () => {
                 </div>
                 <div className="student-essay-btns">
                     <Button
-                        disabled={essay.accepted && !edit}
+                        disabled={!!essay}
                         onClick={() => sendEssay(essayText)}
                     >
-                        {edit ? 'save changes' : 'send'}
+                        send
                     </Button>
-                    {essay.accepted && (
-                        <Button disabled={essay.checked} onClick={onEdit}>
-                            edit
-                        </Button>
-                    )}
                 </div>
             </div>
         </div>
