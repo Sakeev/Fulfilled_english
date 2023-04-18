@@ -40,7 +40,7 @@ const ContinueSentence = ({ taskBox }) => {
         fourth: [],
     });
 
-
+console.log(wordsPairs);
     const checkWordsPairs = (id) => {
         for (let key in wordsPairs) {
             wordsPairs[key].forEach((wordObj, wordObjIndex) => {
@@ -58,6 +58,8 @@ const ContinueSentence = ({ taskBox }) => {
             });
         }
     };
+
+    
 
     const addArr = (item, index) => {
         if (wordsPairs.first.length < 2) {
@@ -172,6 +174,7 @@ const ContinueSentence = ({ taskBox }) => {
                     </Box>
                 </Box>
             </Box>
+            <button>send</button>
         </>
     );
 };
