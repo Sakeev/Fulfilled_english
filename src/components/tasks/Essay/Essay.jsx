@@ -24,9 +24,10 @@ const Essay = () => {
     }, []);
 
     useEffect(() => {
-        if (lesson.essay) {
+        if (lesson?.essay) {
             setEssayTemplate(lesson.essay[0]);
         }
+        console.log(lesson);
     }, [lesson]);
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const Essay = () => {
         await api.post(`${API}room/essa/`, data);
         getLesson();
     };
-
+    console.log(!essayTemplate, loading);
     if (!essayTemplate || loading) {
         return (
             <div className="loader-wrapper">
