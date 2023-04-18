@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useTasks } from '../../contexts/TasksContextProvider';
+import { useTasks } from '../../../contexts/TasksContextProvider';
 import {useNavigate} from 'react-router-dom'
-const words = [
-    ['competition', 'the', 'won', 'I', 'have'],
-    ['won', 'three', 'Oscars.', 'has', 'He'],
-];
+// const words = [
+
+//     ['cute' , 'is' , 'she'],
+// ];
 
 const styles = {
     word: {
@@ -52,51 +52,56 @@ const styles = {
     },
 };
 
-const Sentence = ({ taskBox }) => {
+const Sentence = ({ taskBox , handleCaseDetail , id , task_id , caseDetail , descr  , handleAnswer , caseInfo}) => {
     const { dispatch, sent } = useTasks();
-
   const navigate = useNavigate()
+    const [words , setWords] = useState([])
+useEffect(()=>{
+    handleCaseDetail(id , task_id)
+    // setWords([caseDetail?.description.split(" ")])
+},[])
 
-    // console.log(sent[0].slice(1,2));
+useEffect(()=>{
+    setWords([caseDetail?.description.split(" ")])
+},[task_id])
 
-    const checkFields = () => {
-        let res = words.map((item) => []);
-        return res;
-    };
-    const [answer, setAnswer] = useState(checkFields());
+useEffect(() => {
+    if (caseDetail) {
+        setWords([caseDetail?.description.split(" ")])
+    }
+  }, [caseDetail]);
+
+const checkFields = () => {
+    let res = [];
+    for (let i = 0; i < words.length; i++) {
+      res.push([]);
+    }
+    return res;
+  };
+  
+  useEffect(() => {
+    setAnswer(checkFields());
+  }, [words]);
+
+    const [answer, setAnswer] = useState([]);
 
     const handleWord = (ind, index) => {
+    
         let pickedWord = words[index].splice(ind, 1);
         let newAns = [];
         newAns.push(pickedWord[0]);
         let res = [...answer];
         res[index] = res[index].concat([...newAns]);
 
-        console.log(answer);
         setAnswer(res);
+
         dispatch({
             type: 'GET_SENT',
             payload: res,
         });
     };
 
-    // const handleSent = () => {
 
-    // };
-    // console.log(sent[0]);
-    // const handleRemoveSent = (arrInd, index) => {
-    //     console.log(index, '--------------');
-    //     sent[arrInd].splice(index, 1, ' ');
-    //     console.log(sent[arrInd]);
-    //     dispatch({
-    //         type: 'GET_SENT',
-    //         payload: sent[arrInd],
-    //     });
-    // };
-
-    useEffect((sent) => {}, [answer]);
-
-    // console.log(sent);
 
     const handleWordBack = (ind, index) => {
         words[index].splice(ind, 0, answer[index][ind]);
@@ -108,9 +113,12 @@ const Sentence = ({ taskBox }) => {
             payload: newAns,
         });
     };
+    const str = answer[0]?.join(' ')
+console.log(caseInfo.tasks?.[task_id-1].id);
 
-    // console.log(answer);
-
+const obj={
+    answers:str
+}
     return (
         <>
             <Box sx={taskBox}>
@@ -150,6 +158,7 @@ const Sentence = ({ taskBox }) => {
                     ))}
                 </Box>
             </Box>
+            <button onClick={()=>handleAnswer( obj, caseInfo.tasks?.[task_id-1].id)}>send</button>
         </>
     );
 };

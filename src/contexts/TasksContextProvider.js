@@ -108,13 +108,14 @@ const TasksContextProvider = ({ children }) => {
                 obj,
                 getConfig()
             );
+            console.log(res);
         } catch (error) {
             console.log(error);
         }
     };
     const handleCase=async()=>{
         const {data} = await axios('http://35.239.173.63/room/get_lesson/' , getConfig());
-        
+        console.log(data);
         dispatch({
             type:"CASE",
             payload:data
