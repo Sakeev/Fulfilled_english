@@ -20,3 +20,7 @@ export const getWeekDay = () => {
       return "Error";
   }
 }
+
+export const isTeacher = () => {
+  return JSON.parse(localStorage.getItem('isTeacher')) || false;
+}

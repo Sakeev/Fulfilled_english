@@ -55,7 +55,8 @@ const EditEssayTitle = ({ essayTitleObj, student, index }) => {
             <IconButton
                 disabled={
                     getStudentEssay(student.id).checked ||
-                    (loading && index === editTitleId)
+                    (loading && index === editTitleId) ||
+                    !getStudentEssay(student.id).id
                 }
                 onClick={() => onClickEditIcon(student.id, index)}
                 color={editTitle && index === editTitleId ? 'primary' : ''}

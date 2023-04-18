@@ -3,12 +3,14 @@ import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../../contexts/TasksContextProvider';
-import ContinueSentence from './ContinueSentence';
+import ContinueSentence from './tasksType/ContinueSentence';
 import PagBar from './PagBar';
 import Progress from './Progress';
 import WordFind from './WordFind';
 import SideBar from '../Sidebar'
 import { margin, width } from '@mui/system';
+import Inputs from '../tasks/tasksType/Inputs'
+import Sentence from './tasksType/Sentence';
 
 const Case1 = () => {
     const { id  , task_id} = useParams();
@@ -21,19 +23,27 @@ const Case1 = () => {
     const navigate = useNavigate()
     useEffect(()=>{
         infoCase(id);
-        getProgress(id);
         handleCase()
     },[])
 
-useEffect(()=>{
+    // console.log(caseInfo);
+
+
+const checkCompl=()=>{
+    handleCase();
     if(oneCase?.passed_quantity == oneCase?.quantity_task){
         setDisabled(false)
     }
-},[compl])
+    else{
+        setDisabled(true)
+    }
+}
 
     useEffect(()=>{
         handleCaseDetail(id , task_id)
-    },[task_id])
+    },[id , task_id])
+
+    
     useEffect(()=>{
         singleCase(id); 
         setCount(oneCase?.quantity_task)
@@ -41,10 +51,10 @@ useEffect(()=>{
 
     const [answer,setAnswer] = useState("")
 
-// console.log(disabled);
 const answerObj={
     answers:answer
 }
+
 
 
 const boxStyle = {
@@ -68,14 +78,76 @@ const taskBoxStyle={
         const newCompl = [...compl, newElement];
         setCompl(newCompl);
     }
+
+useEffect(() => {
+    singleCase(id)
+    if (oneCase?.passed_quantity === oneCase?.quantity_task) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [oneCase?.passed_quantity]);
+
+// console.log(caseInfo);
+
+let component = null;
+
+switch (caseDetail?.implemented_case) {
+  case 'missing word':
+    component = (
+      <Inputs
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    break;
+  case 'build ':
+    component = (
+      <Sentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
     
-    useEffect(()=>{
-        // compl.length >= oneCase?.quantity_task ?
-        // setDisabled(false)
-        // :
-        // setDisabled(true)
-    },[compl])
-    // console.log(compl);
+    break;
+    case 'build sentence':
+    component = (
+      <ContinueSentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+  default:
+    component = null;
+    break;
+}
+
+return (
+  <>
+    {component}
+    <PagBar count={count} sx={{ alignSelf: 'center' }} />
+  </>
+);
+
+
+
     return (
         <div style={{width:'100%' , height:'100%' , overflow:'hidden' }}>
             <SideBar />
@@ -89,10 +161,12 @@ const taskBoxStyle={
                     </Box>
                     <Box sx={{display:"flex" , width:'70vw'  , justifyContent:'center' , alignItems:'center'}}>
                         <TextField placeholder='write your answer here' sx={{width:'30%' , alignSelf:'center', margin:'2%'}} value={answer} onChange={(e)=>setAnswer(e.target.value)}></TextField> 
-                        <Button onClick={()=>{
-                            handleAnswer(answerObj , caseInfo.tasks?.[task_id-1].id);
-                            setAnswer('');
+                        <Button onClick={async()=>{
+                            await handleAnswer(answerObj , caseInfo.tasks?.[task_id-1].id);
                             checkRes('*');
+                            checkCompl();
+                            singleCase(id)
+                            setAnswer('');
                             }} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }} >Отправить</Button>
                     </Box>
                     <PagBar count = {count} sx={{alignSelf:'center'}}/>

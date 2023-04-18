@@ -1,0 +1,77 @@
+.sl-container {
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 3em;
+    max-height: 90vh;
+    height: 80vh;
+    border: 0.0625rem solid #9bd0cb;
+    border-radius: 0.625rem;
+    padding: 1.25em;
+}
+
+.sl-headers {
+    color: #006d77;
+    width: 100%;
+    border-bottom: 0.0625rem solid #9bd0cb;
+    height: 5%;
+    display: flex;
+}
+
+.sl-student-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0.625em 0;
+    border-bottom: 0.0625rem solid #9bd0cb;
+    padding-block: 0.75em;
+}
+
+.sl-student-row .sl-element-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+}
+
+.sl-element-wrapper p {
+    align-self: flex-start;
+}
+
+.sl-element-wrapper button.MuiButtonBase-root {
+    align-self: flex-end;
+    min-width: 10em;
+    background-color: #006d77;
+    color: #83c5be;
+    text-transform: uppercase;
+}
+
+.sl-element-wrapper button.MuiButtonBase-root:hover {
+    background-color: #83c5be;
+    color: #006d77;
+}
+
+.sl-element-wrapper button.Mui-disabled {
+    background-color: #edf6f9;
+    color: #006d77 !important;
+}
+
+.sl-progress-bar {
+    position: relative;
+    background-color: #9bd0cb;
+    width: 70%;
+    height: 1.25em;
+    border-radius: 0.625rem;
+    overflow: hidden;
+}
+
+.sl-progress-bar span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    color: white;
+    font-size: 1rem;
+}
