@@ -1,25 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { DefaultEditor } from 'react-simple-wysiwyg';
+import { BtnBold, BtnBulletList, BtnClearFormatting, BtnItalic, BtnLink, BtnNumberedList, BtnRedo, BtnStrikeThrough, BtnStyles, BtnUnderline, BtnUndo, DefaultEditor, Editor, EditorProvider, HtmlButton, Separator, Toolbar } from 'react-simple-wysiwyg';
 import { ReadyState } from 'react-use-websocket';
 import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
+import { isTeacher } from '../../helpers/funcs';
+import { Button } from '@mui/material';
+import ClassTasks from './ClassTasks';
 
 const room_pk = 1;
 const request_id = new Date().getTime();
-
-function isUserEvent(message) {
-  let evt = JSON.parse(message.data);
-  return evt.type === 'userevent';
-}
 
 function isDocumentEvent(message) {
   let evt = JSON.parse(message.data);
   return evt.type === 'contentchange';
 }
 
-
 const ClassWorkLayout = () => {
   const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
-  console.log(request_id);
+  const [lesson, setLesson] = useState({})
+  const [html, setHtml] = useState('');
+  const [playing, setPlaying] = useState(false);
+
+  const tasks = useCallback((data) => {
+    setLesson(data);
+  }, [lesson])
+
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(socketUrl , {
     onOpen: () => {
       console.log('WebSocket connection established.');
@@ -50,13 +54,15 @@ const ClassWorkLayout = () => {
     },
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-        // console.log(data);
-        // console.log('RealTime', data.data);
         switch (data.action) {
           case 'retrieve':
             console.log(data.data);
+            tasks(data.data.lesson)
             break;
           case 'create':
+            if(!isTeacher()){
+              setHtml(data.data.text)
+            }
             console.log(data.action, data.data);
             break;
           default:
@@ -64,13 +70,30 @@ const ClassWorkLayout = () => {
         }
     },
     share: true,
-    filter: () => false,
+    filter: isDocumentEvent,
     retryOnError: false,
     onClose: (e) => console.log(e),
     shouldReconnect: () => false
   });
 
-  const [html, setHtml] = useState(lastJsonMessage?.data.editorContent || '');
+  useEffect(() => {
+    console.log(123)
+    sendJsonMessage({
+      playing: playing,
+      action: "audio_play",
+      request_id: request_id,
+    })
+  }, [playing])
+
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => sendJsonMessage({
+      message: html,
+      action: "create_message",
+      request_id: request_id,
+    }), 500);
+    return () => clearTimeout(timeOut);
+  }, [html])
   
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -81,20 +104,48 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
-    setHtml(e.target.value);
-    sendJsonMessage({
-      message: e.target.value,
-      action: "create_message",
-      request_id: request_id,
-    });
+    setHtml(e.target.value);;
   }
 
   return (
-    <div>
-      <span>The WebSocket is currently {connectionStatus}</span>
-      
+    <div style={{ width: '80%', height: '95vh', margin: '40px 0 0 30px', display: 'flex' }}>
+      <div style={{ width: '40%', height: '100%', minWidth: '300px' }}>
+        <div style={{ height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Button color="warning">Zoom link</Button>
+        </div>
+        <span>The WebSocket is currently {connectionStatus}</span>
 
-      <DefaultEditor value={html} onChange={handleHtmlChange} />
+        <EditorProvider>
+          <Editor containerProps={{ style: { height: '40vh', maxHeight: '500px', width: '100%' } }} value={html} onChange={handleHtmlChange} disabled={!isTeacher()}>
+            {
+              isTeacher() ?
+              <Toolbar>
+              <BtnUndo />
+              <BtnRedo />
+              <Separator />
+              <BtnBold />
+              <BtnItalic />
+              <BtnUnderline />
+              <BtnStrikeThrough />
+              <Separator />
+              <BtnNumberedList />
+              <BtnBulletList />
+              <Separator />
+              <BtnLink />
+              <BtnClearFormatting />
+              <HtmlButton />
+              <Separator />
+              <BtnStyles />
+            </Toolbar>
+            :
+            <></>
+            }
+          </Editor>
+        </EditorProvider>
+      </div>
+      <div style={{ margin: '0 30px' }}>
+        <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} />
+      </div>
     </div>
   );
 };

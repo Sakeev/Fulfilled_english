@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTasks } from '../../contexts/TasksContextProvider';
-import ContinueSentence from './ContinueSentence';
+import ContinueSentence from './tasksType/ContinueSentence';
 import FillInps from './FillInps';
-import Sentence from './Sentence';
+import Sentence from './tasksType/Sentence';
 import WordFind from './WordFind';
 
 const mainBox = {

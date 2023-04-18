@@ -1,6 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import Chat from '../components/classwork/Chat';
 import ClassWorkLayout from '../components/classwork/ClassWorkLayout';
 import Sidebar from '../components/Sidebar';
 import './ClassPage.css';
