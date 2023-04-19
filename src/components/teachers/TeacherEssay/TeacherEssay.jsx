@@ -30,6 +30,8 @@ const TeacherEssay = () => {
         getLessons();
     }, []);
 
+    console.log(lessons);
+
     if (loading) {
         return (
             <div className="loader-wrapper">
@@ -49,7 +51,6 @@ const TeacherEssay = () => {
                 <p>Deadline:</p>
                 <p>Status:</p>
             </div>
-            {/* {!students.length && <h2>You haven't students yet</h2>} */}
             <ul className="essay-students-list">
                 {lessons.map((lesson) => {
                     console.log(lesson);
