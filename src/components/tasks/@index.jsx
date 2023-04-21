@@ -113,14 +113,16 @@ const Tasks = () => {
   const [doneTasks , setDoneTasks] = useState(0);
 
   const [countStyle , setCountStyle] = useState('');
-// console.log(cases);
+console.log(cases);
+
+
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={mainBox}>
         <h1 style={{color:'#006D77'}}>Cases</h1>
         <Box  style={casesMainBox}>
-        {cases.case_tasks?.map((e , key )=>(
+        {cases[0]?.case_tasks?.map((e , key )=>(
           <Box key={e.id} sx={{display:'flex' , alignItems:'center'}}>
           <div  style={casesBox} onClick={()=>navigate(`/task/case/${e.id}/task/1`)}>{e.title} </div>
           {

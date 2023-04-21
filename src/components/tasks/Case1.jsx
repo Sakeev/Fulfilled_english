@@ -11,6 +11,7 @@ import SideBar from '../Sidebar'
 import { margin, width } from '@mui/system';
 import Inputs from '../tasks/tasksType/Inputs'
 import Sentence from './tasksType/Sentence';
+import BuildDialog from './tasksType/BuildDialog';
 
 const Case1 = () => {
     const { id  , task_id} = useParams();
@@ -94,8 +95,9 @@ let component = null;
 
 switch (caseDetail?.implemented_case) {
   case 'missing word':
-    component = (
+    component = (      
       <Inputs
+        
         descr={caseDetail?.description}
         id={id}
         task_id={task_id}
@@ -104,9 +106,10 @@ switch (caseDetail?.implemented_case) {
         caseDetail={caseDetail}
         handleCaseDetail={handleCaseDetail}
       />
+      
     );
     break;
-  case 'build ':
+  case 'build sentence':
     component = (
       <Sentence
         descr={caseDetail?.description}
@@ -120,7 +123,21 @@ switch (caseDetail?.implemented_case) {
     );
     
     break;
-    case 'build sentence':
+    case 'build dialog':
+    component = (
+      <BuildDialog
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+    case 'connect words':
     component = (
       <ContinueSentence
         descr={caseDetail?.description}
@@ -140,43 +157,14 @@ switch (caseDetail?.implemented_case) {
 }
 
 return (
-  <>
+  <div style={{display:'flex'}}>
+    <SideBar/>
+    <div style={{display:'flex' , flexDirection:'column' , alignItems:'center' , marginLeft:'25%' , marginTop:"20%" }}>
     {component}
     <PagBar count={count} sx={{ alignSelf: 'center' }} />
-  </>
+    </div>
+  </div>
 );
-
-
-
-    return (
-        <div style={{width:'100%' , height:'100%' , overflow:'hidden' }}>
-            <SideBar />
-            <Box style={boxStyle}>  
-                <Box style={taskBoxStyle}>
-                    <h1 style={{margin:'5%' , color:'#006D77'}}>{caseDetail?.title}</h1>
-                    <p style={{margin:'5%' , color:'#006D77' ,  height:'20vw',}}>{caseDetail?.description}</p>
-                    <div style={{margin:'5%'}}>
-                    </div>
-                    <LinearProgress variant="determinate" sx={{backgroundColor:'#83C5BE'}} value={task_id *10} />
-                    </Box>
-                    <Box sx={{display:"flex" , width:'70vw'  , justifyContent:'center' , alignItems:'center'}}>
-                        <TextField placeholder='write your answer here' sx={{width:'30%' , alignSelf:'center', margin:'2%'}} value={answer} onChange={(e)=>setAnswer(e.target.value)}></TextField> 
-                        <Button onClick={async()=>{
-                            await handleAnswer(answerObj , caseInfo.tasks?.[task_id-1].id);
-                            checkRes('*');
-                            checkCompl();
-                            singleCase(id)
-                            setAnswer('');
-                            }} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }} >Отправить</Button>
-                    </Box>
-                    <PagBar count = {count} sx={{alignSelf:'center'}}/>
-                    <Button disabled={disabled} onClick={()=>{
-                        navigate('results')
-                        setCompl([])
-                        }} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" , margin:'1%' }}>check res</Button>
-            </Box>
-        </div>
-    );
 };
 
 export default Case1;
