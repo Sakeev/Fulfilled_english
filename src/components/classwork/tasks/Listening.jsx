@@ -5,7 +5,6 @@ const Listening = ({ task = [], playing, setPlaying}) => {
 
   // const [duration, setDuration] = useState(0);
   // const [appTime, setAppTime] = useState(0);
-
   return (
     <>
       <h2>Listening</h2>

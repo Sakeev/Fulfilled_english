@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Vocabulary from './tasks/Vocabulary';
 import Listening from './tasks/Listening';
+import Table from './tasks/Table';
 
 const ClassTasks = ({lesson, playing, setPlaying}) => {
 
@@ -10,7 +11,8 @@ const ClassTasks = ({lesson, playing, setPlaying}) => {
         return <Vocabulary task={task.tasks} />
       case "listening":
         return <Listening task={task.tasks} playing={playing} setPlaying={setPlaying} />
-  
+      case "table_exercise":
+        return <Table task={task.tasks} />
       default:
         return <></>;
     }

@@ -5,16 +5,17 @@ import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
 import { isTeacher } from '../../helpers/funcs';
 import { Button } from '@mui/material';
 import ClassTasks from './ClassTasks';
+import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 
-const room_pk = 10;
 const request_id = new Date().getTime();
 
 function isDocumentEvent(message) {
   let evt = JSON.parse(message.data);
   return evt.type === 'contentchange';
 }
-
+// const room_pk = 1;
 const ClassWorkLayout = () => {
+  const { room_pk } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
   const [lesson, setLesson] = useState({})
   const [html, setHtml] = useState('');
@@ -77,7 +78,6 @@ const ClassWorkLayout = () => {
   });
 
   useEffect(() => {
-    console.log(123)
     sendJsonMessage({
       playing: playing,
       action: "audio_play",

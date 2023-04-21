@@ -5,6 +5,8 @@ import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
 import HomePageSchedule from './teachers/HomePageSchedule';
 import CreateRoom from './classwork/CreateRoom';
+import { isTeacher } from '../helpers/funcs';
+import { useClassWork } from '../contexts/ClassWorkContextProvider';
 
 
 const modalStyle = {
@@ -36,6 +38,7 @@ const calendar = {
 
 
 const Main = () => {
+    const { getRoom } = useClassWork();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
     const navigate = useNavigate();
@@ -54,6 +57,10 @@ const Main = () => {
         setFunc(false);
     };
 
+    const handleClassWork = () => {
+        getRoom()
+    }
+ 
     return (
         <Box
             sx={{
@@ -87,7 +94,12 @@ const Main = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center',
                         }}
-                        onClick={() => setShowModal(true)}
+                        onClick={() => {
+                            if(isTeacher()){
+                                setShowModal(true)  
+                            } else {
+                                handleClassWork();
+                            }}}
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >

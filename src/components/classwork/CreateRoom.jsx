@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 import { useSchedule } from '../../contexts/ScheduleContextProvider';
+import { useUsers } from '../../contexts/UsersContextProvider';
 
 const CreateRoom = () => {
   const [roomInfo, setRoomInfo] = useState({
@@ -9,7 +10,8 @@ const CreateRoom = () => {
     lesson_id: 0,
   });
   const { getSchedule, schedule } = useSchedule();
-  const { getLessons, lesson, createRoom } = useClassWork();
+  const { getLesson, lesson, createRoom } = useClassWork();
+  const { getStudents, studentsList } = useUsers();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,26 +20,30 @@ const CreateRoom = () => {
 
   useEffect(() => {
     getSchedule();
-    getLessons();
+    getStudents();
   }, [])
 
+  console.log(lesson)
+
   useEffect(() => {
-    setRoomInfo({...roomInfo, lesson_id: lesson.id})
+    setRoomInfo({...roomInfo, lesson_id: lesson[0]?.id})
   }, [lesson])
+
+  console.log(roomInfo)
 
   return (
     <Box>
       <Typography component={'h3'}>Lesson</Typography>
       <form action="" onSubmit={(e) => handleSubmit(e)}>
         <input type="text" placeholder='name' onChange={(e) => setRoomInfo({...roomInfo, name: e.target.value})} />
-        {/* <select onChange={(e) => setRoomInfo({...roomInfo, lesson_id: +e.target.value})}>
+        <select onChange={(e) => getLesson(e.target.value)}>
           <option value={0}></option>
           {
-            lessons?.map((lesson, key) => (
-              <option key={key} value={lesson.id}>{lesson.title}</option>
+            studentsList?.map((student, key) => (
+              <option key={key} value={student.id}>{student.email}</option>
             ))
           }
-        </select> */}
+        </select>
         <button type='submit'>create</button>
       </form>
     </Box>
