@@ -41,6 +41,7 @@ const caseDetail = {
 //     { dropNumber: '__drop1__', options: ['go', 'say', 'walk'] },
 //     { dropNumber: '__drop1__', options: ['go', 'say', 'walk'] },
 // ];
+import BuildDialog from './tasksType/BuildDialog';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
@@ -184,12 +185,100 @@ const Case1 = () => {
             break;
     }
 
+<<<<<<< HEAD
     return (
         <>
             {component}
             <PagBar count={count} sx={{ alignSelf: 'center' }} />
         </>
     );
+=======
+useEffect(() => {
+    singleCase(id)
+    if (oneCase?.passed_quantity === oneCase?.quantity_task) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [oneCase?.passed_quantity]);
+
+// console.log(caseInfo);
+
+let component = null;
+
+switch (caseDetail?.implemented_case) {
+  case 'missing word':
+    component = (      
+      <Inputs
+        
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+      
+    );
+    break;
+  case 'build sentence':
+    component = (
+      <Sentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+    case 'build dialog':
+    component = (
+      <BuildDialog
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+    case 'connect words':
+    component = (
+      <ContinueSentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+  default:
+    component = null;
+    break;
+}
+
+return (
+  <div style={{display:'flex'}}>
+    <SideBar/>
+    <div style={{display:'flex' , flexDirection:'column' , alignItems:'center' , marginLeft:'25%' , marginTop:"20%" }}>
+    {component}
+    <PagBar count={count} sx={{ alignSelf: 'center' }} />
+    </div>
+  </div>
+);
+>>>>>>> 3294e48d3d6713915af23152e3b1544e4c4bce44
 };
 
 export default Case1;
