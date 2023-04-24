@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+import './tasksType.css';
 
 const styles = {
     main: {
@@ -32,8 +34,15 @@ const styles = {
 const data = ['lorem some', 'words', 'have to', 'get'];
 const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
-
-const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , caseDetail , handleCaseDetail}) => {
+const ContinueSentence = ({
+    taskBox,
+    handleAnswer,
+    caseInfo,
+    task_id,
+    id,
+    caseDetail,
+    handleCaseDetail,
+}) => {
     const [wordsPairs, setWordsPairs] = useState({
         first: [],
         second: [],
@@ -41,30 +50,28 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
         fourth: [],
     });
 
-    const [firstDesc , setFirstDesc] = useState(null);
-    const [secondDesc , setSecondDesc] = useState(null);
+    const [firstDesc, setFirstDesc] = useState(null);
+    const [secondDesc, setSecondDesc] = useState(null);
 
+    useEffect(() => {
+        handleCaseDetail(id, task_id);
+        setFirstDesc(caseDetail?.description1);
+        setSecondDesc(caseDetail?.description2);
+    }, []);
 
-    useEffect(()=>{
-        handleCaseDetail(id , task_id)
-        setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
+    useEffect(() => {
+        setFirstDesc(caseDetail?.description1);
+        setSecondDesc(caseDetail?.description2);
+    }, [task_id]);
 
-    },[])
-    
-    useEffect(()=>{
-        setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
-    },[task_id])
-    
     useEffect(() => {
         if (caseDetail) {
-            setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
+            setFirstDesc(caseDetail?.description1);
+            setSecondDesc(caseDetail?.description2);
         }
-      }, [caseDetail]);
+    }, [caseDetail]);
 
-      console.log(firstDesc , secondDesc);
+    // console.log(firstDesc, secondDesc);
     const checkWordsPairs = (id) => {
         for (let key in wordsPairs) {
             wordsPairs[key].forEach((wordObj, wordObjIndex) => {
@@ -82,8 +89,6 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
             });
         }
     };
-
-    
 
     const addArr = (item, index) => {
         if (wordsPairs.first.length < 2) {
@@ -164,15 +169,13 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
             checkWordsPairs(index);
         }
     };
-    const obj={
-        answers:wordsPairs
-    }
+    const obj = {
+        answers: wordsPairs,
+    };
 
     return (
-        <>
-            <Box sx={taskBox}>
-                <Typography variant="h6" color="secondary">
-                </Typography>
+        <div className="continue-sentence-container task-types-container">
+            <div className="continue-sentence">
                 <Box sx={styles.main}>
                     <Box sx={styles.wordsContainer}>
                         {firstDesc?.map((item, index) => (
@@ -199,9 +202,15 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
                         ))}
                     </Box>
                 </Box>
-            </Box>
-            <button onClick={()=>handleAnswer(obj , caseInfo.tasks?.[task_id-1].id)}>send</button>
-        </>
+            </div>
+            <Button
+                onClick={() =>
+                    handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                }
+            >
+                send
+            </Button>
+        </div>
     );
 };
 

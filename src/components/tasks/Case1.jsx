@@ -11,37 +11,10 @@ import SideBar from '../Sidebar';
 import { margin, width } from '@mui/system';
 import Inputs from '../tasks/tasksType/Inputs';
 import Sentence from './tasksType/Sentence';
+import BuildDialog from './tasksType/BuildDialog';
 import Dropdown from './tasksType/Dropdown';
 
-const caseDetail = {
-    answers: [],
-    audio: '',
-    case_work: 1,
-    correct_answers: 0,
-    description:
-        'The __drop__ King is a cruise ship. It sailing __drop__ the Caribbean. There are a __drop__ of tourists on the ship.',
-    flag: 0,
-    id: 1,
-    image: null,
-    implemented_case: 'select from dropdown',
-    is_playing: false,
-    lessons: 1,
-    passed: 0,
-    right_answer:
-        'The Sun King is a cruise ship. It sailing around the Caribbean. There are a lot of tourists on the ship.',
-    title: 'lesson-1 1',
-    dropdowns: [
-        ['Moon', 'Star', 'Sun'],
-        ['around', 'between', 'near'],
-        ['some', 'lot', 'many'],
-    ],
-};
-
-// const test = [
-//     { dropNumber: '__drop1__', options: ['go', 'say', 'walk'] },
-//     { dropNumber: '__drop1__', options: ['go', 'say', 'walk'] },
-// ];
-import BuildDialog from './tasksType/BuildDialog';
+import './Case1.css';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
@@ -56,7 +29,7 @@ const Case1 = () => {
         editProgress,
         taskProgress,
         countTasksProgress,
-        // caseDetail,
+        caseDetail,
         singleCase,
         oneCase,
         handleAnswer,
@@ -98,22 +71,6 @@ const Case1 = () => {
         answers: answer,
     };
 
-    const boxStyle = {
-        display: 'flex',
-        marginLeft: '10%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
-    };
-    const taskBoxStyle = {
-        width: '50vw',
-        height: '35vw',
-        border: '2px solid #006D77',
-        borderRadius: '22px',
-        margin: '3%',
-    };
     const checkRes = (newElement) => {
         const newCompl = [...compl, newElement];
         setCompl(newCompl);
@@ -132,8 +89,6 @@ const Case1 = () => {
 
     let component = null;
 
-    // console.log(caseDetail);
-
     switch (caseDetail?.implemented_case) {
         case 'missing word':
             component = (
@@ -148,7 +103,7 @@ const Case1 = () => {
                 />
             );
             break;
-        case 'build ':
+        case 'build sentence':
             component = (
                 <Sentence
                     descr={caseDetail?.description}
@@ -162,7 +117,21 @@ const Case1 = () => {
             );
 
             break;
-        case 'build sentence':
+        case 'build dialog':
+            component = (
+                <BuildDialog
+                    descr={caseDetail?.description}
+                    id={id}
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                    handleCaseDetail={handleCaseDetail}
+                />
+            );
+
+            break;
+        case 'connect words':
             component = (
                 <ContinueSentence
                     descr={caseDetail?.description}
@@ -176,109 +145,33 @@ const Case1 = () => {
             );
 
             break;
-        case 'select from dropdown': // ! temporary
-            component = <Dropdown caseDetail={caseDetail} />;
-
+        case 'drop down': // ! temporary
+            component = (
+                <Dropdown
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                />
+            );
             break;
+
         default:
             component = null;
             break;
     }
 
-<<<<<<< HEAD
     return (
-        <>
-            {component}
-            <PagBar count={count} sx={{ alignSelf: 'center' }} />
-        </>
+        <div className="case1-hw-page">
+            <SideBar />
+            <div className="case1-task-container">
+                <div className="case1-task">
+                    {component}
+                    <PagBar count={count} sx={{ alignSelf: 'center' }} />
+                </div>
+            </div>
+        </div>
     );
-=======
-useEffect(() => {
-    singleCase(id)
-    if (oneCase?.passed_quantity === oneCase?.quantity_task) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [oneCase?.passed_quantity]);
-
-// console.log(caseInfo);
-
-let component = null;
-
-switch (caseDetail?.implemented_case) {
-  case 'missing word':
-    component = (      
-      <Inputs
-        
-        descr={caseDetail?.description}
-        id={id}
-        task_id={task_id}
-        handleAnswer={handleAnswer}
-        caseInfo={caseInfo}
-        caseDetail={caseDetail}
-        handleCaseDetail={handleCaseDetail}
-      />
-      
-    );
-    break;
-  case 'build sentence':
-    component = (
-      <Sentence
-        descr={caseDetail?.description}
-        id={id}
-        task_id={task_id}
-        handleAnswer={handleAnswer}
-        caseInfo={caseInfo}
-        caseDetail={caseDetail}
-        handleCaseDetail={handleCaseDetail}
-      />
-    );
-    
-    break;
-    case 'build dialog':
-    component = (
-      <BuildDialog
-        descr={caseDetail?.description}
-        id={id}
-        task_id={task_id}
-        handleAnswer={handleAnswer}
-        caseInfo={caseInfo}
-        caseDetail={caseDetail}
-        handleCaseDetail={handleCaseDetail}
-      />
-    );
-    
-    break;
-    case 'connect words':
-    component = (
-      <ContinueSentence
-        descr={caseDetail?.description}
-        id={id}
-        task_id={task_id}
-        handleAnswer={handleAnswer}
-        caseInfo={caseInfo}
-        caseDetail={caseDetail}
-        handleCaseDetail={handleCaseDetail}
-      />
-    );
-    
-    break;
-  default:
-    component = null;
-    break;
-}
-
-return (
-  <div style={{display:'flex'}}>
-    <SideBar/>
-    <div style={{display:'flex' , flexDirection:'column' , alignItems:'center' , marginLeft:'25%' , marginTop:"20%" }}>
-    {component}
-    <PagBar count={count} sx={{ alignSelf: 'center' }} />
-    </div>
-  </div>
-);
->>>>>>> 3294e48d3d6713915af23152e3b1544e4c4bce44
 };
 
 export default Case1;
