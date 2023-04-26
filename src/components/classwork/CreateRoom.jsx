@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 import { useSchedule } from '../../contexts/ScheduleContextProvider';
 import { useUsers } from '../../contexts/UsersContextProvider';
@@ -10,7 +10,7 @@ const CreateRoom = () => {
     lesson_id: 0,
   });
   const { getSchedule, schedule } = useSchedule();
-  const { getLesson, lesson, createRoom } = useClassWork();
+  const { getLesson, lesson, createRoom, createRoomError, clearErrors } = useClassWork();
   const { getStudents, studentsList } = useUsers();
 
   const handleSubmit = (e) => {
@@ -21,7 +21,10 @@ const CreateRoom = () => {
   useEffect(() => {
     getSchedule();
     getStudents();
+    clearErrors();
   }, [])
+
+  console.log(createRoomError)
 
   console.log(lesson)
 
@@ -33,10 +36,10 @@ const CreateRoom = () => {
 
   return (
     <Box>
-      <Typography component={'h3'}>Lesson</Typography>
-      <form action="" onSubmit={(e) => handleSubmit(e)}>
-        <input type="text" placeholder='name' onChange={(e) => setRoomInfo({...roomInfo, name: e.target.value})} />
-        <select onChange={(e) => getLesson(e.target.value)}>
+      <Typography component={'h3'} sx={{mb: 2}}>Lesson</Typography>
+      <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '10px' }} action="" onSubmit={(e) => handleSubmit(e)}>
+        <input style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px' }} type="text" placeholder='name' onChange={(e) => setRoomInfo({...roomInfo, name: e.target.value})} />
+        <select style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px' }} onChange={(e) => getLesson(e.target.value)}>
           <option value={0}></option>
           {
             studentsList?.map((student, key) => (
@@ -44,8 +47,16 @@ const CreateRoom = () => {
             ))
           }
         </select>
-        <button type='submit'>create</button>
+        <button style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px', backgroundColor: 'white', cursor: "pointer", color: '#006D77' }} type='submit'>create</button>
       </form>
+      {
+        createRoomError.title ? 
+        <>
+          <p style={{ color: 'red', margin: '10px 0' }}>{createRoomError.title}</p>
+        </>
+        :
+        <></>
+      }
     </Box>
   );
 };

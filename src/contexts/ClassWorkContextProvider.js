@@ -24,6 +24,7 @@ const room_pk = JSON.parse(localStorage.getItem('room_pk')) || 0;
 const init_state = {
   lesson: [],
   room_pk: room_pk,
+  createRoomError: { title: '' },
 }
 
 const reducer = (state = init_state, action) => {
@@ -33,6 +34,8 @@ const reducer = (state = init_state, action) => {
     case 'set_room_pk':
       JSON.stringify(localStorage.setItem('room_pk', action.payload.pk));
       return { ...state, room_pk: action.payload.pk };
+    case 'create_room_error':
+      return { ...state, createRoomError: { title: action.payload } } 
     default:
       return state
   }
@@ -54,6 +57,10 @@ const ClassWorkContextProvider = ({children}) => {
       })
       navigate('/classwork')
     } catch (error) {
+      dispatch({
+        type: 'create_room_error',
+        payload: error?.response?.data?.name[0],
+      })
       console.log(error, 'create_room_err')
     }
   }
@@ -79,10 +86,19 @@ const ClassWorkContextProvider = ({children}) => {
     }
   }
 
+  const clearErrors = () => {
+    dispatch({
+      type: 'create_room_error',
+      payload: '',
+    })
+  }
+
   const values = {
     createRoom,
     getLesson,
     getRoom,
+    clearErrors,
+    createRoomError: state.createRoomError,
     lesson: state.lesson,
     room_pk: state.room_pk
   }
