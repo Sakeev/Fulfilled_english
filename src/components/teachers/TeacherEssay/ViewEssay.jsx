@@ -14,6 +14,7 @@ const ViewEssay = () => {
     const [mistakesArr, setMistakesArr] = useState([]);
     const [selection, setSelection] = useState(null);
     const [edit, setEdit] = useState(false);
+    const [grade, setGrade] = useState(0);
     const colorFillsRef = useRef();
     const essayRef = useRef();
     const params = useParams();
@@ -117,6 +118,8 @@ const ViewEssay = () => {
             </div>
         );
     }
+
+    console.log(grade);
 
     return (
         <div className="student-essay-wrapper">
@@ -249,23 +252,55 @@ const ViewEssay = () => {
                     >
                         send
                     </Button>
-                    <Button
-                        disabled={studentEssay?.checked}
-                        onClick={async () => {
-                            if (edit) {
-                                await updateEssay(studentEssay.id, {
-                                    html_text: essayRef.current.innerHTML,
-                                });
+                    <div className="student-essay-edit-btns">
+                        <div className={`${!edit ? 'unactive' : ''}`}>
+                            <input
+                                disabled={!edit}
+                                type="text"
+                                value={
+                                    studentEssay?.checked
+                                        ? studentEssay?.score
+                                        : grade
+                                }
+                                onChange={(event) => {
+                                    const value = event.target.value;
 
-                                getLesson(params.studentId);
-                            }
-                            setEdit((prev) => {
-                                return !prev;
-                            });
-                        }}
-                    >
-                        {edit ? 'save' : 'edit'}
-                    </Button>
+                                    if (!isNaN(value - parseFloat(value))) {
+                                        if (
+                                            parseFloat(value) <= 10 &&
+                                            parseFloat(value) >= 0
+                                        )
+                                            if (value.length <= 3)
+                                                setGrade(value);
+                                    } else if (value === '') setGrade(value);
+                                }}
+                            />
+                            <span>/10</span>
+                        </div>
+                        <Button
+                            disabled={studentEssay?.checked}
+                            onClick={async () => {
+                                if (edit) {
+                                    await updateEssay(studentEssay.id, {
+                                        html_text: essayRef.current.innerHTML,
+                                        score: grade,
+                                    });
+
+                                    // console.log({
+                                    //     html_text: essayRef.current.innerHTML,
+                                    //     score: grade,
+                                    // });
+
+                                    getLesson(params.studentId);
+                                }
+                                setEdit((prev) => {
+                                    return !prev;
+                                });
+                            }}
+                        >
+                            {edit ? 'save' : 'edit'}
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

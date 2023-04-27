@@ -1,3 +1,9 @@
+.essay-no-essay {
+    margin: 10% auto;
+    font-size: 2rem;
+    color: #006d77;
+}
+
 .black {
     color: black !important;
     font-weight: 400 !important;
@@ -49,6 +55,36 @@
     justify-content: space-between;
     width: 100%;
 }
+
+.student-essay .student-essay-info-text .student-essay-subject {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+/* AUDIO START */
+
+/* .student-essay-info-text .student-essay-subject audio {
+    border-radius: 5px;
+    background-color: #83c5be;
+    border: none;
+    outline: none;
+}
+
+.student-essay-info-text
+    .student-essay-subject
+    audio::-webkit-media-controls-panel {
+    background-color: #83c5be;
+    outline: none;
+}
+
+.student-essay-info-text
+    .student-essay-subject
+    audio::-webkit-media-controls-play-button {
+    background-color: red;
+} */
+
+/* AUDIO END */
 
 .student-essay .student-essay-info-text span {
     color: #006d77;
