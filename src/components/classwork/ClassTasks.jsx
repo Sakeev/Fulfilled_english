@@ -22,7 +22,7 @@ const ClassTasks = ({lesson, playing, setPlaying}) => {
     <>
       {
         lesson?.case_tasks?.map((task, key) => (
-          <div style={{ margin: "20px 0" }} key={key}>
+          <div style={{ margin: "20px 0", width: '100%' }} key={key}>
             {
               renderTask(task)
             }

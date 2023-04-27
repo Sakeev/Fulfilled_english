@@ -143,7 +143,7 @@ const ClassWorkLayout = () => {
           </Editor>
         </EditorProvider>
       </div>
-      <div style={{ margin: '0 30px' }}>
+      <div style={{ margin: '0 30px', width: '70%' }}>
         <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} />
       </div>
     </div>
