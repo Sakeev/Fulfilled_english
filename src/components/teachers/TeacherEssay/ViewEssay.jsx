@@ -1,6 +1,7 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
 import { highlightSelection } from '../../../helpers/essay';
 import { useState, useEffect, useRef } from 'react';
+import { API } from '../../../helpers/consts';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import api from '../../../http';
@@ -153,7 +154,11 @@ const ViewEssay = () => {
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
                         <span>Subject: </span>
-                        <span className="black">{essay.title}</span>
+                        {/* <span className="black">{essay.title}</span> */}
+                        <audio
+                            src={essay ? `${API}${essay?.audio}` : ''}
+                            controls
+                        ></audio>
                     </div>
                     <div className="student-essay-status">
                         <span>Student: </span>
@@ -186,9 +191,12 @@ const ViewEssay = () => {
                                                 onBlur={() =>
                                                     onMistakeBlur(index)
                                                 }
-                                                onChange={(e) =>
-                                                    onMistakeChange(e, index)
-                                                }
+                                                onChange={(e) => {
+                                                    e.target.style.width =
+                                                        e.target.value.length +
+                                                        'ch';
+                                                    onMistakeChange(e, index);
+                                                }}
                                                 value={mistake.description}
                                                 type="text"
                                             />

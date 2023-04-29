@@ -75,7 +75,6 @@ const Essay = () => {
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
                         <span>Subject: </span>
-                        {/* <span className="black">{essayTemplate?.title}</span> */}
                         <audio
                             src={
                                 essayTemplate
@@ -83,7 +82,6 @@ const Essay = () => {
                                     : ''
                             }
                             controls
-                            // type="audio/mp3"
                         ></audio>
                     </div>
                     <div className="student-essay-status">
