@@ -43,12 +43,7 @@ const ContinueSentence = ({
     caseDetail,
     handleCaseDetail,
 }) => {
-    const [wordsPairs, setWordsPairs] = useState({
-        first: [],
-        second: [],
-        third: [],
-        fourth: [],
-    });
+    const [wordsPairs, setWordsPairs] = useState([]);
 
     const [firstDesc, setFirstDesc] = useState(null);
     const [secondDesc, setSecondDesc] = useState(null);
@@ -71,107 +66,63 @@ const ContinueSentence = ({
         }
     }, [caseDetail]);
 
-    // console.log(firstDesc, secondDesc);
-    const checkWordsPairs = (id) => {
-        for (let key in wordsPairs) {
-            wordsPairs[key].forEach((wordObj, wordObjIndex) => {
-                if (wordObj.id === id) {
-                    const newWordsPairs = {
-                        ...wordsPairs,
-                        first: [...wordsPairs.first],
-                        second: [...wordsPairs.second],
-                        third: [...wordsPairs.third],
-                        fourth: [...wordsPairs.fourth],
-                    };
-                    newWordsPairs[key].splice(wordObjIndex, 1);
-                    setWordsPairs(newWordsPairs);
+    const isWordInArr = (index) => {
+        if (wordsPairs.length === 0) return false;
+
+        for (let wordsPair of wordsPairs) {
+            for (let word of wordsPair) {
+                if (word.id === index) return true;
+            }
+        }
+
+        return false;
+    };
+
+    const addNewWord = (item, index) => {
+        let newWordsPairs = JSON.parse(JSON.stringify(wordsPairs));
+
+        if (isWordInArr(index)) {
+            for (let i in newWordsPairs) {
+                for (let j in newWordsPairs[i]) {
+                    if (newWordsPairs[i][j].id === index) {
+                        newWordsPairs[i].splice(j, 1);
+                        break;
+                    }
                 }
-            });
+            }
+        } else {
+            let added = false;
+
+            for (let i in newWordsPairs) {
+                if (newWordsPairs[i].length < 2) {
+                    newWordsPairs[i].push({
+                        word: item,
+                        picked: true,
+                        id: index,
+                    });
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added) {
+                newWordsPairs.push([
+                    {
+                        word: item,
+                        picked: true,
+                        id: index,
+                    },
+                ]);
+            }
         }
+        setWordsPairs(newWordsPairs);
     };
 
-    const addArr = (item, index) => {
-        if (wordsPairs.first.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.first.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.second.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.second.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.third.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.third.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.fourth.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.fourth.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        }
-    };
     const obj = {
         answers: wordsPairs,
     };
+
+    console.log(wordsPairs);
 
     return (
         <div className="continue-sentence-container task-types-container">
@@ -182,7 +133,7 @@ const ContinueSentence = ({
                             <Typography
                                 key={index}
                                 sx={styles.words}
-                                onClick={() => addArr(item, index)}
+                                onClick={() => addNewWord(item, index)}
                             >
                                 {item}
                             </Typography>
@@ -194,7 +145,7 @@ const ContinueSentence = ({
                                 key={index + firstDesc?.length}
                                 sx={styles.words}
                                 onClick={() =>
-                                    addArr(item, index + firstDesc?.length)
+                                    addNewWord(item, index + firstDesc?.length)
                                 }
                             >
                                 {item}

@@ -74,7 +74,6 @@ const BuildDialog = ({
         });
     };
     const str = answer[0]?.join(' ');
-    console.log(caseInfo.tasks?.[task_id - 1].id);
 
     const obj = {
         answers: str,
