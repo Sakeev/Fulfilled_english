@@ -31,8 +31,19 @@ const styles = {
     },
 };
 
-const data = ['lorem some', 'words', 'have to', 'get'];
-const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
+// const data = ['lorem some', 'words', 'have to', 'get'];
+// const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
+
+const colors = [
+    'red',
+    'green',
+    'yellow',
+    'aqua',
+    'orange',
+    'gray',
+    'violet',
+    'purple',
+];
 
 const ContinueSentence = ({
     taskBox,
@@ -78,7 +89,7 @@ const ContinueSentence = ({
         return false;
     };
 
-    const addNewWord = (item, index) => {
+    const handleWord = (item, index, event) => {
         let newWordsPairs = JSON.parse(JSON.stringify(wordsPairs));
 
         if (isWordInArr(index)) {
@@ -86,6 +97,7 @@ const ContinueSentence = ({
                 for (let j in newWordsPairs[i]) {
                     if (newWordsPairs[i][j].id === index) {
                         newWordsPairs[i].splice(j, 1);
+                        event.target.style.backgroundColor = '#9bd0cb';
                         break;
                     }
                 }
@@ -95,12 +107,22 @@ const ContinueSentence = ({
 
             for (let i in newWordsPairs) {
                 if (newWordsPairs[i].length < 2) {
+                    if (
+                        newWordsPairs[i].length !== 0 &&
+                        ((newWordsPairs[i][0].id < firstDesc.length &&
+                            index < firstDesc.length) ||
+                            (newWordsPairs[i][0].id >= firstDesc.length &&
+                                index >= firstDesc.length))
+                    )
+                        return;
                     newWordsPairs[i].push({
                         word: item,
                         picked: true,
                         id: index,
                     });
                     added = true;
+                    event.target.style.backgroundColor = colors[i];
+                    console.log(event.target);
                     break;
                 }
             }
@@ -113,6 +135,8 @@ const ContinueSentence = ({
                         id: index,
                     },
                 ]);
+                event.target.style.backgroundColor =
+                    colors[newWordsPairs.length - 1];
             }
         }
         setWordsPairs(newWordsPairs);
@@ -133,7 +157,9 @@ const ContinueSentence = ({
                             <Typography
                                 key={index}
                                 sx={styles.words}
-                                onClick={() => addNewWord(item, index)}
+                                onClick={(e) => {
+                                    handleWord(item, index, e);
+                                }}
                             >
                                 {item}
                             </Typography>
@@ -144,8 +170,12 @@ const ContinueSentence = ({
                             <Typography
                                 key={index + firstDesc?.length}
                                 sx={styles.words}
-                                onClick={() =>
-                                    addNewWord(item, index + firstDesc?.length)
+                                onClick={(e) =>
+                                    handleWord(
+                                        item,
+                                        index + firstDesc?.length,
+                                        e
+                                    )
                                 }
                             >
                                 {item}

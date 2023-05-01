@@ -12,7 +12,7 @@ import { margin, width } from '@mui/system';
 import Inputs from '../tasks/tasksType/Inputs';
 import Sentence from './tasksType/Sentence';
 import BuildDialog from './tasksType/BuildDialog';
-import Dropdown from './tasksType/Dropdown';
+import Dropdown from './tasksType/DropDown';
 
 import './Case1.css';
 
