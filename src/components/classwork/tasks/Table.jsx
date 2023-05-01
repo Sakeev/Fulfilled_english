@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./Tasks.css"
 
-const Table = ({task}) => {
+const Table = ({task, handleInputsChange}) => {
   const [tableProps, setTableProps] = useState({
     rows: task[0]?.description.split('\r\n')[0].split('x')[1],
     cells: task[0]?.description.split('\r\n')[0].split('x')[0],
@@ -26,30 +26,33 @@ const Table = ({task}) => {
   });
 
   return (
-    <table className='table_exercise'>
-      <thead>
-        <tr>
+    <>
+      <h2>Table exercise</h2>
+      <table className='table_exercise'>
+        <thead>
+          <tr>
+            {
+              table.data[0].map((elem, index) => (
+                <th key={index}>{elem ? elem : <input className='table_inp' onChange={(e) => handleInputsChange(e)} />}</th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
           {
-            table.data[0].map((elem, index) => (
-              <th key={index}>{elem ? elem : <input className='table_inp' />}</th>
+            table.data.slice(1).map((elem, index) => (
+              <tr key={index}>
+                {
+                  elem.map((item, index_inner) => (
+                    <td key={index_inner}>{item ? item : <input className='table_inp' onChange={(e) => handleInputsChange(e)} />}</td>
+                  ))
+                }
+              </tr>
             ))
           }
-        </tr>
-      </thead>
-      <tbody>
-        {
-          table.data.slice(1).map((elem, index) => (
-            <tr key={index}>
-              {
-                elem.map((item, index_inner) => (
-                  <td key={index_inner}>{item ? item : <input className='table_inp' />}</td>
-                ))
-              }
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </>
   );
 };
 
