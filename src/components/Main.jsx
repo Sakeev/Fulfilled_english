@@ -5,6 +5,7 @@ import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextProvider';
 import HomePageSchedule from './teachers/HomePageSchedule';
+import { useEffect } from 'react';
 
 const avatarImg = {
     width: '70px',
@@ -23,10 +24,27 @@ const calendar = {
 };
 
 const Main = () => {
+    const { isTeacher, getStudentProgress } = useAuth();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
-    const { isTeacher } = useAuth();
+    const [progress, setProgress] = useState({
+        lessonsQuantity: null,
+        passedLessons: null,
+    });
     const navigate = useNavigate();
+    const userId = 2;
+
+    getStudentProgress(userId)
+        .then((res) => {
+            setProgress({ lessonsQuantity: res[0], passedLessons: res[1] });
+        })
+        .catch((err) => console.log(err));
+
+    // useEffect(() => {
+    //     getStudentProgress(userId)
+    // }, [])
+
+    // useEffect()
 
     const userRoom = {
         id: 1,
@@ -47,7 +65,7 @@ const Main = () => {
     };
 
     const studentProgress = Math.round(
-        (100 / userRoom.quantity_taks) * userRoom.progress
+        (100 / progress.lessonsQuantity) * progress.passedLessons
     );
 
     const handleMouseOver = (setFunc) => {
@@ -155,7 +173,7 @@ const Main = () => {
                 </Box>
             </Box>
 
-            {/* <Box>
+            <Box>
                 <Paper
                     elevation={1}
                     sx={{
@@ -186,7 +204,7 @@ const Main = () => {
                             Ваш прогресс
                         </Typography>
                         <Typography variant="h6" sx={{ color: '#006d77' }}>
-                            7/10 выполнено
+                            {progress.passedLessons}/{progress.lessonsQuantity}
                         </Typography>
                     </Box>
                     <Box
@@ -200,7 +218,7 @@ const Main = () => {
                     >
                         <Box
                             sx={{
-                                width: '70%',
+                                width: studentProgress + '%',
                                 height: '100%',
                                 bgcolor: '#E29578',
                                 borderRadius: '10px',
@@ -208,9 +226,9 @@ const Main = () => {
                         ></Box>
                     </Box>
                 </Paper>
-            </Box> */}
+            </Box>
             {/* <HomePageSchedule /> */}
-            <Paper
+            {/* <Paper
                 sx={{
                     m: 2,
                     height: '28vh',
@@ -255,7 +273,7 @@ const Main = () => {
                         {studentProgress} %
                     </Typography>
                 </Box>
-            </Paper>
+            </Paper> */}
 
             <Box
                 sx={{

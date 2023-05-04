@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AUTH_API } from '../helpers/consts';
+import { API, AUTH_API } from '../helpers/consts';
 import axios from 'axios';
 import api from '../http';
 
@@ -163,6 +163,14 @@ const AuthContextProvider = ({ children }) => {
         setUser('');
     }
 
+    async function getStudentProgress(id) {
+        const {
+            data: { quantity_of_lessons, progres },
+        } = await api.get(`${API}account/profile/${id}/`);
+
+        return [quantity_of_lessons, progres];
+    }
+
     const values = {
         token,
         login,
@@ -173,6 +181,7 @@ const AuthContextProvider = ({ children }) => {
         isLoading,
         userId: state.userId,
         isTeacher: state.isTeacher,
+        getStudentProgress,
     };
 
     return (
