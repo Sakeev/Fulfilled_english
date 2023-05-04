@@ -1,10 +1,25 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Modal, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextProvider';
 import HomePageSchedule from './teachers/HomePageSchedule';
+import CreateRoom from './classwork/CreateRoom';
+import { isTeacher } from '../helpers/funcs';
+import { useClassWork } from '../contexts/ClassWorkContextProvider';
+
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const avatarImg = {
     width: '70px',
@@ -22,11 +37,19 @@ const calendar = {
     bgcolor: '#edf6f9',
 };
 
+
 const Main = () => {
+    const { getRoom } = useClassWork();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
     const { isTeacher } = useAuth();
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    document.addEventListener('keydown', (e) => {
+        if(e.key == 'Escape') {
+            setShowModal(false);
+        }
+    })
 
     const userRoom = {
         id: 1,
@@ -58,6 +81,10 @@ const Main = () => {
         setFunc(false);
     };
 
+    const handleClassWork = () => {
+        getRoom()
+    }
+ 
     return (
         <Box
             sx={{
@@ -91,7 +118,12 @@ const Main = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center',
                         }}
-                        onClick={() => navigate('/classwork')}
+                        onClick={() => {
+                            if(isTeacher()){
+                                setShowModal(true)  
+                            } else {
+                                handleClassWork();
+                            }}}
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >
@@ -117,6 +149,16 @@ const Main = () => {
                             alt=""
                         />
                     </Paper>
+                    <Modal
+                        open={showModal}
+                        onClose={() => setShowModal(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        >
+                        <Box sx={modalStyle}>
+                            <CreateRoom />
+                        </Box>
+                    </Modal>
                 </Box>
                 <Box sx={{ width: '30%' }}>
                     <Paper
