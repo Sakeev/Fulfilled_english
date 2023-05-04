@@ -37,15 +37,6 @@ const ClassPage = () => {
                     {/* <Chat /> */}
                 </Box>
             </Box>
-            <Box
-                sx={{
-                    margin: '20px',
-                    width: '40%',
-                    backgroundColor: 'lightcoral',
-                }}
-            >
-                tasks
-            </Box>
         </Box>
     );
 };

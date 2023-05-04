@@ -119,7 +119,7 @@ const Main = () => {
                             alignItems: 'center',
                         }}
                         onClick={() => {
-                            if(isTeacher()){
+                            if(isTeacher){
                                 setShowModal(true)  
                             } else {
                                 handleClassWork();
