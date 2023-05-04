@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import AuthContextProvider from './contexts/AuthContextProvider';
+import ClassWorkContextProvider from './contexts/ClassWorkContextProvider';
 import EssayContextProvider from './contexts/EssayContextProvider';
 import ScheduleContextProvider from './contexts/ScheduleContextProvider';
 import TasksContextProvider from './contexts/TasksContextProvider';
@@ -14,17 +15,19 @@ import Sentence from './components/tasks/tasksType/Sentence'
 import DropDown from './components/tasks/tasksType/DropDown';
 function App() {
     return (
-        <EssayContextProvider>
-            <TasksContextProvider>
-                 <ScheduleContextProvider>
-                     <AuthContextProvider>
-                         <UsersContextProvider>
-                             <MainRoutes />
-                         </UsersContextProvider>
-                     </AuthContextProvider>
-                 </ScheduleContextProvider>
-            </TasksContextProvider>
-        </EssayContextProvider>
+        <ClassWorkContextProvider>
+            <EssayContextProvider>
+                <TasksContextProvider>
+                    <ScheduleContextProvider>
+                        <AuthContextProvider>
+                            <UsersContextProvider>
+                                <MainRoutes />
+                            </UsersContextProvider>
+                        </AuthContextProvider>
+                    </ScheduleContextProvider>
+                </TasksContextProvider>
+            </EssayContextProvider>
+        </ClassWorkContextProvider>
     );
 }
 
