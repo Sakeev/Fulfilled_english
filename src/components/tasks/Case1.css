@@ -7,12 +7,17 @@
 
 .case1-task-container {
     display: flex;
-    /* flex-direction: column; */
-    align-items: flex-end;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     width: 82%;
     height: 100vh;
     padding-block: 3em;
+}
+
+.vocabulary-box-wrapper {
+    padding-top: 2em;
+    width: 70%;
 }
 
 .case1-task {

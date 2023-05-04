@@ -76,6 +76,18 @@ const Case1 = () => {
         setCompl(newCompl);
     };
 
+    const getVocabulary = () => {
+        if (cases.length === 0) return null;
+
+        let vocabulary;
+
+        cases[0]?.case_tasks.forEach((caseTask) => {
+            if (caseTask.title === 'vocabulary') vocabulary = caseTask;
+        });
+
+        return vocabulary || null;
+    };
+
     useEffect(() => {
         singleCase(id);
         if (oneCase?.passed_quantity === oneCase?.quantity_task) {
@@ -84,8 +96,6 @@ const Case1 = () => {
             setDisabled(true);
         }
     }, [oneCase?.passed_quantity]);
-
-    // console.log(caseInfo);
 
     let component = null;
 
@@ -161,10 +171,31 @@ const Case1 = () => {
             break;
     }
 
+    const vocabulary = getVocabulary();
+
     return (
         <div className="case1-hw-page">
             <SideBar />
             <div className="case1-task-container">
+                <div className="vocabulary-box-wrapper">
+                    {vocabulary ? (
+                        <>
+                            <h2>Vocabulary</h2>
+                            <div className="vocabulary-box">
+                                {vocabulary.tasks[0]?.description.map(
+                                    (word, index) => (
+                                        <p
+                                            className="vocabulary-word"
+                                            key={index}
+                                        >
+                                            {word.toLowerCase()}
+                                        </p>
+                                    )
+                                )}
+                            </div>{' '}
+                        </>
+                    ) : null}
+                </div>
                 <div className="case1-task">
                     {component}
                     <PagBar count={count} sx={{ alignSelf: 'center' }} />
