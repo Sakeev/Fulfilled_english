@@ -110,7 +110,7 @@ const AuthContextProvider = ({ children }) => {
                                 'Неверный адрес электронной почты или пароль',
                         },
                         emailError: {
-                            status: false,
+                            status: true,
                             message: '',
                         },
                     };
