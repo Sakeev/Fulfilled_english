@@ -21,6 +21,7 @@ const Table = ({task, handleInputsChange}) => {
     return res;
   }
   
+  console.log(task)
   const [table, setTable] = useState({
     data: fillData(task[0].description.split('\r\n').slice(1)),
   });
