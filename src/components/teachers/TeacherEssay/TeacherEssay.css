@@ -2,8 +2,9 @@ h2 {
     color: #006d77;
 }
 
-a {
+.essay-container a {
     color: inherit;
+    text-decoration: none;
 }
 
 .essay-container {

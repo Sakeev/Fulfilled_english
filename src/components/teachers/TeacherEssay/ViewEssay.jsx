@@ -8,8 +8,7 @@ import api from '../../../http';
 import cancelled from '../../../assets/images/cancelled.png';
 
 const ViewEssay = () => {
-    const { getEssay, essay, getStudent, student, updateEssay, loading } =
-        useEssay();
+    const { updateEssay, loading, getLesson, lesson } = useEssay();
 
     const [showPicker, setShowPicker] = useState(false);
     const [mistakesArr, setMistakesArr] = useState([]);
@@ -19,20 +18,29 @@ const ViewEssay = () => {
     const essayRef = useRef();
     const params = useParams();
 
+    const [essay, setEssay] = useState(null);
+    const [studentEssay, setStudentEssay] = useState(null);
+
     useEffect(() => {
-        getEssay(params.essayId);
-        getStudent(localStorage.getItem('studentId'));
+        getLesson(params.studentId);
     }, []);
 
     useEffect(() => {
-        if (essay.id) setMistakesArr(essay.mistakes);
+        if (lesson) setEssay(lesson.essay[0]);
+    }, [lesson]);
+
+    useEffect(() => {
+        if (essay) {
+            setStudentEssay(essay.user_essay[0]);
+            setMistakesArr(essay.user_essay[0].mistakes);
+        }
     }, [essay]);
 
     useEffect(() => {
-        if (essayRef.current && essay.id) {
-            essayRef.current.innerHTML = essay.html_text;
+        if (essayRef.current && studentEssay.id) {
+            essayRef.current.innerHTML = studentEssay.html_text;
         }
-    }, [essayRef.current, essay]);
+    }, [essayRef.current, studentEssay]);
 
     const onMouseUp = (event) => {
         const userSelection = window.getSelection();
@@ -67,11 +75,11 @@ const ViewEssay = () => {
         };
 
         await api.post(
-            `http://35.239.173.63/room/essa/${essay.id}/add_mistake/`,
+            `http://35.239.173.63/room/essa/${studentEssay.id}/add_mistake/`,
             data
         );
         setShowPicker(false);
-        getEssay();
+        getLesson(params.studentId);
     };
 
     const onMistakeChange = (e, index) => {
@@ -86,7 +94,7 @@ const ViewEssay = () => {
         const data = { ...mistakesArr[index] };
 
         await api.patch(
-            `http://35.239.173.63/room/essa/${essay.id}/update_mistake/`,
+            `http://35.239.173.63/room/essa/${studentEssay.id}/update_mistake/`,
             data
         );
     };
@@ -95,14 +103,14 @@ const ViewEssay = () => {
         const data = { data: { id: mistakesArr[index].id } };
 
         await api.delete(
-            `http://35.239.173.63/room/essa/${essay.id}/delete_mistake/`,
+            `http://35.239.173.63/room/essa/${studentEssay.id}/delete_mistake/`,
             data
         );
 
-        getEssay(essay.id);
+        getLesson(params.studentId);
     };
 
-    if (loading) {
+    if (loading || !essay) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
@@ -148,7 +156,7 @@ const ViewEssay = () => {
                         <span>Student: </span>
                         <span>
                             {' '}
-                            <a href="#">{student.username}</a>{' '}
+                            <a href="#">{lesson?.user.username}</a>{' '}
                         </span>
                     </div>
                 </div>
@@ -171,7 +179,7 @@ const ViewEssay = () => {
                                                 }}
                                             />
                                             <input
-                                                disabled={essay.checked}
+                                                disabled={studentEssay?.checked}
                                                 onBlur={() =>
                                                     onMistakeBlur(index)
                                                 }
@@ -195,7 +203,7 @@ const ViewEssay = () => {
                         </div>
                         <div className="view-essay-create-marker">
                             <Button
-                                disabled={essay.checked}
+                                disabled={studentEssay?.checked}
                                 onClick={onCreateMarker}
                                 className="teacher-essay-create-marker"
                             >
@@ -231,25 +239,25 @@ const ViewEssay = () => {
                 </div>
                 <div className="student-essay-btns">
                     <Button
-                        disabled={essay.checked}
+                        disabled={studentEssay?.checked}
                         onClick={async () => {
-                            await updateEssay(essay.id, {
+                            await updateEssay(studentEssay.id, {
                                 checked: true,
                             });
-                            getEssay(essay.id);
+                            getLesson(params.studentId);
                         }}
                     >
                         send
                     </Button>
                     <Button
-                        disabled={essay.checked}
+                        disabled={studentEssay?.checked}
                         onClick={async () => {
                             if (edit) {
-                                await updateEssay(essay.id, {
+                                await updateEssay(studentEssay.id, {
                                     html_text: essayRef.current.innerHTML,
                                 });
 
-                                getEssay(essay.id);
+                                getLesson(params.studentId);
                             }
                             setEdit((prev) => {
                                 return !prev;

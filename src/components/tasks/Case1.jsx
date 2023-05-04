@@ -3,12 +3,15 @@ import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../../contexts/TasksContextProvider';
-import ContinueSentence from './ContinueSentence';
+import ContinueSentence from './tasksType/ContinueSentence';
 import PagBar from './PagBar';
 import Progress from './Progress';
 import WordFind from './WordFind';
 import SideBar from '../Sidebar'
 import { margin, width } from '@mui/system';
+import Inputs from '../tasks/tasksType/Inputs'
+import Sentence from './tasksType/Sentence';
+import BuildDialog from './tasksType/BuildDialog';
 
 const Case1 = () => {
     const { id  , task_id} = useParams();
@@ -21,19 +24,27 @@ const Case1 = () => {
     const navigate = useNavigate()
     useEffect(()=>{
         infoCase(id);
-        getProgress(id);
         handleCase()
     },[])
 
-useEffect(()=>{
+    // console.log(caseInfo);
+
+
+const checkCompl=()=>{
+    handleCase();
     if(oneCase?.passed_quantity == oneCase?.quantity_task){
         setDisabled(false)
     }
-},[compl])
+    else{
+        setDisabled(true)
+    }
+}
 
     useEffect(()=>{
         handleCaseDetail(id , task_id)
-    },[task_id])
+    },[id , task_id])
+
+    
     useEffect(()=>{
         singleCase(id); 
         setCount(oneCase?.quantity_task)
@@ -41,10 +52,10 @@ useEffect(()=>{
 
     const [answer,setAnswer] = useState("")
 
-// console.log(disabled);
 const answerObj={
     answers:answer
 }
+
 
 
 const boxStyle = {
@@ -68,41 +79,92 @@ const taskBoxStyle={
         const newCompl = [...compl, newElement];
         setCompl(newCompl);
     }
-    
-    useEffect(()=>{
-        // compl.length >= oneCase?.quantity_task ?
-        // setDisabled(false)
-        // :
-        // setDisabled(true)
-    },[compl])
-    // console.log(compl);
-    return (
-        <div style={{width:'100%' , height:'100%' , overflow:'hidden' }}>
-            <SideBar />
-            <Box style={boxStyle}>  
-                <Box style={taskBoxStyle}>
-                    <h1 style={{margin:'5%' , color:'#006D77'}}>{caseDetail?.title}</h1>
-                    <p style={{margin:'5%' , color:'#006D77' ,  height:'20vw',}}>{caseDetail?.description}</p>
-                    <div style={{margin:'5%'}}>
-                    </div>
-                    <LinearProgress variant="determinate" sx={{backgroundColor:'#83C5BE'}} value={task_id *10} />
-                    </Box>
-                    <Box sx={{display:"flex" , width:'70vw'  , justifyContent:'center' , alignItems:'center'}}>
-                        <TextField placeholder='write your answer here' sx={{width:'30%' , alignSelf:'center', margin:'2%'}} value={answer} onChange={(e)=>setAnswer(e.target.value)}></TextField> 
-                        <Button onClick={()=>{
-                            handleAnswer(answerObj , caseInfo.tasks?.[task_id-1].id);
-                            setAnswer('');
-                            checkRes('*');
-                            }} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" }} >Отправить</Button>
-                    </Box>
-                    <PagBar count = {count} sx={{alignSelf:'center'}}/>
-                    <Button disabled={disabled} onClick={()=>{
-                        navigate('results')
-                        setCompl([])
-                        }} sx={{backgroundColor:"#83C5BE" , color:"#006D77" , width:"12%" , margin:'1%' }}>check res</Button>
-            </Box>
-        </div>
+
+useEffect(() => {
+    singleCase(id)
+    if (oneCase?.passed_quantity === oneCase?.quantity_task) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [oneCase?.passed_quantity]);
+
+// console.log(caseInfo);
+
+let component = null;
+
+switch (caseDetail?.implemented_case) {
+  case 'missing word':
+    component = (      
+      <Inputs
+        
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+      
     );
+    break;
+  case 'build sentence':
+    component = (
+      <Sentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+    case 'build dialog':
+    component = (
+      <BuildDialog
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+    case 'connect words':
+    component = (
+      <ContinueSentence
+        descr={caseDetail?.description}
+        id={id}
+        task_id={task_id}
+        handleAnswer={handleAnswer}
+        caseInfo={caseInfo}
+        caseDetail={caseDetail}
+        handleCaseDetail={handleCaseDetail}
+      />
+    );
+    
+    break;
+  default:
+    component = null;
+    break;
+}
+
+return (
+  <div style={{display:'flex'}}>
+    <SideBar/>
+    <div style={{display:'flex' , flexDirection:'column' , alignItems:'center' , marginLeft:'25%' , marginTop:"20%" }}>
+    {component}
+    <PagBar count={count} sx={{ alignSelf: 'center' }} />
+    </div>
+  </div>
+);
 };
 
 export default Case1;

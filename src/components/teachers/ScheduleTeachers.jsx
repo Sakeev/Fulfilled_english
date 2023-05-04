@@ -6,7 +6,8 @@ import "./Schedule.css"
 import { getWeekDay } from '../../helpers/funcs';
 
 const rows = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17" ,"18", "19", "20", "21", "22", "23", "24"];
-const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+// const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const weekdays = [1,2,3,4,5,6,7];
 
 const setLesson = (lessons, time, weekday) => {
   let lesson = lessons?.find((les) => les.time === `${time}:00:00` && les.weekday === weekday)
@@ -15,7 +16,7 @@ const setLesson = (lessons, time, weekday) => {
         {
           lesson ? 
           <div className='lesson_block' id={lesson.id}>
-            <p id={lesson.id}>{lesson.name_of_user}</p>
+            <p id={lesson.id}>{lesson.user}</p>
             <p id={lesson.id}><b id={lesson.id}>{lesson.accepted ? "accepted" : "not accepted"}</b></p>
           </div>
           :
@@ -63,11 +64,10 @@ const ScheduleTeachers = () => {
         {
           rows.map((row, index) => (
             <tr key={index}>
-              <td onClick={()=>setShowInps(!showInps)}>{`${row}:00`}</td>
+              <td>{`${row}:00`}</td>
               {
                 weekdays.map((weekday, index) => (
                   <td key={index} onClick={(e)=>{
-                    setShowInps(!showInps)
                     setDayInfo({weekday, time: `${row}:00`})
                     if(e.target.tagName !== "TD"){
                       setDayInfo({...dayInfo, filled: true, id: e.target.id})

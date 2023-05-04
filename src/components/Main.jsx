@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContextProvider';
 import HomePageSchedule from './teachers/HomePageSchedule';
 import CreateRoom from './classwork/CreateRoom';
 import { isTeacher } from '../helpers/funcs';
@@ -41,6 +42,7 @@ const Main = () => {
     const { getRoom } = useClassWork();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
+    const { isTeacher } = useAuth();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     document.addEventListener('keydown', (e) => {
@@ -48,6 +50,28 @@ const Main = () => {
             setShowModal(false);
         }
     })
+
+    const userRoom = {
+        id: 1,
+        lessons: [
+            'http://35.239.173.63/room/lessons/1/',
+            'http://35.239.173.63/room/lessons/2/',
+        ],
+        level: 'elem',
+        progress: 45,
+        quantity_taks: 115,
+        payment: 0,
+        count_lessons: 1,
+        user: {
+            email: 'student@gmail.com',
+            first_name: 'Student',
+            last_name: 'Studentovich',
+        },
+    };
+
+    const studentProgress = Math.round(
+        (100 / userRoom.quantity_taks) * userRoom.progress
+    );
 
     const handleMouseOver = (setFunc) => {
         setFunc(true);
@@ -227,7 +251,53 @@ const Main = () => {
                     </Box>
                 </Paper>
             </Box> */}
-            <HomePageSchedule />
+            {/* <HomePageSchedule /> */}
+            <Paper
+                sx={{
+                    m: 2,
+                    height: '28vh',
+                    maxHeight: '220px',
+                    width: '100%',
+                    p: 2,
+                    bgcolor: '#EDF6F9',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                }}
+            >
+                <Box
+                    sx={{
+                        position: 'relative',
+                        backgroundColor: '#9bd0cb',
+                        width: '70%',
+                        height: '3em',
+                        borderRadius: '2vw',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <Box
+                        style={{
+                            display: 'flex',
+                            width: `${studentProgress}%`,
+                            height: '100%',
+                            backgroundColor: '#E29578',
+                        }}
+                    ></Box>
+                    <Typography
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            color: 'white',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        {studentProgress} %
+                    </Typography>
+                </Box>
+            </Paper>
 
             <Box
                 sx={{
