@@ -163,12 +163,11 @@ const AuthContextProvider = ({ children }) => {
         setUser('');
     }
 
-    async function getStudentProgress(id) {
-        const {
-            data: { quantity_of_lessons, progres },
-        } = await api.get(`${API}account/profile/${id}/`);
+    async function getRoomOrRooms() {
+        const res = await api.get(`${API}room/rooms/`);
 
-        return [quantity_of_lessons, progres];
+        if (state.isTeacher) return res.data || [];
+        else return res.data[0] || null;
     }
 
     const values = {
@@ -181,7 +180,7 @@ const AuthContextProvider = ({ children }) => {
         isLoading,
         userId: state.userId,
         isTeacher: state.isTeacher,
-        getStudentProgress,
+        getRoomOrRooms,
     };
 
     return (

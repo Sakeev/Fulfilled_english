@@ -53,8 +53,8 @@ const ProgressModal = ({ room, setShowModal }) => {
                 </div>
                 <div className="pm-modal-tasks">
                     <h2>{currentUnit?.title}</h2>
-                    {currentUnit?.case_tasks.map((caseTask) => (
-                        <div className="pm-modal-row">
+                    {currentUnit?.case_tasks.map((caseTask, index) => (
+                        <div className="pm-modal-row" key={index}>
                             <p>{caseTask.title}</p>
                             <span>
                                 {caseTask.passed_quantity}/

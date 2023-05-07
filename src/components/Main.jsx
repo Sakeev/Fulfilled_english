@@ -24,7 +24,7 @@ const calendar = {
 };
 
 const Main = () => {
-    const { isTeacher, getStudentProgress } = useAuth();
+    const { isTeacher, getRoomOrRooms } = useAuth();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
     const [progress, setProgress] = useState({
@@ -32,37 +32,18 @@ const Main = () => {
         passedLessons: null,
     });
     const navigate = useNavigate();
-    const userId = 2;
 
-    getStudentProgress(userId)
-        .then((res) => {
-            setProgress({ lessonsQuantity: res[0], passedLessons: res[1] });
-        })
-        .catch((err) => console.log(err));
-
-    // useEffect(() => {
-    //     getStudentProgress(userId)
-    // }, [])
-
-    // useEffect()
-
-    const userRoom = {
-        id: 1,
-        lessons: [
-            'http://35.239.173.63/room/lessons/1/',
-            'http://35.239.173.63/room/lessons/2/',
-        ],
-        level: 'elem',
-        progress: 45,
-        quantity_taks: 115,
-        payment: 0,
-        count_lessons: 1,
-        user: {
-            email: 'student@gmail.com',
-            first_name: 'Student',
-            last_name: 'Studentovich',
-        },
-    };
+    useEffect(() => {
+        getRoomOrRooms()
+            .then((res) => {
+                console.log(res);
+                setProgress({
+                    lessonsQuantity: res.count_lessons,
+                    passedLessons: res.progres_classwork,
+                });
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     const studentProgress = Math.round(
         (100 / progress.lessonsQuantity) * progress.passedLessons
@@ -173,107 +154,63 @@ const Main = () => {
                 </Box>
             </Box>
 
-            <Box>
-                <Paper
-                    elevation={1}
-                    sx={{
-                        m: 2,
-                        height: '28vh',
-                        maxHeight: '220px',
-                        width: '100%',
-                        p: 2,
-                        bgcolor: '#EDF6F9',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
-                        alignItems: 'space-between',
-                    }}
-                >
-                    <Box
+            {isTeacher ? null : (
+                <Box>
+                    <Paper
+                        elevation={1}
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            width: '90%',
-                        }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{ ml: 5, color: '#006d77' }}
-                        >
-                            Ваш прогресс
-                        </Typography>
-                        <Typography variant="h6" sx={{ color: '#006d77' }}>
-                            {progress.passedLessons}/{progress.lessonsQuantity}
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            ml: 5,
-                            width: '90%',
-                            height: '50px',
-                            bgcolor: '#83C5BE',
+                            m: 2,
+                            height: '28vh',
+                            maxHeight: '220px',
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
                             borderRadius: '10px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            alignItems: 'space-between',
                         }}
                     >
                         <Box
                             sx={{
-                                width: studentProgress + '%',
-                                height: '100%',
-                                bgcolor: '#E29578',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{ ml: 5, color: '#006d77' }}
+                            >
+                                Ваш прогресс
+                            </Typography>
+                            <Typography variant="h6" sx={{ color: '#006d77' }}>
+                                {progress.passedLessons}/
+                                {progress.lessonsQuantity}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                ml: 5,
+                                width: '90%',
+                                height: '50px',
+                                bgcolor: '#83C5BE',
                                 borderRadius: '10px',
                             }}
-                        ></Box>
-                    </Box>
-                </Paper>
-            </Box>
-            {/* <HomePageSchedule /> */}
-            {/* <Paper
-                sx={{
-                    m: 2,
-                    height: '28vh',
-                    maxHeight: '220px',
-                    width: '100%',
-                    p: 2,
-                    bgcolor: '#EDF6F9',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                }}
-            >
-                <Box
-                    sx={{
-                        position: 'relative',
-                        backgroundColor: '#9bd0cb',
-                        width: '70%',
-                        height: '3em',
-                        borderRadius: '2vw',
-                        overflow: 'hidden',
-                    }}
-                >
-                    <Box
-                        style={{
-                            display: 'flex',
-                            width: `${studentProgress}%`,
-                            height: '100%',
-                            backgroundColor: '#E29578',
-                        }}
-                    ></Box>
-                    <Typography
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            color: 'white',
-                            fontSize: '1.5rem',
-                        }}
-                    >
-                        {studentProgress} %
-                    </Typography>
+                        >
+                            <Box
+                                sx={{
+                                    width: studentProgress + '%',
+                                    height: '100%',
+                                    bgcolor: '#E29578',
+                                    borderRadius: '10px',
+                                }}
+                            ></Box>
+                        </Box>
+                    </Paper>
                 </Box>
-            </Paper> */}
+            )}
 
             <Box
                 sx={{

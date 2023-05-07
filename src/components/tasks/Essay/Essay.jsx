@@ -54,7 +54,6 @@ const Essay = () => {
         await api.post(`${API}room/essa/`, data);
         getLesson();
     };
-    console.log(essayTemplate);
 
     if (noEssay) {
         return <h3 className="essay-no-essay">You haven't essay</h3>;
