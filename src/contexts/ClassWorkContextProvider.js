@@ -27,7 +27,7 @@ const init_state = {
   lesson: [],
   room_pk: room_pk,
   createRoomError: { title: "" },
-  note: null,
+  notes: [],
 };
 
 const reducer = (state = init_state, action) => {
@@ -39,8 +39,8 @@ const reducer = (state = init_state, action) => {
       return { ...state, room_pk: action.payload.pk };
     case "create_room_error":
       return { ...state, createRoomError: { title: action.payload } };
-    case "send_note":
-      return { ...state };
+    case "get_notes":
+      return { ...state, notes: action.payload };
     default:
       return state;
   }
@@ -102,6 +102,7 @@ const ClassWorkContextProvider = ({ children }) => {
     });
   };
 
+  // Заметки
   const postNote = async (note) => {
     console.log(note);
     try {
@@ -111,15 +112,30 @@ const ClassWorkContextProvider = ({ children }) => {
     }
   };
 
+  const getNotes = async () => {
+    try {
+      let data = await axios.get(CHAT_NOTES_API, getToken());
+      console.log(data);
+      dispatch({
+        type: "get_notes",
+        payload: data.data,
+      });
+    } catch (error) {
+      console.log(error, "get_notes_error");
+    }
+  };
+
   const values = {
     createRoom,
     getLesson,
     getRoom,
     clearErrors,
     postNote,
+    getNotes,
     createRoomError: state.createRoomError,
     lesson: state.lesson,
     room_pk: state.room_pk,
+    notes: state.notes,
   };
 
   return (

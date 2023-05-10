@@ -24,6 +24,7 @@ import { isTeacher } from "../../helpers/funcs";
 import { Button } from "@mui/material";
 import ClassTasks from "./ClassTasks";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
+import { Box } from "@mui/system";
 
 const request_id = new Date().getTime();
 
@@ -35,7 +36,7 @@ function isDocumentEvent(message) {
 const ClassWorkLayout = () => {
   const { room_pk, postNote } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(
-    `ws://35.239.173.63/ws/chat/?token=${
+    `ws://13.50.235.4/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
     }`
   );
@@ -43,7 +44,7 @@ const ClassWorkLayout = () => {
   const [html, setHtml] = useState("");
   const [inps, setInps] = useState("");
   const [playing, setPlaying] = useState(false);
-  const [lessonId, setLessonId] = useState(0);
+  const [note, setNote] = useState(null);
 
   const tasks = useCallback(
     (data) => {
@@ -87,7 +88,10 @@ const ClassWorkLayout = () => {
         switch (data.action) {
           case "retrieve":
             console.log(data.data);
-            setLessonId(data.data.lesson.id);
+            setNote({
+              lesson: data.data.lesson.id,
+              student: data.data.current_users[1].id,
+            });
             tasks(data.data.lesson);
             break;
           case "create":
@@ -154,12 +158,14 @@ const ClassWorkLayout = () => {
   }
 
   function sendNote() {
-    let note = {
-      body: html,
-      lesson: lessonId,
-    };
+    let obj = Object.assign(
+      {
+        body: html,
+      },
+      note
+    );
 
-    postNote(note);
+    postNote(obj);
   }
   return (
     <div
@@ -220,7 +226,15 @@ const ClassWorkLayout = () => {
           </Editor>
         </EditorProvider>
       </div>
-      <div style={{ margin: "0 30px", width: "70%" }}>
+      <div
+        style={{
+          margin: "0 30px",
+          width: "70%",
+          // display: "flex",
+          // flexDirection: "column",
+          // alignItems: "flex-end",
+        }}
+      >
         <ClassTasks
           lesson={lesson}
           playing={playing}
