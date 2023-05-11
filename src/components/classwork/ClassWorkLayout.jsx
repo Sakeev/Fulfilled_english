@@ -44,7 +44,7 @@ const ClassWorkLayout = () => {
   const [html, setHtml] = useState("");
   const [inps, setInps] = useState("");
   const [playing, setPlaying] = useState(false);
-  const [note, setNote] = useState(null);
+  const [note_id, setNote] = useState(0);
 
   const tasks = useCallback(
     (data) => {
@@ -88,10 +88,7 @@ const ClassWorkLayout = () => {
         switch (data.action) {
           case "retrieve":
             console.log(data.data);
-            setNote({
-              lesson: data.data.lesson.id,
-              student: data.data.current_users[1].id,
-            });
+            setNote(data.data.lesson.notes.id);
             tasks(data.data.lesson);
             break;
           case "create":
@@ -158,14 +155,11 @@ const ClassWorkLayout = () => {
   }
 
   function sendNote() {
-    let obj = Object.assign(
-      {
-        body: html,
-      },
-      note
-    );
+    let obj = Object.assign({
+      body: html,
+    });
 
-    postNote(obj);
+    postNote(obj, note_id);
   }
   return (
     <div
@@ -230,9 +224,9 @@ const ClassWorkLayout = () => {
         style={{
           margin: "0 30px",
           width: "70%",
-          // display: "flex",
-          // flexDirection: "column",
-          // alignItems: "flex-end",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
         }}
       >
         <ClassTasks
@@ -241,6 +235,27 @@ const ClassWorkLayout = () => {
           setPlaying={setPlaying}
           handleInputsChange={handleInputsChange}
         />
+        {isTeacher ? (
+          <Box
+            sx={{
+              width: "175px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <input
+              type="text"
+              style={{ width: "50px", paddingLeft: "10px" }}
+              placeholder="  / 10"
+            />
+            <Button color="success" sx={{ width: "100px" }}>
+              mark
+            </Button>
+          </Box>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const Notes = () => {
               {notes.map((note) => {
                 return (
                   <li key={note.id}>
-                    Заметка {note.lesson}: {note.body}
+                    Lesson {note.lesson}: {note.body}
                   </li>
                 );
               })}
