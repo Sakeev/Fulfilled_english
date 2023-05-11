@@ -1,0 +1,248 @@
+.task-types-container {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.task-types-container button {
+    margin-top: 3em;
+}
+
+/* INPUTS COMPONENT */
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputs-container div {
+    font-size: 2rem;
+}
+
+.inputs-container div input {
+    font-family: 'Overpass';
+    font-size: 2rem;
+    min-width: 2.5em;
+    width: 2.5rem;
+    border: none;
+    outline: none;
+    text-align: center;
+    background-color: transparent;
+    padding: 0;
+}
+
+.inputs-container .MuiInputBase-root {
+    background-color: transparent !important;
+}
+
+.inputs-container .MuiInputBase-root:hover {
+    background-color: transparent;
+}
+
+.inputs-container .MuiInputBase-root::after {
+    border-bottom: 0.125rem solid #006d77;
+}
+
+.inputs-container button {
+    align-self: flex-end;
+    margin-top: 3em;
+}
+
+/* SENTENCE COMPONENT */
+.sentence-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.sentence-container button {
+    align-self: flex-end;
+}
+
+.sentence-container .sentence-task-box-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.sentence-task-box-wrapper .sentence-task-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sentence-task-box .sentence-word {
+    display: flex;
+    align-items: center;
+}
+
+.sentence-task-box .sentence-word span {
+    background-color: #e7e7e7;
+    padding: 0.25em 0.625em;
+    margin: 0.375em;
+    border-radius: 0.5rem;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.sentence-task-box .sentence-word span:hover {
+    background-color: #9bd0cb;
+}
+
+.sentence-task-box .sentence-answer-block {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-left: 0.625em;
+    width: 100%;
+    min-height: 8em;
+    border-radius: 0.5em;
+    border: 0.0625em solid lightgray;
+    margin: 0.625em 0.25em;
+    overflow-x: auto;
+}
+
+.sentence-task-box .sentence-answer-block p {
+    margin: 0.25em 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    transition: 0.1s;
+    cursor: pointer;
+    padding: 0.25em 0.475em;
+    color: #006d77;
+    user-select: none;
+}
+
+.sentence-task-box .sentence-answer-block p:hover {
+    background-color: #e7e7e7;
+    border-radius: 0.5em;
+}
+
+/* CONTINUE SENTENCE COMPONENT */
+.continue-sentence-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.continue-sentence-container button {
+    align-self: flex-end;
+}
+
+.continue-sentence-container .continue-sentence {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* DROPDOWN COMPONENT */
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown-container button {
+    align-self: flex-end;
+}
+
+.dropdown-container .dropdown {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.dropdown div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.75em;
+    font-size: 1.5rem;
+    word-wrap: break-word;
+}
+
+.dropdown div .MuiInputBase-root {
+    font-family: 'Overpass';
+    font-size: 1.5rem;
+    height: 2.125rem;
+    background-color: transparent;
+    margin-inline: 0.375em;
+    padding-bottom: 0.25em;
+}
+
+.dropdown div .MuiInputBase-root::before {
+    border-bottom: 0.0625rem solid black;
+}
+
+.dropdown div .MuiInputBase-root::after {
+    border-bottom: 0.125rem solid #006d77;
+}
+
+.dropdown div .MuiInputBase-root .MuiSelect-select {
+    background-color: transparent;
+    padding: 0;
+    padding-right: 1.5em;
+}
+
+/* BUILD DIALOG COMPONENT */
+.build-dialog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.build-dialog-container button {
+    align-self: flex-end;
+}
+
+.build-dialog-container .build-dialog-task-box {
+    width: 100%;
+}
+
+.build-dialog-words-box {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    /* align-items: flex-start; */
+    /* overflow-x: auto; */
+    /* border-radius: 0.5rem;
+    border: 0.0625rem solid lightgray; */
+    /* height: 20vh; */
+    margin-bottom: 1em;
+}
+
+.build-dialog-words-box p {
+    background-color: #e7e7e7;
+    padding: 0.25em 0.5em;
+    margin: 0.25em;
+    border-radius: 0.5em;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.build-dialog-words-box p:hover {
+    background-color: #9bd0cb;
+}
+
+.build-dialog-answer-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 30vh;
+    border-radius: 0.5rem;
+    border: 0.0625rem solid lightgray;
+    overflow-x: auto;
+}
+
+.build-dialog-answer-block .build-dialog-answer {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.15s;
+    cursor: pointer;
+    padding: 0.25em 0.5em;
+    color: #006d77;
+}
+
+.build-dialog-answer-block .build-dialog-answer:hover {
+    background-color: #e7e7e7;
+    border-radius: 0.5rem;
+}
