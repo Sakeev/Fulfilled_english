@@ -1,6 +1,7 @@
 import { useEssay } from '../../../contexts/EssayContextProvider';
 import { highlightSelection } from '../../../helpers/essay';
 import { useState, useEffect, useRef } from 'react';
+import { API } from '../../../helpers/consts';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import api from '../../../http';
@@ -14,6 +15,7 @@ const ViewEssay = () => {
     const [mistakesArr, setMistakesArr] = useState([]);
     const [selection, setSelection] = useState(null);
     const [edit, setEdit] = useState(false);
+    const [grade, setGrade] = useState(0);
     const colorFillsRef = useRef();
     const essayRef = useRef();
     const params = useParams();
@@ -118,6 +120,8 @@ const ViewEssay = () => {
         );
     }
 
+    console.log(grade);
+
     return (
         <div className="student-essay-wrapper">
             <div
@@ -150,7 +154,11 @@ const ViewEssay = () => {
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
                         <span>Subject: </span>
-                        <span className="black">{essay.title}</span>
+                        {/* <span className="black">{essay.title}</span> */}
+                        <audio
+                            src={essay ? `${API}${essay?.audio}` : ''}
+                            controls
+                        ></audio>
                     </div>
                     <div className="student-essay-status">
                         <span>Student: </span>
@@ -183,9 +191,12 @@ const ViewEssay = () => {
                                                 onBlur={() =>
                                                     onMistakeBlur(index)
                                                 }
-                                                onChange={(e) =>
-                                                    onMistakeChange(e, index)
-                                                }
+                                                onChange={(e) => {
+                                                    e.target.style.width =
+                                                        e.target.value.length +
+                                                        'ch';
+                                                    onMistakeChange(e, index);
+                                                }}
                                                 value={mistake.description}
                                                 type="text"
                                             />
@@ -249,23 +260,55 @@ const ViewEssay = () => {
                     >
                         send
                     </Button>
-                    <Button
-                        disabled={studentEssay?.checked}
-                        onClick={async () => {
-                            if (edit) {
-                                await updateEssay(studentEssay.id, {
-                                    html_text: essayRef.current.innerHTML,
-                                });
+                    <div className="student-essay-edit-btns">
+                        <div className={`${!edit ? 'unactive' : ''}`}>
+                            <input
+                                disabled={!edit}
+                                type="text"
+                                value={
+                                    studentEssay?.checked
+                                        ? studentEssay?.score
+                                        : grade
+                                }
+                                onChange={(event) => {
+                                    const value = event.target.value;
 
-                                getLesson(params.studentId);
-                            }
-                            setEdit((prev) => {
-                                return !prev;
-                            });
-                        }}
-                    >
-                        {edit ? 'save' : 'edit'}
-                    </Button>
+                                    if (!isNaN(value - parseFloat(value))) {
+                                        if (
+                                            parseFloat(value) <= 10 &&
+                                            parseFloat(value) >= 0
+                                        )
+                                            if (value.length <= 3)
+                                                setGrade(value);
+                                    } else if (value === '') setGrade(value);
+                                }}
+                            />
+                            <span>/10</span>
+                        </div>
+                        <Button
+                            disabled={studentEssay?.checked}
+                            onClick={async () => {
+                                if (edit) {
+                                    await updateEssay(studentEssay.id, {
+                                        html_text: essayRef.current.innerHTML,
+                                        score: grade,
+                                    });
+
+                                    // console.log({
+                                    //     html_text: essayRef.current.innerHTML,
+                                    //     score: grade,
+                                    // });
+
+                                    getLesson(params.studentId);
+                                }
+                                setEdit((prev) => {
+                                    return !prev;
+                                });
+                            }}
+                        >
+                            {edit ? 'save' : 'edit'}
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

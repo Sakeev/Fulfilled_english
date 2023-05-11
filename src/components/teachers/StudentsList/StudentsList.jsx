@@ -1,67 +1,41 @@
-import { useEssay } from '../../../contexts/EssayContextProvider';
 import ProgressModal from '../ProgressModal/ProgressModal';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './StudentsList.css';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const StudentsList = () => {
     // const { students } = useEssay();
+    const { isTeacher, getRoomOrRooms } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [currentRoom, setCurrentRoom] = useState(null);
+    const [studentRooms, setStudentRooms] = useState([]);
+
+    useEffect(() => {
+        getRoomOrRooms()
+            .then((res) => {
+                console.log(res);
+                setStudentRooms(res);
+            })
+            .catch((err) => console.log(err));
+    }, [isTeacher]);
+
+    // const studentProgress = Math.round(
+    //     (100 / progress.lessonsQuantity) * progress.passedLessons
+    // );
 
     const onReviewHomeworks = (room) => {
         setShowModal(true);
         setCurrentRoom(room);
     };
 
-    const studentRooms = [
-        {
-            id: 1,
-            lessons: [
-                'http://35.239.173.63/room/lessons/1/',
-                'http://35.239.173.63/room/lessons/2/',
-            ],
-            level: 'elem',
-            progress: 45,
-            quantity_taks: 115,
-            payment: 0,
-            count_lessons: 1,
-            user: {
-                email: 'student@gmail.com',
-                first_name: 'Student',
-                last_name: 'Studentovich',
-            },
-        },
-        {
-            id: 2,
-            lessons: ['http://35.239.173.63/room/lessons/2/'],
-            level: 'elem',
-            progress: 34,
-            quantity_taks: 115,
-            payment: 0,
-            count_lessons: 1,
-            user: {
-                email: 'jbarakanov@gmail.com',
-                first_name: 'Jaanger',
-                last_name: 'Barakanov',
-            },
-        },
-        {
-            id: 3,
-            lessons: ['http://35.239.173.63/room/lessons/3/'],
-            level: 'elem',
-            progress: 107,
-            quantity_taks: 115,
-            payment: 0,
-            count_lessons: 1,
-            user: {
-                email: 'bekovs@gmail.com',
-                first_name: 'Bekov',
-                last_name: 'Sultan',
-            },
-        },
-    ];
+    if (studentRooms.length === undefined)
+        return (
+            <div className="loader-wrapper">
+                <div className="loader"></div>;
+            </div>
+        );
 
     return (
         <>
@@ -75,15 +49,13 @@ const StudentsList = () => {
                 </div>
                 {studentRooms?.map((room, index) => {
                     const studentProgress = Math.round(
-                        (100 / room.quantity_taks) * room.progress
+                        (100 / room.count_lessons) * room.progres_classwork
                     );
 
                     return (
                         <div className="sl-student-row" key={index}>
                             <div className="sl-element-wrapper">
-                                <p>
-                                    {room.user.first_name} {room.user.last_name}
-                                </p>
+                                <p>{room.user.email}</p>
                             </div>
                             <div className="sl-element-wrapper">
                                 <div className="sl-progress-bar">
