@@ -4,7 +4,7 @@ const Vocabulary = ({task = []}) => {
   const [words, setWords] = useState([]);
 
   useEffect(() => {
-    setWords(task[0]?.description.split('\r\n'))
+    setWords(task[0]?.description)
   }, [task])
 
   return (

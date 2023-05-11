@@ -5,19 +5,21 @@ import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
 import { isTeacher } from '../../helpers/funcs';
 import { Button } from '@mui/material';
 import ClassTasks from './ClassTasks';
+import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 
-const room_pk = 1;
 const request_id = new Date().getTime();
 
 function isDocumentEvent(message) {
   let evt = JSON.parse(message.data);
   return evt.type === 'contentchange';
 }
-
+// const room_pk = 1;
 const ClassWorkLayout = () => {
+  const { room_pk } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
   const [lesson, setLesson] = useState({})
   const [html, setHtml] = useState('');
+  const [inps, setInps] = useState('');
   const [playing, setPlaying] = useState(false);
 
   const tasks = useCallback((data) => {
@@ -77,7 +79,6 @@ const ClassWorkLayout = () => {
   });
 
   useEffect(() => {
-    console.log(123)
     sendJsonMessage({
       playing: playing,
       action: "audio_play",
@@ -91,9 +92,17 @@ const ClassWorkLayout = () => {
       message: html,
       action: "create_message",
       request_id: request_id,
-    }), 500);
+    }), 300);
     return () => clearTimeout(timeOut);
   }, [html])
+  
+  useEffect(() => {
+    sendJsonMessage({
+      message: inps,
+      action: "create_message",
+      request_id: request_id,
+    })
+  }, [inps])
   
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -105,6 +114,10 @@ const ClassWorkLayout = () => {
 
   function handleHtmlChange(e) {
     setHtml(e.target.value);;
+  }
+
+  function handleInputsChange(e) {
+    setInps(e.target.value)
   }
 
   return (
@@ -143,8 +156,8 @@ const ClassWorkLayout = () => {
           </Editor>
         </EditorProvider>
       </div>
-      <div style={{ margin: '0 30px' }}>
-        <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} />
+      <div style={{ margin: '0 30px', width: '70%' }}>
+        <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} handleInputsChange={handleInputsChange} />
       </div>
     </div>
   );
