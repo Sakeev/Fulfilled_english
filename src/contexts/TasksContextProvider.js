@@ -15,11 +15,11 @@ const INIT_STATE = {
     fillInps: [],
     sent: [],
     answers: [],
-    cases:[],
-    casesDetail:{},
-    singleCase:[],
-    caseInfo:{},
-    taskProgress:[],
+    cases: [],
+    casesDetail: {},
+    singleCase: [],
+    caseInfo: {},
+    taskProgress: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
@@ -39,15 +39,18 @@ const reducer = (state = INIT_STATE, action) => {
         case 'CASE':
             return { ...state, cases: action.payload };
         case 'CASE_DETAIL':
-            return { ...state, casesDetail: action.payload };    
+            return { ...state, casesDetail: action.payload };
         case 'CASE_INFO':
-            return { ...state, caseInfo: action.payload };  
+            return { ...state, caseInfo: action.payload };
         case 'SINGLE_CASE':
             return { ...state, singleCase: action.payload };
         case 'PROGRESS_OBJECT':
             return { ...state, progObj: action.payload };
         case 'TASK_PROGRESS':
-            return { ...state, taskProgress: [ ...state.taskProgress ,action.payload] }; 
+            return {
+                ...state,
+                taskProgress: [...state.taskProgress, action.payload],
+            };
         default:
             return state;
     }
@@ -56,26 +59,24 @@ const TasksContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
     const API = 'http://35.239.173.63/room/tasks/';
-    const getConfig=()=>{
-    const token = localStorage.getItem('token')
-        ? JSON.parse(localStorage.getItem('token'))
-        : '';
-    // console.log(token.access);
+    const getConfig = () => {
+        const token = localStorage.getItem('token')
+            ? JSON.parse(localStorage.getItem('token'))
+            : '';
+        // console.log(token.access);
 
-
-    
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token.access}`,
-        },
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token.access}`,
+            },
+        };
+        return config;
     };
-    return config
-    }
     const handleTask = async () => {
         try {
             const res = await axios(`${API}`, getConfig());
-            
+
             dispatch({
                 type: 'GET_TASKS',
                 payload: res.data,
@@ -101,7 +102,7 @@ const TasksContextProvider = ({ children }) => {
         }
     };
 
-    const handleAnswer = async (obj , id) => {
+    const handleAnswer = async (obj, id) => {
         try {
             const res = await axios.post(
                 `http://35.239.173.63/room/tasks/${id}/answer/`,
@@ -113,67 +114,83 @@ const TasksContextProvider = ({ children }) => {
             console.log(error);
         }
     };
-    const handleCase=async()=>{
-        const {data} = await axios('http://35.239.173.63/room/get_lesson/' , getConfig());
-        console.log(data);
-        dispatch({
-            type:"CASE",
-            payload:data
-        })
-    }
+    const handleCase = async () => {
+        const { data } = await axios(
+            'http://35.239.173.63/room/get_lesson/',
+            getConfig()
+        );
 
-    const handleCaseDetail=async(id , task_id)=>{
-        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/?task=${task_id}` ,getConfig())
         dispatch({
-            type:'CASE_DETAIL',
-            payload:data,
-        })
-    }
-    const singleCase = async(id)=>{
-        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/` , getConfig())
+            type: 'CASE',
+            payload: data,
+        });
+    };
+
+    const handleCaseDetail = async (id, task_id) => {
+        const { data } = await axios(
+            `http://35.239.173.63/room/case_tasks/${id}/?task=${task_id}`,
+            getConfig()
+        );
         dispatch({
-            type:'SINGLE_CASE',
-            payload:data,
-        })
-        return data
-    }
-    const infoCase =async(id)=>{
-        const {data} = await axios(`http://35.239.173.63/room/case_tasks/${id}/` , getConfig())
+            type: 'CASE_DETAIL',
+            payload: data,
+        });
+    };
+    const singleCase = async (id) => {
+        const { data } = await axios(
+            `http://35.239.173.63/room/case_tasks/${id}/`,
+            getConfig()
+        );
+        dispatch({
+            type: 'SINGLE_CASE',
+            payload: data,
+        });
+        return data;
+    };
+    const infoCase = async (id) => {
+        const { data } = await axios(
+            `http://35.239.173.63/room/case_tasks/${id}/`,
+            getConfig()
+        );
         // console.log(data);
         dispatch({
-            type:'CASE_INFO',
-            payload:data,
-        })
-    }
-    
-    const editProgress = async(obj , caseIndex)=>{
-        if(obj.task0){
-            console.log('patch' , obj);
-        let resObj={
-            "json_field":obj
-        }
-        const {data} = await axios.patch(`http://35.239.173.63/room/case_tasks/${caseIndex}/` , resObj , getConfig());
-        
-        }
-    }
+            type: 'CASE_INFO',
+            payload: data,
+        });
+    };
 
-    const getProgress = async(caseIndex)=>{
-        const {data} = await axios.get(`http://35.239.173.63/room/case_tasks/${caseIndex}/` , getConfig());
+    const editProgress = async (obj, caseIndex) => {
+        if (obj.task0) {
+            console.log('patch', obj);
+            let resObj = {
+                json_field: obj,
+            };
+            const { data } = await axios.patch(
+                `http://35.239.173.63/room/case_tasks/${caseIndex}/`,
+                resObj,
+                getConfig()
+            );
+        }
+    };
+
+    const getProgress = async (caseIndex) => {
+        const { data } = await axios.get(
+            `http://35.239.173.63/room/case_tasks/${caseIndex}/`,
+            getConfig()
+        );
         dispatch({
-            type:'PROGRESS_OBJECT',
-            payload:data,
-        })
-    }
-
-    // console.log(state);
+            type: 'PROGRESS_OBJECT',
+            payload: data,
+        });
+    };
 
     const values = {
         handleTask,
         handleCase,
         singleCase,
-        caseDetail:state.casesDetail,
+        caseDetail: state.casesDetail,
         handleCaseDetail,
-        cases:state.cases,
+        cases: state.cases,
         tasks: state.tasks,
         sent: state.sent,
         fillInps: state.fillInps,
@@ -182,13 +199,13 @@ const TasksContextProvider = ({ children }) => {
         handleAnswer,
         getAnswers,
         answers: state.answers,
-        oneCase:state.singleCase,
-        caseInfo:state.caseInfo,
+        oneCase: state.singleCase,
+        caseInfo: state.caseInfo,
         infoCase,
-        taskProgress:state.taskProgress,
+        taskProgress: state.taskProgress,
         editProgress,
         getProgress,
-        progObj:state.progObj,
+        progObj: state.progObj,
     };
 
     return (

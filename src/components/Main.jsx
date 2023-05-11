@@ -216,35 +216,43 @@ const Main = () => {
                 >
                     <Box
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            width: '90%',
-                        }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{ ml: 5, color: '#006d77' }}
-                        >
-                            Ваш прогресс
-                        </Typography>
-                        <Typography variant="h6" sx={{ color: '#006d77' }}>
-                            7/10 выполнено
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            ml: 5,
-                            width: '90%',
-                            height: '50px',
-                            bgcolor: '#83C5BE',
+                            m: 2,
+                            height: '28vh',
+                            maxHeight: '220px',
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
                             borderRadius: '10px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            alignItems: 'space-between',
                         }}
                     >
                         <Box
                             sx={{
-                                width: '70%',
-                                height: '100%',
-                                bgcolor: '#E29578',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{ ml: 5, color: '#006d77' }}
+                            >
+                                Ваш прогресс
+                            </Typography>
+                            <Typography variant="h6" sx={{ color: '#006d77' }}>
+                                {progress.passedLessons}/
+                                {progress.lessonsQuantity}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                ml: 5,
+                                width: '90%',
+                                height: '50px',
+                                bgcolor: '#83C5BE',
                                 borderRadius: '10px',
                             }}
                         ></Box>
