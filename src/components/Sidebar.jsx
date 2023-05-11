@@ -81,110 +81,40 @@ export default function Appbar() {
     }
 
     return (
-        <Box sx={sidebarContainer}>
-            <Box sx={sidebarStyle}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center',
-                        mt: 5,
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => navigate('/')}
-                >
-                    <img
-                        src={Logo}
-                        alt="logo"
-                        style={{ width: '50px', marginLeft: '20px', mt: 2 }}
-                    />
-                    <Box>
-                        <Typography
-                            component={'p'}
-                            style={{
-                                marginLeft: '20px',
-                                color: '#006d77',
-                                fontSize: '18px',
-                                fontWeight: '500',
-                            }}
-                        >
-                            Fluently
-                        </Typography>
-                        <Typography
-                            component={'p'}
-                            style={{
-                                marginLeft: '20px',
-                                color: '#006d77',
-                                fontSize: '18px',
-                                fontWeight: '500',
-                            }}
-                        >
-                            English
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box
-                    sx={{
-                        padding: '20px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        height: '100%',
-                        mt: 3,
-                    }}
-                >
-                    <ThemeProvider theme={theme}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Button
-                                sx={btnStyle}
-                                onClick={() => navigate('/tasks')}
-                            >
-                                Homework
-                            </Button>
-                            <Button
-                                sx={btnStyle}
-                                onClick={() => navigate('/essay ')}
-                            >
-                                Essay
-                            </Button>
-                            {isTeacher ? (
-                                <Button
-                                    sx={btnStyle}
-                                    onClick={() => navigate('/students')}
-                                >
-                                    Students
-                                </Button>
-                            ) : null}
-                            <Button
-                                sx={btnStyle}
-                                onClick={() => navigate('/schedule')}
-                            >
-                                Schedule
-                            </Button>
-                            <Button sx={btnStyle} onClick={foo}>
-                                Log out
-                            </Button>
-                        </Box>
-                        <Box sx={{ alignSelf: 'center' }}>
-                            <img
-                                src={sticker}
-                                alt=""
-                                style={{ width: '160px' }}
-                            />
-                        </Box>
-                        <Box>
-                            <Typography variant="p">
-                                <Copyright
-                                    sx={{
-                                        fontSize: '12px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                    }}
-                                />
-                            </Typography>
-                        </Box>
-                    </ThemeProvider>
-                </Box>
+      <Typography
+        variant="body3"
+        color="text.secondary"
+        align="center"
+        {...props}
+
+      >
+        {'Copyright © '}Fluent English {new Date().getFullYear()}{'.'}
+      </Typography>
+    );
+  }
+
+  return (
+    <Box sx={sidebarContainer}>
+      <Box sx={sidebarStyle}>
+        <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mt: 5, cursor: 'pointer'}} onClick={()=>navigate('/')}>
+          <img src={Logo} alt="logo" style={{width: '50px', marginLeft: '20px', mt: 2}}/>
+          <Box>
+            <Typography component={"p"} style={{marginLeft: '20px', color: '#006d77', fontSize: '18px', fontWeight: '600'}}>Fluent</Typography>
+            <Typography component={"p"} style={{marginLeft: '20px', color: '#006d77', fontSize: '18px', fontWeight: '600'}}>English</Typography>
+          </Box>
+        </Box>
+        <Box  sx={{padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', mt: 3}}>
+          <ThemeProvider theme={theme}>
+            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+              <Button sx={btnStyle} onClick={()=>navigate('/tasks')}>Homework</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/essay ')}>Essay</Button>
+              <Button sx={btnStyle} onClick={()=>navigate('/students')}>Students</Button>
+              {isTeacher ? (<Button sx={btnStyle} onClick={() => navigate('/students')}>Students</Button>) : null}
+              <Button sx={btnStyle} onClick={()=>navigate('/schedule')}>Schedule</Button>
+              <Button sx={btnStyle} onClick={foo}>Log out</Button>
+            </Box>
+            <Box sx={{alignSelf: 'center'}}>
+              <img src={sticker} alt="" style={{width: '160px'}} />
             </Box>
         </Box>
     );
