@@ -34,7 +34,7 @@ function isDocumentEvent(message) {
 }
 // const room_pk = 1;
 const ClassWorkLayout = () => {
-  const { room_pk, postNote } = useClassWork();
+  const { room_pk, postNote, sendMark } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(
     `ws://13.50.235.4/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
@@ -45,6 +45,7 @@ const ClassWorkLayout = () => {
   const [inps, setInps] = useState("");
   const [playing, setPlaying] = useState(false);
   const [note_id, setNote] = useState(0);
+  const [mark, setMark] = useState(0);
 
   const tasks = useCallback(
     (data) => {
@@ -154,6 +155,10 @@ const ClassWorkLayout = () => {
     setInps(e.target.value);
   }
 
+  function handleMarksInput(e) {
+    setMark(e.target.value);
+  }
+
   function sendNote() {
     let obj = Object.assign({
       body: html,
@@ -248,8 +253,13 @@ const ClassWorkLayout = () => {
               type="text"
               style={{ width: "50px", paddingLeft: "10px" }}
               placeholder="  / 10"
+              onChange={handleMarksInput}
             />
-            <Button color="success" sx={{ width: "100px" }}>
+            <Button
+              color="success"
+              sx={{ width: "100px" }}
+              onClick={() => sendMark(mark)}
+            >
               mark
             </Button>
           </Box>
