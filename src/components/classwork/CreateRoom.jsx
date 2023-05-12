@@ -12,6 +12,7 @@ const CreateRoom = () => {
   const { getSchedule, schedule } = useSchedule();
   const { getLesson, lesson, createRoom, createRoomError, clearErrors } =
     useClassWork();
+  console.log(lesson);
   const { getStudents, studentsList } = useUsers();
 
   const handleSubmit = (e) => {
@@ -33,7 +34,7 @@ const CreateRoom = () => {
     setRoomInfo({
       ...roomInfo,
       lesson_id: lesson[0]?.id,
-      student: lesson[0]?.user.id,
+      student: lesson[0]?.user.email,
     });
   }, [lesson]);
 

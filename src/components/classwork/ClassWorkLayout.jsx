@@ -82,9 +82,22 @@ const ClassWorkLayout = () => {
           request_id: request_id,
         };
         sendJsonMessage(subscribeInstanceMessage);
+        const subscribeLessonActivity = {
+          action: "subscribe_lesson_activity",
+          request_id: request_id,
+        };
+        sendJsonMessage(subscribeLessonActivity);
+        const getLessonInRoom = {
+          pk: 1,
+          action: "get_lesson",
+          room_pk: room_pk,
+          request_id: request_id,
+        };
+        sendJsonMessage(getLessonInRoom);
       },
       onMessage: (e) => {
         const data = JSON.parse(e.data);
+        console.log(data);
         switch (data.action) {
           case "retrieve":
             console.log(data.data);

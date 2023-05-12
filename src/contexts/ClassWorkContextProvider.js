@@ -104,7 +104,6 @@ const ClassWorkContextProvider = ({ children }) => {
 
   // Заметки
   const postNote = async (note, id) => {
-    console.log(note);
     try {
       await axios.patch(`${CHAT_NOTES_API}${id}/`, note, getToken());
     } catch (error) {
