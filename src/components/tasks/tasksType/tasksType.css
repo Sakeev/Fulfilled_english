@@ -182,6 +182,17 @@
     padding-right: 1.5em;
 }
 
+/* TABLE COMPONENT */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-container button {
+    align-self: flex-end;
+}
+
 /* BUILD DIALOG COMPONENT */
 .build-dialog-container {
     display: flex;

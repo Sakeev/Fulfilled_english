@@ -23,11 +23,6 @@ const mainBox = {
     padding: '40px 0',
 };
 
-const taskBox = {
-    display: 'flex',
-    flexDirection: 'column',
-};
-
 const casesBox = {
     width: '40%',
     height: '10vh',
@@ -70,25 +65,12 @@ const Tasks = () => {
 
     const result = answers.slice(answers.length - 3, answers.length);
 
-    const [count, setCount] = useState('');
-
     const navigate = useNavigate();
 
     useEffect(() => {
         handleTask();
         handleCase();
     }, []);
-    // console.log(taskProgress);
-    const ansObj = {
-        sent,
-        fillInps,
-        wordFind,
-    };
-
-    const finalObj = {
-        answer: 'fdsaf',
-        tasks: 1,
-    };
 
     let formData = new FormData();
     formData.append('answer', wordFind);
@@ -114,10 +96,6 @@ const Tasks = () => {
         alert(result[1]?.answer + '->' + result[1]?.accepted);
         alert(result[2]?.answer + '->' + result[2]?.accepted);
     };
-
-    const abc = JSON.stringify(finalObj);
-
-    // console.log();
 
     const [doneTasks, setDoneTasks] = useState(0);
 

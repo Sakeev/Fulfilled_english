@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { createContext } from 'react';
+import { API } from '../helpers/consts';
 
 export const tasksContext = createContext();
 
@@ -58,7 +59,6 @@ const reducer = (state = INIT_STATE, action) => {
 const TasksContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
-    const API = 'http://35.239.173.63/room/tasks/';
     const getConfig = () => {
         const token = localStorage.getItem('token')
             ? JSON.parse(localStorage.getItem('token'))
@@ -75,7 +75,7 @@ const TasksContextProvider = ({ children }) => {
     };
     const handleTask = async () => {
         try {
-            const res = await axios(`${API}`, getConfig());
+            const res = await axios(`${API}room/tasks/`, getConfig());
 
             dispatch({
                 type: 'GET_TASKS',
@@ -88,10 +88,7 @@ const TasksContextProvider = ({ children }) => {
 
     const getAnswers = async () => {
         try {
-            const res = await axios(
-                'http://35.239.173.63/room/answers/',
-                getConfig()
-            );
+            const res = await axios(`${API}room/answers/`, getConfig());
             // console.log(res);
             dispatch({
                 type: 'ANSWERS',
@@ -105,7 +102,7 @@ const TasksContextProvider = ({ children }) => {
     const handleAnswer = async (obj, id) => {
         try {
             const res = await axios.post(
-                `http://35.239.173.63/room/tasks/${id}/answer/`,
+                `${API}room/tasks/${id}/answer/`,
                 obj,
                 getConfig()
             );
@@ -115,10 +112,7 @@ const TasksContextProvider = ({ children }) => {
         }
     };
     const handleCase = async () => {
-        const { data } = await axios(
-            'http://35.239.173.63/room/get_lesson/',
-            getConfig()
-        );
+        const { data } = await axios(`${API}room/get_lesson/`, getConfig());
 
         dispatch({
             type: 'CASE',
@@ -128,7 +122,7 @@ const TasksContextProvider = ({ children }) => {
 
     const handleCaseDetail = async (id, task_id) => {
         const { data } = await axios(
-            `http://35.239.173.63/room/case_tasks/${id}/?task=${task_id}`,
+            `${API}room/case_tasks/${id}/?task=${task_id}`,
             getConfig()
         );
         dispatch({
@@ -138,7 +132,7 @@ const TasksContextProvider = ({ children }) => {
     };
     const singleCase = async (id) => {
         const { data } = await axios(
-            `http://35.239.173.63/room/case_tasks/${id}/`,
+            `${API}room/case_tasks/${id}/`,
             getConfig()
         );
         dispatch({
@@ -149,7 +143,7 @@ const TasksContextProvider = ({ children }) => {
     };
     const infoCase = async (id) => {
         const { data } = await axios(
-            `http://35.239.173.63/room/case_tasks/${id}/`,
+            `${API}room/case_tasks/${id}/`,
             getConfig()
         );
         // console.log(data);
@@ -165,8 +159,9 @@ const TasksContextProvider = ({ children }) => {
             let resObj = {
                 json_field: obj,
             };
-            const { data } = await axios.patch(
-                `http://35.239.173.63/room/case_tasks/${caseIndex}/`,
+
+            await axios.patch(
+                `${API}room/case_tasks/${caseIndex}/`,
                 resObj,
                 getConfig()
             );
@@ -175,7 +170,7 @@ const TasksContextProvider = ({ children }) => {
 
     const getProgress = async (caseIndex) => {
         const { data } = await axios.get(
-            `http://35.239.173.63/room/case_tasks/${caseIndex}/`,
+            `${API}room/case_tasks/${caseIndex}/`,
             getConfig()
         );
         dispatch({
