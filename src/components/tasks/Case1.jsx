@@ -15,6 +15,7 @@ import BuildDialog from './tasksType/BuildDialog';
 import Dropdown from './tasksType/DropDown';
 
 import './Case1.css';
+import Table from './tasksType/Table';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
@@ -155,9 +156,19 @@ const Case1 = () => {
             );
 
             break;
-        case 'drop down': // ! temporary
+        case 'drop down':
             component = (
                 <Dropdown
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                />
+            );
+            break;
+        case 'table':
+            component = (
+                <Table
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
@@ -170,6 +181,8 @@ const Case1 = () => {
             component = null;
             break;
     }
+
+    // console.log(caseDetail);
 
     const vocabulary = getVocabulary();
 
