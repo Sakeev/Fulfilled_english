@@ -60,9 +60,12 @@ const EssayContextProvider = ({ children }) => {
         try {
             setLoading(true);
             const formData = id ? { user_id: id } : {};
-            const { data } = await api.get(`${API}room/get_lesson/`, {
+            let { data } = await api.get(`${API}room/get_lesson/`, {
                 params: formData,
             });
+
+            if (data.length === 1) data = data[0];
+            else data = null;
 
             dispatch({
                 type: 'GET_LESSON',
