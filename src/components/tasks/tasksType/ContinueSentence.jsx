@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+import './tasksType.css';
 
 const styles = {
     main: {
@@ -29,157 +31,135 @@ const styles = {
     },
 };
 
-const data = ['lorem some', 'words', 'have to', 'get'];
-const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
+// const data = ['lorem some', 'words', 'have to', 'get'];
+// const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
+const colors = [
+    'red',
+    'green',
+    'yellow',
+    'aqua',
+    'orange',
+    'gray',
+    'violet',
+    'purple',
+];
 
-const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , caseDetail , handleCaseDetail}) => {
-    const [wordsPairs, setWordsPairs] = useState({
-        first: [],
-        second: [],
-        third: [],
-        fourth: [],
-    });
+const ContinueSentence = ({
+    taskBox,
+    handleAnswer,
+    caseInfo,
+    task_id,
+    id,
+    caseDetail,
+    handleCaseDetail,
+}) => {
+    const [wordsPairs, setWordsPairs] = useState([]);
 
-    const [firstDesc , setFirstDesc] = useState(null);
-    const [secondDesc , setSecondDesc] = useState(null);
+    const [firstDesc, setFirstDesc] = useState(null);
+    const [secondDesc, setSecondDesc] = useState(null);
 
+    useEffect(() => {
+        handleCaseDetail(id, task_id);
+        setFirstDesc(caseDetail?.description1);
+        setSecondDesc(caseDetail?.description2);
+    }, []);
 
-    useEffect(()=>{
-        handleCaseDetail(id , task_id)
-        setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
+    useEffect(() => {
+        setFirstDesc(caseDetail?.description1);
+        setSecondDesc(caseDetail?.description2);
+    }, [task_id]);
 
-    },[])
-    
-    useEffect(()=>{
-        setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
-    },[task_id])
-    
     useEffect(() => {
         if (caseDetail) {
-            setFirstDesc(caseDetail?.description1)
-        setSecondDesc(caseDetail?.description2)
+            setFirstDesc(caseDetail?.description1);
+            setSecondDesc(caseDetail?.description2);
         }
-      }, [caseDetail]);
+    }, [caseDetail]);
 
-      console.log(firstDesc , secondDesc);
-    const checkWordsPairs = (id) => {
-        for (let key in wordsPairs) {
-            wordsPairs[key].forEach((wordObj, wordObjIndex) => {
-                if (wordObj.id === id) {
-                    const newWordsPairs = {
-                        ...wordsPairs,
-                        first: [...wordsPairs.first],
-                        second: [...wordsPairs.second],
-                        third: [...wordsPairs.third],
-                        fourth: [...wordsPairs.fourth],
-                    };
-                    newWordsPairs[key].splice(wordObjIndex, 1);
-                    setWordsPairs(newWordsPairs);
+    const isWordInArr = (index) => {
+        if (wordsPairs.length === 0) return false;
+
+        for (let wordsPair of wordsPairs) {
+            for (let word of wordsPair) {
+                if (word.id === index) return true;
+            }
+        }
+
+        return false;
+    };
+
+    const handleWord = (item, index, event) => {
+        let newWordsPairs = JSON.parse(JSON.stringify(wordsPairs));
+
+        if (isWordInArr(index)) {
+            for (let i in newWordsPairs) {
+                for (let j in newWordsPairs[i]) {
+                    if (newWordsPairs[i][j].id === index) {
+                        newWordsPairs[i].splice(j, 1);
+                        event.target.style.backgroundColor = '#9bd0cb';
+                        break;
+                    }
                 }
-            });
+            }
+        } else {
+            let added = false;
+
+            for (let i in newWordsPairs) {
+                if (newWordsPairs[i].length < 2) {
+                    if (
+                        newWordsPairs[i].length !== 0 &&
+                        ((newWordsPairs[i][0].id < firstDesc.length &&
+                            index < firstDesc.length) ||
+                            (newWordsPairs[i][0].id >= firstDesc.length &&
+                                index >= firstDesc.length))
+                    )
+                        return;
+                    newWordsPairs[i].push({
+                        word: item,
+                        picked: true,
+                        id: index,
+                    });
+                    added = true;
+                    event.target.style.backgroundColor = colors[i];
+                    console.log(event.target);
+                    break;
+                }
+            }
+
+            if (!added) {
+                newWordsPairs.push([
+                    {
+                        word: item,
+                        picked: true,
+                        id: index,
+                    },
+                ]);
+                event.target.style.backgroundColor =
+                    colors[newWordsPairs.length - 1];
+            }
         }
+        setWordsPairs(newWordsPairs);
     };
 
-    
-
-    const addArr = (item, index) => {
-        if (wordsPairs.first.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.first.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.second.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.second.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.third.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.third.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        } else if (wordsPairs.fourth.length < 2) {
-            setWordsPairs((prev) => {
-                const newWordsPairs = {
-                    ...prev,
-                    first: [...prev.first],
-                    second: [...prev.second],
-                    third: [...prev.third],
-                    fourth: [...prev.fourth],
-                };
-
-                newWordsPairs.fourth.push({
-                    word: item,
-                    picked: true,
-                    id: index,
-                });
-
-                return newWordsPairs;
-            });
-            checkWordsPairs(index);
-        }
+    const obj = {
+        answers: wordsPairs,
     };
-    const obj={
-        answers:wordsPairs
-    }
+
+    console.log(wordsPairs);
 
     return (
-        <>
-            <Box sx={taskBox}>
-                <Typography variant="h6" color="secondary">
-                </Typography>
+        <div className="continue-sentence-container task-types-container">
+            <div className="continue-sentence">
                 <Box sx={styles.main}>
                     <Box sx={styles.wordsContainer}>
                         {firstDesc?.map((item, index) => (
                             <Typography
                                 key={index}
                                 sx={styles.words}
-                                onClick={() => addArr(item, index)}
+                                onClick={(e) => {
+                                    handleWord(item, index, e);
+                                }}
                             >
                                 {item}
                             </Typography>
@@ -190,8 +170,12 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
                             <Typography
                                 key={index + firstDesc?.length}
                                 sx={styles.words}
-                                onClick={() =>
-                                    addArr(item, index + firstDesc?.length)
+                                onClick={(e) =>
+                                    handleWord(
+                                        item,
+                                        index + firstDesc?.length,
+                                        e
+                                    )
                                 }
                             >
                                 {item}
@@ -199,9 +183,15 @@ const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , 
                         ))}
                     </Box>
                 </Box>
-            </Box>
-            <button onClick={()=>handleAnswer(obj , caseInfo.tasks?.[task_id-1].id)}>send</button>
-        </>
+            </div>
+            <Button
+                onClick={() =>
+                    handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                }
+            >
+                send
+            </Button>
+        </div>
     );
 };
 

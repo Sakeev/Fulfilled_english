@@ -15,6 +15,7 @@ const Essay = () => {
     const [essayTemplate, setEssayTemplate] = useState(null);
     const [essayText, setEssayText] = useState('');
     const [essay, setEssay] = useState(null);
+    const [noEssay, setNoEssay] = useState(false);
     const highlightedEssayText = useRef();
 
     useEffect(() => {
@@ -24,8 +25,9 @@ const Essay = () => {
     }, []);
 
     useEffect(() => {
-        if (lesson.essay) {
-            setEssayTemplate(lesson.essay[0]);
+        if (lesson?.essay) {
+            if (lesson.essay.length === 0) setNoEssay(true);
+            else setEssayTemplate(lesson.essay[0]);
         }
     }, [lesson]);
 
@@ -53,6 +55,10 @@ const Essay = () => {
         getLesson();
     };
 
+    if (noEssay) {
+        return <h3 className="essay-no-essay">You haven't essay</h3>;
+    }
+
     if (!essayTemplate || loading) {
         return (
             <div className="loader-wrapper">
@@ -68,7 +74,14 @@ const Essay = () => {
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
                         <span>Subject: </span>
-                        <span className="black">{essayTemplate?.title}</span>
+                        <audio
+                            src={
+                                essayTemplate
+                                    ? `${API}${essayTemplate?.audio}`
+                                    : ''
+                            }
+                            controls
+                        ></audio>
                     </div>
                     <div className="student-essay-status">
                         <span>Status:</span>
@@ -123,6 +136,7 @@ const Essay = () => {
                     >
                         send
                     </Button>
+                    {essay?.checked ? <span>{essay?.score}/10</span> : null}
                 </div>
             </div>
         </div>
