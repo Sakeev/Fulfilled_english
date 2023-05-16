@@ -12,8 +12,6 @@ export default function Login() {
         isLoading,
     } = useAuth();
 
-    console.log(emailError, passwordError)
-
     return (
         <>
             <div className="container">
@@ -41,7 +39,7 @@ export default function Login() {
                             {
                                 isLoading ? 
                                 <button type='submit' className='btn-loader'>
-                                    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                                    <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                                 </button>
                                 :
                                 <button type='submit'>Login</button>

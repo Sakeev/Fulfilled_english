@@ -11,7 +11,7 @@ const styles = {
         mt: 2,
     },
     words: {
-        bgcolor: '#9bd0cb',
+        bgcolor: '#C5E5E2',
         color: '#006D77',
         margin: '5px 0',
         padding: '10px',

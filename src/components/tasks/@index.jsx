@@ -24,7 +24,7 @@ const taskBox = {
 const casesBox={
     width:'40%',
     height:'10vh',
-    backgroundColor:'#9bd0cb',
+    backgroundColor:'#C5E5E2',
     color:'#006D77',
     borderRadius:'5px',
     display:'flex',
