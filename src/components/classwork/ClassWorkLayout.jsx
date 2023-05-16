@@ -45,13 +45,14 @@ const ClassWorkLayout = () => {
   const [inps, setInps] = useState("");
   const [playing, setPlaying] = useState(false);
   const [note_id, setNote] = useState(0);
-
+  console.log(html);
   const tasks = useCallback(
     (data) => {
       setLesson(data);
     },
     [lesson]
   );
+  console.log(lesson);
 
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
     socketUrl,
@@ -97,7 +98,6 @@ const ClassWorkLayout = () => {
       },
       onMessage: (e) => {
         const data = JSON.parse(e.data);
-        console.log(data);
         switch (data.action) {
           case "retrieve":
             console.log(data.data);
