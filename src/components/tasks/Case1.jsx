@@ -97,7 +97,6 @@ switch (caseDetail?.implemented_case) {
   case 'missing word':
     component = (      
       <Inputs
-        
         descr={caseDetail?.description}
         id={id}
         task_id={task_id}
