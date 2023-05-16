@@ -59,7 +59,6 @@ const reducer = (state = INIT_STATE, action) => {
 const TasksContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
-  //   const API = `${API}room/tasks/`;
   const getConfig = () => {
     const token = localStorage.getItem("token")
       ? JSON.parse(localStorage.getItem("token"))
@@ -113,8 +112,8 @@ const TasksContextProvider = ({ children }) => {
     }
   };
   const handleCase = async () => {
-    const { data } = await axios(`${API}room/get_lesson/?hw=true`, getConfig());
-    console.log(data);
+    const { data } = await axios(`${API}room/get_lesson/`, getConfig());
+
     dispatch({
       type: "CASE",
       payload: data,
@@ -154,7 +153,8 @@ const TasksContextProvider = ({ children }) => {
       let resObj = {
         json_field: obj,
       };
-      const { data } = await axios.patch(
+
+      await axios.patch(
         `${API}room/case_tasks/${caseIndex}/`,
         resObj,
         getConfig()
@@ -172,8 +172,6 @@ const TasksContextProvider = ({ children }) => {
       payload: data,
     });
   };
-
-  // console.log(state);
 
   const values = {
     handleTask,

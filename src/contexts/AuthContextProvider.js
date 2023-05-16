@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AUTH_API } from '../helpers/consts';
+import { API, AUTH_API } from '../helpers/consts';
 import axios from 'axios';
 import api from '../http';
 
@@ -52,7 +52,7 @@ const AuthContextProvider = ({ children }) => {
             dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher });
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }));
-            localStorage.setItem('user', email);
+            localStorage.setItem('username', email);
             localStorage.setItem('isTeacher', JSON.stringify(isTeacher));
             navigate('/');
         } catch (error) {
@@ -110,7 +110,7 @@ const AuthContextProvider = ({ children }) => {
                                 'Неверный адрес электронной почты или пароль',
                         },
                         emailError: {
-                            status: false,
+                            status: true,
                             message: '',
                         },
                     };
@@ -163,6 +163,13 @@ const AuthContextProvider = ({ children }) => {
         setUser('');
     }
 
+    async function getRoomOrRooms() {
+        const res = await api.get(`${API}room/rooms/`);
+
+        if (state.isTeacher) return res.data || [];
+        else return res.data[0] || null;
+    }
+
     const values = {
         token,
         login,
@@ -173,6 +180,7 @@ const AuthContextProvider = ({ children }) => {
         isLoading,
         userId: state.userId,
         isTeacher: state.isTeacher,
+        getRoomOrRooms,
     };
 
     return (

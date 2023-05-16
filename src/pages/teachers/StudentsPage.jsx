@@ -1,4 +1,4 @@
-import StudentsList from '../../components/teachers/StudentsList';
+import StudentsList from '../../components/teachers/StudentsList/StudentsList';
 import Sidebar from '../../components/Sidebar';
 import React from 'react';
 

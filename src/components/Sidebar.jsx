@@ -11,8 +11,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 import sticker from "../assets/images/sidebar.svg";
 import Logo from "../assets/images/logo.png";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth } from "../contexts/AuthContextProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material";
+import sticker from "../assets/images/sidebar.svg";
+import Logo from "../assets/images/logo.png";
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#9bd0cb",
+    },
+    secondary: {
+      main: "#E29578",
+    },
+  },
   palette: {
     primary: {
       main: "#9bd0cb",
@@ -24,7 +45,7 @@ const theme = createTheme({
 });
 
 export default function Appbar() {
-  const { user, checkAuth, logout } = useAuth();
+  const { isTeacher, checkAuth, logout } = useAuth();
 
   const navigate = useNavigate();
   const foo = () => {
@@ -32,6 +53,11 @@ export default function Appbar() {
     navigate("/");
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      checkAuth();
+    }
+  }, []);
   React.useEffect(() => {
     if (localStorage.getItem("token")) {
       checkAuth();
@@ -48,13 +74,38 @@ export default function Appbar() {
     borderRight: "2px solid #9bd0cb",
     position: "fixed",
   };
+  const sidebarStyle = {
+    display: "flex",
+    flexDirection: "column",
+    width: "18vw",
+    minWidth: "200px",
+    height: "100vh",
+    // boxShadow: '4px 0px 10px -2px rgba(115,115,115,0.75)',
+    borderRight: "2px solid #9bd0cb",
+    position: "fixed",
+  };
 
   const sidebarContainer = {
     maxWidth: "20vw",
     width: "18vw",
     minWidth: "200px",
   };
+  const sidebarContainer = {
+    maxWidth: "20vw",
+    width: "18vw",
+    minWidth: "200px",
+  };
 
+  const btnStyle = {
+    margin: "10px 5px",
+    backgroundColor: "#9bd0cb",
+    color: "#006D77",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "#006D77",
+      color: "#9bd0cb",
+    },
+  };
   const btnStyle = {
     margin: "10px 5px",
     backgroundColor: "#9bd0cb",
@@ -79,8 +130,6 @@ export default function Appbar() {
       </Typography>
     );
   }
-  const teacher = JSON.parse(localStorage.getItem("isTeacher"));
-  console.log(teacher == true);
 
   return (
     <Box sx={sidebarContainer}>
@@ -137,22 +186,17 @@ export default function Appbar() {
         >
           <ThemeProvider theme={theme}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              {teacher == true ? (
-                <Button sx={btnStyle} onClick={() => navigate("/homework")}>
-                  Homework
-                </Button>
-              ) : (
-                <Button sx={btnStyle} onClick={() => navigate("/tasks")}>
-                  Homework
-                </Button>
-              )}
-
+              <Button sx={btnStyle} onClick={() => navigate("/tasks")}>
+                Homework
+              </Button>
               <Button sx={btnStyle} onClick={() => navigate("/essay ")}>
                 Essay
               </Button>
-              <Button sx={btnStyle} onClick={() => navigate("/students")}>
-                Students
-              </Button>
+              {isTeacher ? (
+                <Button sx={btnStyle} onClick={() => navigate("/students")}>
+                  Students
+                </Button>
+              ) : null}
               <Button sx={btnStyle} onClick={() => navigate("/schedule")}>
                 Schedule
               </Button>
