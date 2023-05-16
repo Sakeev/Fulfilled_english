@@ -24,6 +24,7 @@ const style = {
 };
 const btnStyle = {
   margin: "10px 5px",
+  width: "100px",
   backgroundColor: "#9bd0cb",
   color: "#006D77",
   textTransform: "none",

@@ -57,7 +57,7 @@ const MainRoutes = () => {
     },
     {
       link: "/tasks",
-      element: <TasksPage />,
+      element: isTeacher ? <TeachersHwPage /> : <TasksPage />,
       id: 4,
     },
     {
