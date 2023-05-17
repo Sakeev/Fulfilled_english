@@ -1,0 +1,51 @@
+.pm-background {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.pm-modal {
+    display: flex;
+    gap: 2em;
+    width: 40%;
+    min-height: 40vh;
+    background-color: white;
+    border: 0.0625rem solid #9bd0cb;
+    border-radius: 0.625rem;
+    padding: 1.25em;
+}
+
+.pm-modal-selects {
+    width: 25%;
+}
+
+.pm-modal-selects .MuiOutlinedInput-root {
+    width: 100%;
+    height: 2.5rem;
+}
+
+.pm-modal-tasks {
+    min-width: 30%;
+}
+
+.pm-modal-tasks h2 {
+    margin-bottom: 0.125em;
+}
+
+.pm-modal-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    border-bottom: 0.0625rem solid #9bd0cb;
+    margin-bottom: 0.375em;
+}
+
+.pm-modal-row span {
+    font-weight: bold;
+}

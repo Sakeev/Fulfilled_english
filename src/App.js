@@ -9,7 +9,10 @@ import UsersContextProvider from './contexts/UsersContextProvider';
 
 import AuthPage from './pages/AuthPage';
 import MainRoutes from './routes/MainRoutes';
-
+import ContinueSentence from './components/tasks/tasksType/ContinueSentence';
+import FillInps from './components/tasks/FillInps';
+import Sentence from './components/tasks/tasksType/Sentence'
+import DropDown from './components/tasks/tasksType/DropDown';
 function App() {
     return (
         <ClassWorkContextProvider>

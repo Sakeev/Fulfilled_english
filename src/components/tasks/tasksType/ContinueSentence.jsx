@@ -32,7 +32,8 @@ const styles = {
 const data = ['lorem some', 'words', 'have to', 'get'];
 const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
-const ContinueSentence = ({ taskBox }) => {
+
+const ContinueSentence = ({ taskBox  , handleAnswer , caseInfo , task_id , id , caseDetail , handleCaseDetail}) => {
     const [wordsPairs, setWordsPairs] = useState({
         first: [],
         second: [],
@@ -40,7 +41,30 @@ const ContinueSentence = ({ taskBox }) => {
         fourth: [],
     });
 
+    const [firstDesc , setFirstDesc] = useState(null);
+    const [secondDesc , setSecondDesc] = useState(null);
 
+
+    useEffect(()=>{
+        handleCaseDetail(id , task_id)
+        setFirstDesc(caseDetail?.description1)
+        setSecondDesc(caseDetail?.description2)
+
+    },[])
+    
+    useEffect(()=>{
+        setFirstDesc(caseDetail?.description1)
+        setSecondDesc(caseDetail?.description2)
+    },[task_id])
+    
+    useEffect(() => {
+        if (caseDetail) {
+            setFirstDesc(caseDetail?.description1)
+        setSecondDesc(caseDetail?.description2)
+        }
+      }, [caseDetail]);
+
+      console.log(firstDesc , secondDesc);
     const checkWordsPairs = (id) => {
         for (let key in wordsPairs) {
             wordsPairs[key].forEach((wordObj, wordObjIndex) => {
@@ -58,6 +82,8 @@ const ContinueSentence = ({ taskBox }) => {
             });
         }
     };
+
+    
 
     const addArr = (item, index) => {
         if (wordsPairs.first.length < 2) {
@@ -138,16 +164,18 @@ const ContinueSentence = ({ taskBox }) => {
             checkWordsPairs(index);
         }
     };
+    const obj={
+        answers:wordsPairs
+    }
 
     return (
         <>
             <Box sx={taskBox}>
                 <Typography variant="h6" color="secondary">
-                    Упражнение № 4
                 </Typography>
                 <Box sx={styles.main}>
                     <Box sx={styles.wordsContainer}>
-                        {data.map((item, index) => (
+                        {firstDesc?.map((item, index) => (
                             <Typography
                                 key={index}
                                 sx={styles.words}
@@ -158,12 +186,12 @@ const ContinueSentence = ({ taskBox }) => {
                         ))}
                     </Box>
                     <Box sx={styles.wordsContainer}>
-                        {dataSecond.map((item, index) => (
+                        {secondDesc?.map((item, index) => (
                             <Typography
-                                key={index + data.length}
+                                key={index + firstDesc?.length}
                                 sx={styles.words}
                                 onClick={() =>
-                                    addArr(item, index + data.length)
+                                    addArr(item, index + firstDesc?.length)
                                 }
                             >
                                 {item}
@@ -172,6 +200,7 @@ const ContinueSentence = ({ taskBox }) => {
                     </Box>
                 </Box>
             </Box>
+            <button onClick={()=>handleAnswer(obj , caseInfo.tasks?.[task_id-1].id)}>send</button>
         </>
     );
 };

@@ -57,11 +57,11 @@ const ClassWorkContextProvider = ({children}) => {
       })
       navigate('/classwork')
     } catch (error) {
+      console.log(error, 'create_room_err')
       dispatch({
         type: 'create_room_error',
-        payload: error?.response?.data?.name[0],
+        payload: error?.response?.status === 500 ? "Something went wrong" : error?.response?.data?.name[0],
       })
-      console.log(error, 'create_room_err')
     }
   }
 
