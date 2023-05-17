@@ -3,12 +3,14 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function PagBar({ count }) {
+export default function PagBar({ count, inputValuesHook }) {
     const { id, task_id } = useParams();
-
+    const [_, setInputValues] = inputValuesHook;
     const [page, setPage] = React.useState(1);
+
     const handleChange = (event, value) => {
         setPage(value);
+        setInputValues({});
     };
 
     const navigate = useNavigate();
