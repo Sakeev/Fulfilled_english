@@ -52,3 +52,9 @@
     background-color: #006d77;
     color: #9bd0cb;
 }
+
+.task-condition {
+    font-size: 1.5rem;
+    margin-bottom: 2em;
+    color: #006d77;
+}
