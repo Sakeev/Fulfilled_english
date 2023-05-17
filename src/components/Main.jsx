@@ -18,6 +18,9 @@ const modalStyle = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
+    "&:focus": {
+        outline: 'none'
+    }
   };
 
 const avatarImg = {

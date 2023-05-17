@@ -39,7 +39,7 @@ const CreateRoom = () => {
       <Typography component={'h3'} sx={{mb: 2}}>Lesson</Typography>
       <form style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '10px' }} action="" onSubmit={(e) => handleSubmit(e)}>
         <input style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px' }} type="text" placeholder='name' onChange={(e) => setRoomInfo({...roomInfo, name: e.target.value})} />
-        <select style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px' }} onChange={(e) => getLesson(e.target.value)}>
+        <select style={{ padding: '10px', border: '1px solid #006D77', borderRadius: '5px' }} onChange={(e) => getLesson(e.target.value)} placeholder='student'>
           <option value={0}></option>
           {
             studentsList?.map((student, key) => (
