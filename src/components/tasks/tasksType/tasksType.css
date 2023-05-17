@@ -5,6 +5,7 @@
 
 .task-types-container button {
     margin-top: 3em;
+    /* max-width: 200px; */
 }
 
 /* INPUTS COMPONENT */

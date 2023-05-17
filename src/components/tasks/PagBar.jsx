@@ -25,7 +25,7 @@ export default function PagBar({ count, inputValuesHook }) {
                 count={count}
                 page={page}
                 variant="outlined"
-                color="primary"
+                color="secondary"
                 onChange={handleChange}
             />
         </Stack>

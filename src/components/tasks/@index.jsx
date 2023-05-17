@@ -25,18 +25,27 @@ const mainBox = {
 
 const casesBox = {
   width: "40%",
-  height: "10vh",
-  backgroundColor: "#9bd0cb",
+  maxWidth: '300px',
+  height: "7vh",
+  minHeight: '50px',
+  backgroundColor: "#C5E5E2",
   color: "#006D77",
-  borderRadius: "5px",
+  borderRadius: "10px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  margin: "5%",
+  margin: "1% 2% 1% 0",
+  cursor: 'pointer',
+  transition: '150ms',
+  fontWeight: '600',
+  "&:hover": {
+    backgroundColor: "#9bd0cb",
+  }
 };
 const casesMainBox = {
   width: "100%",
   height: "100%",
+  marginTop: '20px'
 };
 
 const theme = createTheme({
@@ -112,12 +121,12 @@ const Tasks = () => {
 
             return (
               <Box key={e.id} sx={{ display: "flex", alignItems: "center" }}>
-                <div
-                  style={casesBox}
+                <Box
+                  sx={casesBox}
                   onClick={() => navigate(`/task/case/${e.id}/task/1`)}
                 >
-                  {e.title}{" "}
-                </div>
+                  {e.title.charAt(0).toUpperCase() + e.title.slice(1)}{" "}
+                </Box>
                 {e.passed_quantity === e.quantity_task ? (
                   <p style={{ color: "#006D77" }}>
                     {e?.passed_quantity}/{e.quantity_task}

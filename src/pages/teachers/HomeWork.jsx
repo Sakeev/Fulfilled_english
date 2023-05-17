@@ -25,12 +25,11 @@ const style = {
 const btnStyle = {
   margin: "10px 5px",
   width: "100px",
-  backgroundColor: "#9bd0cb",
+  backgroundColor: "#C5E5E2",
   color: "#006D77",
   textTransform: "none",
   "&:hover": {
-    backgroundColor: "#006D77",
-    color: "#9bd0cb",
+    backgroundColor: "#9bd0cb",
   },
 };
 const selectContainer = {
@@ -196,7 +195,7 @@ const HomeWork = () => {
                 highFunc(student.user?.id);
               }}
             >
-              check hw
+              view h/w
             </Button>
           </li>
         ))}
