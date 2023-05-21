@@ -5,7 +5,8 @@
 
 .task-types-container button {
     margin-top: 3em;
-    /* max-width: 200px; */
+    max-width: 200px;
+    border-radius: 10px;
 }
 
 /* INPUTS COMPONENT */
@@ -16,12 +17,12 @@
 }
 
 .inputs-container div {
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 
 .inputs-container div input {
     font-family: 'Overpass';
-    font-size: 2rem;
+    font-size: 1.7rem;
     min-width: 2.5em;
     width: 2.5rem;
     border: none;

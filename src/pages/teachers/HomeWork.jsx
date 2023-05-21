@@ -33,12 +33,15 @@ const btnStyle = {
   },
 };
 const selectContainer = {
+  margin: '10px 0',
   width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: "10px",
+  padding: '5px 0',
+  borderRadius: '5px'
 };
 const modalContainer = {
   display: "flex",

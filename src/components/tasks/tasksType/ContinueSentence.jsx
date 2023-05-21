@@ -189,6 +189,7 @@ const ContinueSentence = ({
                     </Box>
                 </div>
                 <Button
+                    className='hw__send-btn'
                     onClick={() =>
                         handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
                     }

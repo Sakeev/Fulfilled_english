@@ -76,6 +76,7 @@ const Dropdown = ({
                     <div>{dropdownArr}</div>
                 </div>
                 <Button
+                    className='hw__send-btn'
                     onClick={() =>
                         handleAnswer(
                             { answers: getStudentAnswer() },
