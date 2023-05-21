@@ -160,12 +160,15 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
+    console.log(e);
     setHtml(e.target.value);
   }
 
   function handleInputsChange(e) {
     setInps(e.target.value);
   }
+
+  const [editorContent, setEditorContent] = useState("");
 
   function sendNote() {
     let obj = Object.assign({
@@ -174,6 +177,13 @@ const ClassWorkLayout = () => {
 
     postNote(obj, note_id);
   }
+
+  const handleEditorChange = (content) => {
+    const div = document.createElement("div");
+    div.innerHTML = content;
+    const plainText = div.textContent || div.innerText;
+    setEditorContent(plainText);
+  };
   return (
     <div
       style={{

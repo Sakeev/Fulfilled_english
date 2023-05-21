@@ -7,6 +7,7 @@ import { useUsers } from "../../contexts/UsersContextProvider";
 const CreateRoom = () => {
   const [roomInfo, setRoomInfo] = useState({
     name: "",
+    student: "",
     lesson_id: 0,
   });
   const { getSchedule, schedule } = useSchedule();
@@ -40,6 +41,11 @@ const CreateRoom = () => {
 
   console.log(roomInfo);
 
+  const handleSelectChanges = (e) => {
+    getLesson(e.target.value);
+    setRoomInfo({ ...roomInfo, student: e.target.value });
+  };
+
   return (
     <Box>
       <Typography component={"h3"} sx={{ mb: 2 }}>
@@ -71,7 +77,7 @@ const CreateRoom = () => {
             border: "1px solid #006D77",
             borderRadius: "5px",
           }}
-          onChange={(e) => getLesson(e.target.value)}
+          onChange={handleSelectChanges}
         >
           <option value={0}></option>
           {studentsList?.map((student, key) => (
