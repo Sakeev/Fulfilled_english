@@ -1,8 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useTasks } from '../../../contexts/TasksContextProvider';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
+import './tasksType.css';
 // const words = [
 
 //     ['cute' , 'is' , 'she'],
@@ -20,73 +22,51 @@ const styles = {
             bgcolor: '#9bd0cb',
         },
     },
-    words_box: {
-        display: 'flex',
-        height: '40px',
-        alignItems: 'center',
-    },
-    answer_block: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        paddingLeft: '10px',
-        width: '50%',
-        height: '80px',
-        borderRadius: '10px',
-        border: '1px solid lightgray',
-        margin: '10px 5px',
-        overflowX: 'auto',
-    },
-    answer: {
-        margin: '5px 0',
-        fontSize: '18px',
-        fontWeight: '500',
-        transition: '150ms',
-        cursor: 'pointer',
-        padding: '5px 10px',
-        color: '#006D77',
-        '&:hover': {
-            bgcolor: '#e7e7e7',
-            borderRadius: '10px',
-        },
-    },
 };
 
-const Sentence = ({ taskBox , handleCaseDetail , id , task_id , caseDetail , descr  , handleAnswer , caseInfo}) => {
+const Sentence = ({
+    taskBox,
+    handleCaseDetail,
+    id,
+    task_id,
+    caseDetail,
+    descr,
+    handleAnswer,
+    caseInfo,
+}) => {
     const { dispatch, sent } = useTasks();
-  const navigate = useNavigate()
-    const [words , setWords] = useState([])
-useEffect(()=>{
-    handleCaseDetail(id , task_id)
-    // setWords([caseDetail?.description.split(" ")])
-},[])
+    const navigate = useNavigate();
+    const [words, setWords] = useState([]);
+    useEffect(() => {
+        handleCaseDetail(id, task_id);
+        // setWords([caseDetail?.description.split(" ")])
+    }, []);
 
-useEffect(()=>{
-    setWords([caseDetail?.description.split(" ")])
-},[task_id])
+    useEffect(() => {
+        setWords([caseDetail?.description.split(' ')]);
+    }, [task_id]);
 
-useEffect(() => {
-    if (caseDetail) {
-        setWords([caseDetail?.description.split(" ")])
-    }
-  }, [caseDetail]);
+    useEffect(() => {
+        if (caseDetail) {
+            setWords([caseDetail?.description.split(' ')]);
+        }
+    }, [caseDetail]);
 
-const checkFields = () => {
-    let res = [];
-    for (let i = 0; i < words.length; i++) {
-      res.push([]);
-    }
-    return res;
-  };
-  
-  useEffect(() => {
-    setAnswer(checkFields());
-  }, [words]);
+    const checkFields = () => {
+        let res = [];
+        for (let i = 0; i < words.length; i++) {
+            res.push([]);
+        }
+        return res;
+    };
+
+    useEffect(() => {
+        setAnswer(checkFields());
+    }, [words]);
 
     const [answer, setAnswer] = useState([]);
 
     const handleWord = (ind, index) => {
-    
         let pickedWord = words[index].splice(ind, 1);
         let newAns = [];
         newAns.push(pickedWord[0]);
@@ -101,8 +81,6 @@ const checkFields = () => {
         });
     };
 
-
-
     const handleWordBack = (ind, index) => {
         words[index].splice(ind, 0, answer[index][ind]);
         let newAns = [...answer];
@@ -113,24 +91,24 @@ const checkFields = () => {
             payload: newAns,
         });
     };
-    const str = answer[0]?.join(' ')
-console.log(caseInfo.tasks?.[task_id-1].id);
+    const str = answer[0]?.join(' ');
 
-const obj={
-    answers:str
-}
+    const obj = {
+        answers: str,
+    };
     return (
         <>
-            <Box sx={taskBox}>
-                <Typography variant="h6" color="secondary">
-                    Упражнение № 3
-                </Typography>
-                <Box sx={{ padding: '20px 0' }}>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="sentence-container task-types-container">
+                {/* <div className="sentence-task-box-wrapper"> */}
+                <div className="sentence-task-box-wrapper">
                     {words.map((item, index) => (
-                        <Box key={index}>
-                            <Box sx={styles.words_box} key={'id' + index}>
+                        <div className="sentence-task-box" key={index}>
+                            <div className="sentence-word" key={'id' + index}>
                                 {item.map((word, ind) => (
-                                    <Typography
+                                    <span
                                         key={'inner' + ind}
                                         sx={styles.word}
                                         onClick={() => {
@@ -138,27 +116,37 @@ const obj={
                                         }}
                                     >
                                         {word}
-                                    </Typography>
+                                    </span>
                                 ))}
-                            </Box>
-                            <Box sx={styles.answer_block} key={'key' + index}>
+                            </div>
+                            <div
+                                className="sentence-answer-block"
+                                sx={styles.answer_block}
+                                key={'key' + index}
+                            >
                                 {answer[index]?.map((item, ind) => (
-                                    <Typography
+                                    <p
                                         key={'inner_ans' + ind}
-                                        sx={styles.answer}
                                         onClick={() => {
                                             handleWordBack(ind, index);
                                         }}
                                     >
                                         {item}
-                                    </Typography>
+                                    </p>
                                 ))}
-                            </Box>
-                        </Box>
+                            </div>
+                        </div>
                     ))}
-                </Box>
-            </Box>
-            <button onClick={()=>handleAnswer( obj, caseInfo.tasks?.[task_id-1].id)}>send</button>
+                </div>
+                {/* </div> */}
+                <Button
+                    onClick={() =>
+                        handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                    }
+                >
+                    send
+                </Button>
+            </div>
         </>
     );
 };
