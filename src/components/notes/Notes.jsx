@@ -47,11 +47,11 @@ const Notes = () => {
                 return (
                   <li key={note.id}>
                     Lesson {note.lesson}:{" "}
-                    <div
+                    <pre
                       dangerouslySetInnerHTML={{
                         __html: textWithoutExtraSpaces,
                       }}
-                    ></div>
+                    ></pre>
                   </li>
                 );
               })}
