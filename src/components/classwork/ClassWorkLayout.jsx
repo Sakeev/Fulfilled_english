@@ -168,8 +168,6 @@ const ClassWorkLayout = () => {
     setInps(e.target.value);
   }
 
-  const [editorContent, setEditorContent] = useState("");
-
   function sendNote() {
     let obj = Object.assign({
       body: html,
@@ -178,12 +176,6 @@ const ClassWorkLayout = () => {
     postNote(obj, note_id);
   }
 
-  const handleEditorChange = (content) => {
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    const plainText = div.textContent || div.innerText;
-    setEditorContent(plainText);
-  };
   return (
     <div
       style={{
