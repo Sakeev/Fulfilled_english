@@ -67,21 +67,26 @@ const Dropdown = ({
     });
 
     return (
-        <div className="dropdown-container task-types-container">
-            <div className="dropdown">
-                <div>{dropdownArr}</div>
+        <>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="dropdown-container task-types-container">
+                <div className="dropdown">
+                    <div>{dropdownArr}</div>
+                </div>
+                <Button
+                    onClick={() =>
+                        handleAnswer(
+                            { answers: getStudentAnswer() },
+                            caseInfo.tasks?.[task_id - 1].id
+                        )
+                    }
+                >
+                    send
+                </Button>
             </div>
-            <Button
-                onClick={() =>
-                    handleAnswer(
-                        { answers: getStudentAnswer() },
-                        caseInfo.tasks?.[task_id - 1].id
-                    )
-                }
-            >
-                send
-            </Button>
-        </div>
+        </>
     );
 };
 

@@ -17,6 +17,10 @@ import ViewEssayPage from "../pages/teachers/ViewEssayPage";
 import Case1 from "../components/tasks/Case1";
 import Progress from "../components/tasks/Progress";
 import NotesPage from "../pages/NotesPage";
+import HomeWork from "../pages/teachers/HomeWork";
+import HwResults from "../pages/teachers/HwResults";
+import TeachersHwPage from "../pages/teachers/TeachersHwPage";
+import HwResultsPage from "../pages/teachers/HwResultsPage";
 
 const MainRoutes = () => {
   const { checkAuth, isTeacher } = useAuth();
@@ -54,7 +58,7 @@ const MainRoutes = () => {
     },
     {
       link: "/tasks",
-      element: <TasksPage />,
+      element: isTeacher ? <TeachersHwPage /> : <TasksPage />,
       id: 4,
     },
     {
@@ -88,9 +92,19 @@ const MainRoutes = () => {
       id: 10,
     },
     {
+      link: "/homework",
+      element: <TeachersHwPage />,
+      id: 11,
+    },
+    {
+      link: `/hwresults/:user_id/:id`,
+      element: <HwResultsPage />,
+      id: 12,
+    },
+    {
       link: "/notes",
       element: <NotesPage />,
-      id: 11,
+      id: 13,
     },
   ];
   const PUBLIC_ROUTES = [
