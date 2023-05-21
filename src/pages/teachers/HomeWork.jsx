@@ -67,19 +67,27 @@ const HomeWork = () => {
   const [open, setOpen] = React.useState(false);
   const [lesson, setLesson] = React.useState("1");
 
-  const handleChange = (e) => {
-    const selectedLessonId = e.target.value;
-    setLessonValue(selectedLessonId);
-    getOneLesson(selectedLessonId, index);
-    getCurrentLesson(index);
-  };
-
   const [lessonValue, setLessonValue] = useState(" ");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [uniqLesson, setUniqLesson] = useState(onelesson?.case_tasks);
   useEffect(() => {
     getUsers();
   }, []);
+
+  const handleChange = (e) => {
+    const selectedLessonId = e.target.value;
+    setLessonValue(selectedLessonId, () => {
+      getOneLesson(selectedLessonId, index);
+    });
+    getCurrentLesson(index);
+  };
+
+  console.log(lessonValue);
+
+  useEffect(() => {
+    setUniqLesson(onelesson?.case_tasks);
+  }, [onelesson]);
 
   useEffect(() => {
     if (index !== null) {
@@ -87,25 +95,33 @@ const HomeWork = () => {
     }
   }, [lessonValue, index]);
 
-  // console.log(studentshw);
-
   useEffect(() => {
     if (index !== null) {
       getCurrentLesson(index);
     }
   }, [index]);
-
+  const [currUser, setCurrUser] = useState(null);
+  // console.log(currUser);
   const highFunc = (id) => {
     handleOpen();
     getUserHw(id);
     setIndex(id);
     getUserHw(id);
+    setCurrUser(id);
   };
+
+  useEffect(() => {
+    setLessonValue(studentshw?.length);
+  }, [studentshw]);
+
+  // console.log(studentshw);
+
   useEffect(() => {
     if (currentlesson.length > 0 && lessonValue == " ") {
       setLessonValue(currentlesson[0]?.id);
     }
   }, [currentlesson]);
+  console.log(currentlesson);
 
   return (
     <div className="essay-container">
@@ -126,9 +142,7 @@ const HomeWork = () => {
                 alignItems: "center",
               }}
             >
-              <p onClick={() => console.log(student.user?.id)}>
-                {student.user?.email}
-              </p>
+              <p>{student.user?.email}</p>
               <div className="essay-icon"></div>
             </div>
             <Modal

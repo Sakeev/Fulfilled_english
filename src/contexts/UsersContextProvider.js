@@ -78,11 +78,11 @@ const UsersContextProvider = ({ children }) => {
       `${API}room/get_deactivated_lessons/?user_id=${id}&hw=true`,
       getConfig()
     );
-    console.log(data);
     dispatch({
       type: "GET_STUD_HW",
       payload: data,
     });
+    console.log(data);
   };
 
   const getOneHw = async (case_id, user_id) => {
@@ -90,13 +90,11 @@ const UsersContextProvider = ({ children }) => {
       `${API}room/case_tasks/${case_id}/?user_id=${user_id}`,
       getConfig()
     );
-    console.log(data);
     dispatch({
       type: "GET_ONE_HW",
       payload: data,
     });
   };
-  // http://35.239.173.63/room/lessons/4/?user_id=2
 
   const getOneLesson = async (lesson_id, user_id) => {
     try {
@@ -104,7 +102,6 @@ const UsersContextProvider = ({ children }) => {
         `${API}room/lessons/${lesson_id}/?user_id=${user_id}`,
         getConfig()
       );
-      console.log(data);
       dispatch({
         type: "GET_ONE_LESSON",
         payload: data,

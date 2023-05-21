@@ -113,7 +113,6 @@ const TasksContextProvider = ({ children }) => {
   };
   const handleCase = async () => {
     const { data } = await axios(`${API}room/get_lesson/`, getConfig());
-
     dispatch({
       type: "CASE",
       payload: data,
