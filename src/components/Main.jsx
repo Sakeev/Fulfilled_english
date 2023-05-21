@@ -100,6 +100,7 @@ const Main = () => {
         sx={{
           display: "flex",
           width: "100%",
+          height: '100%',
           justifyContent: "space-between",
         }}
       >
@@ -110,7 +111,7 @@ const Main = () => {
               m: 2,
               height: "28vh",
               cursor: "pointer",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -168,7 +169,7 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -204,7 +205,7 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -264,7 +265,7 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -280,7 +281,7 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
