@@ -47,12 +47,14 @@ const ClassWorkLayout = () => {
   const [note_id, setNote] = useState(0);
   const [mark, setMark] = useState(0);
 
+  console.log(html);
   const tasks = useCallback(
     (data) => {
       setLesson(data);
     },
     [lesson]
   );
+  console.log(lesson);
 
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
     socketUrl,
@@ -83,6 +85,18 @@ const ClassWorkLayout = () => {
           request_id: request_id,
         };
         sendJsonMessage(subscribeInstanceMessage);
+        const subscribeLessonActivity = {
+          action: "subscribe_lesson_activity",
+          request_id: request_id,
+        };
+        sendJsonMessage(subscribeLessonActivity);
+        const getLessonInRoom = {
+          pk: 1,
+          action: "get_lesson",
+          room_pk: room_pk,
+          request_id: request_id,
+        };
+        sendJsonMessage(getLessonInRoom);
       },
       onMessage: (e) => {
         const data = JSON.parse(e.data);
@@ -148,6 +162,7 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
+    console.log(e);
     setHtml(e.target.value);
   }
 
@@ -166,6 +181,7 @@ const ClassWorkLayout = () => {
 
     postNote(obj, note_id);
   }
+
   return (
     <div
       style={{

@@ -32,19 +32,6 @@ const TeacherEssay = () => {
 
     console.log(lessons);
 
-    // const [editTitle, setEditTitle] = useState(false);
-    // const [editTitleId, setEditTitleId] = useState(null);
-    // const [essayTitle, setEssayTitle] = useState('');
-
-    // const essayTitleObj = {
-    //     editTitle,
-    //     setEditTitle,
-    //     editTitleId,
-    //     setEditTitleId,
-    //     essayTitle,
-    //     setEssayTitle,
-    // };
-
     if (loading) {
         return (
             <div className="loader-wrapper">
@@ -64,60 +51,63 @@ const TeacherEssay = () => {
                 <p>Deadline:</p>
                 <p>Status:</p>
             </div>
-            {/* {!students.length && <h2>You haven't students yet</h2>} */}
             <ul className="essay-students-list">
-                {lessons.map((lesson, index) => {
-                    if (!lesson.essay[0]) return null;
-                    const essay = lesson.essay[0];
+                {lessons.map((lesson) => {
+                    console.log(lesson);
 
-                    return (
-                        <li className="essay-student" key={index}>
-                            <div
-                                className="essay-student-info"
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <p>{lesson.user.email}</p>
-                                <p>{essay.title}</p>
-                                <p>{essay.deadline}</p>
-                                <div className="essay-icon">
-                                    <img
-                                        src={
-                                            essay.user_essay[0]
-                                                ? correct
-                                                : incorrect
-                                        }
-                                    />
+                    return lesson.map((unit, index) => {
+                        if (!unit.essay[0]) return null;
+                        const essay = unit.essay[0];
+
+                        return (
+                            <li className="essay-student" key={index}>
+                                <div
+                                    className="essay-student-info"
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <p>{unit.user.email}</p>
+                                    <p>{essay.title}</p>
+                                    <p>{essay.deadline}</p>
+                                    <div className="essay-icon">
+                                        <img
+                                            src={
+                                                essay.user_essay[0]
+                                                    ? correct
+                                                    : incorrect
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <Button
-                                disabled={
-                                    essay.user_essay[0]
-                                        ? essay.user_essay[0].checked
-                                        : true
-                                }
-                                sx={{
-                                    ...btnStyle,
-                                    width: 'auto',
-                                    whiteSpace: 'nowrap',
-                                    marginRight: '5%',
-                                }}
-                                onClick={() => {
-                                    if (essay.user_essay[0])
-                                        setEssay(essay.user_essay[0]);
-                                }}
-                            >
-                                <Link to={`/essay/view/${lesson.user?.id}`}>
-                                    {essay.user_essay[0]?.checked
-                                        ? 'essay have sent'
-                                        : 'view essay'}
-                                </Link>
-                            </Button>
-                        </li>
-                    );
+                                <Button
+                                    disabled={
+                                        essay.user_essay[0]
+                                            ? essay.user_essay[0].checked
+                                            : true
+                                    }
+                                    sx={{
+                                        ...btnStyle,
+                                        width: 'auto',
+                                        whiteSpace: 'nowrap',
+                                        marginRight: '5%',
+                                    }}
+                                    onClick={() => {
+                                        if (essay.user_essay[0])
+                                            setEssay(essay.user_essay[0]);
+                                    }}
+                                >
+                                    <Link to={`/essay/view/${unit.user?.id}`}>
+                                        {essay.user_essay[0]?.checked
+                                            ? 'essay have sent'
+                                            : 'view essay'}
+                                    </Link>
+                                </Button>
+                            </li>
+                        );
+                    });
                 })}
             </ul>
         </div>

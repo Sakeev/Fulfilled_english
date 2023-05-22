@@ -7,11 +7,13 @@ import { useUsers } from "../../contexts/UsersContextProvider";
 const CreateRoom = () => {
   const [roomInfo, setRoomInfo] = useState({
     name: "",
+    student: "",
     lesson_id: 0,
   });
   const { getSchedule, schedule } = useSchedule();
   const { getLesson, lesson, createRoom, createRoomError, clearErrors } =
     useClassWork();
+  console.log(lesson);
   const { getStudents, studentsList } = useUsers();
 
   const handleSubmit = (e) => {
@@ -33,11 +35,16 @@ const CreateRoom = () => {
     setRoomInfo({
       ...roomInfo,
       lesson_id: lesson[0]?.id,
-      student: lesson[0]?.user.id,
+      student: lesson[0]?.user.email,
     });
   }, [lesson]);
 
   console.log(roomInfo);
+
+  const handleSelectChanges = (e) => {
+    getLesson(e.target.value);
+    setRoomInfo({ ...roomInfo, student: e.target.value });
+  };
 
   return (
     <Box>
@@ -70,7 +77,7 @@ const CreateRoom = () => {
             border: "1px solid #006D77",
             borderRadius: "5px",
           }}
-          onChange={(e) => getLesson(e.target.value)}
+          onChange={handleSelectChanges}
         >
           <option value={0}></option>
           {studentsList?.map((student, key) => (
