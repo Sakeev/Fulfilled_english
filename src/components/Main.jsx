@@ -9,31 +9,8 @@ import { useEffect } from "react";
 import CreateRoom from "./classwork/CreateRoom";
 import { isTeacher } from "../helpers/funcs";
 import { useClassWork } from "../contexts/ClassWorkContextProvider";
-import { Box, Modal, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
-import sticker from "../assets/images/startlesson.svg";
-import avatar from "../assets/images/images.png";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContextProvider";
-import HomePageSchedule from "./teachers/HomePageSchedule";
-import { useEffect } from "react";
-import CreateRoom from "./classwork/CreateRoom";
-import { isTeacher } from "../helpers/funcs";
-import { useClassWork } from "../contexts/ClassWorkContextProvider";
 
 const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  "&:focus": {
-    outline: "none",
-  },
-};
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -89,21 +66,6 @@ const Main = () => {
       setShowModal(false);
     }
   });
-  const { isTeacher, getRoomOrRooms } = useAuth();
-  const { getRoom } = useClassWork();
-  const [isHover, setIsHover] = useState(false);
-  const [isHoverProfile, setIsHoverProfile] = useState(false);
-  const [progress, setProgress] = useState({
-    lessonsQuantity: null,
-    passedLessons: null,
-  });
-  const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  document.addEventListener("keydown", (e) => {
-    if (e.key == "Escape") {
-      setShowModal(false);
-    }
-  });
 
   useEffect(() => {
     getRoomOrRooms()
@@ -131,20 +93,11 @@ const Main = () => {
   const studentProgress = Math.round(
     (100 / progress.lessonsQuantity) * progress.passedLessons
   );
-  const studentProgress = Math.round(
-    (100 / progress.lessonsQuantity) * progress.passedLessons
-  );
 
   const handleMouseOver = (setFunc) => {
     setFunc(true);
   };
-  const handleMouseOver = (setFunc) => {
-    setFunc(true);
-  };
 
-  const handleMouseOut = (setFunc) => {
-    setFunc(false);
-  };
   const handleMouseOut = (setFunc) => {
     setFunc(false);
   };
