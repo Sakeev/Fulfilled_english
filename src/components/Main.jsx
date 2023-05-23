@@ -5,6 +5,7 @@ import avatar from "../assets/images/images.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContextProvider";
 import HomePageSchedule from "./teachers/HomePageSchedule";
+import { useEffect } from "react";
 import CreateRoom from "./classwork/CreateRoom";
 import { isTeacher } from "../helpers/funcs";
 import { useClassWork } from "../contexts/ClassWorkContextProvider";
@@ -40,10 +41,14 @@ const calendar = {
 };
 
 const Main = () => {
+  const { isTeacher, getRoomOrRooms } = useAuth();
   const { getRoom } = useClassWork();
   const [isHover, setIsHover] = useState(false);
   const [isHoverProfile, setIsHoverProfile] = useState(false);
-  const { isTeacher } = useAuth();
+  const [progress, setProgress] = useState({
+    lessonsQuantity: null,
+    passedLessons: null,
+  });
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   document.addEventListener("keydown", (e) => {
@@ -52,26 +57,20 @@ const Main = () => {
     }
   });
 
-  const userRoom = {
-    id: 1,
-    lessons: [
-      "http://35.239.173.63/room/lessons/1/",
-      "http://35.239.173.63/room/lessons/2/",
-    ],
-    level: "elem",
-    progress: 45,
-    quantity_taks: 115,
-    payment: 0,
-    count_lessons: 1,
-    user: {
-      email: "student@gmail.com",
-      first_name: "Student",
-      last_name: "Studentovich",
-    },
-  };
+  useEffect(() => {
+    getRoomOrRooms()
+      .then((res) => {
+        console.log(res);
+        setProgress({
+          lessonsQuantity: res.count_lessons,
+          passedLessons: res.progres_classwork,
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const studentProgress = Math.round(
-    (100 / userRoom.quantity_taks) * userRoom.progress
+    (100 / progress.lessonsQuantity) * progress.passedLessons
   );
 
   const handleMouseOver = (setFunc) => {
@@ -197,115 +196,59 @@ const Main = () => {
         </Box>
       </Box>
 
-      {/* <Box>
-                <Paper
-                    elevation={1}
-                    sx={{
-                        m: 2,
-                        height: '28vh',
-                        maxHeight: '220px',
-                        width: '100%',
-                        p: 2,
-                        bgcolor: '#EDF6F9',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
-                        alignItems: 'space-between',
-                    }}
-                >
-                    <Box
-                        sx={{
-                            m: 2,
-                            height: '28vh',
-                            maxHeight: '220px',
-                            width: '100%',
-                            p: 2,
-                            bgcolor: '#EDF6F9',
-                            borderRadius: '10px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-evenly',
-                            alignItems: 'space-between',
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                width: '90%',
-                            }}
-                        >
-                            <Typography
-                                variant="h6"
-                                sx={{ ml: 5, color: '#006d77' }}
-                            >
-                                Ваш прогресс
-                            </Typography>
-                            <Typography variant="h6" sx={{ color: '#006d77' }}>
-                                {progress.passedLessons}/
-                                {progress.lessonsQuantity}
-                            </Typography>
-                        </Box>
-                        <Box
-                            sx={{
-                                ml: 5,
-                                width: '90%',
-                                height: '50px',
-                                bgcolor: '#83C5BE',
-                                borderRadius: '10px',
-                            }}
-                        ></Box>
-                    </Box>
-                </Paper>
-            </Box> */}
-      {/* <HomePageSchedule /> */}
-      <Paper
-        sx={{
-          m: 2,
-          height: "28vh",
-          maxHeight: "220px",
-          width: "100%",
-          p: 2,
-          bgcolor: "#EDF6F9",
-          borderRadius: "10px",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            position: "relative",
-            backgroundColor: "#9bd0cb",
-            width: "70%",
-            height: "3em",
-            borderRadius: "2vw",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            style={{
+      {isTeacher ? null : (
+        <Box>
+          <Paper
+            elevation={1}
+            sx={{
+              m: 2,
+              height: "28vh",
+              maxHeight: "220px",
+              width: "100%",
+              p: 2,
+              bgcolor: "#EDF6F9",
+              borderRadius: "10px",
               display: "flex",
-              width: `${studentProgress}%`,
-              height: "100%",
-              backgroundColor: "#E29578",
-            }}
-          ></Box>
-          <Typography
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              fontSize: "1.5rem",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              alignItems: "space-between",
             }}
           >
-            {studentProgress} %
-          </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "90%",
+              }}
+            >
+              <Typography variant="h6" sx={{ ml: 5, color: "#006d77" }}>
+                Ваш прогресс
+              </Typography>
+              <Typography variant="h6" sx={{ color: "#006d77" }}>
+                {progress.passedLessons}/{progress.lessonsQuantity}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                ml: 5,
+                width: "90%",
+                height: "50px",
+                bgcolor: "#83C5BE",
+                borderRadius: "10px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: studentProgress + "%",
+                  height: "100%",
+                  bgcolor: "#E29578",
+                  borderRadius: "10px",
+                }}
+              ></Box>
+            </Box>
+          </Paper>
         </Box>
-      </Paper>
+      )}
 
       <Box
         sx={{
@@ -442,11 +385,8 @@ const Main = () => {
               bgcolor: "#EDF6F9",
               borderRadius: "10px 10px 50px 10px",
             }}
-            onClick={() => {
-              navigate("/notes");
-            }}
           >
-            Заметки
+            Словарь (в разработке)
           </Paper>
         </Box>
       </Box>
