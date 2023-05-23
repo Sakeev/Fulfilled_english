@@ -9,8 +9,31 @@ import { useEffect } from "react";
 import CreateRoom from "./classwork/CreateRoom";
 import { isTeacher } from "../helpers/funcs";
 import { useClassWork } from "../contexts/ClassWorkContextProvider";
+import { Box, Modal, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
+import sticker from "../assets/images/startlesson.svg";
+import avatar from "../assets/images/images.png";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContextProvider";
+import HomePageSchedule from "./teachers/HomePageSchedule";
+import { useEffect } from "react";
+import CreateRoom from "./classwork/CreateRoom";
+import { isTeacher } from "../helpers/funcs";
+import { useClassWork } from "../contexts/ClassWorkContextProvider";
 
 const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  "&:focus": {
+    outline: "none",
+  },
+};
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -27,6 +50,8 @@ const modalStyle = {
 const avatarImg = {
   width: "70px",
   borderRadius: "50%",
+  width: "70px",
+  borderRadius: "50%",
 };
 
 const calendar = {
@@ -38,9 +63,32 @@ const calendar = {
   alignItems: "center",
   fontSize: "10px",
   bgcolor: "#edf6f9",
+  width: "20px",
+  height: "20px",
+  mx: 1,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "10px",
+  bgcolor: "#edf6f9",
 };
 
 const Main = () => {
+  const { isTeacher, getRoomOrRooms } = useAuth();
+  const { getRoom } = useClassWork();
+  const [isHover, setIsHover] = useState(false);
+  const [isHoverProfile, setIsHoverProfile] = useState(false);
+  const [progress, setProgress] = useState({
+    lessonsQuantity: null,
+    passedLessons: null,
+  });
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  document.addEventListener("keydown", (e) => {
+    if (e.key == "Escape") {
+      setShowModal(false);
+    }
+  });
   const { isTeacher, getRoomOrRooms } = useAuth();
   const { getRoom } = useClassWork();
   const [isHover, setIsHover] = useState(false);
@@ -68,7 +116,21 @@ const Main = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+  useEffect(() => {
+    getRoomOrRooms()
+      .then((res) => {
+        console.log(res);
+        setProgress({
+          lessonsQuantity: res.count_lessons,
+          passedLessons: res.progres_classwork,
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
+  const studentProgress = Math.round(
+    (100 / progress.lessonsQuantity) * progress.passedLessons
+  );
   const studentProgress = Math.round(
     (100 / progress.lessonsQuantity) * progress.passedLessons
   );
@@ -76,7 +138,13 @@ const Main = () => {
   const handleMouseOver = (setFunc) => {
     setFunc(true);
   };
+  const handleMouseOver = (setFunc) => {
+    setFunc(true);
+  };
 
+  const handleMouseOut = (setFunc) => {
+    setFunc(false);
+  };
   const handleMouseOut = (setFunc) => {
     setFunc(false);
   };
@@ -92,6 +160,7 @@ const Main = () => {
         display: "flex",
         flexDirection: "column",
         width: "75vw",
+        height: "90vh",
         padding: "0 2%",
       }}
     >
@@ -99,17 +168,18 @@ const Main = () => {
         sx={{
           display: "flex",
           width: "100%",
+          height: '100%',
           justifyContent: "space-between",
         }}
       >
         <Box sx={{ width: "65%" }}>
           <Paper
-            elevation={isHover ? 16 : 1}
+            elevation={isHover ? 6 : 1}
             sx={{
               m: 2,
               height: "28vh",
               cursor: "pointer",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -138,10 +208,10 @@ const Main = () => {
               }}
             >
               <Typography variant="p" sx={{ color: "#83C5BE" }}>
-                До занятия осталось: 5:43
+                Estimated time: 5:43
               </Typography>
               <Typography variant="h5" sx={{ color: "#006D77" }}>
-                Начать занятие
+                Start lesson
               </Typography>
             </Box>
             <img
@@ -163,11 +233,11 @@ const Main = () => {
         </Box>
         <Box sx={{ width: "30%" }}>
           <Paper
-            elevation={isHoverProfile ? 16 : 1}
+            elevation={isHoverProfile ? 6 : 1}
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -188,9 +258,9 @@ const Main = () => {
                 color: "#006d77",
               }}
             >
-              <Typography variant="h6">Профиль</Typography>
+              <Typography variant="h6">Profile</Typography>
               <img src={avatar} alt="avatar" style={avatarImg} />
-              <Typography variant="h6">Ваш баланс: 200</Typography>
+              <Typography variant="h6">Balance: 10</Typography>
             </Box>
           </Paper>
         </Box>
@@ -203,7 +273,7 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
@@ -263,114 +333,14 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
               borderRadius: "10px 10px 10px 50px",
             }}
           >
-            <Typography sx={{ ml: 5, color: "#006d77" }}>Расписание</Typography>
-            <Box
-              sx={{
-                padding: "20px 30px",
-                height: "100%",
-                display: "flex",
-                justifyContent: "flex-start",
-                flexWrap: "wrap",
-              }}
-            >
-              <Paper elevation={2} sx={calendar}>
-                1
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                2
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                3
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                4
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                5
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                6
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                7
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                8
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                9
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                10
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                11
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                12
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                13
-              </Paper>
-              <Paper elevation={2} sx={{ ...calendar, bgcolor: "#83c5be" }}>
-                14
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                15
-              </Paper>
-              <Paper elevation={2} sx={{ ...calendar, bgcolor: "#83c5be" }}>
-                16
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                17
-              </Paper>
-              <Paper elevation={2} sx={{ ...calendar, bgcolor: "#83c5be" }}>
-                18
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                19
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                20
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                21
-              </Paper>
-              <Paper elevation={2} sx={{ ...calendar, bgcolor: "#83c5be" }}>
-                22
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                23
-              </Paper>
-              <Paper elevation={2} sx={{ ...calendar, bgcolor: "#83c5be" }}>
-                24
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                25
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                26
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                27
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                28
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                29
-              </Paper>
-              <Paper elevation={2} sx={calendar}>
-                30
-              </Paper>
-            </Box>
+            <Typography sx={{ ml: 5, color: "#006d77" }}>Notes</Typography>
           </Paper>
         </Box>
         <Box sx={{ width: "47%" }}>
@@ -379,14 +349,15 @@ const Main = () => {
             sx={{
               m: 2,
               height: "28vh",
-              maxHeight: "220px",
+              // maxHeight: "220px",
               width: "100%",
               p: 2,
               bgcolor: "#EDF6F9",
+              color: "#006D77",
               borderRadius: "10px 10px 50px 10px",
             }}
           >
-            Словарь (в разработке)
+            Dictionary (in development)
           </Paper>
         </Box>
       </Box>

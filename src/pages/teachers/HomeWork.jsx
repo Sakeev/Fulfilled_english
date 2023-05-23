@@ -25,21 +25,23 @@ const style = {
 const btnStyle = {
   margin: "10px 5px",
   width: "100px",
-  backgroundColor: "#9bd0cb",
+  backgroundColor: "#C5E5E2",
   color: "#006D77",
   textTransform: "none",
   "&:hover": {
-    backgroundColor: "#006D77",
-    color: "#9bd0cb",
+    backgroundColor: "#9bd0cb",
   },
 };
 const selectContainer = {
+  margin: '10px 0',
   width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: "10px",
+  padding: '5px 0',
+  borderRadius: '5px'
 };
 const modalContainer = {
   display: "flex",
@@ -178,17 +180,18 @@ const HomeWork = () => {
                         })}
                       </select>
                       <div>
-                        <ol>
+                        <ol style={{ listStyle: 'none' }}>
                           {onelesson &&
                             onelesson.case_tasks?.map((item, key) => {
                               return (
                                 <Typography
+                                  sx={{ cursor: 'pointer', transition: '100ms', color: '#006D77', fontWeight: '600' , '&:hover': { color: '#e29578' } }}
                                   key={key}
                                   onClick={() => {
                                     navigate(`/hwresults/${item.id}/${index}`);
                                   }}
                                 >
-                                  <li style={{ margin: "5%" }}>{item.title}</li>
+                                  <li style={{ margin: "5% 0" }}>{item.title.charAt(0).toUpperCase() + item.title.slice(1)}</li>
                                 </Typography>
                               );
                             })}
@@ -210,7 +213,7 @@ const HomeWork = () => {
                 highFunc(student.user?.id);
               }}
             >
-              check hw
+              view h/w
             </Button>
           </li>
         ))}

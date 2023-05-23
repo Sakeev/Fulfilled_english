@@ -100,7 +100,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                                     return (
                                         <td key={tdIndex}>
                                             {item ? (
-                                                item
+                                                item.split('_').join(" ")
                                             ) : (
                                                 <input
                                                     className="table_inp"
@@ -119,7 +119,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                         ))}
                     </tbody>
                 </table>
-                <Button onClick={onSend}>send</Button>
+                <Button className='hw__send-btn' onClick={onSend}>send</Button>
             </div>
         </>
     );

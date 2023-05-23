@@ -19,15 +19,15 @@ export default function PagBar({ count, inputValuesHook }) {
     navigate(`/task/case/${id}/task/${page}`);
   }, [page]);
 
-  return (
-    <Stack spacing={2}>
-      <Pagination
-        count={count}
-        page={page}
-        variant="outlined"
-        color="primary"
-        onChange={handleChange}
-      />
-    </Stack>
-  );
+    return (
+        <Stack spacing={2}>
+            <Pagination
+                count={count}
+                page={page}
+                variant="outlined"
+                color="secondary"
+                onChange={handleChange}
+            />
+        </Stack>
+    );
 }

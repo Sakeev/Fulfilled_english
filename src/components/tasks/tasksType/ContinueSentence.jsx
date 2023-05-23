@@ -6,30 +6,30 @@ import { useEffect } from "react";
 import "./tasksType.css";
 
 const styles = {
-  main: {
-    display: "flex",
-    width: "50%",
-    justifyContent: "space-between",
-    mt: 2,
-  },
-  words: {
-    bgcolor: "#9bd0cb",
-    color: "#006D77",
-    margin: "5px 0",
-    padding: "10px",
-    width: "100%",
-    cursor: "pointer",
-    transition: "150ms",
-    textAlign: "center",
-    borderRadius: "5px",
-    "&:hover": {
-      bgcolor: "#93c7c2",
+    main: {
+        display: 'flex',
+        width: '50%',
+        justifyContent: 'space-between',
+        mt: 2,
     },
-  },
-  wordsContainer: {
-    width: "42%",
-  },
-};
+    words: {
+        bgcolor: '#C5E5E2',
+        color: '#006D77',
+        margin: '5px 0',
+        padding: '10px',
+        width: '100%',
+        cursor: 'pointer',
+        transition: '150ms',
+        textAlign: 'center',
+        borderRadius: '5px',
+        '&:hover': {
+            bgcolor: '#93c7c2',
+        },
+    },
+    wordsContainer: {
+        width: '42%',
+    },
+  }
 
 // const data = ['lorem some', 'words', 'have to', 'get'];
 // const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
@@ -175,6 +175,7 @@ const ContinueSentence = ({
                     </Box>
                 </div>
                 <Button
+                    className='hw__send-btn'
                     onClick={() =>
                         handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
                     }
