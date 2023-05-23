@@ -3,12 +3,21 @@ import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
 
-const ClassTasks = ({ lesson, playing, setPlaying, handleInputsChange }) => {
+const ClassTasks = ({
+  lesson,
+  playing,
+  setPlaying,
+  handleInputsChange,
+  sendJsonMessage,
+  inps,
+  setInps,
+  setTyping,
+}) => {
   const renderTask = (task) => {
     switch (task.title.toLowerCase()) {
       case "vocabulary":
         return <Vocabulary task={task.tasks} />;
-      case "listening-1":
+      case "listening":
         return (
           <Listening
             task={task.tasks}
@@ -18,7 +27,15 @@ const ClassTasks = ({ lesson, playing, setPlaying, handleInputsChange }) => {
         );
       case "table_exercise":
         return (
-          <Table task={task.tasks} handleInputsChange={handleInputsChange} />
+          <Table
+            task={task.tasks}
+            handleInputsChange={handleInputsChange}
+            lesson={lesson}
+            sendJsonMessage={sendJsonMessage}
+            inps={inps}
+            setInps={setInps}
+            setTyping={setTyping}
+          />
         );
       default:
         return <></>;

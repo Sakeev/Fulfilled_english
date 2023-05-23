@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import { useNavigate, useParams } from 'react-router-dom';
+import * as React from "react";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function PagBar({ count, inputValuesHook }) {
     const { id, task_id } = useParams();
@@ -13,21 +13,21 @@ export default function PagBar({ count, inputValuesHook }) {
         setInputValues({});
     };
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    React.useEffect(() => {
-        navigate(`/task/case/${id}/task/${page}`);
-    }, [page]);
+  React.useEffect(() => {
+    navigate(`/task/case/${id}/task/${page}`);
+  }, [page]);
 
-    return (
-        <Stack spacing={2}>
-            <Pagination
-                count={count}
-                page={page}
-                variant="outlined"
-                color="primary"
-                onChange={handleChange}
-            />
-        </Stack>
-    );
+  return (
+    <Stack spacing={2}>
+      <Pagination
+        count={count}
+        page={page}
+        variant="outlined"
+        color="primary"
+        onChange={handleChange}
+      />
+    </Stack>
+  );
 }

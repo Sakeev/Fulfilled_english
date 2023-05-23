@@ -1,70 +1,70 @@
-import { Button } from '@mui/material';
-import { useState } from 'react';
+import { Button } from "@mui/material";
+import { useState } from "react";
 
-import './tasksType.css';
+import "./tasksType.css";
 
 const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
-    const [inps, setInps] = useState({});
-    const [tableProps, setTableProps] = useState({
-        rows: caseDetail?.description.split('\r\n')[0].split('x')[1],
-        cells: caseDetail?.description.split('\r\n')[0].split('x')[0],
+  const [inps, setInps] = useState({});
+  const [tableProps, setTableProps] = useState({
+    rows: caseDetail?.description.split("\r\n")[0].split("x")[1],
+    cells: caseDetail?.description.split("\r\n")[0].split("x")[0],
+  });
+
+  const fillData = (data) => {
+    while (data.length < tableProps.rows) {
+      data.push("");
+    }
+    const res = data.map((elem) => {
+      let temp = elem.split(" ");
+      while (temp.length < tableProps.cells) {
+        temp.push("");
+      }
+      return temp;
     });
+    return res;
+  };
 
-    const fillData = (data) => {
-        while (data.length < tableProps.rows) {
-            data.push('');
-        }
-        const res = data.map((elem) => {
-            let temp = elem.split(' ');
-            while (temp.length < tableProps.cells) {
-                temp.push('');
-            }
-            return temp;
-        });
-        return res;
-    };
-
-    const handleInputsChange = (e, index) => {
-        setInps((prev) => {
-            return { ...prev, [index]: e.target.value };
-        });
-    };
-
-    const [table, setTable] = useState({
-        data: fillData(caseDetail.description.split('\r\n').slice(1)),
+  const handleInputsChange = (e, index) => {
+    setInps((prev) => {
+      return { ...prev, [index]: e.target.value };
     });
+  };
 
-    const onSend = () => {
-        let size = +caseDetail.description.split('\r\n')[0].split('x')[0];
-        let content = caseDetail.description
-            .split('\r\n')
-            .slice(2)
-            .map((val) => val.split(' '));
-        let answer = caseDetail.description
-            .split('\r\n')[1]
-            .split(' ')
-            .reduce((obj, val) => {
-                obj[val] = [];
-                return obj;
-            }, {});
-        let counter = 0;
+  const [table, setTable] = useState({
+    data: fillData(caseDetail.description.split("\r\n").slice(1)),
+  });
 
-        for (let key in answer) {
-            for (let i = 0; i < size; i++) {
-                if (counter * 3 + i in inps) {
-                    answer[key][i] = inps[counter * 3 + i];
-                } else {
-                    answer[key][i] = content[counter][i];
-                }
-            }
-            counter++;
+  const onSend = () => {
+    let size = +caseDetail.description.split("\r\n")[0].split("x")[0];
+    let content = caseDetail.description
+      .split("\r\n")
+      .slice(2)
+      .map((val) => val.split(" "));
+    let answer = caseDetail.description
+      .split("\r\n")[1]
+      .split(" ")
+      .reduce((obj, val) => {
+        obj[val] = [];
+        return obj;
+      }, {});
+    let counter = 0;
+
+    for (let key in answer) {
+      for (let i = 0; i < size; i++) {
+        if (counter * 3 + i in inps) {
+          answer[key][i] = inps[counter * 3 + i];
+        } else {
+          answer[key][i] = content[counter][i];
         }
+      }
+      counter++;
+    }
 
-        handleAnswer([answer], caseInfo.tasks?.[task_id - 1].id);
-    };
+    handleAnswer([answer], caseInfo.tasks?.[task_id - 1].id);
+  };
 
-    // console.log(inps);
-    // console.log(caseDetail);
+  // console.log(inps);
+  // console.log(caseDetail);
 
     return (
         <>

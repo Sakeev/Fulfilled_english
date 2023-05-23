@@ -34,18 +34,17 @@ function isDocumentEvent(message) {
 }
 // const room_pk = 1;
 const ClassWorkLayout = () => {
-  const { room_pk, postNote } = useClassWork();
+  const { room_pk } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(
     `ws://13.50.235.4/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
     }`
   );
   const [lesson, setLesson] = useState({});
-  const [html, setHtml] = useState("");
-  const [inps, setInps] = useState("");
+  const [inps, setInps] = useState({ chat: "" });
+  const [typing, setTyping] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [note_id, setNote] = useState(0);
-  console.log(html);
   const tasks = useCallback(
     (data) => {
       setLesson(data);
@@ -100,15 +99,16 @@ const ClassWorkLayout = () => {
         const data = JSON.parse(e.data);
         switch (data.action) {
           case "retrieve":
-            console.log(data.data);
+            console.warn(data.data.messages);
             setNote(data.data.lesson.notes.id);
             tasks(data.data.lesson);
+
             break;
           case "create":
-            if (!isTeacher()) {
-              setHtml(data.data.text);
-            }
-            console.log(data.action, data.data);
+            // if (!isTeacher()) {
+            setInps({ ...data.data.body });
+            // }
+            console.log(data.action, data.data.body);
             break;
           default:
             break;
@@ -121,7 +121,6 @@ const ClassWorkLayout = () => {
       shouldReconnect: () => false,
     }
   );
-
   useEffect(() => {
     sendJsonMessage({
       playing: playing,
@@ -134,22 +133,14 @@ const ClassWorkLayout = () => {
     const timeOut = setTimeout(
       () =>
         sendJsonMessage({
-          message: html,
+          message: inps,
           action: "create_message",
           request_id: request_id,
         }),
       300
     );
     return () => clearTimeout(timeOut);
-  }, [html]);
-
-  useEffect(() => {
-    sendJsonMessage({
-      message: inps,
-      action: "create_message",
-      request_id: request_id,
-    });
-  }, [inps]);
+  }, [typing]);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -161,20 +152,19 @@ const ClassWorkLayout = () => {
 
   function handleHtmlChange(e) {
     console.log(e);
-    setHtml(e.target.value);
+    setInps({ ...inps, chat: e.target.value });
+    setTyping((prev) => !prev);
   }
 
-  function handleInputsChange(e) {
-    setInps(e.target.value);
-  }
+  const [editorContent, setEditorContent] = useState("");
 
-  function sendNote() {
-    let obj = Object.assign({
-      body: html,
-    });
+  // function sendNote() {
+  //   let obj = Object.assign({
+  //     body: inps.chat,
+  //   });
 
-    postNote(obj, note_id);
-  }
+  //   postNote(obj, note_id);
+  // }
 
   return (
     <div
@@ -203,7 +193,7 @@ const ClassWorkLayout = () => {
             containerProps={{
               style: { height: "40vh", maxHeight: "500px", width: "100%" },
             }}
-            value={html}
+            value={inps.chat}
             onChange={handleHtmlChange}
             disabled={!isTeacher()}
           >
@@ -225,9 +215,9 @@ const ClassWorkLayout = () => {
                 <HtmlButton />
                 <Separator />
                 <BtnStyles />
-                <Button onClick={sendNote} color="success">
+                {/* <Button onClick={sendNote} color="success">
                   Send Note
-                </Button>
+                </Button> */}
               </Toolbar>
             ) : (
               <></>
@@ -248,7 +238,10 @@ const ClassWorkLayout = () => {
           lesson={lesson}
           playing={playing}
           setPlaying={setPlaying}
-          handleInputsChange={handleInputsChange}
+          sendJsonMessage={sendJsonMessage}
+          inps={inps}
+          setInps={setInps}
+          setTyping={setTyping}
         />
         {isTeacher ? (
           <Box
