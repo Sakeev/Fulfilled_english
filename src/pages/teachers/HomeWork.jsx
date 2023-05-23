@@ -166,17 +166,18 @@ const HomeWork = () => {
                         })}
                       </select>
                       <div>
-                        <ol>
+                        <ol style={{ listStyle: 'none' }}>
                           {onelesson &&
                             onelesson.case_tasks?.map((item, key) => {
                               return (
                                 <Typography
+                                  sx={{ cursor: 'pointer', transition: '100ms', color: '#006D77', fontWeight: '600' , '&:hover': { color: '#e29578' } }}
                                   key={key}
                                   onClick={() => {
                                     navigate(`/hwresults/${item.id}/${index}`);
                                   }}
                                 >
-                                  <li style={{ margin: "5%" }}>{item.title}</li>
+                                  <li style={{ margin: "5% 0" }}>{item.title.charAt(0).toUpperCase() + item.title.slice(1)}</li>
                                 </Typography>
                               );
                             })}
