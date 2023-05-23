@@ -1,16 +1,16 @@
-import { useAuth } from '../../contexts/AuthContextProvider';
-import { useState } from 'react';
-import './Auth.css'
+import { useAuth } from "../../contexts/AuthContextProvider";
+import { useState } from "react";
+import "./Auth.css";
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const {
-        login,
-        errorObj: { emailError, passwordError },
-        isLoading,
-    } = useAuth();
+  const {
+    login,
+    errorObj: { emailError, passwordError },
+    isLoading,
+  } = useAuth();
 
     return (
         <>

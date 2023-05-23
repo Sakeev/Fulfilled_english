@@ -1,32 +1,32 @@
 .case1-hw-page {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
 }
 
 .case1-task-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 82%;
-    height: 100vh;
-    padding-block: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 82%;
+  height: 100vh;
+  padding-block: 3em;
 }
 
 .vocabulary-box-wrapper {
-    padding-top: 2em;
-    width: 70%;
+  padding-top: 2em;
+  width: 70%;
 }
 
 .case1-task {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    height: 50%;
-    width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50%;
+  width: 60%;
 }
 
 .case1-task button.MuiButtonBase-root {
@@ -41,11 +41,11 @@
 }
 
 .case1-task .MuiStack-root {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 .case1-task .MuiPagination-ul button.MuiButtonBase-root {
-    border: none;
+  border: none;
 }
 
 .case1-task .MuiPagination-ul button.MuiButtonBase-root.Mui-selected {
