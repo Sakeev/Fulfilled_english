@@ -51,6 +51,7 @@ const Inputs = ({
         console.log(newObj);
         setObj(newObj);
     };
+    setObj(obj);
 
     console.log(caseInfo.tasks?.[task_id - 1]);
 
@@ -90,6 +91,6 @@ const Inputs = ({
             </div>
         </>
     );
-};
+  };
 
 export default Inputs;

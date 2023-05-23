@@ -184,6 +184,7 @@ const ContinueSentence = ({
             </div>
         </>
     );
-};
+}};
+}
 
 export default ContinueSentence;
