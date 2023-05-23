@@ -75,53 +75,67 @@ const BuildDialog = ({
   };
   const str = answer[0]?.join(" ");
 
-  const obj = {
-    answers: str,
-  };
-  return (
-    <div className="build-dialog-container task-types-container">
-      <div className="build-dialog-task-box">
-        <div>
-          {words.map((item, index) => {
-            return (
-              <div key={index}>
-                <div className="build-dialog-words-box" key={"id" + index}>
-                  {item.map((word, ind) => (
-                    <p
-                      key={"inner" + ind}
-                      onClick={() => {
-                        handleWord(ind, index);
-                      }}
-                    >
-                      {word}
-                    </p>
-                  ))}
+    const obj = {
+        answers: str,
+    };
+
+    return (
+        <>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="build-dialog-container task-types-container">
+                <div className="build-dialog-task-box">
+                    <div>
+                        {words.map((item, index) => {
+                            return (
+                                <div key={index}>
+                                    <div
+                                        className="build-dialog-words-box"
+                                        key={'id' + index}
+                                    >
+                                        {item.map((word, ind) => (
+                                            <p
+                                                key={'inner' + ind}
+                                                onClick={() => {
+                                                    handleWord(ind, index);
+                                                }}
+                                            >
+                                                {word}
+                                            </p>
+                                        ))}
+                                    </div>
+                                    <div
+                                        className="build-dialog-answer-block"
+                                        key={'key' + index}
+                                    >
+                                        {answer[index]?.map((item, ind) => (
+                                            <p
+                                                key={'inner_ans' + ind}
+                                                className="build-dialog-answer"
+                                                onClick={() => {
+                                                    handleWordBack(ind, index);
+                                                }}
+                                            >
+                                                {item}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="build-dialog-answer-block" key={"key" + index}>
-                  {answer[index]?.map((item, ind) => (
-                    <p
-                      key={"inner_ans" + ind}
-                      className="build-dialog-answer"
-                      onClick={() => {
-                        handleWordBack(ind, index);
-                      }}
-                    >
-                      {item}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <Button
-        onClick={() => handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)}
-      >
-        send
-      </Button>
-    </div>
-  );
+                <Button
+                    onClick={() =>
+                        handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                    }
+                >
+                    send
+                </Button>
+            </div>
+        </>
+    );
 };
 
 export default BuildDialog;

@@ -59,6 +59,7 @@ const Essay = () => {
     return <h3 className="essay-no-essay">You haven't essay</h3>;
   }
 
+<<<<<<< timelyClassWorkBranch
   if (!essayTemplate || loading) {
     return (
       <div className="loader-wrapper">
@@ -105,6 +106,82 @@ const Essay = () => {
                   );
                 })}
               </ul>
+=======
+    console.log(essayTemplate);
+
+    return (
+        <div className="student-essay-wrapper">
+            <div className="student-essay">
+                <h2>Essay</h2>
+                <div className="student-essay-info-text">
+                    <div className="student-essay-subject">
+                        <span>Subject: {essayTemplate?.title}</span>
+                        {essayTemplate?.audio ? (
+                            <audio
+                                src={
+                                    essayTemplate
+                                        ? `${API}${essayTemplate?.audio}`
+                                        : ''
+                                }
+                                controls
+                            ></audio>
+                        ) : null}
+                    </div>
+                    <div className="student-essay-status">
+                        <span>Status:</span>
+                        <span>{essay?.checked ? '' : ' not'} checked</span>
+                    </div>
+                </div>
+                <div className="student-essay-textareas">
+                    {essay?.checked && (
+                        <div className="student-essay-corrections info-window">
+                            <p>Here is the teachers corrections:</p>
+                            <ul>
+                                {essay?.mistakes.map((mistake, index) => {
+                                    return (
+                                        <li
+                                            key={index}
+                                            className="student-essay-correction"
+                                        >
+                                            <div
+                                                className="correction-color"
+                                                style={{
+                                                    backgroundColor:
+                                                        mistake.color,
+                                                }}
+                                            ></div>
+                                            <p>{mistake.description}</p>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    )}
+                    {essay?.checked ? (
+                        <div
+                            ref={highlightedEssayText}
+                            className="unactive student-essay-text info-window"
+                        ></div>
+                    ) : (
+                        <textarea
+                            className={`${
+                                essay ? 'unactive' : ''
+                            } student-essay-text info-window`}
+                            readOnly={!!essay}
+                            onChange={(e) => setEssayText(e.target.value)}
+                            value={essayText}
+                        />
+                    )}
+                </div>
+                <div className="student-essay-btns">
+                    <Button
+                        disabled={!!essay}
+                        onClick={() => sendEssay(essayText)}
+                    >
+                        send
+                    </Button>
+                    {essay?.checked ? <span>{essay?.score}/10</span> : null}
+                </div>
             </div>
           )}
           {essay?.checked ? (

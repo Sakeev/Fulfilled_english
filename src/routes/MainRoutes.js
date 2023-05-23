@@ -16,6 +16,7 @@ import TeacherEssayPage from "../pages/teachers/TeacherEssayPage";
 import ViewEssayPage from "../pages/teachers/ViewEssayPage";
 import Case1 from "../components/tasks/Case1";
 import Progress from "../components/tasks/Progress";
+import NotesPage from "../pages/NotesPage";
 import HomeWork from "../pages/teachers/HomeWork";
 import HwResults from "../pages/teachers/HwResults";
 import TeachersHwPage from "../pages/teachers/TeachersHwPage";
@@ -99,6 +100,11 @@ const MainRoutes = () => {
       link: `/hwresults/:user_id/:id`,
       element: <HwResultsPage />,
       id: 12,
+    },
+    {
+      link: "/notes",
+      element: <NotesPage />,
+      id: 13,
     },
   ];
   const PUBLIC_ROUTES = [

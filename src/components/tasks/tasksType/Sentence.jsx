@@ -93,55 +93,63 @@ const Sentence = ({
   };
   const str = answer[0]?.join(" ");
 
-  const obj = {
-    answers: str,
-  };
-  return (
-    <div className="sentence-container task-types-container">
-      {/* <div className="sentence-task-box-wrapper"> */}
-      <div className="sentence-task-box-wrapper">
-        {words.map((item, index) => (
-          <div className="sentence-task-box" key={index}>
-            <div className="sentence-word" key={"id" + index}>
-              {item.map((word, ind) => (
-                <span
-                  key={"inner" + ind}
-                  sx={styles.word}
-                  onClick={() => {
-                    handleWord(ind, index);
-                  }}
+
+    const obj = {
+        answers: str,
+    };
+    return (
+        <>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="sentence-container task-types-container">
+                {/* <div className="sentence-task-box-wrapper"> */}
+                <div className="sentence-task-box-wrapper">
+                    {words.map((item, index) => (
+                        <div className="sentence-task-box" key={index}>
+                            <div className="sentence-word" key={'id' + index}>
+                                {item.map((word, ind) => (
+                                    <span
+                                        key={'inner' + ind}
+                                        sx={styles.word}
+                                        onClick={() => {
+                                            handleWord(ind, index);
+                                        }}
+                                    >
+                                        {word}
+                                    </span>
+                                ))}
+                            </div>
+                            <div
+                                className="sentence-answer-block"
+                                sx={styles.answer_block}
+                                key={'key' + index}
+                            >
+                                {answer[index]?.map((item, ind) => (
+                                    <p
+                                        key={'inner_ans' + ind}
+                                        onClick={() => {
+                                            handleWordBack(ind, index);
+                                        }}
+                                    >
+                                        {item}
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {/* </div> */}
+                <Button
+                    onClick={() =>
+                        handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                    }
                 >
-                  {word}
-                </span>
-              ))}
+                    send
+                </Button>
             </div>
-            <div
-              className="sentence-answer-block"
-              sx={styles.answer_block}
-              key={"key" + index}
-            >
-              {answer[index]?.map((item, ind) => (
-                <p
-                  key={"inner_ans" + ind}
-                  onClick={() => {
-                    handleWordBack(ind, index);
-                  }}
-                >
-                  {item}
-                </p>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* </div> */}
-      <Button
-        onClick={() => handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)}
-      >
-        send
-      </Button>
-    </div>
-  );
+        </>
+    );
 };
 
 export default Sentence;

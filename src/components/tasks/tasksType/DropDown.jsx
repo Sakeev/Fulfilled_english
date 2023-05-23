@@ -44,25 +44,26 @@ const Dropdown = ({
 
   const dropdownArr = splittedDesc.map((sentencePart, index) => {
     return (
-      <Fragment key={index}>
-        {sentencePart}
-        {index + 1 !== splittedDesc.length ? (
-          <Select
-            variant="filled"
-            value={studentAnswer[index]}
-            onChange={(event) => chooseWord(event, index)}
-          >
-            <MenuItem hidden disabled value={"choose word"}>
-              choose word
-            </MenuItem>
-            {dropdowns[index].map((options, index) => (
-              <MenuItem key={index} value={options}>
-                {options}
-              </MenuItem>
-            ))}
-          </Select>
-        ) : null}
-      </Fragment>
+        <>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="dropdown-container task-types-container">
+                <div className="dropdown">
+                    <div>{dropdownArr}</div>
+                </div>
+                <Button
+                    onClick={() =>
+                        handleAnswer(
+                            { answers: getStudentAnswer() },
+                            caseInfo.tasks?.[task_id - 1].id
+                        )
+                    }
+                >
+                    send
+                </Button>
+            </div>
+        </>
     );
   });
 

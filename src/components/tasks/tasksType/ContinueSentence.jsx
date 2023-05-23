@@ -125,65 +125,65 @@ const ContinueSentence = ({
           console.log(event.target);
           break;
         }
-      }
+        setWordsPairs(newWordsPairs);
+    };
 
-      if (!added) {
-        newWordsPairs.push([
-          {
-            word: item,
-            picked: true,
-            id: index,
-          },
-        ]);
-        event.target.style.backgroundColor = colors[newWordsPairs.length - 1];
-      }
-    }
-    setWordsPairs(newWordsPairs);
-  };
+    const obj = {
+        answers: wordsPairs,
+    };
 
-  const obj = {
-    answers: wordsPairs,
-  };
+    console.log(wordsPairs);
 
-  console.log(wordsPairs);
-
-  return (
-    <div className="continue-sentence-container task-types-container">
-      <div className="continue-sentence">
-        <Box sx={styles.main}>
-          <Box sx={styles.wordsContainer}>
-            {firstDesc?.map((item, index) => (
-              <Typography
-                key={index}
-                sx={styles.words}
-                onClick={(e) => {
-                  handleWord(item, index, e);
-                }}
-              >
-                {item}
-              </Typography>
-            ))}
-          </Box>
-          <Box sx={styles.wordsContainer}>
-            {secondDesc?.map((item, index) => (
-              <Typography
-                key={index + firstDesc?.length}
-                sx={styles.words}
-                onClick={(e) => handleWord(item, index + firstDesc?.length, e)}
-              >
-                {item}
-              </Typography>
-            ))}
-          </Box>
-        </Box>
-      </div>
-      <Button
-        onClick={() => handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)}
-      >
-        send
-      </Button>
-    </div>
-  );
+    return (
+        <>
+            <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+            </p>
+            <div className="continue-sentence-container task-types-container">
+                <div className="continue-sentence">
+                    <Box sx={styles.main}>
+                        <Box sx={styles.wordsContainer}>
+                            {firstDesc?.map((item, index) => (
+                                <Typography
+                                    key={index}
+                                    sx={styles.words}
+                                    onClick={(e) => {
+                                        handleWord(item, index, e);
+                                    }}
+                                >
+                                    {item}
+                                </Typography>
+                            ))}
+                        </Box>
+                        <Box sx={styles.wordsContainer}>
+                            {secondDesc?.map((item, index) => (
+                                <Typography
+                                    key={index + firstDesc?.length}
+                                    sx={styles.words}
+                                    onClick={(e) =>
+                                        handleWord(
+                                            item,
+                                            index + firstDesc?.length,
+                                            e
+                                        )
+                                    }
+                                >
+                                    {item}
+                                </Typography>
+                            ))}
+                        </Box>
+                    </Box>
+                </div>
+                <Button
+                    onClick={() =>
+                        handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
+                    }
+                >
+                    send
+                </Button>
+            </div>
+        </>
+    );
 };
 
 export default ContinueSentence;

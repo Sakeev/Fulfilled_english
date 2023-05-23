@@ -121,7 +121,6 @@ const ClassWorkLayout = () => {
       shouldReconnect: () => false,
     }
   );
-  console.log(inps);
   useEffect(() => {
     sendJsonMessage({
       playing: playing,
