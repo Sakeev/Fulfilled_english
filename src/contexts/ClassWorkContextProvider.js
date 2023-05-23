@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { createContext, useContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import { CHAT_NOTES_API, CHAT_ROOM_API, ROOM_API } from "../helpers/consts";
+import {
+  // CHAT_NOTES_API,
+  CHAT_ROOM_API,
+  // GRADE_API,
+  ROOM_API,
+} from "../helpers/consts";
 import api from "../http/index";
 
 const classWorkContext = createContext();
@@ -101,36 +106,47 @@ const ClassWorkContextProvider = ({ children }) => {
       payload: "",
     });
   };
+  
+  // // Заметки
+  // const postNote = async (note, id) => {
+  //   try {
+  //     await axios.patch(`${CHAT_NOTES_API}${id}/`, note, getToken());
+  //   } catch (error) {
+  //     console.log(error, "post_note_error");
+  //   }
+  // };
 
-  // Заметки
-  const postNote = async (note, id) => {
-    try {
-      await axios.patch(`${CHAT_NOTES_API}${id}/`, note, getToken());
-    } catch (error) {
-      console.log(error, "post_note_error");
-    }
-  };
+  // const getNotes = async () => {
+  //   try {
+  //     let data = await axios.get(CHAT_NOTES_API, getToken());
+  //     console.log(data);
+  //     dispatch({
+  //       type: "get_notes",
+  //       payload: data.data,
+  //     });
+  //   } catch (error) {
+  //     console.log(error, "get_notes_error");
+  //   }
+  // };
 
-  const getNotes = async () => {
-    try {
-      let data = await axios.get(CHAT_NOTES_API, getToken());
-      console.log(data);
-      dispatch({
-        type: "get_notes",
-        payload: data.data,
-      });
-    } catch (error) {
-      console.log(error, "get_notes_error");
-    }
-  };
+  // Оценки классная
+  // const sendMark = async (mark) => {
+  //   try {
+  //     await axios.post(GRADE_API, mark, getToken());
+  //   } catch (error) {
+  //     console.log(error, "send_mark_error");
+  //   }
+  // };
+
 
   const values = {
     createRoom,
     getLesson,
     getRoom,
     clearErrors,
-    postNote,
-    getNotes,
+    // postNote,
+    // getNotes,
+    // sendMark,
     createRoomError: state.createRoomError,
     lesson: state.lesson,
     room_pk: state.room_pk,

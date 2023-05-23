@@ -51,6 +51,8 @@ const Inputs = ({
         console.log(newObj);
         setObj(newObj);
     };
+    setObj(obj);
+  };
 
     console.log(caseInfo.tasks?.[task_id - 1]);
 
@@ -90,6 +92,18 @@ const Inputs = ({
             </div>
         </>
     );
+  });
+
+  return (
+    <div className="inputs-container task-types-container">
+      <div>{inputArr}</div>
+      <Button
+        onClick={() => handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)}
+      >
+        send
+      </Button>
+    </div>
+  );
 };
 
 export default Inputs;
