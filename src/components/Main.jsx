@@ -7,9 +7,9 @@ import { useAuth } from '../contexts/AuthContextProvider';
 import HomePageSchedule from './teachers/HomePageSchedule';
 import { useEffect } from 'react';
 import CreateRoom from './classwork/CreateRoom';
-import { isTeacher } from '../helpers/funcs';
+import { isTeacher, timeFromMilliseconds } from '../helpers/funcs';
 import { useClassWork } from '../contexts/ClassWorkContextProvider';
-
+import api from '../http';
 
 const modalStyle = {
     position: 'absolute',
@@ -20,10 +20,10 @@ const modalStyle = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
-    "&:focus": {
-        outline: 'none'
-    }
-  };
+    '&:focus': {
+        outline: 'none',
+    },
+};
 
 const avatarImg = {
     width: '70px',
@@ -41,7 +41,6 @@ const calendar = {
     bgcolor: '#edf6f9',
 };
 
-
 const Main = () => {
     const { isTeacher, getRoomOrRooms } = useAuth();
     const { getRoom } = useClassWork();
@@ -53,11 +52,14 @@ const Main = () => {
     });
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [timeLeft, setTimeLeft] = useState('');
+    const [upcomingLesson, setUpcomingLesson] = useState(null);
+
     document.addEventListener('keydown', (e) => {
-        if(e.key == 'Escape') {
+        if (e.key === 'Escape') {
             setShowModal(false);
         }
-    })
+    });
 
     useEffect(() => {
         getRoomOrRooms()
@@ -69,6 +71,28 @@ const Main = () => {
                 });
             })
             .catch((err) => console.log(err));
+
+        api.get('http://13.50.235.4/schedule/schedule/').then((res) => {
+            let data = res.data;
+            const today = new Date();
+            data.sort((a, b) => a.weekday - b.weekday);
+            data = data.filter(
+                (table) => today < new Date(`${table.date} ${table.time}`)
+            );
+            if (data.length > 0) setUpcomingLesson(data[0]);
+        });
+
+        const countdown = setInterval(() => {
+            setTimeLeft(
+                timeFromMilliseconds(
+                    new Date(`${upcomingLesson.date} ${upcomingLesson.time}`)
+                )
+            );
+        }, 1000);
+        // api.get('http://13.50.235.4/chat/room/').then((res) =>
+        //     console.log(res)
+        // );
+        return () => clearInterval(countdown);
     }, []);
 
     const studentProgress = Math.round(
@@ -84,9 +108,9 @@ const Main = () => {
     };
 
     const handleClassWork = () => {
-        getRoom()
-    }
- 
+        getRoom();
+    };
+
     return (
         <Box
             sx={{
@@ -121,11 +145,12 @@ const Main = () => {
                             alignItems: 'center',
                         }}
                         onClick={() => {
-                            if(isTeacher){
-                                setShowModal(true)  
+                            if (isTeacher) {
+                                setShowModal(true);
                             } else {
                                 handleClassWork();
-                            }}}
+                            }
+                        }}
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >
@@ -139,11 +164,18 @@ const Main = () => {
                             }}
                         >
                             <Typography variant="p" sx={{ color: '#83C5BE' }}>
-                                До занятия осталось: 5:43
+                                {upcomingLesson
+                                    ? `До занятия осталось: ${timeLeft}`
+                                    : 'У вас нет занятий на этой неделе'}
                             </Typography>
-                            <Typography variant="h5" sx={{ color: '#006D77' }}>
-                                Начать занятие
-                            </Typography>
+                            {isTeacher ? (
+                                <Typography
+                                    variant="h5"
+                                    sx={{ color: '#006D77' }}
+                                >
+                                    Начать занятие
+                                </Typography>
+                            ) : null}
                         </Box>
                         <img
                             style={{ width: '20%', margin: '0 0 20px 0' }}
@@ -156,7 +188,7 @@ const Main = () => {
                         onClose={() => setShowModal(false)}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
-                        >
+                    >
                         <Box sx={modalStyle}>
                             <CreateRoom />
                         </Box>

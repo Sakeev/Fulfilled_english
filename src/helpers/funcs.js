@@ -1,26 +1,40 @@
 export const getWeekDay = () => {
-  const d = new Date();
-  let WEEK_DAY = d.getDay();
-  switch (WEEK_DAY) {
-    case 0:
-      return "Sunday";
-    case 1:
-      return "Monday";
-    case 2:
-      return "Tuesday";
-    case 3:
-      return "Wendesday";
-    case 4:
-      return "Thursday";
-    case 5:
-      return "Friday";
-    case 6:
-      return "Saturday";
-    default:
-      return "Error";
-  }
-}
+    const d = new Date();
+    let WEEK_DAY = d.getDay();
+    switch (WEEK_DAY) {
+        case 0:
+            return 'Sunday';
+        case 1:
+            return 'Monday';
+        case 2:
+            return 'Tuesday';
+        case 3:
+            return 'Wendesday';
+        case 4:
+            return 'Thursday';
+        case 5:
+            return 'Friday';
+        case 6:
+            return 'Saturday';
+        default:
+            return 'Error';
+    }
+};
 
 export const isTeacher = () => {
-  return JSON.parse(localStorage.getItem('isTeacher')) || false;
-}
+    return JSON.parse(localStorage.getItem('isTeacher')) || false;
+};
+
+export const timeFromMilliseconds = (countDownDate) => {
+    const now = new Date().getTime();
+    const timeleft = countDownDate - now;
+
+    const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+    return `${days}:${hours}:${minutes}:${seconds}`;
+};

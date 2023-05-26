@@ -35,36 +35,38 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
     });
 
     const onSend = () => {
-        let size = +caseDetail.description.split('\r\n')[0].split('x')[0];
-        let content = caseDetail.description
-            .split('\r\n')
-            .slice(2)
-            .map((val) => val.split(' '));
-        let answer = caseDetail.description
-            .split('\r\n')[1]
-            .split(' ')
-            .reduce((obj, val) => {
-                obj[val] = [];
-                return obj;
-            }, {});
-        let counter = 0;
+        const splittedDescr = caseDetail.description.split('\r\n');
 
-        for (let key in answer) {
-            for (let i = 0; i < size; i++) {
-                if (counter * 3 + i in inps) {
-                    answer[key][i] = inps[counter * 3 + i];
-                } else {
-                    answer[key][i] = content[counter][i];
-                }
-            }
-            counter++;
+        const [cols, rows] = splittedDescr[0].split('x').map((size) => +size);
+        const colHeadings = splittedDescr[1].split(' ');
+        const content = splittedDescr.slice(2).map((val) => val.split(' '));
+        const answerTemplate = {};
+
+        for (let colHeading of colHeadings) {
+            answerTemplate[colHeading] = Array(+rows).fill('');
         }
 
-        handleAnswer([answer], caseInfo.tasks?.[task_id - 1].id);
-    };
+        let col = 0;
 
-    // console.log(inps);
-    // console.log(caseDetail);
+        for (let colHeading in answerTemplate) {
+            for (let row = 0; row < rows; row++) {
+                if (cols * row + col in inps) {
+                    answerTemplate[colHeading][row] = inps[cols * row + col];
+                } else if (content[row][col]) {
+                    answerTemplate[colHeading][row] = content[row][col];
+                } else {
+                    answerTemplate[colHeading][row] = '';
+                }
+            }
+
+            col++;
+        }
+
+        handleAnswer(
+            { answers: [answerTemplate] },
+            caseInfo.tasks?.[task_id - 1].id
+        );
+    };
 
     return (
         <>
