@@ -102,6 +102,7 @@ const ClassWorkLayout = () => {
             console.warn(data.data.messages);
             setNote(data.data.lesson.notes.id);
             tasks(data.data.lesson);
+            console.log(data.data);
 
             break;
           case "create":
@@ -230,8 +231,9 @@ const ClassWorkLayout = () => {
           margin: "0 30px",
           width: "70%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
+          // flexDirection: "column",
+          // alignItems: "flex-end",
+          justifyContent: "center",
         }}
       >
         <ClassTasks
@@ -243,7 +245,7 @@ const ClassWorkLayout = () => {
           setInps={setInps}
           setTyping={setTyping}
         />
-        {isTeacher ? (
+        {isTeacher() ? (
           <Box
             sx={{
               width: "175px",

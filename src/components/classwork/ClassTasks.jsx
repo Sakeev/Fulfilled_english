@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
+import { Box } from "@mui/system";
+import FlInps from "./tasks/FlInps";
 
 const ClassTasks = ({
   lesson,
@@ -14,6 +16,7 @@ const ClassTasks = ({
   setTyping,
 }) => {
   const renderTask = (task) => {
+    console.log(task);
     switch (task.title.toLowerCase()) {
       case "vocabulary":
         return <Vocabulary task={task.tasks} />;
@@ -37,19 +40,36 @@ const ClassTasks = ({
             setTyping={setTyping}
           />
         );
+      case "flinps":
+        return (
+          <FlInps
+            task={task.tasks}
+            handleInputsChange={handleInputsChange}
+            lesson={lesson}
+            sendJsonMessage={sendJsonMessage}
+            inps={inps}
+            setInps={setInps}
+            setTyping={setTyping}
+          />
+        );
       default:
         return <></>;
     }
   };
 
   return (
-    <>
-      {lesson?.case_tasks?.map((task, key) => (
+    <Box>
+      {lesson?.case_tasks?.unit1.map((task, key) => (
         <div style={{ margin: "20px 0", width: "100%" }} key={key}>
           {renderTask(task)}
         </div>
       ))}
-    </>
+      {lesson?.case_tasks?.unit2.map((task, key) => (
+        <div style={{ margin: "20px 0", width: "100%" }} key={key}>
+          {renderTask(task)}
+        </div>
+      ))}
+    </Box>
   );
 };
 
