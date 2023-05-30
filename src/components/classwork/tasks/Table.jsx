@@ -1,29 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Tasks.css";
 
-const Table = ({ task, sendJsonMessage, inps, setInps, setTyping }) => {
+const Table = ({ task, inps, setInps, setTyping }) => {
   const [tableProps, setTableProps] = useState({
     rows: task[0]?.description.split("\r\n")[0].split("x")[1],
     cells: task[0]?.description.split("\r\n")[0].split("x")[0],
   });
-
-  //   console.log(sendJsonMessage);
-  const request_id = new Date().getTime();
-
-  console.log(inps);
-
-  // useEffect(() => {
-  //   const timeOut = setTimeout(
-  //     () =>
-  //       sendJsonMessage({
-  //         message: inps,
-  //         action: "create_message",
-  //         request_id: request_id,
-  //       }),
-  //     1000
-  //   );
-  //   return () => clearTimeout(timeOut);
-  // }, [inps]);
 
   const fillData = (data) => {
     while (data.length < tableProps.rows) {
@@ -57,12 +39,12 @@ const Table = ({ task, sendJsonMessage, inps, setInps, setTyping }) => {
                 ) : (
                   <input
                     className="table_inp"
-                    value={inps[`th${index}`]}
+                    value={inps[`th${index}`] || ""}
                     onChange={(e) => {
-                      setInps((prevState) => ({
-                        ...prevState,
+                      setInps({
+                        ...inps,
                         [`th${index}`]: `${e.target.value}`,
-                      }));
+                      });
                       setTyping((prev) => !prev);
                     }}
                   />
@@ -81,12 +63,12 @@ const Table = ({ task, sendJsonMessage, inps, setInps, setTyping }) => {
                   ) : (
                     <input
                       className="table_inp"
-                      value={inps[`td${rowIndex}_${cellIndex}`]}
+                      value={inps[`td${rowIndex}_${cellIndex}`] || ""}
                       onChange={(e) => {
-                        setInps((prevState) => ({
-                          ...prevState,
+                        setInps({
+                          ...inps,
                           [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
-                        }));
+                        });
                         setTyping((prev) => !prev);
                       }}
                     />

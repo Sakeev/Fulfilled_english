@@ -5,13 +5,6 @@ import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 
 const Notes = () => {
   const { getNotes, notes } = useClassWork();
-  console.log(notes);
-  // const regex = /(&nbsp;)+/g;
-  // const textWithoutTags = value.replace(regex, "\n");
-  // const textWithoutExtraSpaces = textWithoutTags.trim().replace(/\s+/g, " ");
-  // return (
-  //   <div dangerouslySetInnerHTML={{ __html: textWithoutExtraSpaces }}></div>
-  // );
 
   useEffect(() => {
     getNotes();
