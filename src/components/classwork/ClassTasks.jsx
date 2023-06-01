@@ -4,6 +4,7 @@ import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
 import { Box } from "@mui/system";
 import FlInps from "./tasks/FlInps";
+import Describing from "./tasks/Describing";
 
 const ClassTasks = ({
   lesson,
@@ -44,14 +45,13 @@ const ClassTasks = ({
         return (
           <FlInps
             task={task.tasks}
-            handleInputsChange={handleInputsChange}
-            lesson={lesson}
-            sendJsonMessage={sendJsonMessage}
             inps={inps}
             setInps={setInps}
             setTyping={setTyping}
           />
         );
+      case "describing":
+        return <Describing task={task.tasks} />;
       default:
         return <></>;
     }

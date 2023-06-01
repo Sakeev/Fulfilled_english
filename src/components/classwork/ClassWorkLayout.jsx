@@ -132,7 +132,7 @@ const ClassWorkLayout = () => {
       action: "audio_play",
       request_id: request_id,
     });
-  }, [playing]);
+  }, [inps.playing]);
 
   useEffect(() => {
     const timeOut = setTimeout(
