@@ -47,7 +47,7 @@ const ClassTasks = ({
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
 
   useEffect(() => {
-    setTasksQuan(lesson?.case_tasks?.unit1?.length)
+    setTasksQuan(lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length)
   }, [lesson])
 
   const handlePaginationBtn = (direction) => {
@@ -62,8 +62,9 @@ const ClassTasks = ({
     <>
       <div className="slider__container">
         <div className="slider__pagination">
-          <button onClick={() => handlePaginationBtn(-1)}>prev</button>
-          <button onClick={() => handlePaginationBtn(1)}>next</button>
+          <button onClick={() => handlePaginationBtn(-1)} disabled={activePage === 1 ? true : false}>&#8249;&#8249;</button>
+          <h5>{activePage}</h5>
+          <button onClick={() => handlePaginationBtn(1)} disabled={activePage === tasksQuan - 1 ? true : false}>&#8250;&#8250;</button>
         </div>
         {
           lesson?.case_tasks?.unit1.map((task, ind) => (
