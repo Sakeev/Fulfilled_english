@@ -11,8 +11,8 @@ const FlInps = ({ task, inps, setInps, setTyping }) => {
 
   const inputCount = str.split("__inp__").length - 1;
 
-  const handleInputChange = (e) => {
-    setInps({ ...inps, inp1: e.target.value });
+  const handleInputChange = (e, index) => {
+    setInps({ ...inps, [`inp${task[0].id}_${index}`]: e.target.value });
 
     setTyping((prev) => !prev);
   };
@@ -20,12 +20,15 @@ const FlInps = ({ task, inps, setInps, setTyping }) => {
   return (
     <div>
       {str.split("__inp__").map((value, index) => (
-        <React.Fragment key={index}>
+        <div key={index}>
           {value}
           {index < inputCount && (
-            <input onChange={handleInputChange} value={inps.inp1 || ""} />
+            <input
+              onChange={(e) => handleInputChange(e, index)}
+              value={inps[`inp${task[0].id}_${index}`] || ""}
+            />
           )}
-        </React.Fragment>
+        </div>
       ))}
     </div>
   );
