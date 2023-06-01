@@ -10,8 +10,6 @@ const Table = ({ task, sendJsonMessage, inps, setInps, setTyping }) => {
   //   console.log(sendJsonMessage);
   const request_id = new Date().getTime();
 
-  console.log(inps);
-
   // useEffect(() => {
   //   const timeOut = setTimeout(
   //     () =>
@@ -39,7 +37,6 @@ const Table = ({ task, sendJsonMessage, inps, setInps, setTyping }) => {
     return res;
   };
 
-  console.log(task[0]?.flag);
   const [table, setTable] = useState({
     data: fillData(task[0].description.split("\r\n").slice(1)),
   });

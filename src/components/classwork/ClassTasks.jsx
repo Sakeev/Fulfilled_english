@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
@@ -42,13 +42,37 @@ const ClassTasks = ({
     }
   };
 
+  const slide = useRef();
+
+  const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
+
+  useEffect(() => {
+    setTasksQuan(lesson?.case_tasks?.unit1?.length)
+  }, [lesson])
+
+  const handlePaginationBtn = (direction) => {
+    if(((tasksQuan - 1 <= activePage) && direction !== -1) || (activePage <= 1) && direction !== 1){
+      return
+    }
+    setActivePage(activePage + direction);
+  }
+
+  const [activePage, setActivePage] = useState(1);
   return (
     <>
-      {lesson?.case_tasks?.map((task, key) => (
-        <div style={{ margin: "20px 0", width: "100%" }} key={key}>
-          {renderTask(task)}
+      <div className="slider__container">
+        <div className="slider__pagination">
+          <button onClick={() => handlePaginationBtn(-1)}>prev</button>
+          <button onClick={() => handlePaginationBtn(1)}>next</button>
         </div>
-      ))}
+        {
+          lesson?.case_tasks?.unit1.map((task, ind) => (
+            <div style={{ margin: "20px 0", width: "100%" }} className={activePage === ind + 1 ? "slider__page slider__page_active" : "slider__page"} key={ind} ref={slide} >
+              {renderTask(task)}
+            </div>
+          ))
+        }
+      </div>
     </>
   );
 };

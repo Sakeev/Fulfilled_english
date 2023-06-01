@@ -51,7 +51,6 @@ const ClassWorkLayout = () => {
     },
     [lesson]
   );
-  console.log(lesson);
 
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
     socketUrl,

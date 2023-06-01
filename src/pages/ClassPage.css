@@ -18,3 +18,29 @@
 .listening-text {
   margin: 10px 0
 }
+
+.slider__container {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.slider__page {
+  display: none;
+  width: 100%;
+}
+
+.slider__pagination {
+  display: flex;
+}
+
+.slider__pagination button {
+  width: 10%;
+  cursor: pointer;
+}
+
+.slider__page_active {
+  display: block;
+}
