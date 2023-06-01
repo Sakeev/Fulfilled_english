@@ -11,7 +11,6 @@ import {
   BtnStyles,
   BtnUnderline,
   BtnUndo,
-  DefaultEditor,
   Editor,
   EditorProvider,
   HtmlButton,
@@ -34,7 +33,7 @@ function isDocumentEvent(message) {
 }
 // const room_pk = 1;
 const ClassWorkLayout = () => {
-  const { room_pk } = useClassWork();
+  const { room_pk, postNote, sendMark } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(
     `ws://13.50.235.4/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
@@ -45,6 +44,8 @@ const ClassWorkLayout = () => {
   const [typing, setTyping] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [note_id, setNote] = useState(0);
+  const [userId, setUserId] = useState(0);
+  const [grade, setGrade] = useState({});
   const tasks = useCallback(
     (data) => {
       setLesson(data);
@@ -101,6 +102,10 @@ const ClassWorkLayout = () => {
             console.warn(data.data.messages);
             setNote(data.data.lesson.notes.id);
             tasks(data.data.lesson);
+            setUserId(
+              data.data.current_users.find((user) => !user.isTeacher).id
+            );
+            console.log(data.data);
 
             break;
           case "create":
@@ -126,7 +131,7 @@ const ClassWorkLayout = () => {
       action: "audio_play",
       request_id: request_id,
     });
-  }, [playing]);
+  }, [inps.playing]);
 
   useEffect(() => {
     const timeOut = setTimeout(
@@ -155,15 +160,21 @@ const ClassWorkLayout = () => {
     setTyping((prev) => !prev);
   }
 
-  const [editorContent, setEditorContent] = useState("");
+  function sendNote() {
+    let obj = Object.assign({
+      body: inps.chat,
+    });
 
-  // function sendNote() {
-  //   let obj = Object.assign({
-  //     body: inps.chat,
-  //   });
+    postNote(obj, note_id);
+  }
 
-  //   postNote(obj, note_id);
-  // }
+  function handleMark(e) {
+    setGrade({
+      grade: e.target.value,
+      user: userId,
+      lesson: lesson.id,
+    });
+  }
 
   return (
     <div
@@ -214,9 +225,9 @@ const ClassWorkLayout = () => {
                 <HtmlButton />
                 <Separator />
                 <BtnStyles />
-                {/* <Button onClick={sendNote} color="success">
+                <Button onClick={sendNote} color="success">
                   Send Note
-                </Button> */}
+                </Button>
               </Toolbar>
             ) : (
               <></>
@@ -229,8 +240,9 @@ const ClassWorkLayout = () => {
           margin: "0 30px",
           width: "70%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
+          // flexDirection: "column",
+          // alignItems: "flex-end",
+          justifyContent: "center",
         }}
       >
         <ClassTasks
@@ -242,7 +254,7 @@ const ClassWorkLayout = () => {
           setInps={setInps}
           setTyping={setTyping}
         />
-        {isTeacher ? (
+        {isTeacher() ? (
           <Box
             sx={{
               width: "175px",
@@ -255,8 +267,13 @@ const ClassWorkLayout = () => {
               type="text"
               style={{ width: "50px", paddingLeft: "10px" }}
               placeholder="  / 10"
+              onChange={handleMark}
             />
-            <Button color="success" sx={{ width: "100px" }}>
+            <Button
+              color="success"
+              sx={{ width: "100px" }}
+              onClick={() => sendMark(grade)}
+            >
               mark
             </Button>
           </Box>

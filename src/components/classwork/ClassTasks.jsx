@@ -1,7 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
+import { Box } from "@mui/system";
+import FlInps from "./tasks/FlInps";
+import Describing from "./tasks/Describing";
 
 const ClassTasks = ({
   lesson,
@@ -14,6 +17,7 @@ const ClassTasks = ({
   setTyping,
 }) => {
   const renderTask = (task) => {
+    console.log(task);
     switch (task.title.toLowerCase()) {
       case "vocabulary":
         return <Vocabulary task={task.tasks} />;
@@ -37,12 +41,21 @@ const ClassTasks = ({
             setTyping={setTyping}
           />
         );
+      case "flinps":
+        return (
+          <FlInps
+            task={task.tasks}
+            inps={inps}
+            setInps={setInps}
+            setTyping={setTyping}
+          />
+        );
+      case "describing":
+        return <Describing task={task.tasks} />;
       default:
         return <></>;
     }
   };
-
-  const slide = useRef();
 
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
 
@@ -68,13 +81,14 @@ const ClassTasks = ({
         </div>
         {
           lesson?.case_tasks?.unit1.map((task, ind) => (
-            <div style={{ margin: "20px 0", width: "100%" }} className={activePage === ind + 1 ? "slider__page slider__page_active" : "slider__page"} key={ind} ref={slide} >
+            <div style={{ margin: "20px 0", width: "100%" }} className={activePage === ind + 1 ? "slider__page slider__page_active" : "slider__page"} key={ind} >
               {renderTask(task)}
             </div>
           ))
         }
       </div>
     </>
+
   );
 };
 

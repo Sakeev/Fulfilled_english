@@ -121,7 +121,7 @@ const Main = () => {
         sx={{
           display: "flex",
           width: "100%",
-          height: '100%',
+          height: "100%",
           justifyContent: "space-between",
         }}
       >
@@ -292,6 +292,7 @@ const Main = () => {
               bgcolor: "#EDF6F9",
               borderRadius: "10px 10px 10px 50px",
             }}
+            onClick={() => navigate("/notes")}
           >
             <Typography sx={{ ml: 5, color: "#006d77" }}>Notes</Typography>
           </Paper>
