@@ -62,8 +62,8 @@ const ClassTasks = ({
     <>
       <div className="slider__container">
         <div className="slider__pagination">
-          <button onClick={() => handlePaginationBtn(-1)}>prev</button>
-          <button onClick={() => handlePaginationBtn(1)}>next</button>
+          <button onClick={() => handlePaginationBtn(-1)}>PREV</button>
+          <button onClick={() => handlePaginationBtn(1)}>NEXT</button>
         </div>
         {
           lesson?.case_tasks?.unit1.map((task, ind) => (

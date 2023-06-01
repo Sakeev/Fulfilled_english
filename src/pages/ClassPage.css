@@ -34,11 +34,21 @@
 
 .slider__pagination {
   display: flex;
+  gap: 10px;
 }
 
 .slider__pagination button {
   width: 10%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  background-color: #C5E5E2;
+}
+
+.slider__pagination button:hover {
+  background-color: #9bd0cb;
 }
 
 .slider__page_active {
