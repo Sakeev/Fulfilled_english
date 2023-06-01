@@ -44,6 +44,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   background-color: #C5E5E2;
 }
