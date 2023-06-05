@@ -29,12 +29,16 @@ export const timeFromMilliseconds = (countDownDate) => {
     const now = new Date().getTime();
     const timeleft = countDownDate - now;
 
-    const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
+    let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+    days = days.toString().length === 1 ? `0${days}` : days;
+    let hours = Math.floor(
         (timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
     );
-    const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+    hours = hours.toString().length === 1 ? `0${hours}` : hours;
+    let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+    minutes = minutes.toString().length === 1 ? `0${minutes}` : minutes;
+    let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+    seconds = seconds.toString().length === 1 ? `0${seconds}` : seconds;
 
     return `${days}:${hours}:${minutes}:${seconds}`;
 };

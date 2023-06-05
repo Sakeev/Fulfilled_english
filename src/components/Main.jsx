@@ -10,6 +10,7 @@ import CreateRoom from './classwork/CreateRoom';
 import { isTeacher, timeFromMilliseconds } from '../helpers/funcs';
 import { useClassWork } from '../contexts/ClassWorkContextProvider';
 import api from '../http';
+import { API } from '../helpers/consts';
 
 const modalStyle = {
     position: 'absolute',
@@ -26,29 +27,29 @@ const modalStyle = {
 };
 
 const avatarImg = {
-  width: "70px",
-  borderRadius: "50%",
-  width: "70px",
-  borderRadius: "50%",
+    width: '70px',
+    borderRadius: '50%',
+    width: '70px',
+    borderRadius: '50%',
 };
 
 const calendar = {
-  width: "20px",
-  height: "20px",
-  mx: 1,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "10px",
-  bgcolor: "#edf6f9",
-  width: "20px",
-  height: "20px",
-  mx: 1,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "10px",
-  bgcolor: "#edf6f9",
+    width: '20px',
+    height: '20px',
+    mx: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '10px',
+    bgcolor: '#edf6f9',
+    width: '20px',
+    height: '20px',
+    mx: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '10px',
+    bgcolor: '#edf6f9',
 };
 
 const Main = () => {
@@ -62,7 +63,7 @@ const Main = () => {
     });
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [timeLeft, setTimeLeft] = useState('');
+    const [timeLeft, setTimeLeft] = useState('00:00:00:00');
     const [tables, setTables] = useState([]);
     const [upcomingLesson, setUpcomingLesson] = useState(null);
     const [isNowLesson, setIsNowLesson] = useState(false);
@@ -101,7 +102,6 @@ const Main = () => {
                     )
                 );
                 const data = getActiveLessons(tables);
-                console.log(data);
                 if (data.length) {
                     if (data[0].id !== upcomingLesson.id) {
                         setUpcomingLesson(data[0]);
@@ -120,7 +120,6 @@ const Main = () => {
             let data = res.data;
             data.sort((a, b) => a.weekday - b.weekday);
             data = getActiveLessons(data);
-            console.log(data);
             setTables(data);
             if (data.length > 0) setUpcomingLesson(data[0]);
         });
@@ -150,84 +149,58 @@ const Main = () => {
         });
     };
 
+    const joinLesson = async () => {
+        const chatRoom = await api.get(`${API}chat/room/`);
+
+        if (chatRoom.data.length) {
+            localStorage.setItem('room_pk', chatRoom.data[0].pk);
+            navigate('/classwork');
+        }
+    };
+
     const studentProgress = Math.round(
         (100 / progress.lessonsQuantity) * progress.passedLessons
     );
 
-  const handleMouseOver = (setFunc) => {
-    setFunc(true);
-  };
+    const handleMouseOver = (setFunc) => {
+        setFunc(true);
+    };
 
-  const handleMouseOut = (setFunc) => {
-    setFunc(false);
-  };
+    const handleMouseOut = (setFunc) => {
+        setFunc(false);
+    };
 
-  const handleClassWork = () => {
-    getRoom();
-  };
+    const handleClassWork = () => {
+        getRoom();
+    };
 
-  return (
-    <Box
-      sx={{
-        mt: 4,
-        display: "flex",
-        flexDirection: "column",
-        width: "75vw",
-        height: "90vh",
-        padding: "0 2%",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ width: "65%" }}>
-          <Paper
-            elevation={isHover ? 6 : 1}
+    return (
+        <Box
             sx={{
-              m: 2,
-              height: "28vh",
-              cursor: "pointer",
-              // maxHeight: "220px",
-              width: "100%",
-              p: 2,
-              bgcolor: "#EDF6F9",
-              borderRadius: "50px 10px 10px",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
+                mt: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                width: '75vw',
+                height: '90vh',
+                padding: '0 2%',
             }}
-            onClick={() => {
-              if (isTeacher) {
-                setShowModal(true);
-              } else {
-                handleClassWork();
-              }
-            }}
-            onMouseOver={() => handleMouseOver(setIsHover)}
-            onMouseOut={() => handleMouseOut(setIsHover)}
-          >
+        >
             <Box
-              sx={{
-                height: "100px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
+                sx={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'space-between',
+                }}
             >
                 <Box sx={{ width: '65%' }}>
                     <Paper
-                        elevation={isHover ? 16 : 1}
+                        elevation={isHover ? 6 : 1}
                         sx={{
                             m: 2,
                             height: '28vh',
                             cursor: 'pointer',
-                            maxHeight: '220px',
+                            // maxHeight: "220px",
                             width: '100%',
                             p: 2,
                             bgcolor: '#EDF6F9',
@@ -240,7 +213,7 @@ const Main = () => {
                             if (isTeacher) {
                                 setShowModal(true);
                             } else {
-                                handleClassWork();
+                                joinLesson();
                             }
                         }}
                         onMouseOver={() => handleMouseOver(setIsHover)}
@@ -255,19 +228,21 @@ const Main = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Typography variant="p" sx={{ color: '#83C5BE' }}>
-                                {upcomingLesson
-                                    ? `До занятия осталось: ${timeLeft}`
-                                    : 'У вас нет занятий на этой неделе'}
-                            </Typography>
-                            {isTeacher ? (
+                            {isTeacher ? null : (
                                 <Typography
-                                    variant="h5"
-                                    sx={{ color: '#006D77' }}
+                                    variant="p"
+                                    sx={{ color: '#83C5BE' }}
                                 >
-                                    Начать занятие
+                                    {upcomingLesson
+                                        ? `Estimated time: ${timeLeft}`
+                                        : "You don't have lessons this week"}
                                 </Typography>
-                            ) : null}
+                            )}
+                            <Typography variant="h5" sx={{ color: '#006D77' }}>
+                                {isTeacher
+                                    ? 'Start lesson'
+                                    : 'Join to the lesson'}
+                            </Typography>
                         </Box>
                         <img
                             style={{ width: '20%', margin: '0 0 20px 0' }}
@@ -288,11 +263,11 @@ const Main = () => {
                 </Box>
                 <Box sx={{ width: '30%' }}>
                     <Paper
-                        elevation={isHoverProfile ? 16 : 1}
+                        elevation={isHoverProfile ? 6 : 1}
                         sx={{
                             m: 2,
                             height: '28vh',
-                            maxHeight: '220px',
+                            // maxHeight: "220px",
                             width: '100%',
                             p: 2,
                             bgcolor: '#EDF6F9',
@@ -313,165 +288,118 @@ const Main = () => {
                                 color: '#006d77',
                             }}
                         >
-                            <Typography variant="h6">Профиль</Typography>
+                            <Typography variant="h6">Profile</Typography>
                             <img src={avatar} alt="avatar" style={avatarImg} />
-                            <Typography variant="h6">
-                                Ваш баланс: 200
-                            </Typography>
+                            <Typography variant="h6">Balance: 10</Typography>
                         </Box>
                     </Paper>
                 </Box>
             </Box>
-            <img
-              style={{ width: "20%", margin: "0 0 20px 0" }}
-              src={sticker}
-              alt=""
-            />
-          </Paper>
-          <Modal
-            open={showModal}
-            onClose={() => setShowModal(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={modalStyle}>
-              <CreateRoom />
-            </Box>
-          </Modal>
-        </Box>
-        <Box sx={{ width: "30%" }}>
-          <Paper
-            elevation={isHoverProfile ? 6 : 1}
-            sx={{
-              m: 2,
-              height: "28vh",
-              // maxHeight: "220px",
-              width: "100%",
-              p: 2,
-              bgcolor: "#EDF6F9",
-              borderRadius: "10px 50px 10px",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/profile")}
-            onMouseOver={() => handleMouseOver(setIsHoverProfile)}
-            onMouseOut={() => handleMouseOut(setIsHoverProfile)}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-                height: "100%",
-                color: "#006d77",
-              }}
-            >
-              <Typography variant="h6">Profile</Typography>
-              <img src={avatar} alt="avatar" style={avatarImg} />
-              <Typography variant="h6">Balance: 10</Typography>
-            </Box>
-          </Paper>
-        </Box>
-      </Box>
 
-      {isTeacher ? null : (
-        <Box>
-          <Paper
-            elevation={1}
-            sx={{
-              m: 2,
-              height: "28vh",
-              // maxHeight: "220px",
-              width: "100%",
-              p: 2,
-              bgcolor: "#EDF6F9",
-              borderRadius: "10px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              alignItems: "space-between",
-            }}
-          >
+            {isTeacher ? null : (
+                <Box>
+                    <Paper
+                        elevation={1}
+                        sx={{
+                            m: 2,
+                            height: '28vh',
+                            // maxHeight: "220px",
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
+                            borderRadius: '10px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            alignItems: 'space-between',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{ ml: 5, color: '#006d77' }}
+                            >
+                                Ваш прогресс
+                            </Typography>
+                            <Typography variant="h6" sx={{ color: '#006d77' }}>
+                                {progress.passedLessons}/
+                                {progress.lessonsQuantity}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                ml: 5,
+                                width: '90%',
+                                height: '50px',
+                                bgcolor: '#83C5BE',
+                                borderRadius: '10px',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    width: studentProgress + '%',
+                                    height: '100%',
+                                    bgcolor: '#E29578',
+                                    borderRadius: '10px',
+                                }}
+                            ></Box>
+                        </Box>
+                    </Paper>
+                </Box>
+            )}
+
             <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "90%",
-              }}
-            >
-              <Typography variant="h6" sx={{ ml: 5, color: "#006d77" }}>
-                Ваш прогресс
-              </Typography>
-              <Typography variant="h6" sx={{ color: "#006d77" }}>
-                {progress.passedLessons}/{progress.lessonsQuantity}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                ml: 5,
-                width: "90%",
-                height: "50px",
-                bgcolor: "#83C5BE",
-                borderRadius: "10px",
-              }}
-            >
-              <Box
                 sx={{
-                  width: studentProgress + "%",
-                  height: "100%",
-                  bgcolor: "#E29578",
-                  borderRadius: "10px",
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                 }}
-              ></Box>
+            >
+                <Box sx={{ width: '47%' }}>
+                    <Paper
+                        elevation={1}
+                        sx={{
+                            m: 2,
+                            height: '28vh',
+                            // maxHeight: "220px",
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
+                            borderRadius: '10px 10px 10px 50px',
+                        }}
+                        onClick={() => navigate('/notes')}
+                    >
+                        <Typography sx={{ ml: 5, color: '#006d77' }}>
+                            Notes
+                        </Typography>
+                    </Paper>
+                </Box>
+                <Box sx={{ width: '47%' }}>
+                    <Paper
+                        elevation={1}
+                        sx={{
+                            m: 2,
+                            height: '28vh',
+                            // maxHeight: "220px",
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
+                            color: '#006D77',
+                            borderRadius: '10px 10px 50px 10px',
+                        }}
+                    >
+                        Dictionary (in development)
+                    </Paper>
+                </Box>
             </Box>
-          </Paper>
         </Box>
-      )}
-
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ width: "47%" }}>
-          <Paper
-            elevation={1}
-            sx={{
-              m: 2,
-              height: "28vh",
-              // maxHeight: "220px",
-              width: "100%",
-              p: 2,
-              bgcolor: "#EDF6F9",
-              borderRadius: "10px 10px 10px 50px",
-            }}
-            onClick={() => navigate("/notes")}
-          >
-            <Typography sx={{ ml: 5, color: "#006d77" }}>Notes</Typography>
-          </Paper>
-        </Box>
-        <Box sx={{ width: "47%" }}>
-          <Paper
-            elevation={1}
-            sx={{
-              m: 2,
-              height: "28vh",
-              // maxHeight: "220px",
-              width: "100%",
-              p: 2,
-              bgcolor: "#EDF6F9",
-              color: "#006D77",
-              borderRadius: "10px 10px 50px 10px",
-            }}
-          >
-            Dictionary (in development)
-          </Paper>
-        </Box>
-      </Box>
-    </Box>
-  );
+    );
 };
 
 export default Main;
