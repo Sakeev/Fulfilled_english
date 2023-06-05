@@ -7,12 +7,12 @@ import api from '../../http';
 
 const btnStyle = {
     margin: '10px 5px',
-    backgroundColor: '#9bd0cb',
+    backgroundColor: '#C5E5E2',
     color: '#006D77',
     textTransform: 'upper',
     '&:hover': {
-        backgroundColor: '#006D77',
-        color: '#9bd0cb',
+        backgroundColor: '#9bd0cb',
+        color: '#006D77',
     },
 };
 

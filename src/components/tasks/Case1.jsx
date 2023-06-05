@@ -20,6 +20,7 @@ import Table from './tasksType/Table';
 const Case1 = () => {
     const { id, task_id } = useParams();
     const [compl, setCompl] = useState([]);
+    const inputValuesHook = useState({});
 
     const {
         handleCaseDetail,
@@ -104,6 +105,7 @@ const Case1 = () => {
         case 'missing word':
             component = (
                 <Inputs
+                    inputValuesHook={inputValuesHook}
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
@@ -211,7 +213,11 @@ const Case1 = () => {
                 </div>
                 <div className="case1-task">
                     {component}
-                    <PagBar count={count} sx={{ alignSelf: 'center' }} />
+                    <PagBar
+                        count={count}
+                        sx={{ alignSelf: 'center' }}
+                        inputValuesHook={inputValuesHook}
+                    />
                 </div>
             </div>
         </div>

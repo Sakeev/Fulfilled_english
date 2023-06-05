@@ -1,163 +1,307 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { BtnBold, BtnBulletList, BtnClearFormatting, BtnItalic, BtnLink, BtnNumberedList, BtnRedo, BtnStrikeThrough, BtnStyles, BtnUnderline, BtnUndo, DefaultEditor, Editor, EditorProvider, HtmlButton, Separator, Toolbar } from 'react-simple-wysiwyg';
-import { ReadyState } from 'react-use-websocket';
-import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
-import { isTeacher } from '../../helpers/funcs';
-import { Button } from '@mui/material';
-import ClassTasks from './ClassTasks';
-import { useClassWork } from '../../contexts/ClassWorkContextProvider';
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  BtnBold,
+  BtnBulletList,
+  BtnClearFormatting,
+  BtnItalic,
+  BtnLink,
+  BtnNumberedList,
+  BtnRedo,
+  BtnStrikeThrough,
+  BtnStyles,
+  BtnUnderline,
+  BtnUndo,
+  Editor,
+  EditorProvider,
+  HtmlButton,
+  Separator,
+  Toolbar,
+} from "react-simple-wysiwyg";
+import { ReadyState } from "react-use-websocket";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { isTeacher } from "../../helpers/funcs";
+import { Button } from "@mui/material";
+import ClassTasks from "./ClassTasks";
+import { useClassWork } from "../../contexts/ClassWorkContextProvider";
+import { Box } from "@mui/system";
 
 const request_id = new Date().getTime();
 
 function isDocumentEvent(message) {
   let evt = JSON.parse(message.data);
-  return evt.type === 'contentchange';
+  return evt.type === "contentchange";
 }
 // const room_pk = 1;
 const ClassWorkLayout = () => {
-  const { room_pk } = useClassWork();
-  const [socketUrl, setSocketUrl] = useState(`ws://35.239.173.63/ws/chat/?token=${JSON.parse(localStorage.getItem('token')).access}`);
-  const [lesson, setLesson] = useState({})
-  const [html, setHtml] = useState('');
-  const [inps, setInps] = useState('');
+  const { room_pk, postNote, sendMark } = useClassWork();
+  const [socketUrl, setSocketUrl] = useState(
+    `ws://13.50.235.4/ws/chat/?token=${
+      JSON.parse(localStorage.getItem("token")).access
+    }`
+  );
+  const [lesson, setLesson] = useState({});
+  const [inps, setInps] = useState({ chat: "" });
+  const [typing, setTyping] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [note_id, setNote] = useState(0);
+  const [userId, setUserId] = useState(0);
+  const [grade, setGrade] = useState({});
+  const tasks = useCallback(
+    (data) => {
+      setLesson(data);
+    },
+    [lesson]
+  );
 
-  const tasks = useCallback((data) => {
-    setLesson(data);
-  }, [lesson])
-
-  const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(socketUrl , {
-    onOpen: () => {
-      console.log('WebSocket connection established.');
-      const joinRoom = {
+  const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
+    socketUrl,
+    {
+      onOpen: () => {
+        console.log("WebSocket connection established.");
+        const joinRoom = {
           pk: room_pk,
           action: "join_room",
           request_id: request_id,
-      };
-      sendJsonMessage(joinRoom);
-      const retrieveMessage = {
+        };
+        sendJsonMessage(joinRoom);
+        const retrieveMessage = {
           pk: room_pk,
           action: "retrieve",
           request_id: request_id,
-      };
-      sendJsonMessage(retrieveMessage);
-      const subscribeMessage = {
+        };
+        sendJsonMessage(retrieveMessage);
+        const subscribeMessage = {
           pk: room_pk,
           action: "subscribe_to_messages_in_room",
           request_id: request_id,
-      };
-      sendJsonMessage(subscribeMessage);
-      const subscribeInstanceMessage = {
+        };
+        sendJsonMessage(subscribeMessage);
+        const subscribeInstanceMessage = {
           pk: room_pk,
           action: "subscribe_instance",
           request_id: request_id,
-      };
-      sendJsonMessage(subscribeInstanceMessage);
-    },
-    onMessage: (e) => {
-      const data = JSON.parse(e.data);
+        };
+        sendJsonMessage(subscribeInstanceMessage);
+        const subscribeLessonActivity = {
+          action: "subscribe_lesson_activity",
+          request_id: request_id,
+        };
+        sendJsonMessage(subscribeLessonActivity);
+        const getLessonInRoom = {
+          pk: 1,
+          action: "get_lesson",
+          room_pk: room_pk,
+          request_id: request_id,
+        };
+        sendJsonMessage(getLessonInRoom);
+      },
+      onMessage: (e) => {
+        const data = JSON.parse(e.data);
         switch (data.action) {
-          case 'retrieve':
+          case "retrieve":
+            console.warn(data.data.messages);
+            setNote(data.data.lesson.notes.id);
+            tasks(data.data.lesson);
+            setUserId(
+              data.data.current_users.find((user) => !user.isTeacher).id
+            );
             console.log(data.data);
-            tasks(data.data.lesson)
+
             break;
-          case 'create':
-            if(!isTeacher()){
-              setHtml(data.data.text)
-            }
-            console.log(data.action, data.data);
+          case "create":
+            // if (!isTeacher()) {
+            setInps({ ...data.data.body });
+            // }
+            console.log(data.action, data.data.body);
             break;
           default:
             break;
         }
-    },
-    share: true,
-    filter: isDocumentEvent,
-    retryOnError: false,
-    onClose: (e) => console.log(e),
-    shouldReconnect: () => false
-  });
-
+      },
+      share: true,
+      filter: isDocumentEvent,
+      retryOnError: false,
+      onClose: (e) => console.log(e),
+      shouldReconnect: () => false,
+    }
+  );
   useEffect(() => {
     sendJsonMessage({
       playing: playing,
       action: "audio_play",
       request_id: request_id,
-    })
-  }, [playing])
-
+    });
+  }, [inps.playing]);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => sendJsonMessage({
-      message: html,
-      action: "create_message",
-      request_id: request_id,
-    }), 300);
+    const timeOut = setTimeout(
+      () =>
+        sendJsonMessage({
+          message: inps,
+          action: "create_message",
+          request_id: request_id,
+        }),
+      300
+    );
     return () => clearTimeout(timeOut);
-  }, [html])
-  
-  useEffect(() => {
-    sendJsonMessage({
-      message: inps,
-      action: "create_message",
-      request_id: request_id,
-    })
-  }, [inps])
-  
+  }, [typing]);
+
   const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
   function handleHtmlChange(e) {
-    setHtml(e.target.value);;
+    console.log(e);
+    setInps({ ...inps, chat: e.target.value });
+    setTyping((prev) => !prev);
   }
 
-  function handleInputsChange(e) {
-    setInps(e.target.value)
+  function sendNote() {
+    let obj = Object.assign({
+      body: inps.chat,
+    });
+
+    postNote(obj, note_id);
+  }
+
+  function handleMark(e) {
+    setGrade({
+      grade: e.target.value,
+      user: userId,
+      lesson: lesson.id,
+    });
+  }
+
+  function checkMark(mark) {
+    if (!mark.grade?.trim().length) {
+      prompt("Ertay gay");
+      alert("Po lyubomu gay");
+      return;
+    }
+    sendMark(mark);
   }
 
   return (
-    <div style={{ width: '80%', height: '95vh', margin: '40px 0 0 30px', display: 'flex' }}>
-      <div style={{ width: '40%', height: '100%', minWidth: '300px' }}>
-        <div style={{ height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      style={{
+        width: "80%",
+        height: "95vh",
+        margin: "40px 0 0 30px",
+        display: "flex",
+        // position: "relative",
+      }}
+    >
+      {/* <div style={{ position: "relative" }}> */}
+      <div
+        style={{
+          width: "40%",
+          height: "100%",
+          minWidth: "300px",
+          // position: "fixed",
+          // top: "20%",
+          // right: "50%",
+        }}
+      >
+        <div
+          style={{
+            height: "50%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Button color="warning">Zoom link</Button>
         </div>
         <span>The WebSocket is currently {connectionStatus}</span>
 
         <EditorProvider>
-          <Editor containerProps={{ style: { height: '40vh', maxHeight: '500px', width: '100%' } }} value={html} onChange={handleHtmlChange} disabled={!isTeacher()}>
-            {
-              isTeacher() ?
+          <Editor
+            containerProps={{
+              style: { height: "40vh", maxHeight: "500px", width: "100%" },
+            }}
+            value={inps.chat}
+            onChange={handleHtmlChange}
+            disabled={!isTeacher()}
+          >
+            {isTeacher() ? (
               <Toolbar>
-              <BtnUndo />
-              <BtnRedo />
-              <Separator />
-              <BtnBold />
-              <BtnItalic />
-              <BtnUnderline />
-              <BtnStrikeThrough />
-              <Separator />
-              <BtnNumberedList />
-              <BtnBulletList />
-              <Separator />
-              <BtnLink />
-              <BtnClearFormatting />
-              <HtmlButton />
-              <Separator />
-              <BtnStyles />
-            </Toolbar>
-            :
-            <></>
-            }
+                <BtnUndo />
+                <BtnRedo />
+                <Separator />
+                <BtnBold />
+                <BtnItalic />
+                <BtnUnderline />
+                <BtnStrikeThrough />
+                <Separator />
+                <BtnNumberedList />
+                <BtnBulletList />
+                <Separator />
+                <BtnLink />
+                <BtnClearFormatting />
+                <HtmlButton />
+                <Separator />
+                <BtnStyles />
+                <Button onClick={sendNote} color="success">
+                  Send Note
+                </Button>
+              </Toolbar>
+            ) : (
+              <></>
+            )}
           </Editor>
         </EditorProvider>
+        {/* </div> */}
       </div>
-      <div style={{ margin: '0 30px', width: '70%' }}>
-        <ClassTasks lesson={lesson} playing={playing} setPlaying={setPlaying} handleInputsChange={handleInputsChange} />
+      <div
+        style={{
+          margin: "0 30px",
+          width: "70%",
+          display: "flex",
+          // flexDirection: "column",
+          // alignItems: "flex-end",
+          justifyContent: "center",
+        }}
+      >
+        <ClassTasks
+          lesson={lesson}
+          playing={playing}
+          setPlaying={setPlaying}
+          sendJsonMessage={sendJsonMessage}
+          inps={inps}
+          setInps={setInps}
+          setTyping={setTyping}
+        />
+        {isTeacher() ? (
+          <Box
+            sx={{
+              width: "175px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px",
+            }}
+          >
+            <input
+              type="text"
+              style={{ width: "50px", paddingLeft: "10px" }}
+              placeholder="  / 10"
+              onChange={handleMark}
+            />
+            <Button
+              color="success"
+              sx={{ width: "100px" }}
+              onClick={() => checkMark(grade)}
+            >
+              mark
+            </Button>
+          </Box>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

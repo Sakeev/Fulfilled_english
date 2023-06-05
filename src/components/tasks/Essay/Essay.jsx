@@ -67,21 +67,25 @@ const Essay = () => {
         );
     }
 
+    console.log(essayTemplate);
+
     return (
         <div className="student-essay-wrapper">
             <div className="student-essay">
                 <h2>Essay</h2>
                 <div className="student-essay-info-text">
                     <div className="student-essay-subject">
-                        <span>Subject: </span>
-                        <audio
-                            src={
-                                essayTemplate
-                                    ? `${API}${essayTemplate?.audio}`
-                                    : ''
-                            }
-                            controls
-                        ></audio>
+                        <span>Subject: {essayTemplate?.title}</span>
+                        {essayTemplate?.audio ? (
+                            <audio
+                                src={
+                                    essayTemplate
+                                        ? `${API}${essayTemplate?.audio}`
+                                        : ''
+                                }
+                                controls
+                            ></audio>
+                        ) : null}
                     </div>
                     <div className="student-essay-status">
                         <span>Status:</span>

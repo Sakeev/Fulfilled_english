@@ -1,54 +1,60 @@
 .case1-hw-page {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
 }
 
 .case1-task-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 82%;
-    height: 100vh;
-    padding-block: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 82%;
+  height: 100vh;
+  padding-block: 3em;
 }
 
 .vocabulary-box-wrapper {
-    padding-top: 2em;
-    width: 70%;
+  padding-top: 2em;
+  width: 70%;
 }
 
 .case1-task {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    height: 50%;
-    width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50%;
+  width: 60%;
 }
 
 .case1-task button.MuiButtonBase-root {
-    background-color: #9bd0cb;
+    background-color: #C5E5E2;
     color: #006d77;
     text-transform: uppercase;
+    font-weight: 500;
 }
 
 .case1-task button.MuiButtonBase-root:hover {
-    background-color: #006d77;
-    color: #9bd0cb;
+    background-color: #9bd0cb;
 }
 
 .case1-task .MuiStack-root {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 .case1-task .MuiPagination-ul button.MuiButtonBase-root {
-    border: none;
+  border: none;
 }
 
 .case1-task .MuiPagination-ul button.MuiButtonBase-root.Mui-selected {
-    background-color: #006d77;
-    color: #9bd0cb;
+    background-color: #73a7a2;
+    color: #006d77;
+}
+
+.task-condition {
+    font-size: 1.5rem;
+    margin-bottom: 2em;
+    color: #006d77;
 }

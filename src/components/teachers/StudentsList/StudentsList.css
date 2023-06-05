@@ -42,13 +42,14 @@
 .sl-element-wrapper button.MuiButtonBase-root {
     align-self: flex-end;
     min-width: 10em;
-    background-color: #006d77;
-    color: #83c5be;
+    background-color: #C5E5E2;
+    color: #006d77;
     text-transform: uppercase;
+    max-width: 15em;
 }
 
 .sl-element-wrapper button.MuiButtonBase-root:hover {
-    background-color: #83c5be;
+    background-color: #9bd0cb;
     color: #006d77;
 }
 
@@ -59,7 +60,7 @@
 
 .sl-progress-bar {
     position: relative;
-    background-color: #9bd0cb;
+    background-color: #C5E5E2;
     width: 70%;
     height: 1.25em;
     border-radius: 0.625rem;
