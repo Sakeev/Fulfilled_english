@@ -176,6 +176,15 @@ const ClassWorkLayout = () => {
     });
   }
 
+  function checkMark(mark) {
+    if (!mark.grade?.trim().length) {
+      prompt("Ertay gay");
+      alert("Po lyubomu gay");
+      return;
+    }
+    sendMark(mark);
+  }
+
   return (
     <div
       style={{
@@ -183,9 +192,20 @@ const ClassWorkLayout = () => {
         height: "95vh",
         margin: "40px 0 0 30px",
         display: "flex",
+        // position: "relative",
       }}
     >
-      <div style={{ width: "40%", height: "100%", minWidth: "300px" }}>
+      {/* <div style={{ position: "relative" }}> */}
+      <div
+        style={{
+          width: "40%",
+          height: "100%",
+          minWidth: "300px",
+          // position: "fixed",
+          // top: "20%",
+          // right: "50%",
+        }}
+      >
         <div
           style={{
             height: "50%",
@@ -234,6 +254,7 @@ const ClassWorkLayout = () => {
             )}
           </Editor>
         </EditorProvider>
+        {/* </div> */}
       </div>
       <div
         style={{
@@ -261,6 +282,7 @@ const ClassWorkLayout = () => {
               height: "30px",
               display: "flex",
               justifyContent: "space-between",
+              marginTop: "20px",
             }}
           >
             <input
@@ -272,7 +294,7 @@ const ClassWorkLayout = () => {
             <Button
               color="success"
               sx={{ width: "100px" }}
-              onClick={() => sendMark(grade)}
+              onClick={() => checkMark(grade)}
             >
               mark
             </Button>

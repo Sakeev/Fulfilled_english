@@ -9,16 +9,16 @@ const Listening = ({ task = [], playing, setPlaying }) => {
     <>
       <h2>Listening</h2>
       <div className="listening-box">
-        {task[0]?.description.split("\r\n").map((text, index) => (
-          <p className="listening-text" key={index}>
-            {text}
-          </p>
-        ))}
         <Audio
           audioSource={API + task[0]?.audio}
           playing={playing}
           setPlaying={setPlaying}
         />
+        {task[0]?.description.split("\r\n").map((text, index) => (
+          <p className="listening-text" key={index}>
+            {text}
+          </p>
+        ))}
       </div>
     </>
   );
