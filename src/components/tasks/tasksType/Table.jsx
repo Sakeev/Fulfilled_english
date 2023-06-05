@@ -1,38 +1,38 @@
-import { Button } from '@mui/material';
-import { useState } from 'react';
+import { Button } from "@mui/material";
+import { useState } from "react";
 
-import './tasksType.css';
+import "./tasksType.css";
 
 const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
-    const [inps, setInps] = useState({});
-    const [tableProps, setTableProps] = useState({
-        rows: caseDetail?.description.split('\r\n')[0].split('x')[1],
-        cells: caseDetail?.description.split('\r\n')[0].split('x')[0],
+  const [inps, setInps] = useState({});
+  const [tableProps, setTableProps] = useState({
+    rows: caseDetail?.description.split("\r\n")[0].split("x")[1],
+    cells: caseDetail?.description.split("\r\n")[0].split("x")[0],
+  });
+
+  const fillData = (data) => {
+    while (data.length < tableProps.rows) {
+      data.push("");
+    }
+    const res = data.map((elem) => {
+      let temp = elem.split(" ");
+      while (temp.length < tableProps.cells) {
+        temp.push("");
+      }
+      return temp;
     });
+    return res;
+  };
 
-    const fillData = (data) => {
-        while (data.length < tableProps.rows) {
-            data.push('');
-        }
-        const res = data.map((elem) => {
-            let temp = elem.split(' ');
-            while (temp.length < tableProps.cells) {
-                temp.push('');
-            }
-            return temp;
-        });
-        return res;
-    };
-
-    const handleInputsChange = (e, index) => {
-        setInps((prev) => {
-            return { ...prev, [index]: e.target.value };
-        });
-    };
-
-    const [table, setTable] = useState({
-        data: fillData(caseDetail.description.split('\r\n').slice(1)),
+  const handleInputsChange = (e, index) => {
+    setInps((prev) => {
+      return { ...prev, [index]: e.target.value };
     });
+  };
+
+  const [table, setTable] = useState({
+    data: fillData(caseDetail.description.split("\r\n").slice(1)),
+  });
 
     const onSend = () => {
         const splittedDescr = caseDetail.description.split('\r\n');
@@ -61,6 +61,9 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
 
             col++;
         }
+      }
+      counter++;
+    }
 
         handleAnswer(
             JSON.stringify({ answers: [answerTemplate] }),
@@ -102,7 +105,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                                     return (
                                         <td key={tdIndex}>
                                             {item ? (
-                                                item
+                                                item.split('_').join(" ")
                                             ) : (
                                                 <input
                                                     className="table_inp"
@@ -121,7 +124,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                         ))}
                     </tbody>
                 </table>
-                <Button onClick={onSend}>send</Button>
+                <Button className='hw__send-btn' onClick={onSend}>send</Button>
             </div>
         </>
     );

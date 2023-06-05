@@ -1,97 +1,98 @@
-import { Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { useTasks } from '../../../contexts/TasksContextProvider';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useTasks } from "../../../contexts/TasksContextProvider";
+import { useNavigate } from "react-router-dom";
 
-import './tasksType.css';
+import "./tasksType.css";
 // const words = [
 
 //     ['cute' , 'is' , 'she'],
 // ];
 
 const styles = {
-    word: {
-        bgcolor: '#e7e7e7',
-        padding: '2px 10px',
-        margin: '5px',
-        borderRadius: '10px',
-        transition: '100ms',
-        cursor: 'pointer',
-        '&:hover': {
-            bgcolor: '#9bd0cb',
-        },
+  word: {
+    bgcolor: "#e7e7e7",
+    padding: "2px 10px",
+    margin: "5px",
+    borderRadius: "10px",
+    transition: "100ms",
+    cursor: "pointer",
+    "&:hover": {
+      bgcolor: "#9bd0cb",
     },
+  },
 };
 
 const Sentence = ({
-    taskBox,
-    handleCaseDetail,
-    id,
-    task_id,
-    caseDetail,
-    descr,
-    handleAnswer,
-    caseInfo,
+  taskBox,
+  handleCaseDetail,
+  id,
+  task_id,
+  caseDetail,
+  descr,
+  handleAnswer,
+  caseInfo,
 }) => {
-    const { dispatch, sent } = useTasks();
-    const navigate = useNavigate();
-    const [words, setWords] = useState([]);
-    useEffect(() => {
-        handleCaseDetail(id, task_id);
-        // setWords([caseDetail?.description.split(" ")])
-    }, []);
+  const { dispatch, sent } = useTasks();
+  const navigate = useNavigate();
+  const [words, setWords] = useState([]);
+  useEffect(() => {
+    handleCaseDetail(id, task_id);
+    // setWords([caseDetail?.description.split(" ")])
+  }, []);
 
-    useEffect(() => {
-        setWords([caseDetail?.description.split(' ')]);
-    }, [task_id]);
+  useEffect(() => {
+    setWords([caseDetail?.description.split(" ")]);
+  }, [task_id]);
 
-    useEffect(() => {
-        if (caseDetail) {
-            setWords([caseDetail?.description.split(' ')]);
-        }
-    }, [caseDetail]);
+  useEffect(() => {
+    if (caseDetail) {
+      setWords([caseDetail?.description.split(" ")]);
+    }
+  }, [caseDetail]);
 
-    const checkFields = () => {
-        let res = [];
-        for (let i = 0; i < words.length; i++) {
-            res.push([]);
-        }
-        return res;
-    };
+  const checkFields = () => {
+    let res = [];
+    for (let i = 0; i < words.length; i++) {
+      res.push([]);
+    }
+    return res;
+  };
 
-    useEffect(() => {
-        setAnswer(checkFields());
-    }, [words]);
+  useEffect(() => {
+    setAnswer(checkFields());
+  }, [words]);
 
-    const [answer, setAnswer] = useState([]);
+  const [answer, setAnswer] = useState([]);
 
-    const handleWord = (ind, index) => {
-        let pickedWord = words[index].splice(ind, 1);
-        let newAns = [];
-        newAns.push(pickedWord[0]);
-        let res = [...answer];
-        res[index] = res[index].concat([...newAns]);
+  const handleWord = (ind, index) => {
+    let pickedWord = words[index].splice(ind, 1);
+    let newAns = [];
+    newAns.push(pickedWord[0]);
+    let res = [...answer];
+    res[index] = res[index].concat([...newAns]);
 
-        setAnswer(res);
+    setAnswer(res);
 
-        dispatch({
-            type: 'GET_SENT',
-            payload: res,
-        });
-    };
+    dispatch({
+      type: "GET_SENT",
+      payload: res,
+    });
+  };
 
-    const handleWordBack = (ind, index) => {
-        words[index].splice(ind, 0, answer[index][ind]);
-        let newAns = [...answer];
-        newAns[index].splice(ind, 1);
-        setAnswer(newAns);
-        dispatch({
-            type: 'GET_SENT',
-            payload: newAns,
-        });
-    };
-    const str = answer[0]?.join(' ');
+  const handleWordBack = (ind, index) => {
+    words[index].splice(ind, 0, answer[index][ind]);
+    let newAns = [...answer];
+    newAns[index].splice(ind, 1);
+    setAnswer(newAns);
+    dispatch({
+      type: "GET_SENT",
+      payload: newAns,
+    });
+  };
+  const str = answer[0]?.join(" ");
+
 
     const obj = {
         answers: str,
@@ -140,6 +141,7 @@ const Sentence = ({
                 </div>
                 {/* </div> */}
                 <Button
+                    className='hw__send-btn'
                     onClick={() =>
                         handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
                     }

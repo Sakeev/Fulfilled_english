@@ -1,20 +1,73 @@
 .vocabulary-box {
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .vocabulary-word {
   padding: 7px;
   margin: 5px 5px 5px 0;
-  border: 1px solid #006D77;
+  border: 1px solid #006d77;
   border-radius: 10px;
-  color: #006D77;
+  color: #006d77;
 }
 
 .listening-box {
-  color:#006D77;
+  color: #006d77;
 }
 
 .listening-text {
-  margin: 10px 0
+  margin: 10px 0;
+}
+
+.slider__container {
+  position: relative;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 100px;
+}
+
+.slider__page {
+  display: none;
+  width: 100%;
+  height: 100vh;
+}
+
+.slider__pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+}
+
+.slider__pagination button {
+  width: 10%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #c5e5e2;
+}
+
+.slider__pagination button:hover {
+  background-color: #9bd0cb;
+}
+
+.slider__pagination button:disabled {
+  background-color: #e5efee;
+  color: #4f8b91;
+  cursor: auto;
+}
+
+.slider__page_active {
+  display: block;
 }

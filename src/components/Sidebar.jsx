@@ -15,15 +15,7 @@ import Logo from "../assets/images/logo.png";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#9bd0cb",
-    },
-    secondary: {
-      main: "#E29578",
-    },
-  },
-  palette: {
-    primary: {
-      main: "#9bd0cb",
+      main: "#C5E5E2",
     },
     secondary: {
       main: "#E29578",
@@ -57,8 +49,8 @@ export default function Appbar() {
     width: "18vw",
     minWidth: "200px",
     height: "100vh",
-    // boxShadow: '4px 0px 10px -2px rgba(115,115,115,0.75)',
-    borderRight: "2px solid #9bd0cb",
+    boxShadow: "rgba(0, 0, 0, 0.10) 1.6px 1.95px 2.6px;",
+    // borderRight: '2px solid #C5E5E2',
     position: "fixed",
   };
 
@@ -69,13 +61,14 @@ export default function Appbar() {
   };
 
   const btnStyle = {
-    margin: "10px 5px",
-    backgroundColor: "#9bd0cb",
+    margin: "10px auto",
+    width: "90%",
+    backgroundColor: "#C5E5E2",
     color: "#006D77",
+    borderRadius: "10px",
     textTransform: "none",
     "&:hover": {
-      backgroundColor: "#006D77",
-      color: "#9bd0cb",
+      backgroundColor: "#9bd0cb",
     },
   };
 
@@ -109,7 +102,7 @@ export default function Appbar() {
           <img
             src={Logo}
             alt="logo"
-            style={{ width: "50px", marginLeft: "20px", mt: 2 }}
+            style={{ width: "50px", marginLeft: "30px", mt: 2 }}
           />
           <Box>
             <Typography

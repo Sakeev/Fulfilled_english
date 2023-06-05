@@ -1,18 +1,16 @@
-import { useAuth } from '../../contexts/AuthContextProvider';
-import { useState } from 'react';
-import './Auth.css'
+import { useAuth } from "../../contexts/AuthContextProvider";
+import { useState } from "react";
+import "./Auth.css";
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const {
-        login,
-        errorObj: { emailError, passwordError },
-        isLoading,
-    } = useAuth();
-
-    console.log(emailError, passwordError)
+  const {
+    login,
+    errorObj: { emailError, passwordError },
+    isLoading,
+  } = useAuth();
 
     return (
         <>
@@ -41,7 +39,7 @@ export default function Login() {
                             {
                                 isLoading ? 
                                 <button type='submit' className='btn-loader'>
-                                    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                                    <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                                 </button>
                                 :
                                 <button type='submit'>Login</button>

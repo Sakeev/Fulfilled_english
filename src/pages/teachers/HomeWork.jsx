@@ -25,21 +25,23 @@ const style = {
 const btnStyle = {
   margin: "10px 5px",
   width: "100px",
-  backgroundColor: "#9bd0cb",
+  backgroundColor: "#C5E5E2",
   color: "#006D77",
   textTransform: "none",
   "&:hover": {
-    backgroundColor: "#006D77",
-    color: "#9bd0cb",
+    backgroundColor: "#9bd0cb",
   },
 };
 const selectContainer = {
+  margin: '10px 0',
   width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: "10px",
+  padding: '5px 0',
+  borderRadius: '5px'
 };
 const modalContainer = {
   display: "flex",
@@ -67,19 +69,27 @@ const HomeWork = () => {
   const [open, setOpen] = React.useState(false);
   const [lesson, setLesson] = React.useState("1");
 
-  const handleChange = (e) => {
-    const selectedLessonId = e.target.value;
-    setLessonValue(selectedLessonId);
-    getOneLesson(selectedLessonId, index);
-    getCurrentLesson(index);
-  };
-
   const [lessonValue, setLessonValue] = useState(" ");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [uniqLesson, setUniqLesson] = useState(onelesson?.case_tasks);
   useEffect(() => {
     getUsers();
   }, []);
+
+  const handleChange = (e) => {
+    const selectedLessonId = e.target.value;
+    setLessonValue(selectedLessonId, () => {
+      getOneLesson(selectedLessonId, index);
+    });
+    getCurrentLesson(index);
+  };
+
+  console.log(lessonValue);
+
+  useEffect(() => {
+    setUniqLesson(onelesson?.case_tasks);
+  }, [onelesson]);
 
   useEffect(() => {
     if (index !== null) {
@@ -87,25 +97,33 @@ const HomeWork = () => {
     }
   }, [lessonValue, index]);
 
-  // console.log(studentshw);
-
   useEffect(() => {
     if (index !== null) {
       getCurrentLesson(index);
     }
   }, [index]);
-
+  const [currUser, setCurrUser] = useState(null);
+  // console.log(currUser);
   const highFunc = (id) => {
     handleOpen();
     getUserHw(id);
     setIndex(id);
     getUserHw(id);
+    setCurrUser(id);
   };
+
+  useEffect(() => {
+    setLessonValue(studentshw?.length);
+  }, [studentshw]);
+
+  // console.log(studentshw);
+
   useEffect(() => {
     if (currentlesson.length > 0 && lessonValue == " ") {
       setLessonValue(currentlesson[0]?.id);
     }
   }, [currentlesson]);
+  console.log(currentlesson);
 
   return (
     <div className="essay-container">
@@ -126,9 +144,7 @@ const HomeWork = () => {
                 alignItems: "center",
               }}
             >
-              <p onClick={() => console.log(student.user?.id)}>
-                {student.user?.email}
-              </p>
+              <p>{student.user?.email}</p>
               <div className="essay-icon"></div>
             </div>
             <Modal
@@ -164,17 +180,18 @@ const HomeWork = () => {
                         })}
                       </select>
                       <div>
-                        <ol>
+                        <ol style={{ listStyle: 'none' }}>
                           {onelesson &&
                             onelesson.case_tasks?.map((item, key) => {
                               return (
                                 <Typography
+                                  sx={{ cursor: 'pointer', transition: '100ms', color: '#006D77', fontWeight: '600' , '&:hover': { color: '#e29578' } }}
                                   key={key}
                                   onClick={() => {
                                     navigate(`/hwresults/${item.id}/${index}`);
                                   }}
                                 >
-                                  <li style={{ margin: "5%" }}>{item.title}</li>
+                                  <li style={{ margin: "5% 0" }}>{item.title.charAt(0).toUpperCase() + item.title.slice(1)}</li>
                                 </Typography>
                               );
                             })}
@@ -196,7 +213,7 @@ const HomeWork = () => {
                 highFunc(student.user?.id);
               }}
             >
-              check hw
+              view h/w
             </Button>
           </li>
         ))}

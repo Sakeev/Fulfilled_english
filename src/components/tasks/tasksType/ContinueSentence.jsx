@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { Box, Button, Typography } from "@mui/material";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
-import './tasksType.css';
+import "./tasksType.css";
 
 const styles = {
     main: {
@@ -13,7 +13,7 @@ const styles = {
         mt: 2,
     },
     words: {
-        bgcolor: '#9bd0cb',
+        bgcolor: '#C5E5E2',
         color: '#006D77',
         margin: '5px 0',
         padding: '10px',
@@ -29,115 +29,101 @@ const styles = {
     wordsContainer: {
         width: '42%',
     },
-};
+  }
 
 // const data = ['lorem some', 'words', 'have to', 'get'];
 // const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
 const colors = [
-    'red',
-    'green',
-    'yellow',
-    'aqua',
-    'orange',
-    'gray',
-    'violet',
-    'purple',
+  "red",
+  "green",
+  "yellow",
+  "aqua",
+  "orange",
+  "gray",
+  "violet",
+  "purple",
 ];
 
 const ContinueSentence = ({
-    taskBox,
-    handleAnswer,
-    caseInfo,
-    task_id,
-    id,
-    caseDetail,
-    handleCaseDetail,
+  taskBox,
+  handleAnswer,
+  caseInfo,
+  task_id,
+  id,
+  caseDetail,
+  handleCaseDetail,
 }) => {
-    const [wordsPairs, setWordsPairs] = useState([]);
+  const [wordsPairs, setWordsPairs] = useState([]);
 
-    const [firstDesc, setFirstDesc] = useState(null);
-    const [secondDesc, setSecondDesc] = useState(null);
+  const [firstDesc, setFirstDesc] = useState(null);
+  const [secondDesc, setSecondDesc] = useState(null);
 
-    useEffect(() => {
-        handleCaseDetail(id, task_id);
-        setFirstDesc(caseDetail?.description1);
-        setSecondDesc(caseDetail?.description2);
-    }, []);
+  useEffect(() => {
+    handleCaseDetail(id, task_id);
+    setFirstDesc(caseDetail?.description1);
+    setSecondDesc(caseDetail?.description2);
+  }, []);
 
-    useEffect(() => {
-        setFirstDesc(caseDetail?.description1);
-        setSecondDesc(caseDetail?.description2);
-    }, [task_id]);
+  useEffect(() => {
+    setFirstDesc(caseDetail?.description1);
+    setSecondDesc(caseDetail?.description2);
+  }, [task_id]);
 
-    useEffect(() => {
-        if (caseDetail) {
-            setFirstDesc(caseDetail?.description1);
-            setSecondDesc(caseDetail?.description2);
+  useEffect(() => {
+    if (caseDetail) {
+      setFirstDesc(caseDetail?.description1);
+      setSecondDesc(caseDetail?.description2);
+    }
+  }, [caseDetail]);
+
+  const isWordInArr = (index) => {
+    if (wordsPairs.length === 0) return false;
+
+    for (let wordsPair of wordsPairs) {
+      for (let word of wordsPair) {
+        if (word.id === index) return true;
+      }
+    }
+
+    return false;
+  };
+
+  const handleWord = (item, index, event) => {
+    let newWordsPairs = JSON.parse(JSON.stringify(wordsPairs));
+
+    if (isWordInArr(index)) {
+      for (let i in newWordsPairs) {
+        for (let j in newWordsPairs[i]) {
+          if (newWordsPairs[i][j].id === index) {
+            newWordsPairs[i].splice(j, 1);
+            event.target.style.backgroundColor = "#9bd0cb";
+            break;
+          }
         }
-    }, [caseDetail]);
+      }
+    } else {
+      let added = false;
 
-    const isWordInArr = (index) => {
-        if (wordsPairs.length === 0) return false;
-
-        for (let wordsPair of wordsPairs) {
-            for (let word of wordsPair) {
-                if (word.id === index) return true;
-            }
-        }
-
-        return false;
-    };
-
-    const handleWord = (item, index, event) => {
-        let newWordsPairs = JSON.parse(JSON.stringify(wordsPairs));
-
-        if (isWordInArr(index)) {
-            for (let i in newWordsPairs) {
-                for (let j in newWordsPairs[i]) {
-                    if (newWordsPairs[i][j].id === index) {
-                        newWordsPairs[i].splice(j, 1);
-                        event.target.style.backgroundColor = '#9bd0cb';
-                        break;
-                    }
-                }
-            }
-        } else {
-            let added = false;
-
-            for (let i in newWordsPairs) {
-                if (newWordsPairs[i].length < 2) {
-                    if (
-                        newWordsPairs[i].length !== 0 &&
-                        ((newWordsPairs[i][0].id < firstDesc.length &&
-                            index < firstDesc.length) ||
-                            (newWordsPairs[i][0].id >= firstDesc.length &&
-                                index >= firstDesc.length))
-                    )
-                        return;
-                    newWordsPairs[i].push({
-                        word: item,
-                        picked: true,
-                        id: index,
-                    });
-                    added = true;
-                    event.target.style.backgroundColor = colors[i];
-                    console.log(event.target);
-                    break;
-                }
-            }
-
-            if (!added) {
-                newWordsPairs.push([
-                    {
-                        word: item,
-                        picked: true,
-                        id: index,
-                    },
-                ]);
-                event.target.style.backgroundColor =
-                    colors[newWordsPairs.length - 1];
-            }
+      for (let i in newWordsPairs) {
+        if (newWordsPairs[i].length < 2) {
+          if (
+            newWordsPairs[i].length !== 0 &&
+            ((newWordsPairs[i][0].id < firstDesc.length &&
+              index < firstDesc.length) ||
+              (newWordsPairs[i][0].id >= firstDesc.length &&
+                index >= firstDesc.length))
+          )
+            return;
+          newWordsPairs[i].push({
+            word: item,
+            picked: true,
+            id: index,
+          });
+          added = true;
+          event.target.style.backgroundColor = colors[i];
+          console.log(event.target);
+          break;
         }
         setWordsPairs(newWordsPairs);
     };
@@ -189,6 +175,7 @@ const ContinueSentence = ({
                     </Box>
                 </div>
                 <Button
+                    className='hw__send-btn'
                     onClick={() =>
                         handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
                     }
@@ -198,6 +185,7 @@ const ContinueSentence = ({
             </div>
         </>
     );
-};
+}};
+}
 
 export default ContinueSentence;
