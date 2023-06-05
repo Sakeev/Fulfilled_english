@@ -53,7 +53,9 @@ const Main = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [timeLeft, setTimeLeft] = useState('');
+    const [tables, setTables] = useState([]);
     const [upcomingLesson, setUpcomingLesson] = useState(null);
+    const [isNowLesson, setIsNowLesson] = useState(false);
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -64,7 +66,6 @@ const Main = () => {
     useEffect(() => {
         getRoomOrRooms()
             .then((res) => {
-                console.log(res);
                 setProgress({
                     lessonsQuantity: res.count_lessons,
                     passedLessons: res.progres_classwork,
@@ -72,28 +73,72 @@ const Main = () => {
             })
             .catch((err) => console.log(err));
 
-        api.get('http://13.50.235.4/schedule/schedule/').then((res) => {
-            let data = res.data;
-            const today = new Date();
-            data.sort((a, b) => a.weekday - b.weekday);
-            data = data.filter(
-                (table) => today < new Date(`${table.date} ${table.time}`)
-            );
-            if (data.length > 0) setUpcomingLesson(data[0]);
-        });
+        getUpcomingLessons();
 
-        const countdown = setInterval(() => {
-            setTimeLeft(
-                timeFromMilliseconds(
-                    new Date(`${upcomingLesson.date} ${upcomingLesson.time}`)
-                )
-            );
-        }, 1000);
         // api.get('http://13.50.235.4/chat/room/').then((res) =>
         //     console.log(res)
         // );
-        return () => clearInterval(countdown);
     }, []);
+
+    useEffect(() => {
+        if (upcomingLesson) {
+            const countdown = setInterval(() => {
+                setTimeLeft(
+                    timeFromMilliseconds(
+                        new Date(
+                            `${upcomingLesson.date} ${upcomingLesson.time}`
+                        )
+                    )
+                );
+                const data = getActiveLessons(tables);
+                console.log(data);
+                if (data.length) {
+                    if (data[0].id !== upcomingLesson.id) {
+                        setUpcomingLesson(data[0]);
+                    }
+                } else {
+                    setUpcomingLesson(null);
+                }
+            }, 1000);
+
+            return () => clearInterval(countdown);
+        }
+    }, [upcomingLesson]);
+
+    const getUpcomingLessons = () => {
+        api.get('http://13.50.235.4/schedule/schedule/').then((res) => {
+            let data = res.data;
+            data.sort((a, b) => a.weekday - b.weekday);
+            data = getActiveLessons(data);
+            console.log(data);
+            setTables(data);
+            if (data.length > 0) setUpcomingLesson(data[0]);
+        });
+    };
+
+    const getActiveLessons = (tables) => {
+        if (tables.length) {
+            const today = new Date();
+            return tables.filter(
+                (table) => today < new Date(`${table.date} ${table.time}`)
+            );
+        }
+        return [];
+    };
+
+    const findCurrentLesson = (tables) => {
+        tables.forEach((table) => {
+            const lessonDate = new Date(`${table.date} ${table.time}`);
+            const delayedLessonDate = new Date(`${table.date} ${table.time}`);
+            delayedLessonDate.setTime(
+                delayedLessonDate.getTime() + 90 * 60 * 1000
+            ); // 1:30
+            const today = new Date();
+
+            if (today > lessonDate && today < delayedLessonDate)
+                setIsNowLesson(true);
+        });
+    };
 
     const studentProgress = Math.round(
         (100 / progress.lessonsQuantity) * progress.passedLessons

@@ -63,7 +63,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
         }
 
         handleAnswer(
-            { answers: [answerTemplate] },
+            JSON.stringify({ answers: [answerTemplate] }),
             caseInfo.tasks?.[task_id - 1].id
         );
     };
