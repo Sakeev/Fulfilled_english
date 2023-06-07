@@ -1,3 +1,4 @@
+import { Divider } from "@mui/material";
 import React from "react";
 import { API } from "../../../helpers/consts";
 
@@ -15,7 +16,7 @@ const Describing = ({ task }) => {
             rowGap: 20,
           }}
         >
-          <hr />
+          <Divider />
           <h2>Exrcise</h2>
           {elem.images.map((image, index) => (
             <img
@@ -26,8 +27,12 @@ const Describing = ({ task }) => {
             />
           ))}
           <div>Description: {elem.description}</div>
-          <div style={{ marginBottom: "40px" }}>
-            Condition: {elem.condition}
+          <div style={{ marginBottom: "60px" }}>
+            Condition:{" "}
+            {elem.condition.split("\r\n").map((question, index) => {
+              console.log(question);
+              return <div key={index}>{question}</div>;
+            })}
           </div>
         </div>
       ))}

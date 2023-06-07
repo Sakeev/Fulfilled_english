@@ -46,6 +46,8 @@ const ClassWorkLayout = () => {
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
   const [grade, setGrade] = useState({});
+
+  console.log(playing);
   const tasks = useCallback(
     (data) => {
       setLesson(data);

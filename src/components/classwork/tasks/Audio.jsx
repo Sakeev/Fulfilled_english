@@ -1,23 +1,30 @@
 import React, { useEffect, useRef } from "react";
+import { isTeacher } from "../../../helpers/funcs";
 
 const Audio = ({ audioSource = "", playing, setPlaying, test = true }) => {
-  const ref = useRef();
+  // const ref = useRef();
 
-  useEffect(() => {
-    playing ? ref.current.play() : ref.current.pause();
-  }, [playing]);
+  // useEffect(() => {
+  //   playing ? ref.current.play() : ref.current.pause();
+  // }, [playing]);
+
+  const handleTogglePause = () => isTeacher() && setPlaying(!playing);
 
   return (
     <>
-      {/* <button onClick={() => setPlaying(!playing)}>click</button> */}
+      <button onClick={() => setPlaying(!playing)}>click</button>
       <audio
-        ref={ref}
+        // ref={ref}
         controls
-        // onPlay={() => setPlaying(true)}
+        onPlay={handleTogglePause}
+        onPause={handleTogglePause}
         // onPause={() => setPlaying(false)}
       >
         <source src={audioSource} />
       </audio>
+      {/* <button onClick={handleTogglePause}>
+        {!playing ? "Возобновить" : "Пауза"}
+      </button> */}
     </>
   );
 };
