@@ -7,8 +7,9 @@ import { useAuth } from "../contexts/AuthContextProvider";
 import HomePageSchedule from "./teachers/HomePageSchedule";
 import { useEffect } from "react";
 import CreateRoom from "./classwork/CreateRoom";
-import { isTeacher } from "../helpers/funcs";
+import { dateFormate, isTeacher } from "../helpers/funcs";
 import { useClassWork } from "../contexts/ClassWorkContextProvider";
+import { useSchedule } from "../contexts/ScheduleContextProvider"
 
 const modalStyle = {
   position: "absolute",
@@ -53,12 +54,19 @@ const calendar = {
 const Main = () => {
   const { isTeacher, getRoomOrRooms } = useAuth();
   const { getRoom } = useClassWork();
+  const { getSchedule, schedule } = useSchedule();
   const [isHover, setIsHover] = useState(false);
   const [isHoverProfile, setIsHoverProfile] = useState(false);
   const [progress, setProgress] = useState({
     lessonsQuantity: null,
     passedLessons: null,
   });
+  const [miniSchedule, setMiniSchedule] = useState([
+    {user: "", time: "", date: ""},
+    {user: "", time: "", date: ""},
+    {user: "", time: "", date: ""},
+    {user: "", time: "", date: ""}
+  ]);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   document.addEventListener("keydown", (e) => {
@@ -79,6 +87,7 @@ const Main = () => {
       .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
+    getSchedule();
     getRoomOrRooms()
       .then((res) => {
         console.log(res);
@@ -89,6 +98,16 @@ const Main = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    if(schedule){
+      // setMiniSchedule(schedule.slice(0, 4));
+      setMiniSchedule(miniSchedule.map((sch, ind)=> {
+         return {...sch, user: schedule[ind]?.user, time: schedule[ind]?.time, date: schedule[ind]?.date}
+      }))
+    }
+  }, [schedule])
+  
 
   const studentProgress = Math.round(
     (100 / progress.lessonsQuantity) * progress.passedLessons
@@ -105,6 +124,8 @@ const Main = () => {
   const handleClassWork = () => {
     getRoom();
   };
+
+  console.log(schedule)
 
   return (
     <Box
@@ -219,7 +240,68 @@ const Main = () => {
         </Box>
       </Box>
 
-      {isTeacher ? null : (
+      {isTeacher ? 
+        <Box>
+          <Paper
+            elevation={1}
+            sx={{
+              m: 2,
+              height: "23vh",
+              // maxHeight: "220px",
+              width: "100%",
+              p: 2,
+              bgcolor: "#EDF6F9",
+              borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              alignItems: "space-between",
+            }}
+          >
+            <Typography sx={{ ml: 5 }} component={"h2"}>Schedule</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "90%",
+                margin: '0 auto',
+                height: "100%",
+                alignItems: 'center'
+              }}
+            >
+              {
+                miniSchedule?.map((lesson, ind) => (
+                  <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '20%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80%',
+                    borderRadius: '10px',
+                    backgroundColor: '#EDF6F9',
+                    color: '#006d77',
+                    transition: '200ms',
+                    cursor: 'pointer',
+                    border: '2px solid #C5E5E2', 
+                    "&:hover": {
+                      backgroundColor: '#C5E5E2',
+                    }
+
+                  }}
+                  key={ind}
+                  onClick={() => navigate('/schedule')}>
+                    <Typography sx={{ fontSize: '0.7vw' }} component={"p"}>{dateFormate(lesson.date)}</Typography>
+                    <Typography sx={{ fontSize: '1vw' ,color: '#E29578' }} component={"p"}>{lesson.time}</Typography>
+                    <Typography sx={{ fontSize: '1vw' }} component={"p"}>{lesson.user}</Typography>
+                  </Box>
+                ))
+              }
+            </Box>
+          </Paper>
+
+        </Box>
+      : (
         <Box>
           <Paper
             elevation={1}
