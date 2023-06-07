@@ -71,3 +71,31 @@
 .slider__page_active {
   display: block;
 }
+
+.fillinps__block {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  margin: 10px 0;
+  align-items: end;
+  /* background-color: coral; */
+}
+
+.fillinps__block > input {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  margin-left: 12px;
+  outline: none;
+  transition: 200ms;
+}
+
+.fillinps__block > input:focus {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  outline: 1px solid #4f8b91;
+}
+
+.fillinps > h2 {
+  margin-bottom: 20px;
+}
