@@ -17,10 +17,11 @@ const FlInps = ({ task, inps, setInps, setTyping }) => {
   };
 
   return (
-    <div>
+    <div className="fillinps">
+      <h2>Fill inputs below</h2>
       {str.split("__inp__").map((value, index) => (
-        <div key={index}>
-          {value}
+        <div className="fillinps__block" key={index}>
+          <p>{value}</p>
           {index < inputCount && (
             <input
               onChange={(e) => handleInputChange(e, index)}
