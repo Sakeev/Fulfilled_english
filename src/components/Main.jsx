@@ -67,6 +67,7 @@ const Main = () => {
     const [tables, setTables] = useState([]);
     const [upcomingLesson, setUpcomingLesson] = useState(null);
     const [isNowLesson, setIsNowLesson] = useState(false);
+    const [connectingLesson, setConnectingLesson] = useState(false);
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -92,6 +93,11 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
+        // console.log(tables);
+        findCurrentLesson(tables);
+    }, [tables]);
+
+    useEffect(() => {
         if (upcomingLesson) {
             const countdown = setInterval(() => {
                 setTimeLeft(
@@ -109,6 +115,9 @@ const Main = () => {
                 } else {
                     setUpcomingLesson(null);
                 }
+                if (isNowLesson) {
+                    findCurrentLesson(tables);
+                }
             }, 1000);
 
             return () => clearInterval(countdown);
@@ -118,9 +127,10 @@ const Main = () => {
     const getUpcomingLessons = () => {
         api.get('http://13.50.235.4/schedule/schedule/').then((res) => {
             let data = res.data;
+            setTables(data);
             data.sort((a, b) => a.weekday - b.weekday);
             data = getActiveLessons(data);
-            setTables(data);
+            // console.log(data);
             if (data.length > 0) setUpcomingLesson(data[0]);
         });
     };
@@ -136,7 +146,7 @@ const Main = () => {
     };
 
     const findCurrentLesson = (tables) => {
-        tables.forEach((table) => {
+        for (let table of tables) {
             const lessonDate = new Date(`${table.date} ${table.time}`);
             const delayedLessonDate = new Date(`${table.date} ${table.time}`);
             delayedLessonDate.setTime(
@@ -144,18 +154,24 @@ const Main = () => {
             ); // 1:30
             const today = new Date();
 
-            if (today > lessonDate && today < delayedLessonDate)
+            if (today > lessonDate && today < delayedLessonDate) {
                 setIsNowLesson(true);
-        });
+                break;
+            } else {
+                setIsNowLesson(false);
+            }
+        }
     };
 
     const joinLesson = async () => {
+        setConnectingLesson(true);
         const chatRoom = await api.get(`${API}chat/room/`);
 
         if (chatRoom.data.length) {
             localStorage.setItem('room_pk', chatRoom.data[0].pk);
             navigate('/classwork');
         }
+        setConnectingLesson(false);
     };
 
     const studentProgress = Math.round(
@@ -219,36 +235,54 @@ const Main = () => {
                         onMouseOver={() => handleMouseOver(setIsHover)}
                         onMouseOut={() => handleMouseOut(setIsHover)}
                     >
-                        <Box
-                            sx={{
-                                height: '100px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-around',
-                                alignItems: 'center',
-                            }}
-                        >
-                            {isTeacher ? null : (
-                                <Typography
-                                    variant="p"
-                                    sx={{ color: '#83C5BE' }}
+                        {!connectingLesson ? (
+                            <>
+                                <Box
+                                    sx={{
+                                        height: '100px',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-around',
+                                        alignItems: 'center',
+                                    }}
                                 >
-                                    {upcomingLesson
-                                        ? `Estimated time: ${timeLeft}`
-                                        : "You don't have lessons this week"}
-                                </Typography>
-                            )}
-                            <Typography variant="h5" sx={{ color: '#006D77' }}>
-                                {isTeacher
-                                    ? 'Start lesson'
-                                    : 'Join to the lesson'}
-                            </Typography>
-                        </Box>
-                        <img
-                            style={{ width: '20%', margin: '0 0 20px 0' }}
-                            src={sticker}
-                            alt=""
-                        />
+                                    {isTeacher ? null : (
+                                        <Typography
+                                            variant="p"
+                                            sx={{ color: '#83C5BE' }}
+                                        >
+                                            {upcomingLesson
+                                                ? isNowLesson
+                                                    ? 'Lesson has started'
+                                                    : `Estimated time: ${timeLeft}`
+                                                : "You don't have lessons this week"}
+                                        </Typography>
+                                    )}
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ color: '#006D77' }}
+                                    >
+                                        {isTeacher
+                                            ? 'Start lesson'
+                                            : isNowLesson
+                                            ? 'Join to the lesson'
+                                            : ''}
+                                    </Typography>
+                                </Box>
+                                <img
+                                    style={{
+                                        width: '20%',
+                                        margin: '0 0 20px 0',
+                                    }}
+                                    src={sticker}
+                                    alt=""
+                                />
+                            </>
+                        ) : (
+                            <div className="loader-wrapper">
+                                <div className="loader"></div>
+                            </div>
+                        )}
                     </Paper>
                     <Modal
                         open={showModal}
