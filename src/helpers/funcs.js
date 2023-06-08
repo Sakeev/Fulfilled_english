@@ -25,7 +25,7 @@ export const isTeacher = () => {
   return JSON.parse(localStorage.getItem('isTeacher')) || false;
 }
 
-export const dateFormate = (date="2023-06-26") => {
+export const dateFormate = (date="0-0-0") => {
   const dateArr = date.split('-');
   switch (dateArr[1]) {
     case '01':
@@ -53,6 +53,6 @@ export const dateFormate = (date="2023-06-26") => {
     case '12':
       return `${dateArr[2]} Dec`;
     default:
-      break;
+      return "";
   }
 }
