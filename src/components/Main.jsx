@@ -1,16 +1,16 @@
 import { Box, Modal, Paper, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextProvider';
 import HomePageSchedule from './teachers/HomePageSchedule';
-import { useEffect } from 'react';
 import CreateRoom from './classwork/CreateRoom';
-import { isTeacher, timeFromMilliseconds } from '../helpers/funcs';
+import { isTeacher, timeFromMilliseconds, dateFormate } from '../helpers/funcs';
 import { useClassWork } from '../contexts/ClassWorkContextProvider';
 import api from '../http';
 import { API } from '../helpers/consts';
+import { useSchedule } from '../contexts/ScheduleContextProvider';
 
 const modalStyle = {
     position: 'absolute',
@@ -68,6 +68,13 @@ const Main = () => {
     const [upcomingLesson, setUpcomingLesson] = useState(null);
     const [isNowLesson, setIsNowLesson] = useState(false);
     const [connectingLesson, setConnectingLesson] = useState(false);
+    const { getSchedule, schedule } = useSchedule();
+    const [miniSchedule, setMiniSchedule] = useState([
+        { user: '', time: '', date: '' },
+        { user: '', time: '', date: '' },
+        { user: '', time: '', date: '' },
+        { user: '', time: '', date: '' },
+    ]);
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -76,6 +83,7 @@ const Main = () => {
     });
 
     useEffect(() => {
+        getSchedule();
         getRoomOrRooms()
             .then((res) => {
                 setProgress({
@@ -123,6 +131,22 @@ const Main = () => {
             return () => clearInterval(countdown);
         }
     }, [upcomingLesson]);
+
+    useEffect(() => {
+        if (schedule) {
+            // setMiniSchedule(schedule.slice(0, 4));
+            setMiniSchedule(
+                miniSchedule.map((sch, ind) => {
+                    return {
+                        ...sch,
+                        user: schedule[ind]?.user,
+                        time: schedule[ind]?.time,
+                        date: schedule[ind]?.date,
+                    };
+                })
+            );
+        }
+    }, [schedule]);
 
     const getUpcomingLessons = () => {
         api.get('http://13.50.235.4/schedule/schedule/').then((res) => {
@@ -229,7 +253,9 @@ const Main = () => {
                             if (isTeacher) {
                                 setShowModal(true);
                             } else {
-                                joinLesson();
+                                if (isNowLesson) {
+                                    joinLesson();
+                                }
                             }
                         }}
                         onMouseOver={() => handleMouseOver(setIsHover)}
@@ -330,7 +356,86 @@ const Main = () => {
                 </Box>
             </Box>
 
-            {isTeacher ? null : (
+            {isTeacher ? (
+                <Box>
+                    <Paper
+                        elevation={1}
+                        sx={{
+                            m: 2,
+                            height: '23vh',
+                            // maxHeight: "220px",
+                            width: '100%',
+                            p: 2,
+                            bgcolor: '#EDF6F9',
+                            borderRadius: '10px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            alignItems: 'space-between',
+                        }}
+                    >
+                        <Typography sx={{ ml: 5 }} component={'h2'}>
+                            Schedule
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '90%',
+                                margin: '0 auto',
+                                height: '100%',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {miniSchedule?.map((lesson, ind) => (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        width: '20%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        height: '80%',
+                                        borderRadius: '10px',
+                                        backgroundColor: '#EDF6F9',
+                                        color: '#006d77',
+                                        transition: '200ms',
+                                        cursor: 'pointer',
+                                        border: '2px solid #C5E5E2',
+                                        '&:hover': {
+                                            backgroundColor: '#C5E5E2',
+                                        },
+                                    }}
+                                    key={ind}
+                                    onClick={() => navigate('/schedule')}
+                                >
+                                    <Typography
+                                        sx={{ fontSize: '0.7vw' }}
+                                        component={'p'}
+                                    >
+                                        {dateFormate(lesson.date)}
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            fontSize: '1vw',
+                                            color: '#E29578',
+                                        }}
+                                        component={'p'}
+                                    >
+                                        {lesson.time}
+                                    </Typography>
+                                    <Typography
+                                        sx={{ fontSize: '1vw' }}
+                                        component={'p'}
+                                    >
+                                        {lesson.user}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                    </Paper>
+                </Box>
+            ) : (
                 <Box>
                     <Paper
                         elevation={1}

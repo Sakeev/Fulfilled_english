@@ -42,3 +42,35 @@ export const timeFromMilliseconds = (countDownDate) => {
 
     return `${days}:${hours}:${minutes}:${seconds}`;
 };
+
+export const dateFormate = (date = '0-0-0') => {
+    const dateArr = date.split('-');
+    switch (dateArr[1]) {
+        case '01':
+            return `${dateArr[2]} Jan`;
+        case '02':
+            return `${dateArr[2]} Feb`;
+        case '03':
+            return `${dateArr[2]} Mar`;
+        case '04':
+            return `${dateArr[2]} Apr`;
+        case '05':
+            return `${dateArr[2]} May`;
+        case '06':
+            return `${dateArr[2]} Jun`;
+        case '07':
+            return `${dateArr[2]} Jul`;
+        case '08':
+            return `${dateArr[2]} Aug`;
+        case '09':
+            return `${dateArr[2]} Sep`;
+        case '10':
+            return `${dateArr[2]} Oct`;
+        case '11':
+            return `${dateArr[2]} Nov`;
+        case '12':
+            return `${dateArr[2]} Dec`;
+        default:
+            return '';
+    }
+};
