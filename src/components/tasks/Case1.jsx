@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress, TextField } from '@mui/material';
+// import { Box, Button, LinearProgress, TextField } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,9 +13,9 @@ import Inputs from '../tasks/tasksType/Inputs';
 import Sentence from './tasksType/Sentence';
 import BuildDialog from './tasksType/BuildDialog';
 import Dropdown from './tasksType/DropDown';
+import Table from './tasksType/Table';
 
 import './Case1.css';
-import Table from './tasksType/Table';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
