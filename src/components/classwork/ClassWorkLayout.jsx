@@ -57,9 +57,8 @@ const ClassWorkLayout = () => {
     [lesson]
   );
 
-  const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
-    socketUrl,
-    {
+  const { sendJsonMessage, readyState, lastJsonMessage, getWebSocket } =
+    useWebSocket(socketUrl, {
       onOpen: () => {
         console.log("WebSocket connection established.");
         const joinRoom = {
@@ -101,10 +100,14 @@ const ClassWorkLayout = () => {
       },
       onMessage: (e) => {
         const data = JSON.parse(e.data);
-        console.log(data.lesson);
+        console.log(
+          "data=>",
+          data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
+        );
+        setPlaying(data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing);
         switch (data.action) {
           case "retrieve":
-            console.warn(data.data.messages);
+            // console.warn(data.data.messages);
             setNote(data.data.lesson.notes.id);
             tasks(data.data.lesson);
             setUserId(data.data.student.id);
@@ -115,7 +118,7 @@ const ClassWorkLayout = () => {
             // if (!isTeacher()) {
             setInps({ ...data.data.body });
             // }
-            console.log(data.action, data.data.body);
+            // console.log("=>data", data);
             break;
           default:
             break;
@@ -126,16 +129,7 @@ const ClassWorkLayout = () => {
       retryOnError: false,
       onClose: (e) => console.log(e),
       shouldReconnect: () => false,
-    }
-  );
-  useEffect(() => {
-    sendJsonMessage({
-      action: "is_playing",
-      booli: playing,
-      request_id: request_id,
-      task_id: 3,
     });
-  }, [playing]);
 
   useEffect(() => {
     const timeOut = setTimeout(
@@ -193,6 +187,18 @@ const ClassWorkLayout = () => {
     sendMark(mark, handleOpen);
   }
 
+  // check
+  // const handleOnMessage = (message) => {
+  //   console.log("Received message:", message);
+  //   // Дополнительная обработка полученного сообщения
+  // };
+
+  // useEffect(() => {
+  //   if (getWebSocket) {
+  //     getWebSocket().onmessage = handleOnMessage;
+  //   }
+  // }, [getWebSocket]);
+
   return (
     <div
       style={{
@@ -211,11 +217,10 @@ const ClassWorkLayout = () => {
       >
         <div
           style={{
-            width: "80%",
-            height: "95vh",
-            margin: "40px 0 0 30px",
+            height: "50%",
             display: "flex",
-            // position: "relative",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Button color="warning">Zoom link</Button>
@@ -270,6 +275,7 @@ const ClassWorkLayout = () => {
         <ClassTasks
           audioId={audioId}
           setAudioId={setAudioId}
+          request_id={request_id}
           lesson={lesson}
           playing={playing}
           setPlaying={setPlaying}

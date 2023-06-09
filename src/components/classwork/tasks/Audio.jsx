@@ -1,45 +1,101 @@
 import React, { useEffect, useRef, useState } from "react";
 import { isTeacher } from "../../../helpers/funcs";
 
-const Audio = ({ audioSource = "", playing, setPlaying, test = true }) => {
-
-  const [localAudio, setLocalAudio] = useState(playing)
+const Audio = ({
+  audioSource = "",
+  playing,
+  setPlaying,
+  test = true,
+  sendJsonMessage,
+  request_id,
+  is_playing,
+  task,
+}) => {
+  const [localAudio, setLocalAudio] = useState(false);
   const audioRef = useRef();
 
-  // useEffect(() => {
-  //   playing ? ref.current.play() : ref.current.pause();
-  // }, [playing]);
-
-  const handleTogglePause = () => {
-    if (audioRef.current) {
+  useEffect(() => {
+    if (
+      !isTeacher() &&
+      audioSource === "http://13.50.235.4//media/media/Unit_01.mp3"
+    ) {
       if (!playing) {
-        audioRef.current.play();
-      } else {
         audioRef.current.pause();
+      } else {
+        audioRef.current.play();
       }
-      isTeacher() && setPlaying(!playing);
     }
+  }, [playing]);
+
+  useEffect(() => {
+    if (isTeacher()) {
+      console.log("sending audio");
+      console.log(task);
+      // sendJsonMessage({
+      //   action: "is_playing",
+      //   booli: localAudio,
+      //   request_id: request_id,
+      //   task_id: 3,
+      // });
+    }
+  }, [localAudio]);
+
+  const handlePlay = () => {
+    // setPlaying(true);
+    // if (localAudio) audioRef.current.play();
+    setLocalAudio(true);
+    sendJsonMessage({
+      action: "is_playing",
+      booli: true,
+      request_id: request_id,
+      task_id: 15,
+    });
+    sendJsonMessage({
+      pk: 1,
+      action: "get_lesson",
+      request_id: request_id,
+    });
   };
+  const handlePause = () => {
+    // setPlaying(false);
+    // if (!localAudio) audioRef.current.pause();
+    setLocalAudio(false);
+    sendJsonMessage({
+      action: "is_playing",
+      booli: false,
+      request_id: request_id,
+      task_id: 15,
+    });
+    sendJsonMessage({
+      pk: 1,
+      action: "get_lesson",
+      request_id: request_id,
+    });
+  };
+
+  // const handleClick = () => {
+  //   if (localAudio) {
+  //     audioRef.current.pause();
+  //     setLocalAudio(false);
+  //   } else {
+  //     audioRef.current.play();
+  //     setLocalAudio(true);
+  //   }
+  // };
+
   console.log(playing);
-  // console.log(audioRef.current.currentTime);
+  // console.log(audioSource);
 
   return (
     <>
-      {/* <button onClick={() => setPlaying(!playing)}>click</button> */}
       <audio
         ref={audioRef}
         src={audioSource}
-        onPause={() => setPlaying(false)}
-        onPlay={() => setPlaying(true)}
+        onPause={handlePause}
+        onPlay={handlePlay}
         controls={isTeacher() && "controls"}
       />
-      {/* <source src={audioSource} /> */}
-      {/* </audio> */}
-      {/* {isTeacher() && (
-        <button onClick={handleTogglePause}>
-          {!playing ? "Возобновить" : "Пауза"}
-        </button>
-      )} */}
+      {/* <button onClick={handleClick}>{`${localAudio}`}</button> */}
     </>
   );
 };

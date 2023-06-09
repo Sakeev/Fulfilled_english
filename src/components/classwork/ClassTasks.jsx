@@ -17,6 +17,7 @@ const ClassTasks = ({
   setTyping,
   setAudioId,
   audioId,
+  request_id,
 }) => {
   const renderTask = (task) => {
     console.log(task);
@@ -31,6 +32,8 @@ const ClassTasks = ({
             setPlaying={setPlaying}
             audioId={audioId}
             setAudioId={setAudioId}
+            sendJsonMessage={sendJsonMessage}
+            request_id={request_id}
           />
         );
       case "table_exercise":
