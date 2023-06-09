@@ -150,6 +150,8 @@ const ClassWorkLayout = () => {
     return () => clearTimeout(timeOut);
   }, [typing]);
 
+  useEffect(() => () => localStorage.removeItem("room_pk"), []);
+
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
     [ReadyState.OPEN]: "Open",
@@ -209,10 +211,11 @@ const ClassWorkLayout = () => {
       >
         <div
           style={{
-            height: "50%",
+            width: "80%",
+            height: "95vh",
+            margin: "40px 0 0 30px",
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            // position: "relative",
           }}
         >
           <Button color="warning">Zoom link</Button>

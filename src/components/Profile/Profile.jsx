@@ -14,9 +14,9 @@ const Profile = () => {
     check([1,2,3]);
 
     const user = {
-        name: 'Дастан',
-        lastName: 'Буларкиев',
-        birthDate: '07.05.2001',
+        name: 'John',
+        lastName: 'Snow',
+        birthDate: '01.02.1992',
         image: '../../assets/images/student.jpg',
         aboutMe: '',
         something: '',
