@@ -3,7 +3,6 @@ import React from "react";
 import { API } from "../../../helpers/consts";
 
 const Describing = ({ task }) => {
-  console.log(task);
   return (
     <div>
       {task.map((elem) => (
@@ -30,7 +29,6 @@ const Describing = ({ task }) => {
           <div style={{ marginBottom: "60px" }}>
             Condition:{" "}
             {elem.condition.split("\r\n").map((question, index) => {
-              console.log(question);
               return <div key={index}>{question}</div>;
             })}
           </div>

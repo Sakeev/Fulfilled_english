@@ -15,6 +15,8 @@ const ClassTasks = ({
   inps,
   setInps,
   setTyping,
+  setAudioId,
+  audioId,
 }) => {
   const renderTask = (task) => {
     console.log(task);
@@ -27,6 +29,8 @@ const ClassTasks = ({
             task={task.tasks}
             playing={playing}
             setPlaying={setPlaying}
+            audioId={audioId}
+            setAudioId={setAudioId}
           />
         );
       case "table_exercise":
@@ -60,7 +64,7 @@ const ClassTasks = ({
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
   const [tasks, setTasks] = useState([]);
 
-  console.warn(lesson?.case_tasks?.unit1);
+  // console.warn(lesson?.case_tasks?.unit1);
   useEffect(() => {
     setTasksQuan(
       lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length
