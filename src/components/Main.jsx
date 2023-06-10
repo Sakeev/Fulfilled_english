@@ -1,5 +1,5 @@
 import { Box, Modal, Paper, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
 import { useNavigate } from 'react-router-dom';
@@ -67,6 +67,8 @@ const Main = () => {
     const [tables, setTables] = useState([]);
     const [upcomingLesson, setUpcomingLesson] = useState(null);
     const [isNowLesson, setIsNowLesson] = useState(false);
+    const isNowLessonRef = useRef();
+    isNowLessonRef.current = isNowLesson;
     const [connectingLesson, setConnectingLesson] = useState(false);
     const { getSchedule, schedule } = useSchedule();
     const [miniSchedule, setMiniSchedule] = useState([
@@ -128,6 +130,8 @@ const Main = () => {
                 }
             }, 1000);
 
+            findCurrentLesson(tables);
+
             return () => clearInterval(countdown);
         }
     }, [upcomingLesson]);
@@ -154,7 +158,6 @@ const Main = () => {
             setTables(data);
             data.sort((a, b) => a.weekday - b.weekday);
             data = getActiveLessons(data);
-            // console.log(data);
             if (data.length > 0) setUpcomingLesson(data[0]);
         });
     };
@@ -174,14 +177,15 @@ const Main = () => {
             const lessonDate = new Date(`${table.date} ${table.time}`);
             const delayedLessonDate = new Date(`${table.date} ${table.time}`);
             delayedLessonDate.setTime(
-                delayedLessonDate.getTime() + 90 * 60 * 1000
+                delayedLessonDate.getTime() + 14 * 60 * 1000
             ); // 1:30
             const today = new Date();
 
             if (today > lessonDate && today < delayedLessonDate) {
-                setIsNowLesson(true);
+                if (!isNowLesson) setIsNowLesson(true);
                 break;
             } else {
+                console.log(false);
                 setIsNowLesson(false);
             }
         }
