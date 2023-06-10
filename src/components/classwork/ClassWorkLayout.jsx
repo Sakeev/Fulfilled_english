@@ -144,7 +144,7 @@ const ClassWorkLayout = () => {
     return () => clearTimeout(timeOut);
   }, [typing]);
 
-  useEffect(() => () => localStorage.removeItem("room_pk"), []);
+  // useEffect(() => () => localStorage.removeItem("room_pk"), []);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",

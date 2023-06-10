@@ -16,7 +16,7 @@ const Audio = ({
 
   useEffect(() => {
     if (
-      !isTeacher() &&
+      // !isTeacher() &&
       audioSource === "http://13.50.235.4//media/media/Unit_01.mp3"
     ) {
       if (!playing) {
@@ -93,7 +93,7 @@ const Audio = ({
         src={audioSource}
         onPause={handlePause}
         onPlay={handlePlay}
-        controls={isTeacher() && "controls"}
+        controls={"controls"}
       />
       {/* <button onClick={handleClick}>{`${localAudio}`}</button> */}
     </>
