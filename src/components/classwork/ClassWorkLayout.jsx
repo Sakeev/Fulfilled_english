@@ -47,8 +47,6 @@ const ClassWorkLayout = () => {
     const [userId, setUserId] = useState(0);
     const [grade, setGrade] = useState({});
 
-    useEffect(() => () => localStorage.removeItem('room_pk'), []);
-
     const tasks = useCallback(
         (data) => {
             setLesson(data);
