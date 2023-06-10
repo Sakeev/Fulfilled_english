@@ -177,7 +177,7 @@ const Main = () => {
             const lessonDate = new Date(`${table.date} ${table.time}`);
             const delayedLessonDate = new Date(`${table.date} ${table.time}`);
             delayedLessonDate.setTime(
-                delayedLessonDate.getTime() + 14 * 60 * 1000
+                delayedLessonDate.getTime() + 60 * 60 * 1000
             ); // 1:30
             const today = new Date();
 
