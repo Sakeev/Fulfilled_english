@@ -11,7 +11,6 @@ const Audio = ({
   is_playing,
   task,
 }) => {
-  const [localAudio, setLocalAudio] = useState(false);
   const audioRef = useRef();
 
   useEffect(() => {
@@ -21,26 +20,11 @@ const Audio = ({
     ) {
       if (!playing) {
         audioRef.current.pause();
-        // setLocalAudio(false);
       } else {
         audioRef.current.play();
-        // setLocalAudio(true);
       }
     }
   }, [playing]);
-
-  // useEffect(() => {
-  //   if (isTeacher()) {
-  //     console.log("sending audio");
-  //     console.log(task);
-  //     // sendJsonMessage({
-  //     //   action: "is_playing",
-  //     //   booli: localAudio,
-  //     //   request_id: request_id,
-  //     //   task_id: 3,
-  //     // });
-  //   }
-  // }, [localAudio]);
 
   const handleTogglePlayback = (booli) => {
     if (booli !== playing) {
