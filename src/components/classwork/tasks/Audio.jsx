@@ -21,83 +21,54 @@ const Audio = ({
     ) {
       if (!playing) {
         audioRef.current.pause();
+        // setLocalAudio(false);
       } else {
         audioRef.current.play();
+        // setLocalAudio(true);
       }
     }
   }, [playing]);
 
-  useEffect(() => {
-    if (isTeacher()) {
-      console.log("sending audio");
-      console.log(task);
-      // sendJsonMessage({
-      //   action: "is_playing",
-      //   booli: localAudio,
-      //   request_id: request_id,
-      //   task_id: 3,
-      // });
-    }
-  }, [localAudio]);
-
-  const handlePlay = () => {
-    // setPlaying(true);
-    // if (localAudio) audioRef.current.play();
-    setLocalAudio(true);
-    sendJsonMessage({
-      action: "is_playing",
-      booli: true,
-      request_id: request_id,
-      task_id: 15,
-    });
-    sendJsonMessage({
-      pk: 1,
-      action: "get_lesson",
-      request_id: request_id,
-    });
-  };
-  const handlePause = () => {
-    // setPlaying(false);
-    // if (!localAudio) audioRef.current.pause();
-    setLocalAudio(false);
-    sendJsonMessage({
-      action: "is_playing",
-      booli: false,
-      request_id: request_id,
-      task_id: 15,
-    });
-    sendJsonMessage({
-      pk: 1,
-      action: "get_lesson",
-      request_id: request_id,
-    });
-  };
-
-  // const handleClick = () => {
-  //   if (localAudio) {
-  //     audioRef.current.pause();
-  //     setLocalAudio(false);
-  //   } else {
-  //     audioRef.current.play();
-  //     setLocalAudio(true);
+  // useEffect(() => {
+  //   if (isTeacher()) {
+  //     console.log("sending audio");
+  //     console.log(task);
+  //     // sendJsonMessage({
+  //     //   action: "is_playing",
+  //     //   booli: localAudio,
+  //     //   request_id: request_id,
+  //     //   task_id: 3,
+  //     // });
   //   }
-  // };
+  // }, [localAudio]);
 
-  console.log(playing);
-  // console.log(audioSource);
+  const handleTogglePlayback = (booli) => {
+    if (booli !== playing) {
+      setPlaying(booli);
+      sendJsonMessage({
+        action: "is_playing",
+        booli: booli,
+        request_id: request_id,
+        task_id: 15,
+      });
+      sendJsonMessage({
+        pk: 1,
+        action: "get_lesson",
+        request_id: request_id,
+      });
+    }
+  };
 
   return (
     <>
       <audio
         ref={audioRef}
         src={audioSource}
-        onPause={handlePause}
-        onPlay={handlePlay}
+        onPause={() => handleTogglePlayback(false)}
+        onPlay={() => handleTogglePlayback(true)}
         controls={"controls"}
       />
-      {/* <button onClick={handleClick}>{`${localAudio}`}</button> */}
     </>
   );
 };
-
 export default Audio;
