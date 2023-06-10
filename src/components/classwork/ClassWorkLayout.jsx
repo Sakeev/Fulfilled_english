@@ -24,6 +24,7 @@ import { Button } from '@mui/material';
 import ClassTasks from './ClassTasks';
 import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 import { Box } from '@mui/system';
+import MarkCW from './MarkCW';
 
 const request_id = new Date().getTime();
 
@@ -46,7 +47,9 @@ const ClassWorkLayout = () => {
     const [note_id, setNote] = useState(0);
     const [userId, setUserId] = useState(0);
     const [grade, setGrade] = useState({});
+    const [audioId, setAudioId] = useState({});
 
+    console.log(playing);
     const tasks = useCallback(
         (data) => {
             setLesson(data);
@@ -54,9 +57,8 @@ const ClassWorkLayout = () => {
         [lesson]
     );
 
-    const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
-        socketUrl,
-        {
+    const { sendJsonMessage, readyState, lastJsonMessage, getWebSocket } =
+        useWebSocket(socketUrl, {
             onOpen: () => {
                 console.log('WebSocket connection established.');
                 const joinRoom = {
@@ -98,24 +100,27 @@ const ClassWorkLayout = () => {
             },
             onMessage: (e) => {
                 const data = JSON.parse(e.data);
+                console.log(
+                    'data=>',
+                    data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
+                );
+                setPlaying(
+                    data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
+                );
                 switch (data.action) {
                     case 'retrieve':
-                        console.warn(data.data.messages);
+                        // console.warn(data.data.messages);
                         setNote(data.data.lesson.notes.id);
                         tasks(data.data.lesson);
-                        setUserId(
-                            data.data.current_users.find(
-                                (user) => !user.isTeacher
-                            ).id
-                        );
-                        console.log(data.data);
+                        setUserId(data.data.student.id);
+                        console.warn(data.data);
 
                         break;
                     case 'create':
                         // if (!isTeacher()) {
                         setInps({ ...data.data.body });
                         // }
-                        console.log(data.action, data.data.body);
+                        // console.log("=>data", data);
                         break;
                     default:
                         break;
@@ -126,15 +131,7 @@ const ClassWorkLayout = () => {
             retryOnError: false,
             onClose: (e) => console.log(e),
             shouldReconnect: () => false,
-        }
-    );
-    useEffect(() => {
-        sendJsonMessage({
-            playing: playing,
-            action: 'audio_play',
-            request_id: request_id,
         });
-    }, [inps.playing]);
 
     useEffect(() => {
         const timeOut = setTimeout(
@@ -172,21 +169,35 @@ const ClassWorkLayout = () => {
     }
 
     function handleMark(e) {
-        setGrade({
+        const obj = {
             grade: e.target.value,
             user: userId,
             lesson: lesson.id,
-        });
+        };
+        console.log(obj);
+        setGrade(obj);
     }
 
-    function checkMark(mark) {
+    function checkMark(mark, handleOpen) {
         if (!mark.grade?.trim().length) {
             prompt('Ertay gay');
             alert('Po lyubomu gay');
             return;
         }
-        sendMark(mark);
+        sendMark(mark, handleOpen);
     }
+
+    // check
+    // const handleOnMessage = (message) => {
+    //   console.log("Received message:", message);
+    //   // Дополнительная обработка полученного сообщения
+    // };
+
+    // useEffect(() => {
+    //   if (getWebSocket) {
+    //     getWebSocket().onmessage = handleOnMessage;
+    //   }
+    // }, [getWebSocket]);
 
     return (
         <div
@@ -195,18 +206,13 @@ const ClassWorkLayout = () => {
                 height: '95vh',
                 margin: '40px 0 0 30px',
                 display: 'flex',
-                // position: "relative",
             }}
         >
-            {/* <div style={{ position: "relative" }}> */}
             <div
                 style={{
                     width: '40%',
                     height: '100%',
                     minWidth: '300px',
-                    // position: "fixed",
-                    // top: "20%",
-                    // right: "50%",
                 }}
             >
                 <div
@@ -261,19 +267,19 @@ const ClassWorkLayout = () => {
                         )}
                     </Editor>
                 </EditorProvider>
-                {/* </div> */}
             </div>
             <div
                 style={{
                     margin: '0 30px',
                     width: '70%',
                     display: 'flex',
-                    // flexDirection: "column",
-                    // alignItems: "flex-end",
                     justifyContent: 'center',
                 }}
             >
                 <ClassTasks
+                    audioId={audioId}
+                    setAudioId={setAudioId}
+                    request_id={request_id}
                     lesson={lesson}
                     playing={playing}
                     setPlaying={setPlaying}
@@ -283,29 +289,11 @@ const ClassWorkLayout = () => {
                     setTyping={setTyping}
                 />
                 {isTeacher() ? (
-                    <Box
-                        sx={{
-                            width: '175px',
-                            height: '30px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            marginTop: '20px',
-                        }}
-                    >
-                        <input
-                            type="text"
-                            style={{ width: '50px', paddingLeft: '10px' }}
-                            placeholder="  / 10"
-                            onChange={handleMark}
-                        />
-                        <Button
-                            color="success"
-                            sx={{ width: '100px' }}
-                            onClick={() => checkMark(grade)}
-                        >
-                            mark
-                        </Button>
-                    </Box>
+                    <MarkCW
+                        checkMark={checkMark}
+                        handleMark={handleMark}
+                        grade={grade}
+                    />
                 ) : (
                     <></>
                 )}
