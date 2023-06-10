@@ -107,6 +107,17 @@ const ClassWorkContextProvider = ({ children }) => {
     });
   };
 
+  // Завершение занятия
+  const deleteRoom = async (id, handleClose) => {
+    try {
+      await axios.delete(`${CHAT_ROOM_API}${id}/`, getToken());
+      navigate("/");
+      handleClose();
+    } catch (error) {
+      console.log(error, "get_room_error");
+    }
+  };
+
   // Заметки
   const postNote = async (note, id) => {
     try {
@@ -130,9 +141,10 @@ const ClassWorkContextProvider = ({ children }) => {
   };
 
   // Оценки классная
-  const sendMark = async (mark) => {
+  const sendMark = async (mark, handleOpen) => {
     try {
       await axios.post(`${GRADE_API}?cw=true`, mark, getToken());
+      handleOpen();
     } catch (error) {
       console.log(error, "send_mark_error");
     }
@@ -144,6 +156,7 @@ const ClassWorkContextProvider = ({ children }) => {
     getRoom,
     clearErrors,
     postNote,
+    deleteRoom,
     getNotes,
     sendMark,
     createRoomError: state.createRoomError,

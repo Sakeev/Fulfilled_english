@@ -1,70 +1,72 @@
-import { Button } from "@mui/material";
-import { useState } from "react";
+import { Button } from '@mui/material';
+import { useState } from 'react';
 
-import "./tasksType.css";
+import './tasksType.css';
 
 const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
-  const [inps, setInps] = useState({});
-  const [tableProps, setTableProps] = useState({
-    rows: caseDetail?.description.split("\r\n")[0].split("x")[1],
-    cells: caseDetail?.description.split("\r\n")[0].split("x")[0],
-  });
-
-  const fillData = (data) => {
-    while (data.length < tableProps.rows) {
-      data.push("");
-    }
-    const res = data.map((elem) => {
-      let temp = elem.split(" ");
-      while (temp.length < tableProps.cells) {
-        temp.push("");
-      }
-      return temp;
+    const [inps, setInps] = useState({});
+    const [tableProps, setTableProps] = useState({
+        rows: caseDetail?.description.split('\r\n')[0].split('x')[1],
+        cells: caseDetail?.description.split('\r\n')[0].split('x')[0],
     });
-    return res;
-  };
 
-  const handleInputsChange = (e, index) => {
-    setInps((prev) => {
-      return { ...prev, [index]: e.target.value };
-    });
-  };
-
-  const [table, setTable] = useState({
-    data: fillData(caseDetail.description.split("\r\n").slice(1)),
-  });
-
-  const onSend = () => {
-    let size = +caseDetail.description.split("\r\n")[0].split("x")[0];
-    let content = caseDetail.description
-      .split("\r\n")
-      .slice(2)
-      .map((val) => val.split(" "));
-    let answer = caseDetail.description
-      .split("\r\n")[1]
-      .split(" ")
-      .reduce((obj, val) => {
-        obj[val] = [];
-        return obj;
-      }, {});
-    let counter = 0;
-
-    for (let key in answer) {
-      for (let i = 0; i < size; i++) {
-        if (counter * 3 + i in inps) {
-          answer[key][i] = inps[counter * 3 + i];
-        } else {
-          answer[key][i] = content[counter][i];
+    const fillData = (data) => {
+        while (data.length < tableProps.rows) {
+            data.push('');
         }
-      }
-      counter++;
-    }
+        const res = data.map((elem) => {
+            let temp = elem.split(' ');
+            while (temp.length < tableProps.cells) {
+                temp.push('');
+            }
+            return temp;
+        });
+        return res;
+    };
 
-    handleAnswer([answer], caseInfo.tasks?.[task_id - 1].id);
-  };
+    const handleInputsChange = (e, index) => {
+        setInps((prev) => {
+            return { ...prev, [index]: e.target.value };
+        });
+    };
 
-  // console.log(inps);
-  // console.log(caseDetail);
+    const [table, setTable] = useState({
+        data: fillData(caseDetail.description.split('\r\n').slice(1)),
+    });
+
+    const onSend = () => {
+        const splittedDescr = caseDetail.description.split('\r\n');
+
+        const [cols, rows] = splittedDescr[0].split('x').map((size) => +size);
+        const colHeadings = splittedDescr[1].split(' ');
+        const content = splittedDescr.slice(2).map((val) => val.split(' '));
+        const answerTemplate = {};
+
+        for (let colHeading of colHeadings) {
+            answerTemplate[colHeading] = Array(+rows).fill('');
+        }
+
+        let col = 0;
+
+        for (let colHeading in answerTemplate) {
+            for (let row = 0; row < rows; row++) {
+                if (cols * row + col in inps) {
+                    answerTemplate[colHeading][row] = inps[cols * row + col];
+                } else if (content[row][col]) {
+                    answerTemplate[colHeading][row] = content[row][col];
+                } else {
+                    answerTemplate[colHeading][row] = '';
+                }
+            }
+
+            col++;
+        }
+
+        handleAnswer(
+            JSON.stringify({ answers: [answerTemplate] }),
+            caseInfo.tasks?.[task_id - 1].id
+        );
+    };
 
     return (
         <>
@@ -100,7 +102,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                                     return (
                                         <td key={tdIndex}>
                                             {item ? (
-                                                item.split('_').join(" ")
+                                                item.split('_').join(' ')
                                             ) : (
                                                 <input
                                                     className="table_inp"
@@ -119,7 +121,9 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                         ))}
                     </tbody>
                 </table>
-                <Button className='hw__send-btn' onClick={onSend}>send</Button>
+                <Button className="hw__send-btn" onClick={onSend}>
+                    send
+                </Button>
             </div>
         </>
     );
