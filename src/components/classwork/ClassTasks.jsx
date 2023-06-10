@@ -15,6 +15,9 @@ const ClassTasks = ({
   inps,
   setInps,
   setTyping,
+  setAudioId,
+  audioId,
+  request_id,
 }) => {
   const renderTask = (task) => {
     console.log(task);
@@ -27,6 +30,10 @@ const ClassTasks = ({
             task={task.tasks}
             playing={playing}
             setPlaying={setPlaying}
+            audioId={audioId}
+            setAudioId={setAudioId}
+            sendJsonMessage={sendJsonMessage}
+            request_id={request_id}
           />
         );
       case "table_exercise":
@@ -58,13 +65,14 @@ const ClassTasks = ({
   };
 
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
+  const [tasks, setTasks] = useState([]);
 
-  console.warn(lesson?.case_tasks?.unit1);
+  // console.warn(lesson?.case_tasks?.unit1);
   useEffect(() => {
     setTasksQuan(
-      lesson?.case_tasks?.unit1?.length
-      //  + lesson?.case_tasks?.unit2?.length
+      lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length
     );
+    setTasks(lesson?.case_tasks?.unit1?.concat(lesson?.case_tasks?.unit2));
   }, [lesson]);
 
   const handlePaginationBtn = (direction) => {
@@ -96,7 +104,7 @@ const ClassTasks = ({
             &#8250;&#8250;
           </button>
         </div>
-        {lesson?.case_tasks?.unit1.map((task, ind) => (
+        {tasks?.map((task, ind) => (
           <div
             style={{ margin: "20px 0", width: "100%" }}
             className={

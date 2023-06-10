@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { API } from "../../../helpers/consts";
 import "./Tasks.css";
 
 const Table = ({ task, inps, setInps, setTyping }) => {
+  console.log(task);
   const [tableProps, setTableProps] = useState({
     rows: task[0]?.description.split("\r\n")[0].split("x")[1],
     cells: task[0]?.description.split("\r\n")[0].split("x")[0],
@@ -28,6 +30,16 @@ const Table = ({ task, inps, setInps, setTyping }) => {
   return (
     <>
       <h2>Table exercise</h2>
+
+      {task[0]?.condition && <p>Description: {task[0]?.condition}</p>}
+      <hr />
+
+      {task[0]?.audio && (
+        <audio controls>
+          <source src={API + task[0]?.audio} />
+        </audio>
+      )}
+
       <table className="table_exercise">
         <thead>
           <tr>
