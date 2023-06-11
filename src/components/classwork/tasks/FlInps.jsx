@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 const FlInps = ({ task, inps, setInps, setTyping }) => {
-  console.log(inps);
   const [str, setStr] = useState("");
 
   useEffect(() => {

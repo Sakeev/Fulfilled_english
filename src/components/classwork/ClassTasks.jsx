@@ -20,10 +20,7 @@ const ClassTasks = ({
   request_id,
 }) => {
   const renderTask = (task) => {
-    console.log(task);
     switch (task.title.toLowerCase()) {
-      case "vocabulary":
-        return <Vocabulary task={task.tasks} />;
       case "listening":
         return (
           <Listening
@@ -67,13 +64,17 @@ const ClassTasks = ({
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
   const [tasks, setTasks] = useState([]);
 
-  // console.warn(lesson?.case_tasks?.unit1);
   useEffect(() => {
-    setTasksQuan(
-      lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length
-    );
-    setTasks(lesson?.case_tasks?.unit1?.concat(lesson?.case_tasks?.unit2));
+    if(lesson.case_tasks){
+      setTasks(lesson?.case_tasks?.unit1?.concat(lesson?.case_tasks?.unit2).filter(({title}) => title.toLowerCase() !== "vocabulary"));
+    }
   }, [lesson]);
+
+  useEffect(() => {
+    if(tasks.length){
+      setTasksQuan(tasks.length)
+    }
+  }, [tasks])
 
   const handlePaginationBtn = (direction) => {
     if (

@@ -42,6 +42,8 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
           display: "flex",
           justifyContent: "space-between",
           marginTop: "20px",
+          position: 'absolute',
+          right: '5%'
         }}
       >
         <input
@@ -51,10 +53,11 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
           onChange={handleMark}
         />
         <Button
-          color="success"
-          sx={{ width: "100px" }}
+          color="warning"
+          variant="contained"
+          sx={{ width: "100px"}}
           onClick={() => {
-            checkMark(grade, handleOpen);
+            // checkMark(grade, handleOpen);
           }}
         >
           mark

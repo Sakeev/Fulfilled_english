@@ -16,7 +16,6 @@ const Listening = ({
   useEffect(() => {
     setAudioId((prev) => ({ ...prev, [task[0]?.id]: task[0]?.id }));
   }, []);
-  console.warn(task[0], task[0].is_playing);
   return (
     <>
       <h2>Listening</h2>

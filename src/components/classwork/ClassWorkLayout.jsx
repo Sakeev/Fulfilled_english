@@ -25,6 +25,7 @@ import ClassTasks from './ClassTasks';
 import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 import { Box } from '@mui/system';
 import MarkCW from './MarkCW';
+import Vocabulary from './tasks/Vocabulary';
 
 const request_id = new Date().getTime();
 
@@ -48,11 +49,14 @@ const ClassWorkLayout = () => {
     const [userId, setUserId] = useState(0);
     const [grade, setGrade] = useState({});
     const [audioId, setAudioId] = useState({});
+    const [vocabulary, setVocabulary] = useState([]);
 
-    console.log(playing);
     const tasks = useCallback(
         (data) => {
-            setLesson(data);
+            if(data.case_tasks){
+                setLesson(data);
+                setVocabulary(data.case_tasks.unit1.concat(data.case_tasks.unit2).filter(({title}) => title === "vocabulary"))
+            }
         },
         [lesson]
     );
@@ -100,20 +104,15 @@ const ClassWorkLayout = () => {
             },
             onMessage: (e) => {
                 const data = JSON.parse(e.data);
-                console.log(
-                    'data=>',
-                    data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
-                );
                 setPlaying(
                     data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
                 );
                 switch (data.action) {
                     case 'retrieve':
-                        // console.warn(data.data.messages);
                         setNote(data.data.lesson.notes.id);
                         tasks(data.data.lesson);
                         setUserId(data.data.student.id);
-                        console.warn(data.data);
+                        // console.warn(data.data);
 
                         break;
                     case 'create':
@@ -174,7 +173,6 @@ const ClassWorkLayout = () => {
             user: userId,
             lesson: lesson.id,
         };
-        console.log(obj);
         setGrade(obj);
     }
 
@@ -226,7 +224,7 @@ const ClassWorkLayout = () => {
                     <Button color="warning">Zoom link</Button>
                 </div>
                 <span>The WebSocket is currently {connectionStatus}</span>
-
+                    
                 <EditorProvider>
                     <Editor
                         containerProps={{
@@ -272,10 +270,13 @@ const ClassWorkLayout = () => {
                 style={{
                     margin: '0 30px',
                     width: '70%',
+                    height: '100%',
                     display: 'flex',
-                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    overflowY: 'scroll'
                 }}
             >
+                <Vocabulary vocabTasks={vocabulary} />
                 <ClassTasks
                     audioId={audioId}
                     setAudioId={setAudioId}
