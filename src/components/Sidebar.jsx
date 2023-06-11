@@ -102,7 +102,7 @@ export default function Appbar() {
           <img
             src={Logo}
             alt="logo"
-            style={{ width: "50px", marginLeft: "30px", mt: 2 }}
+            style={{ width: "40px", marginLeft: "30px", mt: 2 }}
           />
           <Box>
             <Typography
