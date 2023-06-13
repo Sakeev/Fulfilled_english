@@ -2,21 +2,17 @@ import React, { useEffect, useState } from "react";
 import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
-import { Box } from "@mui/system";
 import FlInps from "./tasks/FlInps";
 import Describing from "./tasks/Describing";
 
 const ClassTasks = ({
   lesson,
   playing,
-  setPlaying,
   handleInputsChange,
   sendJsonMessage,
   inps,
   setInps,
   setTyping,
-  setAudioId,
-  audioId,
   request_id,
 }) => {
   const renderTask = (task) => {
@@ -29,11 +25,10 @@ const ClassTasks = ({
           <Listening
             task={task.tasks}
             playing={playing}
-            setPlaying={setPlaying}
-            audioId={audioId}
-            setAudioId={setAudioId}
             sendJsonMessage={sendJsonMessage}
             request_id={request_id}
+            listeningId={task.id}
+            taskId={task.tasks[0].id}
           />
         );
       case "table_exercise":
@@ -67,7 +62,6 @@ const ClassTasks = ({
   const [tasksQuan, setTasksQuan] = useState(1); // unit 2 also
   const [tasks, setTasks] = useState([]);
 
-  // console.warn(lesson?.case_tasks?.unit1);
   useEffect(() => {
     setTasksQuan(
       lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length

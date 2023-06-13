@@ -1,45 +1,62 @@
 import React, { useEffect, useRef, useState } from "react";
-import { isTeacher } from "../../../helpers/funcs";
 
 const Audio = ({
   audioSource = "",
   playing,
-  setPlaying,
-  test = true,
   sendJsonMessage,
   request_id,
-  is_playing,
-  task,
+  listeningId,
+  taskId,
 }) => {
   const audioRef = useRef();
 
   useEffect(() => {
-    if (
-      // !isTeacher() &&
-      audioSource === "http://13.50.235.4//media/media/Unit_01.mp3"
-    ) {
-      if (!playing) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
+    switch (listeningId) {
+      case playing.unit1?.id:
+        if (!playing.unit1.task?.is_playing) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play();
+        }
+        break;
+      case playing.unit2?.id:
+        if (!playing.unit2.task?.is_playing) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play();
+        }
+        break;
+      default:
+        console.error("Unexpected listening id:", listeningId);
+        break;
     }
   }, [playing]);
 
+  function sendToggleButton(booli) {
+    sendJsonMessage({
+      action: "is_playing",
+      booli: booli,
+      request_id: request_id,
+      task_id: taskId,
+    });
+    sendJsonMessage({
+      pk: listeningId,
+      action: "get_listening",
+      request_id: request_id,
+    });
+  }
+
   const handleTogglePlayback = (booli) => {
-    if (booli !== playing) {
-      setPlaying(booli);
-      sendJsonMessage({
-        action: "is_playing",
-        booli: booli,
-        request_id: request_id,
-        task_id: 15,
-      });
-      sendJsonMessage({
-        pk: 1,
-        action: "get_lesson",
-        request_id: request_id,
-      });
+    sendToggleButton(booli);
+    switch (listeningId) {
+      case playing.unit1?.id:
+        if (booli !== playing.unit1?.task.is_playing) {
+          sendToggleButton(booli);
+        }
+        break;
+      case playing.unit2?.id:
+        sendToggleButton(booli);
+        break;
     }
   };
 
