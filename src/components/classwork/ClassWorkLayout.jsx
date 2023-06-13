@@ -49,7 +49,7 @@ const ClassWorkLayout = () => {
     const [grade, setGrade] = useState({});
     const [audioId, setAudioId] = useState({});
 
-    console.log(playing);
+    // console.log(playing);
     const tasks = useCallback(
         (data) => {
             setLesson(data);
@@ -100,10 +100,10 @@ const ClassWorkLayout = () => {
             },
             onMessage: (e) => {
                 const data = JSON.parse(e.data);
-                console.log(
-                    'data=>',
-                    data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
-                );
+                // console.log(
+                //     'data=>',
+                //     data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
+                // );
                 setPlaying(
                     data?.lesson?.case_tasks?.unit1[1]?.tasks[0]?.is_playing
                 );
@@ -143,6 +143,7 @@ const ClassWorkLayout = () => {
                 }),
             300
         );
+        // console.log(typing);
         return () => clearTimeout(timeOut);
     }, [typing]);
 
@@ -155,7 +156,7 @@ const ClassWorkLayout = () => {
     }[readyState];
 
     function handleHtmlChange(e) {
-        console.log(e);
+        // console.log(e);
         setInps({ ...inps, chat: e.target.value });
         setTyping((prev) => !prev);
     }
@@ -174,7 +175,7 @@ const ClassWorkLayout = () => {
             user: userId,
             lesson: lesson.id,
         };
-        console.log(obj);
+        // console.log(obj);
         setGrade(obj);
     }
 
