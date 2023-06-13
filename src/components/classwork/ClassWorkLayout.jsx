@@ -53,9 +53,13 @@ const ClassWorkLayout = () => {
 
     const tasks = useCallback(
         (data) => {
-            if(data.case_tasks){
+            if (data.case_tasks) {
                 setLesson(data);
-                setVocabulary(data.case_tasks.unit1.concat(data.case_tasks.unit2).filter(({title}) => title === "vocabulary"))
+                setVocabulary(
+                    data.case_tasks.unit1
+                        .concat(data.case_tasks.unit2)
+                        .filter(({ title }) => title === 'vocabulary')
+                );
             }
         },
         [lesson]
@@ -142,6 +146,7 @@ const ClassWorkLayout = () => {
                 }),
             300
         );
+        // console.log(typing);
         return () => clearTimeout(timeOut);
     }, [typing]);
 
@@ -154,7 +159,7 @@ const ClassWorkLayout = () => {
     }[readyState];
 
     function handleHtmlChange(e) {
-        console.log(e);
+        // console.log(e);
         setInps({ ...inps, chat: e.target.value });
         setTyping((prev) => !prev);
     }
@@ -224,7 +229,7 @@ const ClassWorkLayout = () => {
                     <Button color="warning">Zoom link</Button>
                 </div>
                 <span>The WebSocket is currently {connectionStatus}</span>
-                    
+
                 <EditorProvider>
                     <Editor
                         containerProps={{
@@ -273,7 +278,7 @@ const ClassWorkLayout = () => {
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    overflowY: 'scroll'
+                    overflowY: 'scroll',
                 }}
             >
                 <Vocabulary vocabTasks={vocabulary} />
