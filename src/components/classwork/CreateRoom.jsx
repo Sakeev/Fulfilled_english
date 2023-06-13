@@ -37,9 +37,6 @@ const CreateRoom = () => {
     clearErrors();
   }, []);
 
-  console.log(createRoomError);
-
-  console.log(lesson);
 
   useEffect(() => {
     setRoomInfo({
@@ -48,8 +45,6 @@ const CreateRoom = () => {
       student: lesson[0]?.user.email,
     });
   }, [lesson]);
-
-  console.log(roomInfo);
 
   const handleSelectChanges = (e) => {
     getLesson(e.target.value);

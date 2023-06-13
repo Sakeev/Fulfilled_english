@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Vocabulary from "./tasks/Vocabulary";
 import Listening from "./tasks/Listening";
 import Table from "./tasks/Table";
+import { Box } from "@mui/system";
 import FlInps from "./tasks/FlInps";
 import Describing from "./tasks/Describing";
 
 const ClassTasks = ({
   lesson,
   playing,
+  setPlaying,
   handleInputsChange,
   sendJsonMessage,
   inps,
@@ -16,10 +18,7 @@ const ClassTasks = ({
   request_id,
 }) => {
   const renderTask = (task) => {
-    console.log(task);
     switch (task.title.toLowerCase()) {
-      case "vocabulary":
-        return <Vocabulary task={task.tasks} />;
       case "listening":
         return (
           <Listening
@@ -63,11 +62,20 @@ const ClassTasks = ({
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setTasksQuan(
-      lesson?.case_tasks?.unit1?.length + lesson?.case_tasks?.unit2?.length
-    );
-    setTasks(lesson?.case_tasks?.unit1?.concat(lesson?.case_tasks?.unit2));
+    if (lesson.case_tasks) {
+      setTasks(
+        lesson?.case_tasks?.unit1
+          ?.concat(lesson?.case_tasks?.unit2)
+          .filter(({ title }) => title.toLowerCase() !== "vocabulary")
+      );
+    }
   }, [lesson]);
+
+  useEffect(() => {
+    if (tasks.length) {
+      setTasksQuan(tasks.length);
+    }
+  }, [tasks]);
 
   const handlePaginationBtn = (direction) => {
     if (

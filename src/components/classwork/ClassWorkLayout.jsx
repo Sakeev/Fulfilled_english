@@ -24,6 +24,7 @@ import { Button } from "@mui/material";
 import ClassTasks from "./ClassTasks";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
+import Vocabulary from "./tasks/Vocabulary";
 
 const request_id = new Date().getTime();
 
@@ -48,10 +49,18 @@ const ClassWorkLayout = () => {
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
   const [grade, setGrade] = useState({});
+  const [vocabulary, setVocabulary] = useState([]);
 
   const tasks = useCallback(
     (data) => {
-      setLesson(data);
+      if (data.case_tasks) {
+        setLesson(data);
+        setVocabulary(
+          data.case_tasks.unit1
+            .concat(data.case_tasks.unit2)
+            .filter(({ title }) => title === "vocabulary")
+        );
+      }
     },
     [lesson]
   );
@@ -254,10 +263,13 @@ const ClassWorkLayout = () => {
         style={{
           margin: "0 30px",
           width: "70%",
+          height: "100%",
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          overflowY: "scroll",
         }}
       >
+        <Vocabulary vocabTasks={vocabulary} />
         <ClassTasks
           request_id={request_id}
           lesson={lesson}
