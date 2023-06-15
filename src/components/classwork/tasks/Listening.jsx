@@ -9,6 +9,7 @@ const Listening = ({
   request_id,
   listeningId,
   taskId,
+  current_time,
 }) => {
   return (
     <>
@@ -21,6 +22,7 @@ const Listening = ({
           request_id={request_id}
           listeningId={listeningId}
           taskId={taskId}
+          current_time={current_time}
         />
         <div>
           <p className="listening-text">{task[0].condition}</p>
