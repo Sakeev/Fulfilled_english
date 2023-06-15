@@ -46,6 +46,10 @@ const ClassWorkLayout = () => {
     unit1: { id: 0, task: { is_playing: false } },
     unit2: { id: 0, task: { is_playing: false } },
   });
+  const [current_time, set_current_time] = useState({
+    unit1: { id: 0, task: { seeked: 0 } },
+    unit2: { id: 0, task: { seeked: 0 } },
+  });
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
   const [grade, setGrade] = useState({});
@@ -125,6 +129,16 @@ const ClassWorkLayout = () => {
             },
           });
           break;
+        case "get_current_time":
+          set_current_time({
+            ...playing,
+            ["unit" + data?.listening.unit]: {
+              task: data?.listening.tasks[0],
+              id: data?.listening.id,
+            },
+          });
+          break;
+
         default:
           break;
       }
@@ -278,6 +292,7 @@ const ClassWorkLayout = () => {
           inps={inps}
           setInps={setInps}
           setTyping={setTyping}
+          current_time={current_time}
         />
         {isTeacher() ? (
           <MarkCW checkMark={checkMark} handleMark={handleMark} grade={grade} />

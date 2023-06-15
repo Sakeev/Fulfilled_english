@@ -9,7 +9,7 @@ import Describing from "./tasks/Describing";
 const ClassTasks = ({
   lesson,
   playing,
-  setPlaying,
+  current_time,
   handleInputsChange,
   sendJsonMessage,
   inps,
@@ -28,6 +28,7 @@ const ClassTasks = ({
             request_id={request_id}
             listeningId={task.id}
             taskId={task.tasks[0].id}
+            current_time={current_time}
           />
         );
       case "table_exercise":
