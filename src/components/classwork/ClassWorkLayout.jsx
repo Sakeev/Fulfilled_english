@@ -20,7 +20,7 @@ import {
 import { ReadyState } from "react-use-websocket";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { isTeacher } from "../../helpers/funcs";
-import { Button } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import ClassTasks from "./ClassTasks";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
@@ -62,6 +62,7 @@ const ClassWorkLayout = () => {
   const [userId, setUserId] = useState(0);
   const [grade, setGrade] = useState({});
   const [vocabulary, setVocabulary] = useState([]);
+  const [zoomLink, setZoomLink] = useState("#");
 
   const tasks = useCallback(
     (data) => {
@@ -121,6 +122,7 @@ const ClassWorkLayout = () => {
       const data = JSON.parse(e.data);
       switch (data.action) {
         case "retrieve":
+          setZoomLink(data.data.host.zoom_link);
           setNote(data.data.lesson.notes.id);
           tasks(data.data.lesson);
           setUserId(data.data.student.id);
@@ -254,7 +256,9 @@ const ClassWorkLayout = () => {
             alignItems: "center",
           }}
         >
-          <Button color="warning">Zoom link</Button>
+          <Link href={zoomLink} target="_blank" underline="none">
+            <Button color="warning">Zoom link</Button>
+          </Link>
         </div>
         <span>The WebSocket is currently {connectionStatus}</span>
 
