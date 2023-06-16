@@ -16,6 +16,8 @@ const ClassTasks = ({
   setInps,
   setTyping,
   request_id,
+  tablePlaying,
+  table_current_time,
 }) => {
   const renderTask = (task) => {
     switch (task.title.toLowerCase()) {
@@ -41,6 +43,11 @@ const ClassTasks = ({
             inps={inps}
             setInps={setInps}
             setTyping={setTyping}
+            tablePlaying={tablePlaying}
+            table_current_time={table_current_time}
+            request_id={request_id}
+            listeningId={task.id}
+            taskId={task.tasks[0].id}
           />
         );
       case "flinps":

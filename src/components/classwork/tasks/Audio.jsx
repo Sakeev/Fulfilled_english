@@ -26,27 +26,26 @@ const Audio = ({
   };
 
   useEffect(() => {
-    if (listeningId == current_time.unit1.id) {
+    if (listeningId === current_time.unit1.id) {
       const timeout = setTimeout(() => {
         audioRef.current.currentTime = +current_time.unit1.task?.seeked;
       }, 200);
       return () => clearTimeout(timeout);
     }
-  }, [current_time.unit1.task?.seeked]);
+  }, [current_time.unit1.task?.seeked, listeningId]);
 
   useEffect(() => {
-    if (listeningId == current_time.unit2.id) {
+    if (listeningId === current_time.unit2.id) {
       const timeout = setTimeout(() => {
         audioRef.current.currentTime = +current_time.unit2.task?.seeked;
       }, 200);
       return () => clearTimeout(timeout);
     }
-  }, [current_time.unit2.task?.seeked]);
+  }, [current_time.unit2.task?.seeked, listeningId]);
 
   useEffect(() => {
     const { unit1, unit2 } = playing;
     if (listeningId === unit1.id) {
-      console.log(unit1);
       const timeout = setTimeout(() => {
         audioRef.current[unit1.task.is_playing ? "play" : "pause"]();
       }, 200);
@@ -57,7 +56,7 @@ const Audio = ({
       }, 200);
       return () => clearTimeout(timeout);
     }
-  }, [playing]);
+  }, [playing, listeningId]);
 
   const sendToggleButton = useCallback((booli = false) => {
     sendJsonMessage({
@@ -73,29 +72,13 @@ const Audio = ({
     });
   });
 
-  const handleTogglePlayback = (booli = false) => {
-    sendToggleButton(booli);
-    switch (listeningId) {
-      case playing.unit1?.id:
-        if (booli !== playing.unit1?.task.is_playing) {
-          sendToggleButton(booli);
-        }
-        break;
-      case playing.unit2?.id:
-        if (booli !== playing.unit2?.task.is_playing) {
-          sendToggleButton(booli);
-        }
-        break;
-    }
-  };
-
   return (
     <>
       <audio
         ref={audioRef}
         src={audioSource}
-        onPause={() => handleTogglePlayback(false)}
-        onPlay={() => handleTogglePlayback(true)}
+        onPause={() => sendToggleButton(false)}
+        onPlay={() => sendToggleButton(true)}
         muted="muted"
         controls
         onSeeked={(e) => {
