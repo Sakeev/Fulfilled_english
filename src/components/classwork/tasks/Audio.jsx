@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 const Audio = ({
   audioSource = "",
@@ -79,7 +79,7 @@ const Audio = ({
         src={audioSource}
         onPause={() => sendToggleButton(false)}
         onPlay={() => sendToggleButton(true)}
-        muted="muted"
+        // muted="muted"
         controls
         onSeeked={(e) => {
           changeTime(e.target.currentTime);
