@@ -9,16 +9,17 @@ import Describing from './tasks/Describing';
 const ClassTasks = ({
     lesson,
     playing,
-    setPlaying,
+    current_time,
     handleInputsChange,
     sendJsonMessage,
     inps,
     setInps,
     setTyping,
     request_id,
+    tablePlaying,
+    table_current_time,
 }) => {
     const renderTask = (task) => {
-        // console.log(task);
         switch (task.title.toLowerCase()) {
             case 'listening':
                 return (
@@ -29,6 +30,7 @@ const ClassTasks = ({
                         request_id={request_id}
                         listeningId={task.id}
                         taskId={task.tasks[0].id}
+                        current_time={current_time}
                     />
                 );
             case 'table_exercise':
@@ -41,6 +43,11 @@ const ClassTasks = ({
                         inps={inps}
                         setInps={setInps}
                         setTyping={setTyping}
+                        tablePlaying={tablePlaying}
+                        table_current_time={table_current_time}
+                        request_id={request_id}
+                        listeningId={task.id}
+                        taskId={task.tasks[0].id}
                     />
                 );
             case 'flinps':

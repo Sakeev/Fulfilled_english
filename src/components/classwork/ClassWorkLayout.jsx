@@ -20,7 +20,7 @@ import {
 import { ReadyState } from 'react-use-websocket';
 import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
 import { isTeacher } from '../../helpers/funcs';
-import { Button } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import ClassTasks from './ClassTasks';
 import { useClassWork } from '../../contexts/ClassWorkContextProvider';
 import MarkCW from './MarkCW';
@@ -46,10 +46,23 @@ const ClassWorkLayout = () => {
         unit1: { id: 0, task: { is_playing: false } },
         unit2: { id: 0, task: { is_playing: false } },
     });
+    const [current_time, set_current_time] = useState({
+        unit1: { id: 0, task: { seeked: 0 } },
+        unit2: { id: 0, task: { seeked: 0 } },
+    });
+    const [tablePlaying, setTablePlaying] = useState({
+        unit1: { id: 0, task: { is_playing: false } },
+        unit2: { id: 0, task: { is_playing: false } },
+    });
+    const [table_current_time, set_table_current_time] = useState({
+        unit1: { id: 0, task: { seeked: 0 } },
+        unit2: { id: 0, task: { seeked: 0 } },
+    });
     const [note_id, setNote] = useState(0);
     const [userId, setUserId] = useState(0);
     const [grade, setGrade] = useState({});
     const [vocabulary, setVocabulary] = useState([]);
+    const [zoomLink, setZoomLink] = useState('#');
 
     const tasks = useCallback(
         (data) => {
@@ -65,82 +78,107 @@ const ClassWorkLayout = () => {
         [lesson]
     );
 
-    const { sendJsonMessage, readyState, lastMessage } = useWebSocket(
-        socketUrl,
-        {
-            onOpen: () => {
-                console.log('WebSocket connection established.');
-                const joinRoom = {
-                    pk: room_pk,
-                    action: 'join_room',
-                    request_id: request_id,
-                };
-                sendJsonMessage(joinRoom);
-                const retrieveMessage = {
-                    pk: room_pk,
-                    action: 'retrieve',
-                    request_id: request_id,
-                };
-                sendJsonMessage(retrieveMessage);
-                const subscribeMessage = {
-                    pk: room_pk,
-                    action: 'subscribe_to_messages_in_room',
-                    request_id: request_id,
-                };
-                sendJsonMessage(subscribeMessage);
-                const subscribeInstanceMessage = {
-                    pk: room_pk,
-                    action: 'subscribe_instance',
-                    request_id: request_id,
-                };
-                sendJsonMessage(subscribeInstanceMessage);
-                const subscribeLessonActivity = {
-                    action: 'subscribe_lesson_activity',
-                    request_id: request_id,
-                };
-                sendJsonMessage(subscribeLessonActivity);
-                const getLessonInRoom = {
-                    pk: 1,
-                    action: 'get_lesson',
-                    room_pk: room_pk,
-                    request_id: request_id,
-                };
-                sendJsonMessage(getLessonInRoom);
-            },
-            onMessage: (e) => {
-                const data = JSON.parse(e.data);
-                switch (data.action) {
-                    case 'retrieve':
-                        setNote(data.data.lesson.notes.id);
-                        tasks(data.data.lesson);
-                        setUserId(data.data.student.id);
-                        break;
-                    case 'create':
-                        setInps({ ...data.data.body });
-                        break;
-                    case 'get_listening':
-                        setPlaying({
-                            ...playing,
-                            ['unit' + data?.listening.unit]: {
-                                task: data?.listening.tasks[0],
-                                id: data?.listening.id,
-                            },
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            },
-            share: true,
-            filter: isDocumentEvent,
-            retryOnError: false,
-            onClose: (e) => console.log(e),
-            shouldReconnect: () => false,
-        }
-    );
+    const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
+        onOpen: () => {
+            console.log('WebSocket connection established.');
+            const joinRoom = {
+                pk: room_pk,
+                action: 'join_room',
+                request_id: request_id,
+            };
+            sendJsonMessage(joinRoom);
+            const retrieveMessage = {
+                pk: room_pk,
+                action: 'retrieve',
+                request_id: request_id,
+            };
+            sendJsonMessage(retrieveMessage);
+            const subscribeMessage = {
+                pk: room_pk,
+                action: 'subscribe_to_messages_in_room',
+                request_id: request_id,
+            };
+            sendJsonMessage(subscribeMessage);
+            const subscribeInstanceMessage = {
+                pk: room_pk,
+                action: 'subscribe_instance',
+                request_id: request_id,
+            };
+            sendJsonMessage(subscribeInstanceMessage);
+            const subscribeLessonActivity = {
+                action: 'subscribe_lesson_activity',
+                request_id: request_id,
+            };
+            sendJsonMessage(subscribeLessonActivity);
+            const getLessonInRoom = {
+                pk: 1,
+                action: 'get_lesson',
+                room_pk: room_pk,
+                request_id: request_id,
+            };
+            sendJsonMessage(getLessonInRoom);
+        },
+        onMessage: (e) => {
+            const data = JSON.parse(e.data);
+            switch (data.action) {
+                case 'retrieve':
+                    setZoomLink(data.data.host.zoom_link);
+                    setNote(data.data.lesson.notes.id);
+                    tasks(data.data.lesson);
+                    setUserId(data.data.student.id);
+                    break;
+                case 'create':
+                    setInps({ ...data.data.body });
+                    break;
+                case 'get_listening':
+                    setPlaying({
+                        ...playing,
+                        ['unit' + data?.listening.unit]: {
+                            task: data?.listening.tasks[0],
+                            id: data?.listening.id,
+                        },
+                    });
+                    break;
+                case 'get_current_time':
+                    set_current_time({
+                        ...playing,
+                        ['unit' + data?.listening.unit]: {
+                            task: data?.listening.tasks[0],
+                            id: data?.listening.id,
+                        },
+                    });
+                    break;
+                case 'get_listening_te':
+                    setTablePlaying({
+                        ...tablePlaying,
+                        ['unit' + data?.listening.unit]: {
+                            task: data?.listening.tasks[0],
+                            id: data?.listening.id,
+                        },
+                    });
+                    break;
+                case 'get_current_time_te':
+                    set_table_current_time({
+                        ...table_current_time,
+                        ['unit' + data?.listening.unit]: {
+                            task: data?.listening.tasks[0],
+                            id: data?.listening.id,
+                        },
+                    });
+                    break;
+
+                default:
+                    break;
+            }
+        },
+        share: true,
+        filter: isDocumentEvent,
+        retryOnError: false,
+        onClose: (e) => console.log(e),
+        shouldReconnect: () => false,
+    });
 
     useEffect(() => {
-        console.log(lastMessage);
         const timeOut = setTimeout(
             () =>
                 sendJsonMessage({
@@ -218,7 +256,9 @@ const ClassWorkLayout = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <Button color="warning">Zoom link</Button>
+                    <Link href={zoomLink} target="_blank" underline="none">
+                        <Button color="warning">Zoom link</Button>
+                    </Link>
                 </div>
                 <span>The WebSocket is currently {connectionStatus}</span>
 
@@ -282,6 +322,9 @@ const ClassWorkLayout = () => {
                     inps={inps}
                     setInps={setInps}
                     setTyping={setTyping}
+                    current_time={current_time}
+                    tablePlaying={tablePlaying}
+                    table_current_time={table_current_time}
                 />
                 {isTeacher() ? (
                     <MarkCW
