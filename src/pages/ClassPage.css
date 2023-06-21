@@ -79,25 +79,31 @@
 
 .fillinps__block {
   display: flex;
-  justify-content: flex-end;
-  width: 70%;
-  margin: 10px 0;
-  align-items: end;
+  flex-direction: column;
+  width: 80%;
+  max-width: 1000px;
+  margin: 10px 1px;
+  /* align-items: end; */
   /* background-color: coral; */
+  /* background-color: #c5e5e2; */
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 2%;
+  border-radius: 10px;
 }
 
-.fillinps__block > input {
+.fillinps__block > textarea {
   padding: 5px;
   border-radius: 5px;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  margin-left: 12px;
   outline: none;
-  transition: 200ms;
+  margin: 10px 0;
+  transition: 100ms;
 }
 
-.fillinps__block > input:focus {
+.fillinps__block > textarea:focus {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   outline: 1px solid #4f8b91;
