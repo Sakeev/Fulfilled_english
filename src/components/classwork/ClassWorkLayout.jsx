@@ -123,7 +123,7 @@ const ClassWorkLayout = () => {
             switch (data.action) {
                 case 'retrieve':
                     setZoomLink(data.data.host.zoom_link);
-                    setNote(data.data.lesson.notes.id);
+                    setNote(data.data.lesson.notes?.id);
                     tasks(data.data.lesson);
                     setUserId(data.data.student.id);
                     break;
