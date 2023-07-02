@@ -1,10 +1,11 @@
 .table_exercise {
   width: 50%;
-  color: #006D77;
+  color: #006d77;
 }
 
-.table_exercise td, th {
-  border: 1px solid #006D77;
+.table_exercise td,
+th {
+  border: 1px solid #006d77;
   border-radius: 2px;
   /* padding: 10px; */
   min-height: 50px;
