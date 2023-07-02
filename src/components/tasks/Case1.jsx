@@ -212,6 +212,9 @@ const Case1 = () => {
                     ) : null}
                 </div>
                 <div className="case1-task">
+                    <p className="task-condition">
+                        {caseInfo.tasks?.[task_id - 1].condition}
+                    </p>
                     {component}
                     <PagBar
                         count={count}

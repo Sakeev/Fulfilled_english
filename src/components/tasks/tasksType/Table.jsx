@@ -69,63 +69,56 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
     };
 
     return (
-        <>
-            <p className="task-condition">
-                {caseInfo.tasks?.[task_id - 1].condition}
-            </p>
-            <div className="table-container task-types-container">
-                <table className="table_exercise">
-                    <thead>
-                        <tr>
-                            {table.data[0].map((elem, index) => (
-                                <th key={index}>
-                                    {elem ? (
-                                        elem
-                                    ) : (
-                                        <input
-                                            className="table_inp"
-                                            onChange={(e) =>
-                                                handleInputsChange(e)
-                                            }
-                                        />
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {table.data.slice(1).map((elem, index) => (
-                            <tr key={index}>
-                                {elem.map((item, index_inner) => {
-                                    let tdIndex = index * 3 + index_inner;
-
-                                    return (
-                                        <td key={tdIndex}>
-                                            {item ? (
-                                                item.split('_').join(' ')
-                                            ) : (
-                                                <input
-                                                    className="table_inp"
-                                                    onChange={(e) =>
-                                                        handleInputsChange(
-                                                            e,
-                                                            tdIndex
-                                                        )
-                                                    }
-                                                />
-                                            )}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
+        <div className="table-container task-types-container">
+            <table className="table_exercise">
+                <thead>
+                    <tr>
+                        {table.data[0].map((elem, index) => (
+                            <th key={index}>
+                                {elem ? (
+                                    elem
+                                ) : (
+                                    <input
+                                        className="table_inp"
+                                        onChange={(e) => handleInputsChange(e)}
+                                    />
+                                )}
+                            </th>
                         ))}
-                    </tbody>
-                </table>
-                <Button className="hw__send-btn" onClick={onSend}>
-                    send
-                </Button>
-            </div>
-        </>
+                    </tr>
+                </thead>
+                <tbody>
+                    {table.data.slice(1).map((elem, index) => (
+                        <tr key={index}>
+                            {elem.map((item, index_inner) => {
+                                let tdIndex = index * 3 + index_inner;
+
+                                return (
+                                    <td key={tdIndex}>
+                                        {item ? (
+                                            item.split('_').join(' ')
+                                        ) : (
+                                            <input
+                                                className="table_inp"
+                                                onChange={(e) =>
+                                                    handleInputsChange(
+                                                        e,
+                                                        tdIndex
+                                                    )
+                                                }
+                                            />
+                                        )}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <Button className="hw__send-btn" onClick={onSend}>
+                send
+            </Button>
+        </div>
     );
 };
 
