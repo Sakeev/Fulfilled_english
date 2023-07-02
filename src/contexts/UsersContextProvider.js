@@ -12,6 +12,7 @@ const init_state = {
   onehw: {},
   onelesson: {},
   currentlesson: {},
+  teacherInfo: {},
 };
 
 const reducer = (state = init_state, action) => {
@@ -31,6 +32,8 @@ const reducer = (state = init_state, action) => {
       return { ...state, onelesson: action.payload };
     case "GET_CURRENT_LESSON":
       return { ...state, currentlesson: action.payload };
+    case "GET_TEACHER":
+      return { ...state, teacherInfo: action.payload };
     default:
       return state;
   }
@@ -126,6 +129,14 @@ const UsersContextProvider = ({ children }) => {
     });
   };
 
+  const getTeacher = async () => {
+    const { data } = await axios(`${API}account/get_teacher_user/`, getConfig());
+    dispatch({
+      type: 'GET_TEACHER',
+      payload: data,
+    })
+  }
+
   const cloud = {
     getStudents,
     studentsList: state.students,
@@ -139,6 +150,8 @@ const UsersContextProvider = ({ children }) => {
     getOneLesson,
     getCurrentLesson,
     currentlesson: state.currentlesson,
+    getTeacher,
+    teacherInfo: state.teacherInfo
   };
 
   return (
