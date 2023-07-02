@@ -28,10 +28,10 @@ const modalStyle = {
 };
 
 const avatarImg = {
-    width: "70px",
+    maxWidth: "70px",
+    width: '40%',
     borderRadius: "50%",
-    width: "70px",
-    borderRadius: "50%",
+    objectFit: "cover",
 };
 
 const calendar = {
@@ -52,6 +52,33 @@ const calendar = {
     fontSize: "10px",
     bgcolor: "#edf6f9",
 };
+
+const profileStyle = {
+    name: {
+        fontSize: '1.3rem',
+        "@media (max-width: 1100px)": {
+            fontSize: '1.2rem'
+        },
+        "@media (max-width: 1000px)": {
+            fontSize: '1.1rem'
+        },
+        "@media (max-width: 900px)": {
+            fontSize: '1rem'
+        }
+    },
+    description: {
+        fontSize: "1.2rem",
+        "@media (max-width: 1100px)": {
+            fontSize: '1.1rem'
+        },
+        "@media (max-width: 1000px)": {
+            fontSize: '1rem'
+        },
+        "@media (max-width: 900px)": {
+            fontSize: '0.9rem'
+        }
+    }
+}
 
 const Main = () => {
     const { isTeacher, getRoomOrRooms } = useAuth();
@@ -360,22 +387,22 @@ const Main = () => {
                             {/* hwstudents contains user info ??? wtf ! need to fix */}
                             {isTeacher ? (
                                 teacherInfo?.first_name ? (
-                                    <Typography variant="h6">
+                                    <Typography variant="h6" sx={profileStyle.name}>
                                         {teacherInfo?.first_name}{" "}
                                         {teacherInfo?.last_name}
                                     </Typography>
                                 ) : (
-                                    <Typography variant="h6">
+                                    <Typography variant="h6" sx={profileStyle.name}>
                                         {teacherInfo?.email}
                                     </Typography>
                                 )
                             ) : hwstudents[0]?.user?.first_name ? (
-                                <Typography variant="h6">
+                                <Typography variant="h6" sx={profileStyle.name}>
                                     {hwstudents[0]?.user?.first_name}{" "}
                                     {hwstudents[0]?.user?.last_name}
                                 </Typography>
                             ) : (
-                                <Typography variant="h6">
+                                <Typography variant="h6" sx={profileStyle.name}>
                                     {hwstudents[0]?.user?.email}
                                 </Typography>
                             )}
@@ -384,6 +411,7 @@ const Main = () => {
                                     display: "flex",
                                     width: "100%",
                                     justifyContent: "center",
+                                    alignItems: 'center',
                                     gap: "10%",
                                 }}
                             >
@@ -397,18 +425,12 @@ const Main = () => {
                                 ) : (
                                     <Box>
                                         <Typography
-                                            sx={{
-                                                fontSize: "1.2rem",
-                                                fontWeight: "500",
-                                            }}
+                                            sx={profileStyle.description}
                                         >
                                             Balance: {hwstudents[0]?.payment}
                                         </Typography>
                                         <Typography
-                                            sx={{
-                                                fontSize: "1.2rem",
-                                                fontWeight: "500",
-                                            }}
+                                            sx={profileStyle.description}
                                         >
                                             Level: {hwstudents[0]?.level}
                                         </Typography>
