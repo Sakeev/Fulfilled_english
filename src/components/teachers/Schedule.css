@@ -7,15 +7,12 @@ tr > th, td {
   width: 12.5%;
 }
 
-th {
-
-}
-
 td {
-  padding: 2% 1%;
+  padding: 1% 1%;
   text-align: center;
   border-bottom: 1px solid gainsboro;
   border-right: 1px solid gainsboro;
+  min-height: 100px;
 }
 
 .table_schedule th {
@@ -24,10 +21,29 @@ td {
   border: none;
 }
 
+.table_schedule th:first-child {
+  width: 6.25%;
+}
+
+.table_time {
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 10px;
+  border: none;
+}
+
+.table_row {
+  min-height: 100px;
+}
+
 .lesson_block {
   background-color: #c2e7e4;
   border-radius: 2px;
   padding: 5%;
+  margin: 10px 0;
 }
 
 .overlay {
