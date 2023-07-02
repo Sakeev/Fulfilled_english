@@ -25,9 +25,9 @@ const mainBox = {
 
 const casesBox = {
   width: "40%",
-  maxWidth: '300px',
+  maxWidth: "300px",
   height: "7vh",
-  minHeight: '50px',
+  minHeight: "50px",
   backgroundColor: "#C5E5E2",
   color: "#006D77",
   borderRadius: "10px",
@@ -35,17 +35,17 @@ const casesBox = {
   justifyContent: "center",
   alignItems: "center",
   margin: "1% 2% 1% 0",
-  cursor: 'pointer',
-  transition: '150ms',
-  fontWeight: '600',
+  cursor: "pointer",
+  transition: "150ms",
+  fontWeight: "600",
   "&:hover": {
     backgroundColor: "#9bd0cb",
-  }
+  },
 };
 const casesMainBox = {
   width: "100%",
   height: "100%",
-  marginTop: '20px'
+  marginTop: "20px",
 };
 
 const theme = createTheme({
@@ -109,7 +109,7 @@ const Tasks = () => {
   const [doneTasks, setDoneTasks] = useState(0);
 
   const [countStyle, setCountStyle] = useState("");
-  console.log(cases);
+  // console.log(cases);
 
   return (
     <ThemeProvider theme={theme}>

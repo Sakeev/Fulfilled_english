@@ -113,7 +113,6 @@ const TasksContextProvider = ({ children }) => {
   };
   const handleCase = async () => {
     const { data } = await axios(`${API}room/get_lesson/?hw=true`, getConfig());
-    console.log(data)
 
     dispatch({
       type: "CASE",
@@ -141,7 +140,6 @@ const TasksContextProvider = ({ children }) => {
   };
   const infoCase = async (id) => {
     const { data } = await axios(`${API}room/case_tasks/${id}/`, getConfig());
-    // console.log(data);
     dispatch({
       type: "CASE_INFO",
       payload: data,

@@ -3,6 +3,7 @@ import TasksResult from '../components/tasks/TasksResult';
 import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
+import HWResults from '../components/HWResults/HWResults';
 
 const TasksResultPage = () => {
     const { getAnswers } = useTasks();
@@ -20,8 +21,9 @@ const TasksResultPage = () => {
         >
             <Sidebar />
 
-            <Box>
-                <TasksResult />
+            <Box sx={{ width: '100%' }}>
+                {/* <TasksResult /> */}
+                <HWResults />
             </Box>
         </Box>
     );

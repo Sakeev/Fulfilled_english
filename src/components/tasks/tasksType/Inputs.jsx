@@ -11,6 +11,7 @@ const Inputs = ({
   caseDetail,
   handleCaseDetail,
   inputValuesHook,
+  answers,
 }) => {
   const [str, setStr] = useState("");
   const { id, task_id } = useParams();
@@ -34,7 +35,8 @@ const Inputs = ({
   const [obj, setObj] = useState({});
 
   const handleInputChange = (event, index) => {
-    const newInputValues = { ...inputValues, [index]: event.target.value };
+    const { value } = event.target;
+    const newInputValues = { ...inputValues, [index]: value };
     setInputValues(newInputValues);
   };
 
@@ -46,12 +48,12 @@ const Inputs = ({
     }
 
     const newObj = {
-      answers: newArr.join(","),
+      answers: newArr,
     };
     setObj(newObj);
   };
 
-  const inputArr = str.split("__inp__").map((value, index) => {
+  let inputArr = str.split("__inp__").map((value, index) => {
     return (
       <React.Fragment key={index}>
         {value}
@@ -60,8 +62,11 @@ const Inputs = ({
             variant="filled"
             onChange={(e) => {
               e.target.style.width = e.target.value.length + "ch";
+              const { value } = e.target; // Получаем самое последнее значение
               handleInputChange(e, index);
-              spl(inputValues);
+              setTimeout(() => {
+                spl({ ...inputValues, [index]: value }); // Передаем обновленное значение
+              }, 0);
             }}
             value={inputValues[index] || ""}
           />
@@ -69,6 +74,22 @@ const Inputs = ({
       </React.Fragment>
     );
   });
+
+  // console.log(answers);
+  // ! -------------------
+  // Show right/student answers
+  if (answers) {
+    inputArr = str.split("__inp__").map((value, index) => {
+      return (
+        <React.Fragment key={index}>
+          {value}
+          {index < inputCount && (
+            <TextField variant="filled" value={answers[index] || ""} />
+          )}
+        </React.Fragment>
+      );
+    });
+  }
 
   return (
     <>
