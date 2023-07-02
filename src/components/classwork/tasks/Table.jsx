@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
 
@@ -105,20 +107,35 @@ const Table = ({
     <>
       <h2>Table exercise</h2>
 
-      {task[0]?.condition && <p>Description: {task[0]?.condition}</p>}
-      <hr />
+      {task[0]?.condition && (
+        <p style={{ margin: "10px 0" }}>Description: {task[0]?.condition}</p>
+      )}
 
       {task[0]?.audio && (
-        <audio
-          src={API + task[0]?.audio}
-          controls
-          ref={audioRef}
-          onPause={() => handleTogglePlayback(false)}
-          onPlay={() => handleTogglePlayback(true)}
-          onSeeked={(e) => {
-            changeTime(e.target.currentTime);
-          }}
-        />
+        <Accordion sx={{ boxShadow: "none" }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            sx={{ padding: "0" }}
+          >
+            <h4 style={{ color: "#ef9042", margin: "10px 0 6px" }}>
+              Audio player
+            </h4>
+          </AccordionSummary>
+          <AccordionDetails sx={{ padding: "0 8px 24px" }}>
+            <audio
+              src={API + task[0]?.audio}
+              controls
+              ref={audioRef}
+              onPause={() => handleTogglePlayback(false)}
+              onPlay={() => handleTogglePlayback(true)}
+              onSeeked={(e) => {
+                changeTime(e.target.currentTime);
+              }}
+            />
+          </AccordionDetails>
+        </Accordion>
       )}
 
       <table className="table_exercise">
