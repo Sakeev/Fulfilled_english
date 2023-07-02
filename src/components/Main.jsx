@@ -11,6 +11,7 @@ import { useClassWork } from '../contexts/ClassWorkContextProvider';
 import api from '../http';
 import { API } from '../helpers/consts';
 import { useSchedule } from '../contexts/ScheduleContextProvider';
+import { useUsers } from '../contexts/UsersContextProvider';
 
 const modalStyle = {
     position: 'absolute',
@@ -55,6 +56,7 @@ const calendar = {
 const Main = () => {
     const { isTeacher, getRoomOrRooms } = useAuth();
     const { getRoom } = useClassWork();
+    const { hwstudents, getUsers } = useUsers();
     const [isHover, setIsHover] = useState(false);
     const [isHoverProfile, setIsHoverProfile] = useState(false);
     const [progress, setProgress] = useState({
@@ -85,6 +87,7 @@ const Main = () => {
     });
 
     useEffect(() => {
+        getUsers();
         getSchedule();
         getRoomOrRooms()
             .then((res) => {
@@ -101,6 +104,8 @@ const Main = () => {
         //     console.log(res)
         // );
     }, []);
+
+    console.log(hwstudents)
 
     useEffect(() => {
         // console.log(tables);
@@ -185,7 +190,6 @@ const Main = () => {
                 if (!isNowLesson) setIsNowLesson(true);
                 break;
             } else {
-                console.log(false);
                 setIsNowLesson(false);
             }
         }
@@ -347,14 +351,25 @@ const Main = () => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                justifyContent: 'space-between',
+                                justifyContent: 'space-around',
                                 height: '100%',
                                 color: '#006d77',
                             }}
                         >
-                            <Typography variant="h6">Profile</Typography>
-                            <img src={avatar} alt="avatar" style={avatarImg} />
-                            <Typography variant="h6">Balance: 10</Typography>
+                            {/* hwstudents contains user info ??? wtf ! need to fix */}
+                            {
+                                hwstudents[0]?.user?.first_name ?
+                                <Typography variant="h6">{hwstudents[0]?.user?.first_name} {hwstudents[0]?.user?.last_name}</Typography>
+                                :
+                                <Typography variant="h6">{hwstudents[0]?.user?.email}</Typography>
+                            }
+                            <Box sx={{display: 'flex', width: '100%', justifyContent: 'center', gap: '10%'}}>
+                                <img src={avatar} alt="avatar" style={avatarImg} />
+                                <Box>
+                                    <Typography sx={{fontSize: '1.2rem', fontWeight: '500'}}>Balance: { hwstudents[0]?.payment }</Typography>
+                                    <Typography sx={{fontSize: '1.2rem', fontWeight: '500'}}>Level: { hwstudents[0]?.level }</Typography>
+                                </Box>
+                            </Box>
                         </Box>
                     </Paper>
                 </Box>
