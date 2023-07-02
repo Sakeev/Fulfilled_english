@@ -11,6 +11,7 @@ const Inputs = ({
   caseDetail,
   handleCaseDetail,
   inputValuesHook,
+  answers,
 }) => {
   const [str, setStr] = useState("");
   const { id, task_id } = useParams();
@@ -49,14 +50,10 @@ const Inputs = ({
     const newObj = {
       answers: newArr,
     };
-    console.log(newObj);
     setObj(newObj);
   };
-  // setObj(obj);
 
-  console.log(obj);
-
-  const inputArr = str.split("__inp__").map((value, index) => {
+  let inputArr = str.split("__inp__").map((value, index) => {
     return (
       <React.Fragment key={index}>
         {value}
@@ -77,6 +74,22 @@ const Inputs = ({
       </React.Fragment>
     );
   });
+
+  // console.log(answers);
+  // ! -------------------
+  // Show right/student answers
+  if (answers) {
+    inputArr = str.split("__inp__").map((value, index) => {
+      return (
+        <React.Fragment key={index}>
+          {value}
+          {index < inputCount && (
+            <TextField variant="filled" value={answers[index] || ""} />
+          )}
+        </React.Fragment>
+      );
+    });
+  }
 
   return (
     <>

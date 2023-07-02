@@ -40,7 +40,6 @@ const Case1 = () => {
   } = useTasks();
   const [count, setCount] = useState(0);
   const { tasks } = caseDetail;
-  const [caseType, setCaseType] = useState("");
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
@@ -101,8 +100,6 @@ const Case1 = () => {
   }, [oneCase?.passed_quantity]);
 
   let component = null;
-
-  console.log(caseDetail?.implemented_case);
 
   switch (caseDetail?.implemented_case) {
     case "missing word":
@@ -187,38 +184,61 @@ const Case1 = () => {
       break;
   }
 
-  // console.log(caseDetail);
-
   const vocabulary = getVocabulary();
 
+  console.log(cases[0]?.quantity_task);
+  const [passed, setPassed] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+
+  useEffect(() => {
+    if (cases[0]) {
+      setPassed(cases[0]?.passed_tasks);
+      setQuantity(cases[0]?.quantity_task);
+    }
+  }, [cases[0]?.passed_tasks]);
+
   return (
-    <div className="case1-hw-page">
-      <SideBar />
-      <div className="case1-task-container">
-        <div className="vocabulary-box-wrapper">
-          {vocabulary ? (
-            <>
-              <h2>Vocabulary</h2>
-              <div className="vocabulary-box">
-                {vocabulary.tasks[0]?.description.map((word, index) => (
-                  <p className="vocabulary-word" key={index}>
-                    {word.toLowerCase()}
-                  </p>
-                ))}
-              </div>{" "}
-            </>
-          ) : null}
+    <>
+      {passed == quantity - 1 ? (
+        <div style={{ display: "flex" }}>
+          <SideBar />
+          <h1 style={{ marginLeft: "30%", marginTop: "25%" }}>
+            Your try is out
+          </h1>
         </div>
-        <div className="case1-task">
-          {component}
-          <PagBar
-            count={count}
-            sx={{ alignSelf: "center" }}
-            inputValuesHook={inputValuesHook}
-          />
+      ) : (
+        <div className="case1-hw-page">
+          <SideBar />
+          <div className="case1-task-container">
+            <div className="vocabulary-box-wrapper">
+              {vocabulary ? (
+                <>
+                  <h2>Vocabulary</h2>
+                  <div className="vocabulary-box">
+                    {vocabulary.tasks[0]?.description.map((word, index) => (
+                      <p className="vocabulary-word" key={index}>
+                        {word.toLowerCase()}
+                      </p>
+                    ))}
+                  </div>{" "}
+                </>
+              ) : null}
+            </div>
+            <div className="case1-task">
+              <p className="task-condition">
+                {caseInfo.tasks?.[task_id - 1].condition}
+              </p>
+              {component}
+              <PagBar
+                count={count}
+                sx={{ alignSelf: "center" }}
+                inputValuesHook={inputValuesHook}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

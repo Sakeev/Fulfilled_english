@@ -5,18 +5,12 @@ import Audio from "./Audio";
 const Listening = ({
   task = [],
   playing,
-  setPlaying,
-  setAudioId,
-  audioId,
   sendJsonMessage,
   request_id,
+  listeningId,
+  taskId,
+  current_time,
 }) => {
-  const [duration, setDuration] = useState(0);
-  const [appTime, setAppTime] = useState(0);
-  useEffect(() => {
-    setAudioId((prev) => ({ ...prev, [task[0]?.id]: task[0]?.id }));
-  }, []);
-  console.warn(task[0], task[0].is_playing);
   return (
     <>
       <h2>Listening</h2>
@@ -24,11 +18,11 @@ const Listening = ({
         <Audio
           audioSource={API + task[0]?.audio}
           playing={playing}
-          setPlaying={setPlaying}
           sendJsonMessage={sendJsonMessage}
           request_id={request_id}
-          task={task[0]}
-          is_playing={task[0].is_playing}
+          listeningId={listeningId}
+          taskId={taskId}
+          current_time={current_time}
         />
         <div>
           <p className="listening-text">{task[0].condition}</p>

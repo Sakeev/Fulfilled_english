@@ -17,9 +17,11 @@ const TasksResult = () => {
     };
 
     const { id, task_id } = useParams();
-    const { isTeacher } = useAuth;
+    const { isTeacher } = useAuth();
     const { getAnswers, answers, handleTask, tasks, infoCase, caseInfo } =
         useTasks();
+
+    console.log(caseInfo);
 
     useEffect(() => {
         infoCase(id);
@@ -74,13 +76,6 @@ const TasksResult = () => {
         margin: '5%',
         fontSize: '24px',
     };
-    // const [isTeacher, setTeacher] = useState('');
-    // useEffect(() => {
-    //     let isTeacher = JSON.parse(localStorage.getItem('isTeacher'));
-    //     setTeacher(isTeacher);
-    // }, []);
-
-    console.log(caseInfo);
 
     if (isTeacher) {
         return (

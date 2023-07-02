@@ -31,7 +31,7 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
   };
 
   const { deleteRoom, room_pk } = useClassWork();
-  console.log(room_pk);
+  // console.log(room_pk);
 
   return (
     <>
@@ -42,6 +42,8 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
           display: "flex",
           justifyContent: "space-between",
           marginTop: "20px",
+          position: "absolute",
+          right: "5%",
         }}
       >
         <input
@@ -51,7 +53,8 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
           onChange={handleMark}
         />
         <Button
-          color="success"
+          color="warning"
+          variant="contained"
           sx={{ width: "100px" }}
           onClick={() => {
             checkMark(grade, handleOpen);

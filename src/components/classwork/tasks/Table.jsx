@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
 
-const Table = ({ task, inps, setInps, setTyping }) => {
-  console.log(task);
+const Table = ({
+  task,
+  inps,
+  setInps,
+  setTyping,
+  tablePlaying,
+  table_current_time,
+  sendJsonMessage,
+  request_id,
+  listeningId,
+  taskId,
+}) => {
   const [tableProps, setTableProps] = useState({
     rows: task[0]?.description.split("\r\n")[0].split("x")[1],
     cells: task[0]?.description.split("\r\n")[0].split("x")[0],
@@ -24,8 +34,72 @@ const Table = ({ task, inps, setInps, setTyping }) => {
   };
 
   const [table, setTable] = useState({
-    data: fillData(task[0].description.split("\r\n").slice(1)),
+    data: fillData(task[0]?.description.split("\r\n").slice(1)),
   });
+
+  // Audio
+  const audioRef = useRef();
+
+  const handleTogglePlayback = (booli = false) => {
+    sendJsonMessage({
+      action: "is_playing",
+      booli: booli,
+      request_id: request_id,
+      task_id: taskId,
+    });
+    sendJsonMessage({
+      pk: listeningId,
+      action: "get_listening_te",
+      request_id: request_id,
+    });
+  };
+
+  useEffect(() => {
+    const { unit1, unit2 } = tablePlaying;
+    if (listeningId === unit1.id) {
+      const timeout = setTimeout(() => {
+        audioRef.current[unit1.task.is_playing ? "play" : "pause"]();
+      }, 200);
+      return () => clearTimeout(timeout);
+    } else if (listeningId === unit2.id) {
+      const timeout = setTimeout(() => {
+        audioRef.current[unit2.task.is_playing ? "play" : "pause"]();
+      }, 200);
+      return () => clearTimeout(timeout);
+    }
+  }, [tablePlaying, listeningId]);
+
+  const changeTime = (currentTime) => {
+    sendJsonMessage({
+      action: "set_current_time",
+      current_time: currentTime,
+      request_id: request_id,
+      task_id: taskId,
+    });
+    sendJsonMessage({
+      pk: listeningId,
+      action: "get_current_time_te",
+      request_id: request_id,
+    });
+  };
+
+  useEffect(() => {
+    if (listeningId === table_current_time.unit1.id) {
+      const timeout = setTimeout(() => {
+        audioRef.current.currentTime = +table_current_time.unit1.task?.seeked;
+      }, 200);
+      return () => clearTimeout(timeout);
+    }
+  }, [table_current_time.unit1.task?.seeked, listeningId]);
+
+  useEffect(() => {
+    if (listeningId === table_current_time.unit2.id) {
+      const timeout = setTimeout(() => {
+        audioRef.current.currentTime = +table_current_time.unit2.task?.seeked;
+      }, 200);
+      return () => clearTimeout(timeout);
+    }
+  }, [table_current_time.unit2.task?.seeked, listeningId]);
 
   return (
     <>
@@ -35,9 +109,16 @@ const Table = ({ task, inps, setInps, setTyping }) => {
       <hr />
 
       {task[0]?.audio && (
-        <audio controls>
-          <source src={API + task[0]?.audio} />
-        </audio>
+        <audio
+          src={API + task[0]?.audio}
+          controls
+          ref={audioRef}
+          onPause={() => handleTogglePlayback(false)}
+          onPlay={() => handleTogglePlayback(true)}
+          onSeeked={(e) => {
+            changeTime(e.target.currentTime);
+          }}
+        />
       )}
 
       <table className="table_exercise">
@@ -74,11 +155,19 @@ const Table = ({ task, inps, setInps, setTyping }) => {
                   ) : (
                     <input
                       className="table_inp"
-                      value={inps[`td${rowIndex}_${cellIndex}`] || ""}
+                      value={
+                        inps[`table_${task[0]?.id}`]?.[
+                          `td${rowIndex}_${cellIndex}`
+                        ] || ""
+                      }
                       onChange={(e) => {
+                        console.log(inps, "asdasdasdasdasdsasdsa");
                         setInps({
                           ...inps,
-                          [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
+                          [`table_${task[0]?.id}`]: {
+                            ...inps[`table_${task[0]?.id}`],
+                            [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
+                          },
                         });
                         setTyping((prev) => !prev);
                       }}
