@@ -54,10 +54,20 @@ const ClassWorkLayout = () => {
     unit1: { id: 0, task: { seeked: 0 } },
     unit2: { id: 0, task: { seeked: 0 } },
   });
+
+  const [fillinpsPlaying, setFillinpsPlaying] = useState({
+    unit1: { id: 0, task: { is_playing: false } },
+    unit2: { id: 0, task: { is_playing: false } },
+  });
+  const [fillinps_current_time, set_fillinps_current_time] = useState({
+    unit1: { id: 0, task: { seeked: 0 } },
+    unit2: { id: 0, task: { seeked: 0 } },
+  });
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
   const [grade, setGrade] = useState({});
   const [vocabulary, setVocabulary] = useState([]);
+  const [showVocab, setShowVocab] = useState(false);
   const [zoomLink, setZoomLink] = useState("#");
 
   const tasks = useCallback(
@@ -162,6 +172,24 @@ const ClassWorkLayout = () => {
             },
           });
           break;
+        case "get_listening_fl":
+          setFillinpsPlaying({
+            ...fillinpsPlaying,
+            ["unit" + data?.listening.unit]: {
+              task: data?.listening.tasks[0],
+              id: data?.listening.id,
+            },
+          });
+          break;
+        case "get_current_time_fl":
+          set_fillinps_current_time({
+            ...fillinps_current_time,
+            ["unit" + data?.listening.unit]: {
+              task: data?.listening.tasks[0],
+              id: data?.listening.id,
+            },
+          });
+          break;
 
         default:
           break;
@@ -215,7 +243,7 @@ const ClassWorkLayout = () => {
       user: userId,
       lesson: lesson.id,
     };
-    console.log(obj);
+
     setGrade(obj);
   }
 
@@ -308,7 +336,11 @@ const ClassWorkLayout = () => {
           overflowY: "scroll",
         }}
       >
-        <Vocabulary vocabTasks={vocabulary} />
+        <Vocabulary
+          showVocab={showVocab}
+          setShowVocab={setShowVocab}
+          vocabTasks={vocabulary}
+        />
         <ClassTasks
           request_id={request_id}
           lesson={lesson}
@@ -320,6 +352,9 @@ const ClassWorkLayout = () => {
           current_time={current_time}
           tablePlaying={tablePlaying}
           table_current_time={table_current_time}
+          fillinpsPlaying={fillinpsPlaying}
+          fillinps_current_time={fillinps_current_time}
+          setShowVocab={setShowVocab}
         />
         {isTeacher() ? (
           <MarkCW checkMark={checkMark} handleMark={handleMark} grade={grade} />

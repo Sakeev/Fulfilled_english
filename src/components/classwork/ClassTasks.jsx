@@ -4,6 +4,7 @@ import Table from "./tasks/Table";
 import FlInps from "./tasks/FlInps";
 import Describing from "./tasks/Describing";
 import Dictation from "./tasks/Dictation";
+import ConnectWords from "./tasks/ConnectWords";
 
 const ClassTasks = ({
   lesson,
@@ -17,12 +18,20 @@ const ClassTasks = ({
   request_id,
   tablePlaying,
   table_current_time,
+  setShowVocab,
+  fillinpsPlaying,
+  fillinps_current_time,
 }) => {
   const renderTask = (task) => {
     switch (task.title.toLowerCase()) {
       case "dictation":
         return (
-          <Dictation inps={inps} setInps={setInps} setTyping={setTyping} />
+          <Dictation
+            setShowVocab={setShowVocab}
+            inps={inps}
+            setInps={setInps}
+            setTyping={setTyping}
+          />
         );
       case "listening":
         return (
@@ -41,7 +50,6 @@ const ClassTasks = ({
           <Table
             task={task.tasks}
             handleInputsChange={handleInputsChange}
-            lesson={lesson}
             sendJsonMessage={sendJsonMessage}
             inps={inps}
             setInps={setInps}
@@ -60,10 +68,25 @@ const ClassTasks = ({
             inps={inps}
             setInps={setInps}
             setTyping={setTyping}
+            sendJsonMessage={sendJsonMessage}
+            fillinpsPlaying={fillinpsPlaying}
+            fillinps_current_time={fillinps_current_time}
+            request_id={request_id}
+            listeningId={task.id}
+            taskId={task.tasks[0].id}
           />
         );
       case "describing":
         return <Describing task={task.tasks} />;
+      case "connect_words":
+        return (
+          <ConnectWords
+            task={task.tasks}
+            inps={inps}
+            setInps={setInps}
+            setTyping={setTyping}
+          />
+        );
       default:
         return <></>;
     }
@@ -101,6 +124,12 @@ const ClassTasks = ({
   };
 
   const [activePage, setActivePage] = useState(1);
+
+  useEffect(() => {
+    if (activePage == 1) {
+      setShowVocab(false);
+    }
+  }, [activePage]);
   return (
     <>
       <div className="slider__container">
