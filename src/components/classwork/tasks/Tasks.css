@@ -1,6 +1,7 @@
 .table_exercise {
-  width: 50%;
+  width: 100%;
   color: #006d77;
+  margin-top: 20px;
 }
 
 .table_exercise td,
@@ -23,4 +24,49 @@ th {
 
 .table_inp:focus {
   outline: #e29578;
+}
+
+.connect_words {
+  padding-bottom: 20px;
+}
+
+.connect_words__block {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 1000px;
+  margin: 10px 1px;
+  /* align-items: end; */
+  /* background-color: coral; */
+  /* background-color: #c5e5e2; */
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 2%;
+  border-radius: 10px;
+}
+
+.connect_words__inputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.connect_words__textarea {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  outline: none;
+  margin: 10px 0 20px;
+  transition: 100ms;
+  max-width: 48%;
+  min-width: 48%;
+  min-height: 42px;
+}
+
+.connect_words__textarea:focus {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  outline: 1px solid #4f8b91;
 }

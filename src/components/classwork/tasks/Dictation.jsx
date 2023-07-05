@@ -13,15 +13,16 @@ import {
 } from "react-simple-wysiwyg";
 import { isTeacher } from "../../../helpers/funcs";
 
-const Dictation = ({ inps, setInps, setTyping }) => {
+const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
   const inputRef = useRef();
 
   function handleHtmlChange(e) {
+    setShowVocab(false);
     setInps({ ...inps, dictation: e.target.value });
     setTyping((prev) => !prev);
   }
 
-  const handleColorChange = (e) => {
+  const handleColorChange = () => {
     const selectedColor = inputRef.current.value;
     document.execCommand("styleWithCSS", false, true); // Включаем использование стилей CSS
     document.execCommand("foreColor", false, selectedColor);
@@ -45,7 +46,8 @@ const Dictation = ({ inps, setInps, setTyping }) => {
               style: {
                 height: "40vh",
                 maxHeight: "500px",
-                width: "100%",
+                width: "90%",
+                margin: "20px 0",
               },
             }}
             value={inps.dictation || ""}

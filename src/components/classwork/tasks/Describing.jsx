@@ -5,7 +5,7 @@ import { API } from "../../../helpers/consts";
 const Describing = ({ task }) => {
   return (
     <div>
-      {task.map((elem) => (
+      {task.map((elem, index) => (
         <div
           key={elem.id}
           style={{
@@ -15,8 +15,8 @@ const Describing = ({ task }) => {
             rowGap: 20,
           }}
         >
-          <Divider />
-          <h2>Exrcise</h2>
+          {index !== 0 && <Divider />}
+          <h2>Exercise</h2>
           {elem.images.map((image, index) => (
             <img
               key={index}
@@ -25,7 +25,11 @@ const Describing = ({ task }) => {
               alt="error"
             />
           ))}
-          <div>Description: {elem.description}</div>
+          <div>
+            {elem.description.split("\r\n").map((question, index) => {
+              return <div key={index}>{question}</div>;
+            })}
+          </div>
           <div style={{ marginBottom: "60px" }}>
             Condition:{" "}
             {elem.condition.split("\r\n").map((question, index) => {

@@ -17,14 +17,22 @@ const Listening = ({
     <>
       <h2>Listening</h2>
       <div className="listening-box">
-        <Accordion sx={{ boxShadow: "none" }}>
+        <Accordion
+          sx={{
+            boxShadow: "none",
+            border: "1px solid #ef9042",
+            padding: "0 4px",
+            margin: "20px 0 15px",
+            borderRadius: "5px",
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
             sx={{ padding: "0" }}
           >
-            <h4 style={{ color: "#ef9042", margin: "10px 0 6px" }}>
+            <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
               Audio player
             </h4>
           </AccordionSummary>
@@ -42,11 +50,12 @@ const Listening = ({
         </Accordion>
         <div>
           <p className="listening-text">{task[0].condition}</p>
+
           {task[0].images?.map((image, index) => (
             <img
               key={index}
               src={API + image.image}
-              width={image.size}
+              style={{ width: image.size, margin: "4px 0" }}
               alt=""
             />
           ))}
