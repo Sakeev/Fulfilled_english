@@ -116,7 +116,6 @@ const TasksContextProvider = ({ children }) => {
             `${API}room/get_lesson/?hw=true`,
             getConfig()
         );
-        console.log(data);
 
         dispatch({
             type: 'CASE',

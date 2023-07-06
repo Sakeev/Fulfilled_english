@@ -1,8 +1,7 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useTasks } from '../../../contexts/TasksContextProvider';
-import { useNavigate } from 'react-router-dom';
 
 import './tasksType.css';
 
@@ -16,12 +15,10 @@ const BuildDialog = ({
     handleAnswer,
     caseInfo,
 }) => {
-    const { dispatch, sent } = useTasks();
-    const navigate = useNavigate();
+    const { dispatch } = useTasks();
     const [words, setWords] = useState([]);
     useEffect(() => {
         handleCaseDetail(id, task_id);
-        // setWords([caseDetail?.description.split(" ")])
     }, []);
 
     useEffect(() => {

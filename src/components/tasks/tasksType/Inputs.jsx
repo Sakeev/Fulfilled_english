@@ -11,7 +11,8 @@ const Inputs = ({
     caseDetail,
     handleCaseDetail,
     inputValuesHook,
-    answers,
+    answer,
+    displayDataType,
 }) => {
     const [str, setStr] = useState('');
     const { id, task_id } = useParams();
@@ -78,29 +79,32 @@ const Inputs = ({
     // console.log(answers);
     // ! -------------------
     // Show right/student answers
-    if (answers) {
+    let answers = [];
+
+    if (displayDataType === 'student') {
+        answers = answer.answer;
+    } else if (displayDataType === 'teacher') {
+        answers = answer.right_answer;
+    }
+
+    if (answer) {
         inputArr = str.split('__inp__').map((value, index) => {
             return (
                 <React.Fragment key={index}>
                     {value}
                     {index < inputCount && (
-                        <TextField
-                            variant="filled"
-                            value={answers[index] || ''}
-                        />
+                        <p style={{ color: 'red' }}>{answers[index] || ''}</p>
                     )}
                 </React.Fragment>
             );
         });
     }
+    // console.log(answer);
 
     return (
-        <>
-            <p className="task-condition">
-                {caseInfo.tasks?.[task_id - 1].condition}
-            </p>
-            <div className="inputs-container task-types-container">
-                <div>{inputArr}</div>
+        <div className="inputs-container task-types-container">
+            <div>{inputArr}</div>
+            {!displayDataType && (
                 <Button
                     className="hw__send-btn"
                     onClick={() => {
@@ -109,8 +113,8 @@ const Inputs = ({
                 >
                     send
                 </Button>
-            </div>
-        </>
+            )}
+        </div>
     );
 };
 

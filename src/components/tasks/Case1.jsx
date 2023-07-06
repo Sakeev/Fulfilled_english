@@ -16,6 +16,7 @@ import Dropdown from './tasksType/DropDown';
 import Table from './tasksType/Table';
 
 import './Case1.css';
+import BuildSentences from './tasksType/BuildSentences/BuildSentences';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
@@ -118,7 +119,7 @@ const Case1 = () => {
             break;
         case 'build sentence':
             component = (
-                <Sentence
+                <BuildSentences
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
