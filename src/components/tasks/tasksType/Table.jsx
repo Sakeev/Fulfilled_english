@@ -1,3 +1,4 @@
+import { capitalize } from '../../../helpers/funcs';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 
@@ -40,30 +41,30 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
         const [cols, rows] = splittedDescr[0].split('x').map((size) => +size);
         const colHeadings = splittedDescr[1].split(' ');
         const content = splittedDescr.slice(2).map((val) => val.split(' '));
-        const answerTemplate = {};
+        const answerTemplate = [];
 
-        for (let colHeading of colHeadings) {
-            answerTemplate[colHeading] = Array(+rows).fill('');
+        for (let row = 0; row < rows; row++) {
+            answerTemplate[row] = Array(cols).fill('');
         }
 
-        let col = 0;
-
-        for (let colHeading in answerTemplate) {
-            for (let row = 0; row < rows; row++) {
-                if (cols * row + col in inps) {
-                    answerTemplate[colHeading][row] = inps[cols * row + col];
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                if (row * cols + col in inps) {
+                    answerTemplate[row][col] = capitalize(
+                        inps[row * cols + col]
+                    );
                 } else if (content[row][col]) {
-                    answerTemplate[colHeading][row] = content[row][col];
+                    answerTemplate[row][col] = capitalize(content[row][col]);
                 } else {
-                    answerTemplate[colHeading][row] = '';
+                    answerTemplate[row][col] = '-';
                 }
             }
-
-            col++;
         }
 
+        answerTemplate.unshift(colHeadings);
+
         handleAnswer(
-            JSON.stringify({ answers: [answerTemplate] }),
+            JSON.stringify({ answers: answerTemplate }),
             caseInfo.tasks?.[task_id - 1].id
         );
     };
@@ -91,7 +92,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                     {table.data.slice(1).map((elem, index) => (
                         <tr key={index}>
                             {elem.map((item, index_inner) => {
-                                let tdIndex = index * 3 + index_inner;
+                                let tdIndex = index * elem.length + index_inner;
 
                                 return (
                                     <td key={tdIndex}>

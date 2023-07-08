@@ -2,3 +2,25 @@
     width: 100%;
     padding-left: 2.6rem;
 }
+
+.hw-results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding-inline: 2em;
+}
+
+.hw-results-container .hw-results-task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hw-results-container .hw-results-task p.hw-results-accuracy {
+    margin-right: 20%;
+    font-size: 2rem;
+}
+
+.hw-results-container .hw-results-condition {
+    font-size: 1.25rem;
+}

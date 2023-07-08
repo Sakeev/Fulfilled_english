@@ -1,33 +1,24 @@
+import BuildSentences from './resultDisplayTasks/BuildSentences';
 import { useTasks } from '../../contexts/TasksContextProvider';
-import { useState } from 'react';
-
-import ContinueSentence from '../tasks/tasksType/ContinueSentence';
+import ConnectWords from './resultDisplayTasks/ConnectWords';
 import BuildDialog from '../tasks/tasksType/BuildDialog';
-import Sentence from '../tasks/tasksType/Sentence';
 import Dropdown from '../tasks/tasksType/DropDown';
-import Inputs from '../tasks/tasksType/Inputs';
-import Table from '../tasks/tasksType/Table';
+import Inputs from './resultDisplayTasks/Inputs';
+import Table from './resultDisplayTasks/Table';
+import Images from './resultDisplayTasks/Images';
 
-export const useRenderTask = (task, id, task_id, displayDataType = null) => {
+const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
-    const inputValuesHook = useState({});
 
     if (task === null) return <></>;
-    if (task.answers[task.answers.length - 1])
+    if (!task.answers[task.answers.length - 1])
         return <h2>This task hasn't done yet</h2>;
 
     switch (task?.implemented_case) {
         case 'missing word':
             return (
                 <Inputs
-                    inputValuesHook={inputValuesHook}
-                    descr={task?.description}
-                    id={id}
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
@@ -35,14 +26,10 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
 
         case 'build sentence':
             return (
-                <Sentence
-                    descr={task?.description}
-                    id={id}
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                <BuildSentences
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
                 />
             );
 
@@ -61,14 +48,10 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
 
         case 'connect words':
             return (
-                <ContinueSentence
-                    descr={task?.description}
-                    id={id}
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                <ConnectWords
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
                 />
             );
 
@@ -85,10 +68,18 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
         case 'table':
             return (
                 <Table
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    caseDetail={task}
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
+                />
+            );
+
+        case 'work with images':
+            return (
+                <Images
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
                 />
             );
 
@@ -96,3 +87,5 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
             return <></>;
     }
 };
+
+export default RenderTask;

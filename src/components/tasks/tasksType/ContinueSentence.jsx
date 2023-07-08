@@ -122,7 +122,6 @@ const ContinueSentence = ({
                     });
                     added = true;
                     event.target.style.backgroundColor = colors[i];
-                    console.log(event.target);
                     break;
                 }
             }
@@ -142,8 +141,22 @@ const ContinueSentence = ({
         setWordsPairs(newWordsPairs);
     };
 
-    const obj = {
-        answers: wordsPairs,
+    const formObj = () => {
+        const answer = [];
+
+        for (let i = 0; i < firstDesc.length; i++) {
+            answer.push(['No answer', 'No answer']);
+        }
+
+        for (let i = 0; i < wordsPairs.length; i++) {
+            for (let j = 0; j < wordsPairs[i].length; j++) {
+                answer[i][j] = wordsPairs[i][j].word.toLowerCase();
+            }
+        }
+
+        return {
+            answers: answer,
+        };
     };
 
     return (
@@ -183,9 +196,21 @@ const ContinueSentence = ({
                 </Box>
             </div>
             <Button
-                onClick={() =>
-                    handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id)
-                }
+                onClick={() => {
+                    const answer = [];
+
+                    for (let i = 0; i < firstDesc.length; i++) {
+                        answer.push(['', '']);
+                    }
+
+                    for (let i = 0; i < wordsPairs.length; i++) {
+                        for (let j = 0; j < wordsPairs[i].length; j++) {
+                            answer[i][j] = wordsPairs[i][j].word;
+                        }
+                    }
+
+                    handleAnswer(formObj(), caseInfo.tasks?.[task_id - 1].id);
+                }}
             >
                 send
             </Button>

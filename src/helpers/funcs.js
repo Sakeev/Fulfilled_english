@@ -74,3 +74,9 @@ export const dateFormate = (date = '0-0-0') => {
             return '';
     }
 };
+
+export function capitalize(word) {
+    if (word.length === 0) return word;
+
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}

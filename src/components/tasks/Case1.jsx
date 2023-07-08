@@ -1,245 +1,241 @@
 // import { Box, Button, LinearProgress, TextField } from '@mui/material';
-import React, { useRef, useState } from "react";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useTasks } from "../../contexts/TasksContextProvider";
-import ContinueSentence from "./tasksType/ContinueSentence";
-import PagBar from "./PagBar";
-import Progress from "./Progress";
-import WordFind from "./WordFind";
-import SideBar from "../Sidebar";
-import { margin, width } from "@mui/system";
-import Inputs from "../tasks/tasksType/Inputs";
-import Sentence from "./tasksType/Sentence";
-import BuildDialog from "./tasksType/BuildDialog";
-import Dropdown from "./tasksType/DropDown";
-import Table from "./tasksType/Table";
+import React, { useRef, useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTasks } from '../../contexts/TasksContextProvider';
+import ContinueSentence from './tasksType/ContinueSentence';
+import PagBar from './PagBar';
+import Progress from './Progress';
+import WordFind from './WordFind';
+import SideBar from '../Sidebar';
+import { margin, width } from '@mui/system';
+import Inputs from '../tasks/tasksType/Inputs';
+import Sentence from './tasksType/Sentence';
+import BuildDialog from './tasksType/BuildDialog';
+import Dropdown from './tasksType/DropDown';
+import Table from './tasksType/Table';
 
-import "./Case1.css";
+import './Case1.css';
+import BuildSentences from './tasksType/BuildSentences/BuildSentences';
+import Images from './tasksType/Images';
 
 const Case1 = () => {
-  const { id, task_id } = useParams();
-  const [compl, setCompl] = useState([]);
-  const inputValuesHook = useState({});
+    const { id, task_id } = useParams();
+    const [compl, setCompl] = useState([]);
+    const inputValuesHook = useState({});
 
-  const {
-    handleCaseDetail,
-    progObj,
-    getProgress,
-    handleCase,
-    cases,
-    editProgress,
-    taskProgress,
-    countTasksProgress,
-    caseDetail,
-    singleCase,
-    oneCase,
-    handleAnswer,
-    infoCase,
-    caseInfo,
-  } = useTasks();
-  const [count, setCount] = useState(0);
-  const { tasks } = caseDetail;
-  const [disabled, setDisabled] = useState(true);
-  const navigate = useNavigate();
-  useEffect(() => {
-    infoCase(id);
-    handleCase();
-  }, []);
+    const {
+        handleCaseDetail,
+        progObj,
+        getProgress,
+        handleCase,
+        cases,
+        editProgress,
+        taskProgress,
+        countTasksProgress,
+        caseDetail,
+        singleCase,
+        oneCase,
+        handleAnswer,
+        infoCase,
+        caseInfo,
+    } = useTasks();
+    const [count, setCount] = useState(0);
+    const { tasks } = caseDetail;
+    const [disabled, setDisabled] = useState(true);
+    const navigate = useNavigate();
+    const taskId = caseInfo.tasks?.[task_id - 1].id;
 
-  // console.log(caseInfo);
+    useEffect(() => {
+        infoCase(id);
+        handleCase();
+    }, []);
 
-  const checkCompl = () => {
-    handleCase();
-    if (oneCase?.passed_quantity == oneCase?.quantity_task) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
+    // console.log(caseInfo);
+
+    const checkCompl = () => {
+        handleCase();
+        if (oneCase?.passed_quantity == oneCase?.quantity_task) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    };
+
+    useEffect(() => {
+        handleCaseDetail(id, task_id);
+    }, [id, task_id]);
+
+    useEffect(() => {
+        singleCase(id);
+        setCount(oneCase?.quantity_task);
+    }, [oneCase?.quantity_task]);
+
+    const [answer, setAnswer] = useState('');
+
+    const answerObj = {
+        answers: answer,
+    };
+
+    const checkRes = (newElement) => {
+        const newCompl = [...compl, newElement];
+        setCompl(newCompl);
+    };
+
+    const getVocabulary = () => {
+        if (cases.length === 0) return null;
+
+        let vocabulary;
+
+        cases[0]?.case_tasks.forEach((caseTask) => {
+            if (caseTask.title === 'vocabulary') vocabulary = caseTask;
+        });
+
+        return vocabulary || null;
+    };
+
+    useEffect(() => {
+        singleCase(id);
+        if (oneCase?.passed_quantity === oneCase?.quantity_task) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    }, [oneCase?.passed_quantity]);
+
+    let component = null;
+
+    switch (caseDetail?.implemented_case) {
+        case 'missing word':
+            component = (
+                <Inputs
+                    inputValuesHook={inputValuesHook}
+                    descr={caseDetail?.description}
+                    id={id}
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                    handleCaseDetail={handleCaseDetail}
+                />
+            );
+            break;
+        case 'build sentence':
+            component = (
+                <BuildSentences
+                    descr={caseDetail?.description}
+                    id={id}
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                    handleCaseDetail={handleCaseDetail}
+                />
+            );
+
+            break;
+        case 'build dialog':
+            component = (
+                <BuildDialog
+                    descr={caseDetail?.description}
+                    id={id}
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                    handleCaseDetail={handleCaseDetail}
+                />
+            );
+
+            break;
+        case 'connect words':
+            component = (
+                <ContinueSentence
+                    descr={caseDetail?.description}
+                    id={id}
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                    handleCaseDetail={handleCaseDetail}
+                />
+            );
+
+            break;
+        case 'drop down':
+            component = (
+                <Dropdown
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                />
+            );
+            break;
+        case 'table':
+            component = (
+                <Table
+                    task_id={task_id}
+                    handleAnswer={handleAnswer}
+                    caseInfo={caseInfo}
+                    caseDetail={caseDetail}
+                />
+            );
+            break;
+        case 'work with images':
+            component = (
+                <Images
+                    caseDetail={caseDetail}
+                    handleAnswer={handleAnswer}
+                    taskId={taskId}
+                />
+            );
+            break;
+
+        default:
+            component = null;
+            break;
     }
-  };
 
-  useEffect(() => {
-    handleCaseDetail(id, task_id);
-  }, [id, task_id]);
+    const vocabulary = getVocabulary();
 
-  useEffect(() => {
-    singleCase(id);
-    setCount(oneCase?.quantity_task);
-  }, [oneCase?.quantity_task]);
-
-  const [answer, setAnswer] = useState("");
-
-  const answerObj = {
-    answers: answer,
-  };
-
-  const checkRes = (newElement) => {
-    const newCompl = [...compl, newElement];
-    setCompl(newCompl);
-  };
-
-  const getVocabulary = () => {
-    if (cases.length === 0) return null;
-
-    let vocabulary;
-
-    cases[0]?.case_tasks.forEach((caseTask) => {
-      if (caseTask.title === "vocabulary") vocabulary = caseTask;
-    });
-
-    return vocabulary || null;
-  };
-
-  useEffect(() => {
-    singleCase(id);
-    if (oneCase?.passed_quantity === oneCase?.quantity_task) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [oneCase?.passed_quantity]);
-
-  let component = null;
-
-  switch (caseDetail?.implemented_case) {
-    case "missing word":
-      component = (
-        <Inputs
-          inputValuesHook={inputValuesHook}
-          descr={caseDetail?.description}
-          id={id}
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-          handleCaseDetail={handleCaseDetail}
-        />
-      );
-      break;
-    case "build sentence":
-      component = (
-        <Sentence
-          descr={caseDetail?.description}
-          id={id}
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-          handleCaseDetail={handleCaseDetail}
-        />
-      );
-
-      break;
-    case "build dialog":
-      component = (
-        <BuildDialog
-          descr={caseDetail?.description}
-          id={id}
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-          handleCaseDetail={handleCaseDetail}
-        />
-      );
-
-      break;
-    case "connect words":
-      component = (
-        <ContinueSentence
-          descr={caseDetail?.description}
-          id={id}
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-          handleCaseDetail={handleCaseDetail}
-        />
-      );
-
-      break;
-    case "drop down":
-      component = (
-        <Dropdown
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-        />
-      );
-      break;
-    case "table":
-      component = (
-        <Table
-          task_id={task_id}
-          handleAnswer={handleAnswer}
-          caseInfo={caseInfo}
-          caseDetail={caseDetail}
-        />
-      );
-      break;
-
-    default:
-      component = null;
-      break;
-  }
-
-  const vocabulary = getVocabulary();
-
-  console.log(cases[0]?.quantity_task);
-  const [passed, setPassed] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-
-  useEffect(() => {
-    if (cases[0]) {
-      setPassed(cases[0]?.passed_tasks);
-      setQuantity(cases[0]?.quantity_task);
-    }
-  }, [cases[0]?.passed_tasks]);
-
-  return (
-    <>
-      {passed == quantity - 1 ? (
-        <div style={{ display: "flex" }}>
-          <SideBar />
-          <h1 style={{ marginLeft: "30%", marginTop: "25%" }}>
-            Your try is out
-          </h1>
-        </div>
-      ) : (
+    return (
         <div className="case1-hw-page">
-          <SideBar />
-          <div className="case1-task-container">
-            <div className="vocabulary-box-wrapper">
-              {vocabulary ? (
-                <>
-                  <h2>Vocabulary</h2>
-                  <div className="vocabulary-box">
-                    {vocabulary.tasks[0]?.description.map((word, index) => (
-                      <p className="vocabulary-word" key={index}>
-                        {word.toLowerCase()}
-                      </p>
-                    ))}
-                  </div>{" "}
-                </>
-              ) : null}
+            <SideBar />
+            <div className="case1-task-container">
+                <div className="vocabulary-box-wrapper">
+                    {vocabulary ? (
+                        <>
+                            <h2>Vocabulary</h2>
+                            <div className="vocabulary-box">
+                                {vocabulary.tasks[0]?.description.map(
+                                    (word, index) => (
+                                        <p
+                                            className="vocabulary-word"
+                                            key={index}
+                                        >
+                                            {word.toLowerCase()}
+                                        </p>
+                                    )
+                                )}
+                            </div>{' '}
+                        </>
+                    ) : null}
+                </div>
+                <div className="case1-task">
+                    <p className="task-condition">
+                        {caseInfo.tasks?.[task_id - 1].condition}
+                    </p>
+                    {component}
+                    <PagBar
+                        count={count}
+                        sx={{ alignSelf: 'center' }}
+                        inputValuesHook={inputValuesHook}
+                    />
+                </div>
             </div>
-            <div className="case1-task">
-              <p className="task-condition">
-                {caseInfo.tasks?.[task_id - 1].condition}
-              </p>
-              {component}
-              <PagBar
-                count={count}
-                sx={{ alignSelf: "center" }}
-                inputValuesHook={inputValuesHook}
-              />
-            </div>
-          </div>
         </div>
-      )}
-    </>
-  );
+    );
 };
 
 export default Case1;
