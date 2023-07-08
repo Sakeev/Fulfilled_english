@@ -5,6 +5,7 @@ import BuildDialog from '../tasks/tasksType/BuildDialog';
 import Dropdown from '../tasks/tasksType/DropDown';
 import Inputs from './resultDisplayTasks/Inputs';
 import Table from './resultDisplayTasks/Table';
+import Images from './resultDisplayTasks/Images';
 
 const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
@@ -67,6 +68,15 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
         case 'table':
             return (
                 <Table
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
+                />
+            );
+
+        case 'work with images':
+            return (
+                <Images
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}

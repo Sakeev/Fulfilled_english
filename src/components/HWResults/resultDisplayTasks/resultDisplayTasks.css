@@ -1,0 +1,19 @@
+/* IMAGES COMPONENT */
+
+.rdt-images-image-box-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 2em;
+}
+
+.rdt-images-image-box-wrapper .images-image-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.rdt-images-image-box-wrapper .images-image-box img {
+    margin-bottom: 0.75em;
+}

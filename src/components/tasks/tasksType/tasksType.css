@@ -301,3 +301,32 @@
     background-color: #e7e7e7;
     border-radius: 0.5em;
 }
+
+/* IMAGES */
+
+.images-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.images-container button {
+    align-self: flex-end;
+}
+
+.images-container .images-image-box-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 2em;
+}
+
+.images-container .images-image-box-wrapper .images-image-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.images-container .images-image-box-wrapper .images-image-box img {
+    margin-bottom: 0.75em;
+}

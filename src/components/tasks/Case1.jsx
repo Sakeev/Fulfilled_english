@@ -17,6 +17,7 @@ import Table from './tasksType/Table';
 
 import './Case1.css';
 import BuildSentences from './tasksType/BuildSentences/BuildSentences';
+import Images from './tasksType/Images';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
@@ -43,6 +44,8 @@ const Case1 = () => {
     const { tasks } = caseDetail;
     const [disabled, setDisabled] = useState(true);
     const navigate = useNavigate();
+    const taskId = caseInfo.tasks?.[task_id - 1].id;
+
     useEffect(() => {
         infoCase(id);
         handleCase();
@@ -179,13 +182,20 @@ const Case1 = () => {
                 />
             );
             break;
+        case 'work with images':
+            component = (
+                <Images
+                    caseDetail={caseDetail}
+                    handleAnswer={handleAnswer}
+                    taskId={taskId}
+                />
+            );
+            break;
 
         default:
             component = null;
             break;
     }
-
-    // console.log(caseDetail);
 
     const vocabulary = getVocabulary();
 
