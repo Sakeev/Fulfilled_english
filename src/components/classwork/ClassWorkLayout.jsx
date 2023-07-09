@@ -243,7 +243,6 @@ const ClassWorkLayout = () => {
       user: userId,
       lesson: lesson.id,
     };
-
     setGrade(obj);
   }
 
