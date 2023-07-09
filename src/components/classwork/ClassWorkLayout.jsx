@@ -2,14 +2,28 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   BtnBold,
   BtnBulletList,
+<<<<<<< HEAD
   BtnItalic,
   BtnNumberedList,
   BtnRedo,
   BtnStrikeThrough,
+=======
+  BtnClearFormatting,
+  BtnItalic,
+  BtnLink,
+  BtnNumberedList,
+  BtnRedo,
+  BtnStrikeThrough,
+  BtnStyles,
+>>>>>>> c289639 (imported vocabulary to hw)
   BtnUnderline,
   BtnUndo,
   Editor,
   EditorProvider,
+<<<<<<< HEAD
+=======
+  HtmlButton,
+>>>>>>> c289639 (imported vocabulary to hw)
   Separator,
   Toolbar,
 } from "react-simple-wysiwyg";
@@ -243,7 +257,6 @@ const ClassWorkLayout = () => {
       user: userId,
       lesson: lesson.id,
     };
-
     setGrade(obj);
   }
 
