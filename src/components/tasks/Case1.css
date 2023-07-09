@@ -27,6 +27,7 @@
   align-items: center;
   /* height: 50%; */
   width: 80%;
+  height: auto;
 }
 
 .case1-task button.MuiButtonBase-root {

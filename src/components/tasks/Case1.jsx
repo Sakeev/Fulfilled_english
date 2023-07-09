@@ -45,6 +45,7 @@ const Case1 = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const taskId = caseInfo.tasks?.[task_id - 1].id;
+  const [showVocab, setShowVocab] = useState(false);
 
   useEffect(() => {
     infoCase(id);
@@ -203,7 +204,11 @@ const Case1 = () => {
         <div className="vocabulary-box-wrapper">
           {vocabulary ? (
             <div>
-              <Vocabulary vocabTasks={[vocabulary]} />
+              <Vocabulary
+                showVocab={showVocab}
+                setShowVocab={setShowVocab}
+                vocabTasks={[vocabulary]}
+              />
             </div>
           ) : null}
         </div>
