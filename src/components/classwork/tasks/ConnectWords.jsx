@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
