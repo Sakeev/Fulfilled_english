@@ -13,6 +13,7 @@
 
 .listening-box {
   color: #006d77;
+  padding-bottom: 20px;
 }
 
 .listening-text {
@@ -20,7 +21,7 @@
 }
 
 .listening-text:last-child {
-  height: 50px;
+  /* height: 50px; */
   object-position: top;
 }
 
@@ -108,6 +109,7 @@
   transition: 100ms;
   max-width: 100%;
   min-width: 100%;
+  min-height: 42px;
 }
 .fillinps__block input {
   padding: 5px;

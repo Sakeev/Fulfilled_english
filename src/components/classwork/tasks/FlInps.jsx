@@ -25,12 +25,15 @@ const FlInps = ({
 
   const inputCount = str?.split("__inp__").length - 1;
 
-  const handleInputChange = (e, index) => {
-    setInps({ ...inps, [`inp${task[0].id}_${index}`]: e.target.value });
+  const handleInputChange = (e, index, type, i = 0) => {
+    if (type === "textarea") {
+      setInps({ ...inps, [`inp${task[0].id}_${index}`]: e.target.value });
+    } else if (type === "input") {
+      setInps({ ...inps, [`inp${task[0].id}_${index}_${i}`]: e.target.value });
+    }
 
     setTyping((prev) => !prev);
   };
-  console.log(task);
 
   // Audio
   const audioRef = useRef();
@@ -145,10 +148,10 @@ const FlInps = ({
 
       {task[0].implemented_case === "continue sentence" ? (
         <div className="fillinps__block">
-          {str?.split("\r\n").map((value, index) => {
+          {str?.split("\r\n").map((value, i) => {
             return (
               <div
-                key={index}
+                key={i}
                 style={{
                   display: "flex",
                   justifyContent: "flex-start",
@@ -162,13 +165,15 @@ const FlInps = ({
                       <input
                         key={index}
                         style={{ marginRight: "4px", width: "auto" }}
-                        onChange={(e) => handleInputChange(e, index)}
-                        value={inps[`inp${task[0].id}_${index}`] || ""}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "input", i)
+                        }
+                        value={inps[`inp${task[0].id}_${index}_${i}`] || ""}
                       />
                     );
                   } else {
                     return (
-                      <p key={index} style={{ margin: "0 4px" }}>
+                      <p key={index} style={{ margin: " 4px" }}>
                         {elem}
                       </p>
                     );
@@ -186,7 +191,7 @@ const FlInps = ({
                 <p>{value}</p>
                 {index < inputCount && (
                   <textarea
-                    onChange={(e) => handleInputChange(e, index)}
+                    onChange={(e) => handleInputChange(e, index, "textarea")}
                     value={inps[`inp${task[0].id}_${index}`] || ""}
                   />
                 )}

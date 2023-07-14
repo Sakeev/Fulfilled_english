@@ -210,7 +210,7 @@ const ClassWorkLayout = () => {
           action: "create_message",
           request_id: request_id,
         }),
-      300
+      500
     );
     return () => clearTimeout(timeOut);
   }, [typing]);
