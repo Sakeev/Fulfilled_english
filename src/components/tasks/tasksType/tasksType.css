@@ -1,263 +1,270 @@
 .task-types-container {
-  width: 100%;
-  margin-bottom: 2em;
+    width: 100%;
+    margin-bottom: 2em;
 }
 
 .task-types-container button {
-  margin-top: 3em;
-  max-width: 200px;
-  border-radius: 10px;
+    margin-top: 3em;
+    max-width: 200px;
+    border-radius: 10px;
 }
 
 /* INPUTS COMPONENT */
 .inputs-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .inputs-container div {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .inputs-container div input {
-  font-family: "Overpass";
-  font-size: 1.5rem;
-  min-width: 2.5em;
-  width: 2.5rem;
-  border: none;
-  outline: none;
-  text-align: center;
-  background-color: transparent;
-  padding: 0;
+    font-family: 'Overpass';
+    font-size: 1.5rem;
+    min-width: 2.5em;
+    width: 2.5rem;
+    border: none;
+    outline: none;
+    text-align: center;
+    background-color: transparent;
+    padding: 0;
 }
 
 .inputs-container .MuiInputBase-root {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .inputs-container .MuiInputBase-root:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .inputs-container .MuiInputBase-root::after {
-  border-bottom: 0.125rem solid #006d77;
+    border-bottom: 0.125rem solid #006d77;
 }
 
 .inputs-container button {
-  align-self: flex-end;
-  margin-top: 3em;
+    align-self: flex-end;
+    margin-top: 3em;
 }
 
 /* SENTENCE COMPONENT */
 .sentence-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .sentence-container button {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 .sentence-container .sentence-task-box-wrapper {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .sentence-task-box-wrapper .sentence-task-box {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .sentence-task-box .sentence-word {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .sentence-task-box .sentence-word span {
-  background-color: #e7e7e7;
-  padding: 0.25em 0.625em;
-  margin: 0.375em;
-  border-radius: 0.5rem;
-  transition: 0.1s;
-  cursor: pointer;
+    background-color: #e7e7e7;
+    padding: 0.25em 0.625em;
+    margin: 0.375em;
+    border-radius: 0.5rem;
+    transition: 0.1s;
+    cursor: pointer;
 }
 
 .sentence-task-box .sentence-word span:hover {
-  background-color: #9bd0cb;
+    background-color: #9bd0cb;
 }
 
 .sentence-task-box .sentence-answer-block {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  padding-left: 0.625em;
-  width: 100%;
-  min-height: 8em;
-  border-radius: 0.5em;
-  border: 0.0625em solid lightgray;
-  margin: 0.625em 0.25em;
-  overflow-x: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-left: 0.625em;
+    width: 100%;
+    min-height: 8em;
+    border-radius: 0.5em;
+    border: 0.0625em solid lightgray;
+    margin: 0.625em 0.25em;
+    overflow-x: auto;
 }
 
 .sentence-task-box .sentence-answer-block p {
-  margin: 0.25em 0;
-  font-size: 1.125rem;
-  font-weight: 500;
-  transition: 0.1s;
-  cursor: pointer;
-  padding: 0.25em 0.475em;
-  color: #006d77;
-  user-select: none;
+    margin: 0.25em 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    transition: 0.1s;
+    cursor: pointer;
+    padding: 0.25em 0.475em;
+    color: #006d77;
+    user-select: none;
 }
 
 .sentence-task-box .sentence-answer-block p:hover {
-  background-color: #e7e7e7;
-  border-radius: 0.5em;
+    background-color: #e7e7e7;
+    border-radius: 0.5em;
 }
 
 /* CONTINUE SENTENCE COMPONENT */
 .continue-sentence-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .continue-sentence-container button {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 .continue-sentence-container .continue-sentence {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 /* DROPDOWN COMPONENT */
 .dropdown-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dropdown-container button {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 .dropdown-container .dropdown {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .dropdown div {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  row-gap: 0.75em;
-  font-size: 1.5rem;
-  word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.75em;
+    font-size: 1.5rem;
+    word-wrap: break-word;
 }
 
 .dropdown div .MuiInputBase-root {
-  font-family: "Overpass";
-  font-size: 1.5rem;
-  height: 2.125rem;
-  background-color: transparent;
-  margin-inline: 0.375em;
-  padding-bottom: 0.25em;
+    font-family: 'Overpass';
+    font-size: 1.5rem;
+    height: 2.125rem;
+    background-color: transparent;
+    margin-inline: 0.375em;
+    padding-bottom: 0.25em;
 }
 
 .dropdown div .MuiInputBase-root::before {
-  border-bottom: 0.0625rem solid black;
+    border-bottom: 0.0625rem solid black;
 }
 
 .dropdown div .MuiInputBase-root::after {
-  border-bottom: 0.125rem solid #006d77;
+    border-bottom: 0.125rem solid #006d77;
 }
 
 .dropdown div .MuiInputBase-root .MuiSelect-select {
-  background-color: transparent;
-  padding: 0;
-  padding-right: 1.5em;
+    background-color: transparent;
+    padding: 0;
+    padding-right: 1.5em;
 }
 
 /* TABLE COMPONENT */
 .table-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .table-container button {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 /* BUILD DIALOG COMPONENT */
 .build-dialog-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .build-dialog-container button {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 .build-dialog-container .build-dialog-task-box {
-  width: 100%;
+    width: 100%;
 }
 
 .build-dialog-words-box {
-  display: flex;
-  flex-wrap: wrap;
-  /* flex-direction: column; */
-  /* align-items: flex-start; */
-  /* overflow-x: auto; */
-  /* border-radius: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    /* align-items: flex-start; */
+    /* overflow-x: auto; */
+    /* border-radius: 0.5rem;
     border: 0.0625rem solid lightgray; */
-  /* height: 20vh; */
-  margin-bottom: 1em;
+    /* height: 20vh; */
+    margin-bottom: 1em;
 }
 
 .build-dialog-words-box p {
-  background-color: #e7e7e7;
-  padding: 0.25em 0.5em;
-  margin: 0.25em;
-  border-radius: 0.5em;
-  transition: 0.1s;
-  cursor: pointer;
+    background-color: #e7e7e7;
+    padding: 0.25em 0.5em;
+    margin: 0.25em;
+    border-radius: 0.5em;
+    transition: 0.1s;
+    cursor: pointer;
 }
 
 .build-dialog-words-box p:hover {
-  background-color: #9bd0cb;
+    background-color: #9bd0cb;
 }
 
 .build-dialog-answer-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  height: 30vh;
-  border-radius: 0.5rem;
-  border: 0.0625rem solid lightgray;
-  overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 30vh;
+    border-radius: 0.5rem;
+    border: 0.0625rem solid lightgray;
+    overflow-x: auto;
 }
 
 .build-dialog-answer-block .build-dialog-answer {
-  font-size: 1rem;
-  font-weight: 500;
-  transition: 0.15s;
-  cursor: pointer;
-  padding: 0.25em 0.5em;
-  color: #006d77;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.15s;
+    cursor: pointer;
+    padding: 0.25em 0.5em;
+    color: #006d77;
 }
 
 .build-dialog-answer-block .build-dialog-answer:hover {
-  background-color: #e7e7e7;
-  border-radius: 0.5rem;
+    background-color: #e7e7e7;
+    border-radius: 0.5rem;
+}
+
+.build-dialog-word {
+    display: flex;
+    flex-wrap: wrap;
+    white-space: nowrap;
 }
 
 /* BUILD SENTENCES */
@@ -329,4 +336,46 @@
 
 .images-container .images-image-box-wrapper .images-image-box img {
     margin-bottom: 0.75em;
+}
+
+/* CONTINUE IMAGE WORD */
+
+.image-word-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-word-container button {
+    align-self: flex-end;
+}
+
+.image-word-container .image-word-image-box-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 2em;
+}
+
+.image-word-container .image-word-image-box-wrapper .image-word-image-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75em;
+}
+
+.image-word-container .image-word-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25em;
+}
+
+.image-word-container .image-word-inputs p input {
+    width: 80%;
+}
+
+.image-word-container .image-word-inputs p {
+    flex-basis: 40%;
 }
