@@ -77,7 +77,7 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
                         {table.data[0].map((elem, index) => (
                             <th key={index}>
                                 {elem ? (
-                                    elem
+                                    elem.replaceAll('_', ' ')
                                 ) : (
                                     <input
                                         className="table_inp"

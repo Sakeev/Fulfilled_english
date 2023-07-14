@@ -1,3 +1,5 @@
+import ContinueImageWord from './resultDisplayTasks/ContinueImageWord';
+import DescribeImages from './resultDisplayTasks/DescribeImages';
 import BuildSentences from './resultDisplayTasks/BuildSentences';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
@@ -5,7 +7,6 @@ import BuildDialog from '../tasks/tasksType/BuildDialog';
 import Dropdown from '../tasks/tasksType/DropDown';
 import Inputs from './resultDisplayTasks/Inputs';
 import Table from './resultDisplayTasks/Table';
-import Images from './resultDisplayTasks/Images';
 
 const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
@@ -13,6 +14,8 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     if (task === null) return <></>;
     if (!task.answers[task.answers.length - 1])
         return <h2>This task hasn't done yet</h2>;
+
+    console.log(task);
 
     switch (task?.implemented_case) {
         case 'missing word':
@@ -74,9 +77,17 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                 />
             );
 
+        case 'describe image':
+            return (
+                <DescribeImages
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
+                />
+            );
         case 'work with images':
             return (
-                <Images
+                <ContinueImageWord
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
