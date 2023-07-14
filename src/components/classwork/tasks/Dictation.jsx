@@ -27,7 +27,11 @@ const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
     document.execCommand("styleWithCSS", false, true); // Включаем использование стилей CSS
     document.execCommand("foreColor", false, selectedColor);
     const selected = window.getSelection().toString();
-    if (selected.trim()) {
+    if (
+      selected.trim() &&
+      window.getSelection().focusNode.parentElement.parentElement.className ===
+        "rsw-ce"
+    ) {
       const span = document.createElement("span");
       span.style.color = inputRef.current.value;
 

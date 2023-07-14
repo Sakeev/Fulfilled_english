@@ -224,7 +224,6 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
-    console.log(e);
     setInps({ ...inps, chat: e.target.value });
     setTyping((prev) => !prev);
   }
@@ -233,7 +232,6 @@ const ClassWorkLayout = () => {
     let obj = Object.assign({
       body: inps.chat,
     });
-
     postNote(obj, note_id);
   }
 
@@ -292,6 +290,8 @@ const ClassWorkLayout = () => {
                 height: "40vh",
                 maxHeight: "500px",
                 width: "100%",
+                overflowY: "auto",
+                position: "relative",
               },
             }}
             value={inps.chat}
@@ -299,7 +299,7 @@ const ClassWorkLayout = () => {
             disabled={!isTeacher()}
           >
             {isTeacher() ? (
-              <Toolbar>
+              <Toolbar style={{ position: "sticky", top: 0 }}>
                 <BtnUndo />
                 <BtnRedo />
                 <Separator />

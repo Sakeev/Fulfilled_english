@@ -1,6 +1,5 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 
 const style = {
