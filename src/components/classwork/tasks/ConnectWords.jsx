@@ -39,7 +39,7 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
         })}
         {task?.map((elem, index) => (
           <Box key={index}>
-            <h4>{elem.condition}</h4>
+            <h3 style={{ color: "rgb(0 0 0 / 80%)" }}>{elem.condition}</h3>
             <Box
               style={{
                 display: "flex",
@@ -49,7 +49,9 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
               }}
             >
               <Box>
-                <h4 style={{ margin: "4px 0" }}>Column A</h4>
+                <h4 style={{ margin: "4px 0", color: "rgb(0 0 0 / 80%)" }}>
+                  Column A
+                </h4>
                 {elem.description1.map((item, index) => (
                   <Box
                     key={index}
@@ -64,7 +66,9 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
                 ))}
               </Box>
               <Box>
-                <h4 style={{ margin: "4px 0" }}>Column B</h4>
+                <h4 style={{ margin: "4px 0", color: "rgb(0 0 0 / 80%)" }}>
+                  Column B
+                </h4>
                 {elem.description2.map((item, index) => (
                   <Box
                     key={index}

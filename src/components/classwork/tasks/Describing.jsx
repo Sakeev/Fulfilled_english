@@ -31,7 +31,6 @@ const Describing = ({ task }) => {
             })}
           </div>
           <div style={{ marginBottom: "60px" }}>
-            Condition:{" "}
             {elem.condition.split("\r\n").map((question, index) => {
               return <div key={index}>{question}</div>;
             })}
