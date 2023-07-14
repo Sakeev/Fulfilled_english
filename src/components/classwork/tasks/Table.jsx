@@ -106,111 +106,121 @@ const Table = ({
   return (
     <>
       <h2>Table exercise</h2>
+      <div className="table">
+        {task[0]?.condition && (
+          <p style={{ margin: "10px 0" }}>{task[0]?.condition}</p>
+        )}
 
-      {task[0]?.condition && (
-        <p style={{ margin: "10px 0" }}>Description: {task[0]?.condition}</p>
-      )}
-
-      {task[0]?.audio && (
-        <Accordion
-          sx={{
-            boxShadow: "none",
-            border: "1px solid #ef9042",
-            padding: "0 4px",
-            margin: "20px 0 15px",
-            borderRadius: "5px",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            sx={{ padding: "0" }}
+        {task[0]?.audio && (
+          <Accordion
+            sx={{
+              boxShadow: "none",
+              border: "1px solid #ef9042",
+              padding: "0 4px",
+              margin: "20px 0 15px",
+              borderRadius: "5px",
+            }}
           >
-            <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
-              Audio player
-            </h4>
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: "0 8px 24px" }}>
-            <audio
-              src={API + task[0]?.audio}
-              controls
-              ref={audioRef}
-              onPause={() => handleTogglePlayback(false)}
-              onPlay={() => handleTogglePlayback(true)}
-              onSeeked={(e) => {
-                changeTime(e.target.currentTime);
-              }}
-            />
-          </AccordionDetails>
-        </Accordion>
-      )}
-
-      <table className="table_exercise">
-        <thead>
-          <tr>
-            {table.data[0].map((elem, index) => (
-              <th
-                key={index}
-                style={{
-                  height: "20px",
-                  wordWrap: "break-word",
-                  maxHeight: "40px",
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: "0" }}
+            >
+              <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
+                Audio player
+              </h4>
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: "0 8px 24px" }}>
+              <audio
+                src={API + task[0]?.audio}
+                controls
+                ref={audioRef}
+                onPause={() => handleTogglePlayback(false)}
+                onPlay={() => handleTogglePlayback(true)}
+                onSeeked={(e) => {
+                  changeTime(e.target.currentTime);
                 }}
-              >
-                {elem ? (
-                  elem.split("_").join(" ")
-                ) : (
-                  <input
-                    className="table_inp"
-                    value={inps[`th${index}`] || ""}
-                    onChange={(e) => {
-                      setInps({
-                        ...inps,
-                        [`th${index}`]: `${e.target.value}`,
-                      });
-                      setTyping((prev) => !prev);
-                    }}
-                  />
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.data.slice(1).map((elem, rowIndex) => (
-            <tr key={rowIndex}>
-              {elem.map((item, cellIndex) => (
-                <td key={cellIndex}>
-                  {item ? (
-                    item.split("_").join(" ")
+              />
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {task[0].images?.map((image, index) => (
+          <img
+            key={index}
+            src={API + image.image}
+            style={{ width: "450px", margin: "4px 0" }}
+            alt=""
+          />
+        ))}
+
+        <table className="table_exercise">
+          <thead>
+            <tr>
+              {table.data[0].map((elem, index) => (
+                <th
+                  key={index}
+                  style={{
+                    height: "30px",
+                    wordWrap: "break-word",
+                    maxHeight: "40px",
+                  }}
+                >
+                  {elem ? (
+                    elem.split("_").join(" ")
                   ) : (
                     <input
                       className="table_inp"
-                      value={
-                        inps[`table_${task[0]?.id}`]?.[
-                          `td${rowIndex}_${cellIndex}`
-                        ] || ""
-                      }
+                      value={inps[`th${index}`] || ""}
                       onChange={(e) => {
-                        console.log(inps, "asdasdasdasdasdsasdsa");
                         setInps({
                           ...inps,
-                          [`table_${task[0]?.id}`]: {
-                            ...inps[`table_${task[0]?.id}`],
-                            [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
-                          },
+                          [`th${index}`]: `${e.target.value}`,
                         });
                         setTyping((prev) => !prev);
                       }}
                     />
                   )}
-                </td>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {table.data.slice(1).map((elem, rowIndex) => (
+              <tr key={rowIndex}>
+                {elem.map((item, cellIndex) => (
+                  <td key={cellIndex}>
+                    {item ? (
+                      item.split("_").join(" ")
+                    ) : (
+                      <input
+                        className="table_inp"
+                        value={
+                          inps[`table_${task[0]?.id}`]?.[
+                            `td${rowIndex}_${cellIndex}`
+                          ] || ""
+                        }
+                        onChange={(e) => {
+                          console.log(inps, "asdasdasdasdasdsasdsa");
+                          setInps({
+                            ...inps,
+                            [`table_${task[0]?.id}`]: {
+                              ...inps[`table_${task[0]?.id}`],
+                              [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
+                            },
+                          });
+                          setTyping((prev) => !prev);
+                        }}
+                      />
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
