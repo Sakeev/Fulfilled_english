@@ -1,82 +1,90 @@
-import { FormControl, MenuItem, Paper, Select } from '@mui/material';
-import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
-import { useClassWork } from '../../contexts/ClassWorkContextProvider';
+import {
+  FormControl,
+  Grid,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { useEffect, useState } from "react";
+import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 
 const Notes = () => {
-    const { getNotes, notes } = useClassWork();
-    const [note, setNote] = useState(null);
-    console.log(note);
+  const { getNotes, notes } = useClassWork();
 
-    useEffect(() => {
-        getNotes();
-    }, []);
+  useEffect(() => {
+    getNotes();
+  }, []);
 
-    const handleSelect = (event) => {
-        setNote(event.target.value);
-    };
-
-    const formatText = () => {
-        const regex = /(&nbsp;)+/g;
-        const textWithoutTags = note.body.replace(regex, '\n');
-
-        return textWithoutTags.trim().replace(/\s+/g, ' ');
-    };
-
-    return (
-        <>
-            <Box sx={{ width: '80%' }}>
-                <Paper
-                    elevation={1}
-                    sx={{
-                        m: 5,
-                        height: '78vh',
-                        width: '95%',
-                        p: 2,
-                        bgcolor: '#f2fcff',
-                        borderRadius: '10px 10px 10px 10px',
+  const formatText = (note) => {
+    const regex = /(&nbsp;)+/g;
+    const textWithoutTags = note.body.replace(regex, "\n");
+    return textWithoutTags.trim().replace(/\s+/g, " ");
+  };
+  console.log(notes);
+  return (
+    <>
+      <Box sx={{ width: "80%", overflowY: "auto" }}>
+        <Paper
+          elevation={1}
+          sx={{
+            m: 5,
+            width: "95%",
+            p: 2,
+            bgcolor: "#f2fcff",
+            borderRadius: "10px 10px 10px 10px",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              marginBlock: "1em",
+              height: "auto",
+            }}
+          >
+            <Box sx={{ columns: { xl: 5, lg: 4, md: 3, sm: 2, xs: 1 } }}>
+              {notes.map((note) => {
+                return (
+                  <Box
+                    style={{
+                      minHeight: "100px",
+                      breakInside: "avoid",
                     }}
-                >
-                    <h2>Список заметок</h2>
-                    <Box
-                        sx={{
-                            width: '100%',
-                            marginBlock: '1em',
-                        }}
+                    key={note.id}
+                  >
+                    <Paper
+                      elevation={3}
+                      sx={{
+                        padding: 2,
+                        marginBottom: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        width: "238px",
+                      }}
                     >
-                        <FormControl sx={{ width: '10vw' }}>
-                            <Select
-                                sx={{
-                                    '.MuiSelect-select': {
-                                        paddingBlock: '0.5em',
-                                    },
-                                }}
-                                value={note || ''}
-                                onChange={handleSelect}
-                            >
-                                {notes.map((note) => {
-                                    return (
-                                        <MenuItem key={note.id} value={note}>
-                                            Lesson {note.lesson}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    {note ? (
-                        <p
+                      <div>
+                        <Typography variant="h6" color="#e29578">
+                          Note from lesson -{note.lesson}
+                        </Typography>
+                        <Typography variant="body2" component="div">
+                          <p
                             dangerouslySetInnerHTML={{
-                                __html: formatText(),
+                              __html: formatText(note),
                             }}
-                        ></p>
-                    ) : (
-                        <h4>Choose the lesson</h4>
-                    )}
-                </Paper>
+                          ></p>
+                        </Typography>
+                      </div>
+                    </Paper>
+                  </Box>
+                );
+              })}
             </Box>
-        </>
-    );
+          </Box>
+        </Paper>
+      </Box>
+    </>
+  );
 };
 
 export default Notes;
