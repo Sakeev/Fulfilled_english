@@ -1,9 +1,15 @@
 import { API } from '../../../helpers/consts';
-import React, { useState } from 'react';
 import { Button } from '@mui/material';
+import { useState } from 'react';
+import { count, formResultTemplate, transformObj } from './utils';
 
 const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
-    const [results, setResults] = useState({});
+    const splittedDescription = caseDetail.description.split('\r\n');
+    const [results, setResults] = useState(
+        caseDetail.description.includes('|')
+            ? formResultTemplate(splittedDescription)
+            : {}
+    );
 
     const handleInput = (event, index) => {
         setResults((results) => {
@@ -12,26 +18,59 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
     };
 
     const formRequest = () => {
-        const keys = Object.keys(results);
-        const answerTemplate = caseDetail.images.map(() => 'No answer');
-        const examples = caseDetail.description
-            .split('\r\n')
-            .filter((string) => string !== '__inp__');
+        console.log(count(caseDetail.description, '__inp__'));
+        const newResults = transformObj(results);
+        console.log(newResults);
+        const keys = Object.keys(newResults);
+        // const answerTemplate = caseDetail.images.map(() => 'No answer');
+        const answerTemplate = Array.apply(
+            null,
+            Array(count(caseDetail.description, '__inp__'))
+        ).map(() => 'No answer');
+        // const examples = caseDetail.description
+        //     .split('\r\n')
+        //     .filter((string) => string !== '__inp__');
         // const examplesCount = caseDetail.description
         //     .split('\r\n')
         //     .filter((string) => string !== '__inp__').length;
 
         for (let key of keys) {
-            if (results[key].trim() === '') answerTemplate[key] = 'No answer';
-            else answerTemplate[key] = results[key];
+            if (newResults[key].trim() === '')
+                answerTemplate[key] = 'No answer';
+            else answerTemplate[key] = newResults[key];
         }
 
-        for (let i = 0; i < examples.length; i++) {
-            answerTemplate[i] = examples[i];
-        }
+        // for (let i = 0; i < examples.length; i++) {
+        //     answerTemplate[i] = examples[i];
+        // }
+
+        console.log(answerTemplate);
         // answerTemplate.splice(0, examplesCount);
 
         return { answers: answerTemplate };
+    };
+
+    const renderInputs = (row, outerInd, innerInd) => {
+        const splittedRow = row.split('__inp__');
+
+        return splittedRow.map((value, index) => {
+            return (
+                <p key={index}>
+                    {value}
+                    {index < splittedRow.length - 1 && (
+                        <input
+                            onChange={(event) => {
+                                handleInput(
+                                    event,
+                                    outerInd * splittedDescription.length +
+                                        innerInd
+                                );
+                            }}
+                        />
+                    )}
+                </p>
+            );
+        });
     };
 
     console.log(results);
@@ -51,25 +90,25 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
                 })}
             </div>
             <div className="image-word-inputs">
-                {caseDetail?.description.split('\r\n').map((string, index) => {
+                {splittedDescription.map((string, index) => {
                     return (
-                        <p key={index}>
-                            {string === '__inp__' ? (
-                                <>
-                                    {index + 1}.{' '}
-                                    <input
-                                        type="text"
-                                        onChange={(event) =>
-                                            handleInput(event, index)
-                                        }
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    {index + 1}. {string}
-                                </>
-                            )}
-                        </p>
+                        <div key={index} className="image-word-input">
+                            {string.split('|').map((row, innerInd) => {
+                                return renderInputs(row, index, innerInd);
+                                // <p key={index}>
+                                //     {row === '__inp__' ? (
+                                //         <input
+                                //             type="text"
+                                //             onChange={(event) =>
+                                //                 handleInput(event, index)
+                                //             }
+                                //         />
+                                //     ) : (
+                                //         row
+                                //     )}
+                                // </p>
+                            })}
+                        </div>
                     );
                 })}
             </div>
