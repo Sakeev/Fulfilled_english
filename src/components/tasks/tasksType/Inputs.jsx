@@ -61,7 +61,6 @@ const Inputs = ({
 
         return (
             <div key={outerInd}>
-                {outerInd + 1}.{' '}
                 {splittedRow.map((value, index) => (
                     <Fragment key={index}>
                         {value}

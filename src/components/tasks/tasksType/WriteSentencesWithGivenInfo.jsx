@@ -22,7 +22,6 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
         setResults((results) => {
             const newAnswer = [...results[title]];
             newAnswer[innerInd] = event.target.value;
-            console.log(newAnswer, title);
             return { ...results, [title]: newAnswer };
         });
     };
@@ -40,6 +39,8 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
 
         return { answers: resultsCopy };
     };
+
+    console.log(results);
 
     return (
         <div className="ws-w-given-info-container task-types-container">

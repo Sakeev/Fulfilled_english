@@ -38,3 +38,31 @@ export const count = (string, toCount) => {
     }
     return n;
 };
+
+export const renderInputs = (row, handler) => {
+    const splittedRow = row.split('__inp__');
+
+    return (
+        <p>
+            {splittedRow.map((value, index) => {
+                return (
+                    <>
+                        {index < splittedRow.length - 1
+                            ? value.slice(0, value.length - 1)
+                            : value}
+                        {index < splittedRow.length - 1 && (
+                            <input
+                                onChange={(event) => {
+                                    handler(
+                                        event,
+                                        +value.slice(value.length - 1)
+                                    );
+                                }}
+                            />
+                        )}
+                    </>
+                );
+            })}
+        </p>
+    );
+};

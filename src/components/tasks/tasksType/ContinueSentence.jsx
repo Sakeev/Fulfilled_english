@@ -43,6 +43,17 @@ const colors = [
     'gray',
     'violet',
     'purple',
+    '#f2476a',
+    '#fb654e',
+    '#eb2d3a',
+    '#add8e6',
+    '#90ee90',
+    '#2ab7ca',
+    '#6497b1',
+    '#fdf498',
+    '#ffd3b6',
+    '#a8e6cf',
+    '#ffbbee',
 ];
 
 const ContinueSentence = ({
@@ -158,6 +169,8 @@ const ContinueSentence = ({
             answers: answer,
         };
     };
+
+    console.log(wordsPairs);
 
     return (
         <div className="continue-sentence-container task-types-container">
