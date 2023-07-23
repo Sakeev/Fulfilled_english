@@ -1,8 +1,10 @@
 import { API } from '../../../helpers/consts';
-import React, { useState } from 'react';
 import { Button } from '@mui/material';
+import { useState } from 'react';
+import { count, renderInputs } from './utils';
 
 const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
+    const splittedDescription = caseDetail.description.split('\r\n');
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -13,28 +15,18 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
 
     const formRequest = () => {
         const keys = Object.keys(results);
-        const answerTemplate = caseDetail.images.map(() => 'No answer');
-        const examples = caseDetail.description
-            .split('\r\n')
-            .filter((string) => string !== '__inp__');
-        // const examplesCount = caseDetail.description
-        //     .split('\r\n')
-        //     .filter((string) => string !== '__inp__').length;
+        const answerTemplate = Array.apply(
+            null,
+            Array(count(caseDetail.description, '__inp__'))
+        ).map(() => 'No answer');
 
         for (let key of keys) {
             if (results[key].trim() === '') answerTemplate[key] = 'No answer';
             else answerTemplate[key] = results[key];
         }
 
-        for (let i = 0; i < examples.length; i++) {
-            answerTemplate[i] = examples[i];
-        }
-        // answerTemplate.splice(0, examplesCount);
-
         return { answers: answerTemplate };
     };
-
-    console.log(results);
 
     return (
         <div className="image-word-container task-types-container">
@@ -51,25 +43,13 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
                 })}
             </div>
             <div className="image-word-inputs">
-                {caseDetail?.description.split('\r\n').map((string, index) => {
+                {splittedDescription.map((string, index) => {
                     return (
-                        <p key={index}>
-                            {string === '__inp__' ? (
-                                <>
-                                    {index + 1}.{' '}
-                                    <input
-                                        type="text"
-                                        onChange={(event) =>
-                                            handleInput(event, index)
-                                        }
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    {index + 1}. {string}
-                                </>
-                            )}
-                        </p>
+                        <div key={index} className="image-word-input">
+                            {string.split('|').map((row) => {
+                                return renderInputs(row, handleInput);
+                            })}
+                        </div>
                     );
                 })}
             </div>

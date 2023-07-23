@@ -1,6 +1,7 @@
 import { API } from '../../../helpers/consts';
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import { renderInputs } from './utils';
 
 const Images = ({ caseDetail, handleAnswer, taskId }) => {
     const [results, setResults] = useState({});
@@ -29,6 +30,8 @@ const Images = ({ caseDetail, handleAnswer, taskId }) => {
         return { answers: answerTemplate };
     };
 
+    console.log(results);
+
     return (
         <div className="images-container task-types-container">
             <div className="images-image-box-wrapper">
@@ -36,21 +39,7 @@ const Images = ({ caseDetail, handleAnswer, taskId }) => {
                     return (
                         <div className="images-image-box" key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
-                            {sentence === '__inp__' ? (
-                                <span>
-                                    {index + 1}.{' '}
-                                    <input
-                                        type="text"
-                                        onChange={(event) =>
-                                            handleInput(event, index)
-                                        }
-                                    />
-                                </span>
-                            ) : (
-                                <p>
-                                    {index + 1}. {sentence}
-                                </p>
-                            )}
+                            {renderInputs(sentence, handleInput)}
                         </div>
                     );
                 })}

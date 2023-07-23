@@ -1,5 +1,6 @@
-import ContinueImageWord from '../tasks/tasksType/ContinueImageWord';
+import WriteSentencesWithGivenInfo from './tasksType/WriteSentencesWithGivenInfo';
 import BuildSentences from './tasksType/BuildSentences/BuildSentences';
+import ContinueImageWord from '../tasks/tasksType/ContinueImageWord';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ContinueSentence from './tasksType/ContinueSentence';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -197,10 +198,23 @@ const Case1 = () => {
                 />
             );
             break;
+
+        case 'write sentences with given info':
+            component = (
+                <WriteSentencesWithGivenInfo
+                    caseDetail={caseDetail}
+                    handleAnswer={handleAnswer}
+                    taskId={taskId}
+                />
+            );
+            break;
+
         default:
             component = null;
             break;
     }
+
+    console.log(caseDetail);
 
     const vocabulary = getVocabulary();
 

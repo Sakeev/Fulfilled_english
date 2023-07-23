@@ -64,7 +64,7 @@ const HWResults = () => {
             </div>
             <div className="hw-results-container">
                 <p className="hw-results-condition">{currentTask?.condition}</p>
-                <div className="hw-results-student">
+                {/* <div className="hw-results-student">
                     <div className="hw-results-task">
                         <RenderTask
                             task={currentTask}
@@ -89,6 +89,20 @@ const HWResults = () => {
                             <p className="hw-results-accuracy">O</p>
                         </div>
                     </div>
+                )} */}
+                <RenderTask
+                    task={currentTask}
+                    id={id}
+                    task_id={task_id}
+                    displayDataType={'student'}
+                />
+                {!checkHW() && (
+                    <RenderTask
+                        task={currentTask}
+                        id={id}
+                        task_id={task_id}
+                        displayDataType={'teacher'}
+                    />
                 )}
             </div>
         </div>
