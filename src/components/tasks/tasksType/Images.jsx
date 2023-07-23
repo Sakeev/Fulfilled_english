@@ -35,11 +35,14 @@ const Images = ({ caseDetail, handleAnswer, taskId }) => {
     return (
         <div className="images-container task-types-container">
             <div className="images-image-box-wrapper">
-                {caseDetail.images.map(({ image, sentence }, index) => {
+                {caseDetail.images.map(({ image, sentence }) => {
                     return (
                         <div className="images-image-box" key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
-                            {renderInputs(sentence, handleInput)}
+                            {/* {renderInputs(sentence, handleInput)} */}
+                            {sentence.split('|').map((row) => {
+                                return renderInputs(row, handleInput);
+                            })}
                         </div>
                     );
                 })}

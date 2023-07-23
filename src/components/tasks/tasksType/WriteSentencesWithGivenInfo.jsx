@@ -1,4 +1,5 @@
 import { API } from '../../../helpers/consts';
+import { renderInputs } from './utils';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 
@@ -8,7 +9,7 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
 
         for (let [key, value] of Object.entries(caseDetail.description)) {
             answerTemplate[key] = value.map((sentence) =>
-                sentence === '__inp__' ? '' : sentence
+                sentence.includes('__inp__') ? '' : sentence
             );
         }
 
@@ -26,7 +27,7 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
         });
     };
 
-    const formObj = () => {
+    const formRequest = () => {
         const resultsCopy = JSON.parse(JSON.stringify(results));
 
         for (let key in resultsCopy) {
@@ -39,8 +40,6 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
 
         return { answers: resultsCopy };
     };
-
-    console.log(results);
 
     return (
         <div className="ws-w-given-info-container task-types-container">
@@ -79,22 +78,15 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
                             {Object.values(caseDetail.description)[index].map(
                                 (value, innerInd) => (
                                     <li key={innerInd}>
-                                        {value === '__inp__' ? (
-                                            <>
-                                                <input
-                                                    type="text"
-                                                    onChange={(event) =>
-                                                        handleInput(
-                                                            event,
-                                                            titles[index],
-                                                            innerInd
-                                                        )
-                                                    }
-                                                />
-                                            </>
-                                        ) : (
-                                            value
-                                        )}
+                                        {value.split('|').map((row) => {
+                                            return renderInputs(row, (event) =>
+                                                handleInput(
+                                                    event,
+                                                    titles[index],
+                                                    innerInd
+                                                )
+                                            );
+                                        })}
                                     </li>
                                 )
                             )}
@@ -105,7 +97,7 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
             <Button
                 className="hw__send-btn"
                 onClick={() => {
-                    handleAnswer(formObj(), taskId);
+                    handleAnswer(formRequest(), taskId);
                 }}
             >
                 send

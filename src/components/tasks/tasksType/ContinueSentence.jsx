@@ -170,8 +170,6 @@ const ContinueSentence = ({
         };
     };
 
-    console.log(wordsPairs);
-
     return (
         <div className="continue-sentence-container task-types-container">
             <div className="continue-sentence">

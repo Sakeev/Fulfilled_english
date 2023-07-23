@@ -45,18 +45,18 @@ export const renderInputs = (row, handler) => {
     return (
         <p>
             {splittedRow.map((value, index) => {
+                const [id, string] = parseId(value);
+
                 return (
                     <>
-                        {index < splittedRow.length - 1
+                        {/* {index < splittedRow.length - 1
                             ? value.slice(0, value.length - 1)
-                            : value}
+                            : value} */}
+                        {string}
                         {index < splittedRow.length - 1 && (
                             <input
                                 onChange={(event) => {
-                                    handler(
-                                        event,
-                                        +value.slice(value.length - 1)
-                                    );
+                                    handler(event, id);
                                 }}
                             />
                         )}
@@ -66,3 +66,21 @@ export const renderInputs = (row, handler) => {
         </p>
     );
 };
+
+const parseId = (string) => {
+    if (!isNumeric(string[string.length - 1])) return [0, string];
+    let id = '';
+    let i = 1;
+
+    while (isNumeric(string[string.length - i])) {
+        id = string[string.length - i] + id;
+
+        i++;
+    }
+
+    return [+id, string.slice(0, string.length - (i - 1))];
+};
+
+function isNumeric(str) {
+    return /^\d+$/.test(str);
+}

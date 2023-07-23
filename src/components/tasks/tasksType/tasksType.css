@@ -398,6 +398,11 @@
 .ws-w-given-info-container .ws-w-given-info-input-columns {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.ws-w-given-info-input-columns .ws-w-given-info-input-column {
+    padding-bottom: 1em;
 }
 
 .ws-w-given-info-input-columns .ws-w-given-info-input-column p {
