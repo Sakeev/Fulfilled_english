@@ -1,13 +1,6 @@
-import {
-  FormControl,
-  Grid,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import { formatText } from "../../helpers/funcs";
 
