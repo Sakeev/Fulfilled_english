@@ -188,7 +188,7 @@ const Main = () => {
   }, [schedule]);
 
   const getUpcomingLessons = () => {
-    api.get("http://13.50.235.4/schedule/schedule/").then((res) => {
+    api.get("https://www.fluentenglish.site/schedule/schedule/").then((res) => {
       let data = res.data;
       setTables(data);
       data.sort((a, b) => a.weekday - b.weekday);
