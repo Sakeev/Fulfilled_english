@@ -143,7 +143,9 @@ const FlInps = ({
         <img key={index} src={API + img.image} style={{ width: img.size }} />
       ))}
       {condition?.split("\r\n").map((cond, index) => (
-        <p key={index}>{cond}</p>
+        <h4 style={{ margin: "12px 0" }} key={index}>
+          {cond}
+        </h4>
       ))}
 
       {task[0].implemented_case === "continue sentence" ? (
@@ -164,7 +166,11 @@ const FlInps = ({
                     return (
                       <input
                         key={index}
-                        style={{ marginRight: "4px", width: "auto" }}
+                        style={{
+                          marginRight: "4px",
+                          width: "auto",
+                          paddingLeft: "8px",
+                        }}
                         onChange={(e) =>
                           handleInputChange(e, index, "input", i)
                         }

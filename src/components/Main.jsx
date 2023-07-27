@@ -4,10 +4,8 @@ import sticker from "../assets/images/startlesson.svg";
 import avatar from "../assets/images/images.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContextProvider";
-import HomePageSchedule from "./teachers/HomePageSchedule";
 import CreateRoom from "./classwork/CreateRoom";
 import {
-  isTeacher,
   timeFromMilliseconds,
   dateFormate,
   formatText,
@@ -190,7 +188,7 @@ const Main = () => {
   }, [schedule]);
 
   const getUpcomingLessons = () => {
-    api.get("http://13.50.235.4/schedule/schedule/").then((res) => {
+    api.get("https://www.fluentenglish.site/schedule/schedule/").then((res) => {
       let data = res.data;
       setTables(data);
       data.sort((a, b) => a.weekday - b.weekday);

@@ -31,7 +31,7 @@ function isDocumentEvent(message) {
 const ClassWorkLayout = () => {
   const { room_pk, postNote, sendMark } = useClassWork();
   const [socketUrl, setSocketUrl] = useState(
-    `ws://13.50.235.4/ws/chat/?token=${
+    `wss://www.fluentenglish.site/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
     }`
   );
