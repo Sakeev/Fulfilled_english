@@ -4,15 +4,17 @@ import sticker from "../assets/images/startlesson.svg";
 import avatar from "../assets/images/images.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContextProvider";
-import HomePageSchedule from "./teachers/HomePageSchedule";
 import CreateRoom from "./classwork/CreateRoom";
-import { isTeacher, timeFromMilliseconds, dateFormate } from "../helpers/funcs";
+import {
+  timeFromMilliseconds,
+  dateFormate,
+  formatText,
+} from "../helpers/funcs";
 import { useClassWork } from "../contexts/ClassWorkContextProvider";
 import api from "../http";
 import { API } from "../helpers/consts";
 import { useSchedule } from "../contexts/ScheduleContextProvider";
 import { useUsers } from "../contexts/UsersContextProvider";
-import NotFoundPage from "./NotFoundPage";
 
 const modalStyle = {
   position: "absolute",
@@ -83,7 +85,7 @@ const profileStyle = {
 
 const Main = () => {
   const { isTeacher, getRoomOrRooms } = useAuth();
-  const { getRoom } = useClassWork();
+  const { getRoom, getNotes, notes } = useClassWork();
   const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers();
   const [isHover, setIsHover] = useState(false);
   const [isHoverProfile, setIsHoverProfile] = useState(false);
@@ -128,6 +130,7 @@ const Main = () => {
       .catch((err) => console.log(err));
 
     getUpcomingLessons();
+    getNotes();
 
     // api.get('http://13.50.235.4/chat/room/').then((res) =>
     //     console.log(res)
@@ -235,11 +238,11 @@ const Main = () => {
     (100 / progress.lessonsQuantity) * progress.passedLessons
   );
 
-  const handleMouseEnter = (setFunc) => {
+  const handleMouseOver = (setFunc) => {
     setFunc(true);
   };
 
-  const handleMouseLeave = (setFunc) => {
+  const handleMouseOut = (setFunc) => {
     setFunc(false);
   };
 
@@ -247,9 +250,7 @@ const Main = () => {
     getRoom();
   };
 
-  return !teacherInfo?.id ? (
-    <NotFoundPage />
-  ) : (
+  return (
     <Box
       sx={{
         mt: 4,
@@ -293,8 +294,8 @@ const Main = () => {
                 }
               }
             }}
-            onMouseEnter={() => handleMouseEnter(setIsHover)}
-            onMouseLeave={() => handleMouseLeave(setIsHover)}
+            onMouseOver={() => handleMouseOver(setIsHover)}
+            onMouseOut={() => handleMouseOut(setIsHover)}
           >
             {!connectingLesson ? (
               <>
@@ -364,8 +365,8 @@ const Main = () => {
               cursor: "pointer",
             }}
             onClick={() => navigate("/profile")}
-            onMouseEnter={() => handleMouseEnter(setIsHoverProfile)}
-            onMouseLeave={() => handleMouseLeave(setIsHoverProfile)}
+            onMouseOver={() => handleMouseOver(setIsHoverProfile)}
+            onMouseOut={() => handleMouseOut(setIsHoverProfile)}
           >
             <Box
               sx={{
@@ -560,7 +561,7 @@ const Main = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ width: "47%" }}>
+        <Box sx={{ width: "47%", height: "auto" }}>
           <Paper
             elevation={1}
             sx={{
@@ -574,7 +575,41 @@ const Main = () => {
             }}
             onClick={() => navigate("/notes")}
           >
-            <Typography sx={{ ml: 5, color: "#006d77" }}>Notes</Typography>
+            {notes.length > 0 ? (
+              <>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    padding: 2,
+                    margin: "auto",
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <div>
+                    <Typography variant="h6" color="#e29578">
+                      Last note from lesson - {notes[notes.length - 1]?.lesson}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{ width: "100%" }}
+                    >
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: formatText(notes[notes.length - 1]).slice(
+                            0,
+                            120
+                          ),
+                        }}
+                      ></p>
+                    </Typography>
+                  </div>
+                </Paper>
+              </>
+            ) : null}
           </Paper>
         </Box>
         <Box sx={{ width: "47%" }}>

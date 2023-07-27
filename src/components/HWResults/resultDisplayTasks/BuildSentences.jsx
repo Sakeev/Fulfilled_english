@@ -6,8 +6,6 @@ const BuildSentences = ({ task, answer, displayDataType }) => {
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
 
-    console.log(answers);
-
     return <div></div>;
 };
 

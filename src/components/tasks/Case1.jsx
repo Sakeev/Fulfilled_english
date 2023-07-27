@@ -1,5 +1,6 @@
-import ContinueImageWord from '../tasks/tasksType/ContinueImageWord';
+import WriteSentencesWithGivenInfo from './tasksType/WriteSentencesWithGivenInfo';
 import BuildSentences from './tasksType/BuildSentences/BuildSentences';
+import ContinueImageWord from '../tasks/tasksType/ContinueImageWord';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ContinueSentence from './tasksType/ContinueSentence';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -105,6 +106,7 @@ const Case1 = () => {
         case 'missing word':
             component = (
                 <Inputs
+                    key={taskId}
                     inputValuesHook={inputValuesHook}
                     descr={caseDetail?.description}
                     id={id}
@@ -119,6 +121,7 @@ const Case1 = () => {
         case 'build sentence':
             component = (
                 <BuildSentences
+                    key={taskId}
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
@@ -133,6 +136,7 @@ const Case1 = () => {
         case 'build dialog':
             component = (
                 <BuildDialog
+                    key={taskId}
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
@@ -147,6 +151,7 @@ const Case1 = () => {
         case 'connect words':
             component = (
                 <ContinueSentence
+                    key={taskId}
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
@@ -161,6 +166,7 @@ const Case1 = () => {
         case 'drop down':
             component = (
                 <Dropdown
+                    key={taskId}
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
@@ -171,6 +177,7 @@ const Case1 = () => {
         case 'table':
             component = (
                 <Table
+                    key={taskId}
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
@@ -181,6 +188,7 @@ const Case1 = () => {
         case 'describe image':
             component = (
                 <Images
+                    key={taskId}
                     caseDetail={caseDetail}
                     handleAnswer={handleAnswer}
                     taskId={taskId}
@@ -191,16 +199,31 @@ const Case1 = () => {
         case 'work with images':
             component = (
                 <ContinueImageWord
+                    key={taskId}
                     caseDetail={caseDetail}
                     handleAnswer={handleAnswer}
                     taskId={taskId}
                 />
             );
             break;
+
+        case 'write sentences with given info':
+            component = (
+                <WriteSentencesWithGivenInfo
+                    key={taskId}
+                    caseDetail={caseDetail}
+                    handleAnswer={handleAnswer}
+                    taskId={taskId}
+                />
+            );
+            break;
+
         default:
             component = null;
             break;
     }
+
+    console.log(caseDetail);
 
     const vocabulary = getVocabulary();
 

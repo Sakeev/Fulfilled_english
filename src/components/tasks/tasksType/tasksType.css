@@ -338,18 +338,21 @@
     margin-bottom: 0.75em;
 }
 
-/* CONTINUE IMAGE WORD */
+/* CONTINUE IMAGE WORD, WRITE SENTENCES WITH GIVEN INFO */
 
-.image-word-container {
+.image-word-container,
+.ws-w-given-info-container {
     display: flex;
     flex-direction: column;
 }
 
-.image-word-container button {
+.image-word-container button,
+.ws-w-given-info-container button {
     align-self: flex-end;
 }
 
-.image-word-container .image-word-image-box-wrapper {
+.image-word-container .image-word-image-box-wrapper,
+.ws-w-given-info-container .ws-w-given-info-image-box-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -358,7 +361,10 @@
     margin-bottom: 2em;
 }
 
-.image-word-container .image-word-image-box-wrapper .image-word-image-box {
+.image-word-container .image-word-image-box-wrapper .image-word-image-box,
+.ws-w-given-info-container
+    .ws-w-given-info-image-box-wrapper
+    .ws-w-given-info-image-box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -367,15 +373,45 @@
 
 .image-word-container .image-word-inputs {
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.25em;
+    gap: 0.25em; */
 }
 
-.image-word-container .image-word-inputs p input {
+.image-word-container .image-word-inputs .image-word-input {
+    margin-bottom: 1.5em;
+}
+
+/* .image-word-container .image-word-inputs p input {
     width: 80%;
 }
 
 .image-word-container .image-word-inputs p {
     flex-basis: 40%;
+} */
+
+/* WRITE SENTENCES WITH GIVEN INFO */
+
+.ws-w-given-info-container .ws-w-given-info-input-columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.ws-w-given-info-input-columns .ws-w-given-info-input-column {
+    padding-bottom: 1em;
+}
+
+.ws-w-given-info-input-columns .ws-w-given-info-input-column p {
+    padding-bottom: 1em;
+    font-weight: 700;
+}
+
+.ws-w-given-info-input-columns .ws-w-given-info-input-column ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }

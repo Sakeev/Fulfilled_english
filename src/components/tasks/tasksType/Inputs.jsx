@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
@@ -11,7 +11,6 @@ const Inputs = ({
     caseDetail,
     handleCaseDetail,
     inputValuesHook,
-    answer,
     displayDataType,
 }) => {
     const [str, setStr] = useState('');
@@ -51,59 +50,76 @@ const Inputs = ({
         const newObj = {
             answers: newArr,
         };
+        console.log(newArr);
         setObj(newObj);
     };
 
-    let inputArr = str.split('__inp__').map((value, index) => {
+    const rows = str.split('\r\n');
+
+    const output = rows.map((row, outerInd) => {
+        const splittedRow = row.split('__inp__');
+
         return (
-            <React.Fragment key={index}>
-                {value}
-                {index < inputCount && (
-                    <TextField
-                        variant="filled"
-                        onChange={(e) => {
-                            e.target.style.width = e.target.value.length + 'ch';
-                            const { value } = e.target; // Получаем самое последнее значение
-                            handleInputChange(e, index);
-                            setTimeout(() => {
-                                spl({ ...inputValues, [index]: value }); // Передаем обновленное значение
-                            }, 0);
-                        }}
-                        value={inputValues[index] || ''}
-                    />
-                )}
-            </React.Fragment>
+            <div key={outerInd}>
+                {splittedRow.map((value, index) => (
+                    <Fragment key={index}>
+                        {value}
+                        {index < splittedRow.length - 1 && (
+                            <TextField
+                                variant="filled"
+                                onChange={(e) => {
+                                    e.target.style.width =
+                                        e.target.value.length + 'ch';
+                                    const { value } = e.target; // Получаем самое последнее значение
+                                    handleInputChange(e, outerInd);
+                                    setTimeout(() => {
+                                        spl({
+                                            ...inputValues,
+                                            [outerInd]: value,
+                                        }); // Передаем обновленное значение
+                                    }, 0);
+                                }}
+                                value={inputValues[outerInd] || ''}
+                            />
+                        )}
+                    </Fragment>
+                ))}
+            </div>
         );
     });
 
-    // console.log(answers);
-    // ! -------------------
-    // Show right/student answers
-    let answers = [];
+    // console.log(caseDetail);
 
-    if (displayDataType === 'student') {
-        answers = answer.answer;
-    } else if (displayDataType === 'teacher') {
-        answers = answer.right_answer;
-    }
-
-    if (answer) {
-        inputArr = str.split('__inp__').map((value, index) => {
-            return (
-                <React.Fragment key={index}>
-                    {value}
-                    {index < inputCount && (
-                        <p style={{ color: 'red' }}>{answers[index] || ''}</p>
-                    )}
-                </React.Fragment>
-            );
-        });
-    }
-    // console.log(answer);
+    // let inputArr = str.split('__inp__').map((value, index) => {
+    //     return (
+    //         <Fragment key={index}>
+    //             {value}
+    //             {index < inputCount && (
+    //                 <TextField
+    //                     variant="filled"
+    //                     onChange={(e) => {
+    //                         e.target.style.width = e.target.value.length + 'ch';
+    //                         const { value } = e.target; // Получаем самое последнее значение
+    //                         handleInputChange(e, index);
+    //                         setTimeout(() => {
+    //                             spl({ ...inputValues, [index]: value }); // Передаем обновленное значение
+    //                         }, 0);
+    //                     }}
+    //                     value={inputValues[index] || ''}
+    //                 />
+    //             )}
+    //         </Fragment>
+    //     );
+    // });
 
     return (
         <div className="inputs-container task-types-container">
-            <div>{inputArr}</div>
+            {caseDetail.audio && (
+                <div>
+                    <audio src={caseDetail.audio} controls />
+                </div>
+            )}
+            <div>{output}</div>
             {!displayDataType && (
                 <Button
                     className="hw__send-btn"

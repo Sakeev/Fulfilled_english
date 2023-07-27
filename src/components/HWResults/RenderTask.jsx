@@ -1,3 +1,4 @@
+import WriteSentencesWithGivenInfo from './resultDisplayTasks/WriteSentencesWithGivenInfo';
 import ContinueImageWord from './resultDisplayTasks/ContinueImageWord';
 import DescribeImages from './resultDisplayTasks/DescribeImages';
 import BuildSentences from './resultDisplayTasks/BuildSentences';
@@ -11,33 +12,41 @@ import Table from './resultDisplayTasks/Table';
 const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
 
-    if (task === null) return <></>;
+    if (
+        task === null ||
+        (task.right_answer === '' && displayDataType === 'teacher')
+    )
+        return <></>;
     if (!task.answers[task.answers.length - 1])
         return <h2>This task hasn't done yet</h2>;
 
     console.log(task);
 
+    let component = null;
+
     switch (task?.implemented_case) {
         case 'missing word':
-            return (
+            component = (
                 <Inputs
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
 
         case 'build sentence':
-            return (
+            component = (
                 <BuildSentences
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
 
         case 'build dialog':
-            return (
+            component = (
                 <BuildDialog
                     descr={task?.description}
                     id={id}
@@ -48,18 +57,20 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                     handleCaseDetail={handleCaseDetail}
                 />
             );
+            break;
 
         case 'connect words':
-            return (
+            component = (
                 <ConnectWords
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
 
         case 'drop down':
-            return (
+            component = (
                 <Dropdown
                     task_id={task_id}
                     handleAnswer={handleAnswer}
@@ -67,36 +78,61 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                     caseDetail={task}
                 />
             );
+            break;
 
         case 'table':
-            return (
+            component = (
                 <Table
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
 
         case 'describe image':
-            return (
+            component = (
                 <DescribeImages
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
         case 'work with images':
-            return (
+            component = (
                 <ContinueImageWord
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
             );
+            break;
+
+        case 'write sentences with given info':
+            component = (
+                <WriteSentencesWithGivenInfo
+                    task={task}
+                    answer={task.answers[task.answers.length - 1] || null}
+                    displayDataType={displayDataType}
+                />
+            );
+            break;
 
         default:
-            return <></>;
+            component = null;
     }
+
+    return (
+        <div className={`hw-results-${displayDataType}`}>
+            <div className="hw-results-task">
+                {component}
+                <p className="hw-results-accuracy">
+                    {displayDataType === 'teacher' ? 'O' : 'X'}
+                </p>
+            </div>
+        </div>
+    );
 };
 
 export default RenderTask;
