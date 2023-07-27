@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "../contexts/AuthContextProvider";
-import { Link, useNavigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { createTheme, Link, ThemeProvider } from "@mui/material";
 import sticker from "../assets/images/sidebar.svg";
 import Logo from "../assets/images/logo.png";
 
@@ -80,7 +80,7 @@ export default function Appbar() {
         align="center"
         {...props}
       >
-        {"Copyright © "}Fluently English {new Date().getFullYear()}
+        {"Copyright © "}Fluent English {new Date().getFullYear()}
         {"."}
       </Typography>
     );
@@ -89,46 +89,48 @@ export default function Appbar() {
   return (
     <Box sx={sidebarContainer}>
       <Box sx={sidebarStyle}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            mt: 5,
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/")}
-        >
-          <img
-            src={Logo}
-            alt="logo"
-            style={{ width: "40px", marginLeft: "30px", mt: 2 }}
-          />
-          <Box>
-            <Typography
-              component={"p"}
-              style={{
-                marginLeft: "20px",
-                color: "#006d77",
-                fontSize: "18px",
-                fontWeight: "500",
-              }}
-            >
-              Fluently
-            </Typography>
-            <Typography
-              component={"p"}
-              style={{
-                marginLeft: "20px",
-                color: "#006d77",
-                fontSize: "18px",
-                fontWeight: "500",
-              }}
-            >
-              English
-            </Typography>
+        <Link href="/" underline="none">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              mt: 5,
+              cursor: "pointer",
+            }}
+            // onClick={() => navigate("/")}
+          >
+            <img
+              src={Logo}
+              alt="logo"
+              style={{ width: "40px", marginLeft: "30px", mt: 2 }}
+            />
+            <Box>
+              <Typography
+                component={"p"}
+                style={{
+                  marginLeft: "20px",
+                  color: "#006d77",
+                  fontSize: "18px",
+                  fontWeight: "500",
+                }}
+              >
+                Fluent
+              </Typography>
+              <Typography
+                component={"p"}
+                style={{
+                  marginLeft: "20px",
+                  color: "#006d77",
+                  fontSize: "18px",
+                  fontWeight: "500",
+                }}
+              >
+                English
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        </Link>
         <Box
           sx={{
             padding: "20px",
@@ -152,9 +154,11 @@ export default function Appbar() {
                   Students
                 </Button>
               ) : null}
+              {/* <Link underline="none" href="/schedule"> */}
               <Button sx={btnStyle} onClick={() => navigate("/schedule")}>
                 Schedule
               </Button>
+              {/* </Link> */}
               <Button sx={btnStyle} onClick={foo}>
                 Log out
               </Button>
