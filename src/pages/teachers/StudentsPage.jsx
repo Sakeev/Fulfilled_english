@@ -1,5 +1,4 @@
 import StudentsList from '../../components/teachers/StudentsList/StudentsList';
-import Sidebar from '../../components/Sidebar';
 import React from 'react';
 
 const container = {
@@ -9,7 +8,6 @@ const container = {
 
 const StudentsListPage = () => (
     <div style={container}>
-        <Sidebar />
         <StudentsList />
     </div>
 );

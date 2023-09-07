@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import ClassWorkLayout from '../components/classwork/ClassWorkLayout';
-import Sidebar from '../components/Sidebar';
+
 import './ClassPage.css';
 
 const ClassPage = () => {
@@ -11,7 +11,6 @@ const ClassPage = () => {
                 display: 'flex',
             }}
         >
-            <Sidebar />
             <ClassWorkLayout />
         </Box>
     );

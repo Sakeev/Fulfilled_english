@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Sidebar from '../../../components/Sidebar';
 import { Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../../../contexts/TasksContextProvider';
@@ -49,7 +48,6 @@ const ShowCases = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Sidebar />
             <Box sx={mainBox}>
                 <h1 style={{ color: '#006D77' }}>Cases</h1>
                 <Box style={casesMainBox}>

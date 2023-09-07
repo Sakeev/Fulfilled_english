@@ -1,6 +1,5 @@
 import React from 'react';
 import Essay from '../components/tasks/Essay/Essay';
-import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
 
 const EssayPage = () => {
@@ -13,7 +12,6 @@ const EssayPage = () => {
                     display: 'flex',
                 }}
             >
-                <Sidebar />
                 <Essay />
             </Box>
         </div>

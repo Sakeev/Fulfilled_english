@@ -11,7 +11,6 @@ import Dropdown from './tasksType/DropDown';
 import { useEffect, useState } from 'react';
 import Images from './tasksType/Images';
 import Table from './tasksType/Table';
-import SideBar from '../Sidebar';
 import PagBar from './PagBar';
 
 import './Case1.css';
@@ -229,7 +228,6 @@ const Case1 = () => {
 
     return (
         <div className="case1-hw-page">
-            <SideBar />
             <div className="case1-task-container">
                 <div className="vocabulary-box-wrapper">
                     {vocabulary ? (

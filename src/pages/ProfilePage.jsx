@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Sidebar from '../components/Sidebar';
 import Profile from '../components/Profile';
 
 const ProfilePage = () => {
@@ -13,7 +12,6 @@ const ProfilePage = () => {
                 justifyContent: 'space-between',
             }}
         >
-            <Sidebar />
             <Profile />
         </Box>
     );

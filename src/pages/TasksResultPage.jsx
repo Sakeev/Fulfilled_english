@@ -1,6 +1,5 @@
 import { useTasks } from '../contexts/TasksContextProvider';
 import TasksResult from '../components/tasks/TasksResult';
-import Sidebar from '../components/Sidebar';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import HWResults from '../components/HWResults/HWResults';
@@ -19,8 +18,6 @@ const TasksResultPage = () => {
                 display: 'flex',
             }}
         >
-            <Sidebar />
-
             <Box sx={{ width: '100%' }}>
                 {/* <TasksResult /> */}
                 <HWResults />

@@ -22,6 +22,7 @@ import HwResults from '../pages/teachers/HwResults';
 import TeachersHwPage from '../pages/teachers/TeachersHwPage';
 import HwResultsPage from '../pages/teachers/HwResultsPage';
 import ShowCases from '../components/teachers/HWResults/ShowCases';
+import SidebarLayout from 'components/SidebarLayout';
 
 const MainRoutes = () => {
     const { checkAuth, isTeacher } = useAuth();
@@ -147,27 +148,29 @@ const MainRoutes = () => {
     return (
         <>
             <Routes>
-                {user
-                    ? PRIVATE_ROUTES.map((item) => (
-                          <Route
-                              path={item.link}
-                              element={
-                                  user ? (
-                                      item.element
-                                  ) : (
-                                      <Navigate replace to="*" />
-                                  )
-                              }
-                              key={item.id}
-                          />
-                      ))
-                    : PUBLIC_ROUTES.map((item) => (
-                          <Route
-                              path={item.link}
-                              element={item.element}
-                              key={item.id}
-                          />
-                      ))}
+                <Route path="/" element={<SidebarLayout />}>
+                    {user
+                        ? PRIVATE_ROUTES.map((item) => (
+                              <Route
+                                  path={item.link}
+                                  element={
+                                      user ? (
+                                          item.element
+                                      ) : (
+                                          <Navigate replace to="*" />
+                                      )
+                                  }
+                                  key={item.id}
+                              />
+                          ))
+                        : PUBLIC_ROUTES.map((item) => (
+                              <Route
+                                  path={item.link}
+                                  element={item.element}
+                                  key={item.id}
+                              />
+                          ))}
+                </Route>
             </Routes>
         </>
     );

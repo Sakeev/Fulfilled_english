@@ -1,5 +1,4 @@
 import TeacherEssay from '../../components/teachers/TeacherEssay/TeacherEssay';
-import Sidebar from '../../components/Sidebar';
 import { Box } from '@mui/material';
 
 const TeacherEssayPage = () => (
@@ -11,7 +10,6 @@ const TeacherEssayPage = () => (
                 display: 'flex',
             }}
         >
-            <Sidebar />
             <TeacherEssay />
         </Box>
     </div>
