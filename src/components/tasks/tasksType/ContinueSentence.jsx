@@ -35,24 +35,12 @@ const styles = {
 // const dataSecond = ['thing', 'are so strong', 'dooo', 'a girl'];
 
 const colors = [
-    'red',
-    'green',
-    'yellow',
-    'aqua',
-    'orange',
-    'gray',
-    'violet',
-    'purple',
-    '#f2476a',
-    '#fb654e',
-    '#eb2d3a',
-    '#add8e6',
+    '#ffddd2',
+    '#edf67d',
+    '#edf6f9',
+    '#E29578',
+
     '#90ee90',
-    '#2ab7ca',
-    '#6497b1',
-    '#fdf498',
-    '#ffd3b6',
-    '#a8e6cf',
     '#ffbbee',
 ];
 

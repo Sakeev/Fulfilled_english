@@ -1,8 +1,14 @@
 import { Fragment } from 'react';
 
 import './resultDisplayTasks.css';
+import { Button } from '@mui/material';
+import { useTasks } from '../../../contexts/TasksContextProvider';
 
 const Inputs = ({ task, answer, displayDataType }) => {
+    const { updateAnswer } = useTasks();
+
+    console.log(task);
+
     if (answer === null) return <h2>This task hasn't done yet</h2>;
 
     const inputCount = task.description.split('__inp__').length - 1;
@@ -35,6 +41,10 @@ const Inputs = ({ task, answer, displayDataType }) => {
     return (
         <div>
             <div>{inputArr}</div>
+            <div>
+                <Button>Correct</Button>
+                <Button>Incorrect</Button>
+            </div>
         </div>
     );
 };

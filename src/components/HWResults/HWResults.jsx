@@ -7,13 +7,13 @@ import './HWResults.css';
 
 const HWResults = () => {
     const { caseInfo, infoCase } = useTasks();
-    const { id, task_id } = useParams();
+    const { userId, task_id } = useParams();
     const [tasksQuan, setTasksQuan] = useState(0);
     const [activePage, setActivePage] = useState(1);
     const [currentTask, setCurrentTask] = useState(null);
 
     useEffect(() => {
-        infoCase(id);
+        infoCase(task_id, userId);
     }, []);
 
     useEffect(() => {
@@ -92,15 +92,15 @@ const HWResults = () => {
                 )} */}
                 <RenderTask
                     task={currentTask}
-                    id={id}
-                    task_id={task_id}
+                    id={userId}
+                    // task_id={task_id}
                     displayDataType={'student'}
                 />
                 {!checkHW() && (
                     <RenderTask
                         task={currentTask}
-                        id={id}
-                        task_id={task_id}
+                        id={userId}
+                        // task_id={task_id}
                         displayDataType={'teacher'}
                     />
                 )}

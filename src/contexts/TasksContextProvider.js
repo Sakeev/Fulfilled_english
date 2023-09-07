@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { createContext } from 'react';
 import { API } from '../helpers/consts';
+import api from '../http';
 
 export const tasksContext = createContext();
 
@@ -99,6 +100,14 @@ const TasksContextProvider = ({ children }) => {
         }
     };
 
+    const updateAnswer = async (id, fields) => {
+        try {
+            await api.patch(`${API}room/asnwers/${id}/`, fields);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleAnswer = async (obj, id) => {
         try {
             const res = await axios.post(
@@ -111,9 +120,9 @@ const TasksContextProvider = ({ children }) => {
             console.log(error);
         }
     };
-    const handleCase = async () => {
+    const handleCase = async (id) => {
         const { data } = await axios(
-            `${API}room/get_lesson/?hw=true`,
+            `${API}room/get_lesson/?hw=true${id ? '&user_id=' + id : ''}`,
             getConfig()
         );
 
@@ -144,9 +153,9 @@ const TasksContextProvider = ({ children }) => {
         });
         return data;
     };
-    const infoCase = async (id) => {
+    const infoCase = async (id, userId) => {
         const { data } = await axios(
-            `${API}room/case_tasks/${id}/`,
+            `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`,
             getConfig()
         );
         dispatch({
@@ -203,6 +212,7 @@ const TasksContextProvider = ({ children }) => {
         editProgress,
         getProgress,
         progObj: state.progObj,
+        updateAnswer,
     };
 
     return (
