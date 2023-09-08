@@ -24,7 +24,7 @@ const Case1 = () => {
         handleCaseDetail,
         progObj,
         getProgress,
-        handleCase,
+        getCases,
         cases,
         editProgress,
         taskProgress,
@@ -46,11 +46,11 @@ const Case1 = () => {
 
     useEffect(() => {
         infoCase(id);
-        handleCase();
+        getCases();
     }, []);
 
     const checkCompl = () => {
-        handleCase();
+        getCases();
         if (oneCase?.passed_quantity == oneCase?.quantity_task) {
             setDisabled(false);
         } else {

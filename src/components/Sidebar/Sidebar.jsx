@@ -27,7 +27,7 @@ export default function Sidebar({ children }) {
                     <ul className={styles.sections}>
                         {sections.map(
                             ({ title, icon, activeIcon, alt, route }) => (
-                                <NavLink to={route}>
+                                <NavLink to={route} key={route}>
                                     <li>
                                         <img src={icon} alt={alt} />
                                         <img

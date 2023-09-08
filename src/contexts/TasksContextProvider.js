@@ -120,10 +120,9 @@ const TasksContextProvider = ({ children }) => {
             console.log(error);
         }
     };
-    const handleCase = async (id) => {
-        const { data } = await axios(
-            `${API}room/get_lesson/?hw=true${id ? '&user_id=' + id : ''}`,
-            getConfig()
+    const getCases = async (id) => {
+        const { data } = await api.get(
+            `${API}room/get_lesson/?hw=true${id ? '&user_id=' + id : ''}`
         );
 
         dispatch({
@@ -192,7 +191,7 @@ const TasksContextProvider = ({ children }) => {
 
     const values = {
         handleTask,
-        handleCase,
+        getCases,
         singleCase,
         caseDetail: state.casesDetail,
         handleCaseDetail,

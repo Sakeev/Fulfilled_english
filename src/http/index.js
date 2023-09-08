@@ -1,4 +1,4 @@
-import { API } from '../helpers/consts';
+import { API } from 'helpers/consts';
 import axios from 'axios';
 
 const api = axios.create({
