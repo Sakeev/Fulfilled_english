@@ -8,17 +8,16 @@ import Vocabulary from '../classwork/tasks/Vocabulary';
 import BuildDialog from './tasksType/BuildDialog';
 import Inputs from '../tasks/tasksType/Inputs';
 import Dropdown from './tasksType/DropDown';
+import Pagination from 'components/Pagination';
 import { useEffect, useState } from 'react';
 import Images from './tasksType/Images';
 import Table from './tasksType/Table';
-import PagBar from './PagBar';
 
 import './Case1.css';
 
 const Case1 = () => {
     const { id, task_id } = useParams();
     const [compl, setCompl] = useState([]);
-    const inputValuesHook = useState({});
 
     const {
         handleCaseDetail,
@@ -106,7 +105,6 @@ const Case1 = () => {
             component = (
                 <Inputs
                     key={taskId}
-                    inputValuesHook={inputValuesHook}
                     descr={caseDetail?.description}
                     id={id}
                     task_id={task_id}
@@ -245,11 +243,7 @@ const Case1 = () => {
                 </div>
                 <div className="case1-task">
                     {component}
-                    <PagBar
-                        count={count}
-                        sx={{ alignSelf: 'center' }}
-                        inputValuesHook={inputValuesHook}
-                    />
+                    <Pagination count={count} sx={{ alignSelf: 'center' }} />
                 </div>
             </div>
         </div>

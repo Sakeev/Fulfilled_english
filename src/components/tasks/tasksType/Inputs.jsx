@@ -10,12 +10,11 @@ const Inputs = ({
     caseInfo,
     caseDetail,
     handleCaseDetail,
-    inputValuesHook,
     displayDataType,
 }) => {
     const [str, setStr] = useState('');
     const { id, task_id } = useParams();
-    const [inputValues, setInputValues] = inputValuesHook;
+    const [inputValues, setInputValues] = useState({});
 
     useEffect(() => {
         setStr(descr);
