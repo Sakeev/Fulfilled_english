@@ -7,13 +7,13 @@ import './HWResults.css';
 
 const HWResults = () => {
     const { caseInfo, infoCase } = useTasks();
-    const { userId, task_id } = useParams();
+    const { userId, taskId } = useParams();
     const [tasksQuan, setTasksQuan] = useState(0);
     const [activePage, setActivePage] = useState(1);
     const [currentTask, setCurrentTask] = useState(null);
 
     useEffect(() => {
-        infoCase(task_id, userId);
+        infoCase(taskId, userId);
     }, []);
 
     useEffect(() => {

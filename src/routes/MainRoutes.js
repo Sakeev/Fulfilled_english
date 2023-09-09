@@ -14,7 +14,7 @@ import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
 import TeacherEssayPage from '../pages/teachers/TeacherEssayPage';
 import ViewEssayPage from '../pages/teachers/ViewEssayPage';
-import Case1 from '../components/tasks/Case1';
+import Case from '../components/tasks/Case';
 import Progress from '../components/tasks/Progress';
 import NotesPage from '../pages/NotesPage';
 import HomeWork from '../pages/teachers/HomeWork';
@@ -89,8 +89,8 @@ const MainRoutes = () => {
             id: 8,
         },
         {
-            link: '/task/case/:id/task/:task_id',
-            element: <Case1 />,
+            link: '/task/case/:caseId/task/:taskId',
+            element: <Case />,
             id: 9,
         },
         // {

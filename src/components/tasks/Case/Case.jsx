@@ -1,102 +1,41 @@
-import WriteSentencesWithGivenInfo from './tasksType/WriteSentencesWithGivenInfo';
-import BuildSentences from './tasksType/BuildSentences/BuildSentences';
-import ContinueImageWord from '../tasks/tasksType/ContinueImageWord';
-import { useTasks } from '../../contexts/TasksContextProvider';
-import ContinueSentence from './tasksType/ContinueSentence';
-import { useNavigate, useParams } from 'react-router-dom';
-import Vocabulary from '../classwork/tasks/Vocabulary';
-import BuildDialog from './tasksType/BuildDialog';
-import Inputs from '../tasks/tasksType/Inputs';
-import Dropdown from './tasksType/DropDown';
+import WriteSentencesWithGivenInfo from '../tasksType/WriteSentencesWithGivenInfo';
+import BuildSentences from '../tasksType/BuildSentences/BuildSentences';
+import ContinueImageWord from '../tasksType/ContinueImageWord';
+import { useTasks } from 'contexts/TasksContextProvider';
+import Vocabulary from 'components/classwork/tasks/Vocabulary';
+import ContinueSentence from '../tasksType/ContinueSentence';
+import { useParams } from 'react-router-dom';
+import BuildDialog from '../tasksType/BuildDialog';
+import Inputs from '../tasksType/Inputs';
+import Dropdown from '../tasksType/DropDown';
 import Pagination from 'components/Pagination';
-import { useEffect, useState } from 'react';
-import Images from './tasksType/Images';
-import Table from './tasksType/Table';
+import { useEffect } from 'react';
+import Images from '../tasksType/Images';
+import Table from '../tasksType/Table';
+import { getVocabulary } from './utils';
 
-import './Case1.css';
+import './Case.css';
 
-const Case1 = () => {
-    const { id, task_id } = useParams();
-    const [compl, setCompl] = useState([]);
+const Case = () => {
+    const { caseId, taskId } = useParams();
 
     const {
-        handleCaseDetail,
-        progObj,
-        getProgress,
+        getTaskDetails,
         getCases,
         cases,
-        editProgress,
-        taskProgress,
-        countTasksProgress,
         caseDetail,
-        singleCase,
-        oneCase,
         handleAnswer,
-        infoCase,
+        getCaseInfo,
         caseInfo,
     } = useTasks();
 
-    const [count, setCount] = useState(0);
-    const { tasks } = caseDetail;
-    const [disabled, setDisabled] = useState(true);
-    const navigate = useNavigate();
-    const taskId = caseInfo.tasks?.[task_id - 1].id;
-    const [showVocab, setShowVocab] = useState(false);
+    const vocabulary = getVocabulary(cases);
 
     useEffect(() => {
-        infoCase(id);
         getCases();
+        getCaseInfo(caseId);
+        getTaskDetails(caseId, taskId);
     }, []);
-
-    const checkCompl = () => {
-        getCases();
-        if (oneCase?.passed_quantity == oneCase?.quantity_task) {
-            setDisabled(false);
-        } else {
-            setDisabled(true);
-        }
-    };
-
-    useEffect(() => {
-        handleCaseDetail(id, task_id);
-    }, [id, task_id]);
-
-    useEffect(() => {
-        singleCase(id);
-        setCount(oneCase?.quantity_task);
-    }, [oneCase?.quantity_task]);
-
-    const [answer, setAnswer] = useState('');
-
-    const answerObj = {
-        answers: answer,
-    };
-
-    const checkRes = (newElement) => {
-        const newCompl = [...compl, newElement];
-        setCompl(newCompl);
-    };
-
-    const getVocabulary = () => {
-        if (cases.length === 0) return null;
-
-        let vocabulary;
-
-        cases[0]?.case_tasks.forEach((caseTask) => {
-            if (caseTask.title === 'vocabulary') vocabulary = caseTask;
-        });
-
-        return vocabulary || null;
-    };
-
-    useEffect(() => {
-        singleCase(id);
-        if (oneCase?.passed_quantity === oneCase?.quantity_task) {
-            setDisabled(false);
-        } else {
-            setDisabled(true);
-        }
-    }, [oneCase?.passed_quantity]);
 
     let component = null;
 
@@ -106,12 +45,9 @@ const Case1 = () => {
                 <Inputs
                     key={taskId}
                     descr={caseDetail?.description}
-                    id={id}
-                    task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
-                    handleCaseDetail={handleCaseDetail}
                 />
             );
             break;
@@ -120,12 +56,12 @@ const Case1 = () => {
                 <BuildSentences
                     key={taskId}
                     descr={caseDetail?.description}
-                    id={id}
-                    task_id={task_id}
+                    id={caseId}
+                    task_id={taskId}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
-                    handleCaseDetail={handleCaseDetail}
+                    handleCaseDetail={getTaskDetails}
                 />
             );
 
@@ -135,12 +71,12 @@ const Case1 = () => {
                 <BuildDialog
                     key={taskId}
                     descr={caseDetail?.description}
-                    id={id}
-                    task_id={task_id}
+                    id={caseId}
+                    task_id={taskId}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
-                    handleCaseDetail={handleCaseDetail}
+                    handleCaseDetail={getTaskDetails}
                 />
             );
 
@@ -150,12 +86,12 @@ const Case1 = () => {
                 <ContinueSentence
                     key={taskId}
                     descr={caseDetail?.description}
-                    id={id}
-                    task_id={task_id}
+                    id={caseId}
+                    task_id={taskId}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
-                    handleCaseDetail={handleCaseDetail}
+                    handleCaseDetail={getTaskDetails}
                 />
             );
 
@@ -164,7 +100,6 @@ const Case1 = () => {
             component = (
                 <Dropdown
                     key={taskId}
-                    task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
@@ -175,7 +110,6 @@ const Case1 = () => {
             component = (
                 <Table
                     key={taskId}
-                    task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
                     caseDetail={caseDetail}
@@ -220,15 +154,11 @@ const Case1 = () => {
             break;
     }
 
-    console.log(caseDetail);
-
-    const vocabulary = getVocabulary();
-
     return (
         <div className="case1-hw-page">
             <div className="case1-task-container">
                 <div className="vocabulary-box-wrapper">
-                    {vocabulary ? (
+                    {/* {vocabulary ? (
                         <div>
                             <Vocabulary
                                 showVocab={showVocab}
@@ -236,18 +166,18 @@ const Case1 = () => {
                                 vocabTasks={[vocabulary]}
                             />
                         </div>
-                    ) : null}
+                    ) : null} */}
                 </div>
                 <div className="case1-task-condition">
                     {caseDetail?.condition}
                 </div>
                 <div className="case1-task">
                     {component}
-                    <Pagination count={count} sx={{ alignSelf: 'center' }} />
+                    <Pagination count={caseInfo.quantity_task} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default Case1;
+export default Case;

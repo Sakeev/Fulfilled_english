@@ -131,11 +131,11 @@ const TasksContextProvider = ({ children }) => {
         });
     };
 
-    const handleCaseDetail = async (id, task_id) => {
-        const { data } = await axios(
-            `${API}room/case_tasks/${id}/?task=${task_id}`,
-            getConfig()
+    const getTaskDetails = async (caseId, taskId) => {
+        const { data } = await api.get(
+            `${API}room/case_tasks/${caseId}/?task=${taskId}`
         );
+
         dispatch({
             type: 'CASE_DETAIL',
             payload: data,
@@ -152,7 +152,7 @@ const TasksContextProvider = ({ children }) => {
         });
         return data;
     };
-    const infoCase = async (id, userId) => {
+    const getCaseInfo = async (id, userId) => {
         const { data } = await axios(
             `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`,
             getConfig()
@@ -194,7 +194,7 @@ const TasksContextProvider = ({ children }) => {
         getCases,
         singleCase,
         caseDetail: state.casesDetail,
-        handleCaseDetail,
+        getTaskDetails,
         cases: state.cases,
         tasks: state.tasks,
         sent: state.sent,
@@ -206,7 +206,7 @@ const TasksContextProvider = ({ children }) => {
         answers: state.answers,
         oneCase: state.singleCase,
         caseInfo: state.caseInfo,
-        infoCase,
+        getCaseInfo,
         taskProgress: state.taskProgress,
         editProgress,
         getProgress,

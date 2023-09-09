@@ -9,20 +9,15 @@ const Inputs = ({
     handleAnswer,
     caseInfo,
     caseDetail,
-    handleCaseDetail,
     displayDataType,
 }) => {
     const [str, setStr] = useState('');
-    const { id, task_id } = useParams();
+    const { caseId, taskId } = useParams();
     const [inputValues, setInputValues] = useState({});
 
     useEffect(() => {
         setStr(descr);
     }, []);
-
-    useEffect(() => {
-        handleCaseDetail(id, task_id);
-    }, [id, task_id]);
 
     useEffect(() => {
         if (caseDetail) {
@@ -123,7 +118,7 @@ const Inputs = ({
                 <Button
                     className="hw__send-btn"
                     onClick={() => {
-                        handleAnswer(obj, caseInfo.tasks?.[task_id - 1].id);
+                        handleAnswer(obj, caseInfo.tasks?.[taskId - 1].id);
                     }}
                 >
                     send
