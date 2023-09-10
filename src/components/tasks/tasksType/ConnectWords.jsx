@@ -44,22 +44,13 @@ const colors = [
     '#ffbbee',
 ];
 
-const ContinueSentence = ({
-    taskBox,
-    handleAnswer,
-    caseInfo,
-    task_id,
-    id,
-    caseDetail,
-    handleCaseDetail,
-}) => {
+const ConnectWords = ({ handleAnswer, caseInfo, taskId, caseDetail }) => {
     const [wordsPairs, setWordsPairs] = useState([]);
 
     const [firstDesc, setFirstDesc] = useState(null);
     const [secondDesc, setSecondDesc] = useState(null);
 
     useEffect(() => {
-        handleCaseDetail(id, task_id);
         setFirstDesc(caseDetail?.description1);
         setSecondDesc(caseDetail?.description2);
     }, []);
@@ -67,7 +58,7 @@ const ContinueSentence = ({
     useEffect(() => {
         setFirstDesc(caseDetail?.description1);
         setSecondDesc(caseDetail?.description2);
-    }, [task_id]);
+    }, [taskId]);
 
     useEffect(() => {
         if (caseDetail) {
@@ -208,7 +199,9 @@ const ContinueSentence = ({
                         }
                     }
 
-                    handleAnswer(formObj(), caseInfo.tasks?.[task_id - 1].id);
+                    console.log(caseInfo, taskId);
+
+                    handleAnswer(formObj(), caseInfo.tasks?.[taskId - 1].id);
                 }}
             >
                 send
@@ -217,4 +210,4 @@ const ContinueSentence = ({
     );
 };
 
-export default ContinueSentence;
+export default ConnectWords;

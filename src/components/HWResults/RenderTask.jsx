@@ -5,7 +5,7 @@ import BuildSentences from './resultDisplayTasks/BuildSentences';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
 import BuildDialog from '../tasks/tasksType/BuildDialog';
-import Dropdown from '../tasks/tasksType/DropDown';
+import Dropdown from '../tasks/tasksType/Dropdown';
 import Inputs from './resultDisplayTasks/Inputs';
 import Table from './resultDisplayTasks/Table';
 

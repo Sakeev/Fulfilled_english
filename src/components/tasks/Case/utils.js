@@ -1,3 +1,7 @@
+import { useParams } from 'react-router-dom';
+import { useTasks } from 'contexts/TasksContextProvider';
+import * as tasksType from '../tasksType';
+
 export const getVocabulary = (cases) => {
     if (cases.length) return null;
 
@@ -8,4 +12,34 @@ export const getVocabulary = (cases) => {
     });
 
     return vocabulary || null;
+};
+
+export const useTaskComponent = () => {
+    const { taskId } = useParams();
+    const { caseDetail, handleAnswer, caseInfo } = useTasks();
+
+    const props = {
+        key: taskId,
+        taskId: taskId,
+        descr: caseDetail?.description,
+        handleAnswer: handleAnswer,
+        caseInfo: caseInfo,
+        caseDetail: caseDetail,
+    };
+
+    const taskComponents = {
+        'missing word': <tasksType.Inputs {...props} />,
+        'build sentence': <tasksType.BuildSentences {...props} />,
+        'build dialog': <tasksType.BuildDialog {...props} />,
+        'connect words': <tasksType.ConnectWords {...props} />,
+        'drop down': <tasksType.Dropdown {...props} />,
+        table: <tasksType.Table {...props} />,
+        'describe image': <tasksType.Images {...props} />,
+        'work with images': <tasksType.ContinueImageWord {...props} />,
+        'write sentences with given info': (
+            <tasksType.WriteSentencesWithGivenInfo {...props} />
+        ),
+    };
+
+    return taskComponents[caseDetail?.implemented_case];
 };

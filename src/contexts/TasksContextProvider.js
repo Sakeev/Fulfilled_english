@@ -110,6 +110,7 @@ const TasksContextProvider = ({ children }) => {
 
     const handleAnswer = async (obj, id) => {
         try {
+            console.log(id);
             const res = await axios.post(
                 `${API}room/tasks/${id}/answer/`,
                 obj,

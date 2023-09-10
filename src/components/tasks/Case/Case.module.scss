@@ -1,0 +1,47 @@
+@import 'assets/styles/variables.scss';
+
+.case {
+    width: 100%;
+    height: 100%;
+    padding: 5em 0 2em;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        width: 90%;
+        margin: auto;
+
+        .text {
+            margin-bottom: 1em;
+
+            h2 {
+                font-size: 1.5rem;
+                font-weight: 400;
+                color: $secondary-color;
+                margin-bottom: 1.5em;
+
+                span {
+                    color: $primary-color;
+                }
+            }
+
+            p {
+                font-size: 1.125rem;
+            }
+        }
+
+        .task {
+            height: 60vh;
+            margin-bottom: 1.5em;
+            overflow-y: auto;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    }
+}

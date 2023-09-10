@@ -1,6 +1,9 @@
 @import 'assets/styles/variables.scss';
 
 .cases {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
     margin-top: 2em;
 
     .case {
