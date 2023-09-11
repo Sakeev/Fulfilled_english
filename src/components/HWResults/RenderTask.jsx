@@ -10,7 +10,7 @@ import Inputs from './resultDisplayTasks/Inputs';
 import Table from './resultDisplayTasks/Table';
 
 const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
-    const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
+    const { getTaskDetails, handleAnswer, caseInfo } = useTasks();
 
     if (
         task === null ||
@@ -53,8 +53,8 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    taskDetails={task}
+                    getTaskDetails={getTaskDetails}
                 />
             );
             break;
@@ -75,7 +75,7 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
+                    taskDetails={task}
                 />
             );
             break;

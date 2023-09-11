@@ -9,7 +9,7 @@ import Inputs from '../tasks/tasksType/Inputs';
 import Table from '../tasks/tasksType/Table';
 
 export const useRenderTask = (task, id, task_id, displayDataType = null) => {
-    const { handleCaseDetail, handleAnswer, caseInfo } = useTasks();
+    const { getTaskDetails, handleAnswer, caseInfo } = useTasks();
     const inputValuesHook = useState({});
 
     if (task === null) return <></>;
@@ -26,8 +26,8 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    taskDetails={task}
+                    getTaskDetails={getTaskDetails}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
                 />
@@ -41,8 +41,8 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    taskDetails={task}
+                    getTaskDetails={getTaskDetails}
                 />
             );
 
@@ -54,8 +54,8 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    taskDetails={task}
+                    getTaskDetails={getTaskDetails}
                 />
             );
 
@@ -67,8 +67,8 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
-                    handleCaseDetail={handleCaseDetail}
+                    taskDetails={task}
+                    getTaskDetails={getTaskDetails}
                 />
             );
 
@@ -78,7 +78,7 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
+                    taskDetails={task}
                 />
             );
 
@@ -88,7 +88,7 @@ export const useRenderTask = (task, id, task_id, displayDataType = null) => {
                     task_id={task_id}
                     handleAnswer={handleAnswer}
                     caseInfo={caseInfo}
-                    caseDetail={task}
+                    taskDetails={task}
                 />
             );
 

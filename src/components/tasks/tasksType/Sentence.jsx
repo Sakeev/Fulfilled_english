@@ -26,10 +26,10 @@ const styles = {
 
 const Sentence = ({
     taskBox,
-    handleCaseDetail,
+    getTaskDetails,
     id,
     task_id,
-    caseDetail,
+    taskDetails,
     descr,
     handleAnswer,
     caseInfo,
@@ -38,19 +38,19 @@ const Sentence = ({
     const navigate = useNavigate();
     const [words, setWords] = useState([]);
     useEffect(() => {
-        handleCaseDetail(id, task_id);
-        // setWords([caseDetail?.description.split(" ")])
+        getTaskDetails(id, task_id);
+        // setWords([taskDetails?.description.split(" ")])
     }, []);
 
     useEffect(() => {
-        setWords([caseDetail?.description.split(' ')]);
+        setWords([taskDetails?.description.split(' ')]);
     }, [task_id]);
 
     useEffect(() => {
-        if (caseDetail) {
-            setWords([caseDetail?.description.split(' ')]);
+        if (taskDetails) {
+            setWords([taskDetails?.description.split(' ')]);
         }
-    }, [caseDetail]);
+    }, [taskDetails]);
 
     const checkFields = () => {
         let res = [];

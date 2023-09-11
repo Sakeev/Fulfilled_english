@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import { renderInputs } from './utils';
 
-const Images = ({ caseDetail, handleAnswer, taskId }) => {
+const Images = ({ taskDetails, handleAnswer, taskId }) => {
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -14,7 +14,7 @@ const Images = ({ caseDetail, handleAnswer, taskId }) => {
 
     const formRequest = () => {
         const keys = Object.keys(results);
-        const answerTemplate = caseDetail.images.map((image) =>
+        const answerTemplate = taskDetails.images.map((image) =>
             image.sentence === '__inp__' ? '' : image.sentence
         );
         const examplesCount = answerTemplate.filter(
@@ -30,12 +30,10 @@ const Images = ({ caseDetail, handleAnswer, taskId }) => {
         return { answers: answerTemplate };
     };
 
-    console.log(results);
-
     return (
         <div className="images-container task-types-container">
             <div className="images-image-box-wrapper">
-                {caseDetail.images.map(({ image, sentence }) => {
+                {taskDetails.images.map(({ image, sentence }) => {
                     return (
                         <div className="images-image-box" key={image}>
                             <img src={`${API}${image}`} alt="exercise" />

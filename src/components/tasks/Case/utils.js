@@ -16,15 +16,15 @@ export const getVocabulary = (cases) => {
 
 export const useTaskComponent = () => {
     const { taskId } = useParams();
-    const { caseDetail, handleAnswer, caseInfo } = useTasks();
+    const { taskDetails, handleAnswer, caseInfo } = useTasks();
 
     const props = {
         key: taskId,
         taskId: taskId,
-        descr: caseDetail?.description,
+        descr: taskDetails?.description,
         handleAnswer: handleAnswer,
         caseInfo: caseInfo,
-        caseDetail: caseDetail,
+        taskDetails: taskDetails,
     };
 
     const taskComponents = {
@@ -41,5 +41,5 @@ export const useTaskComponent = () => {
         ),
     };
 
-    return taskComponents[caseDetail?.implemented_case];
+    return taskComponents[taskDetails?.implemented_case];
 };

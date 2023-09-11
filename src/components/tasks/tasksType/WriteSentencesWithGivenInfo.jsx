@@ -3,11 +3,11 @@ import { renderInputs } from './utils';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 
-const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
+const WriteSentencesWithGivenInfo = ({ taskDetails, handleAnswer, taskId }) => {
     const formAnswerTemplate = () => {
         const answerTemplate = {};
 
-        for (let [key, value] of Object.entries(caseDetail.description)) {
+        for (let [key, value] of Object.entries(taskDetails.description)) {
             answerTemplate[key] = value.map((sentence) =>
                 sentence.includes('__inp__') ? '' : sentence
             );
@@ -17,7 +17,7 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
     };
 
     const [results, setResults] = useState(formAnswerTemplate());
-    const titles = Object.keys(caseDetail.description);
+    const titles = Object.keys(taskDetails.description);
 
     const handleInput = (event, title, innerInd) => {
         setResults((results) => {
@@ -44,7 +44,7 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
     return (
         <div className="ws-w-given-info-container task-types-container">
             <div className="ws-w-given-info-image-box-wrapper">
-                {caseDetail.images.map(
+                {taskDetails.images.map(
                     ({ image, sentence, additional_info }, index) => {
                         return (
                             <div
@@ -71,11 +71,11 @@ const WriteSentencesWithGivenInfo = ({ caseDetail, handleAnswer, taskId }) => {
                 )}
             </div>
             <div className="ws-w-given-info-input-columns">
-                {Object.keys(caseDetail.description).map((key, index) => (
+                {Object.keys(taskDetails.description).map((key, index) => (
                     <div className="ws-w-given-info-input-column" key={index}>
                         <p>{key}</p>
                         <ol>
-                            {Object.values(caseDetail.description)[index].map(
+                            {Object.values(taskDetails.description)[index].map(
                                 (value, innerInd) => (
                                     <li key={innerInd}>
                                         {value.split('|').map((row) => {

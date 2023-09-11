@@ -3,8 +3,8 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import { count, renderInputs } from './utils';
 
-const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
-    const splittedDescription = caseDetail.description.split('\r\n');
+const ContinueImageWord = ({ taskDetails, handleAnswer, taskId }) => {
+    const splittedDescription = taskDetails.description.split('\r\n');
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -17,7 +17,7 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
         const keys = Object.keys(results);
         const answerTemplate = Array.apply(
             null,
-            Array(count(caseDetail.description, '__inp__'))
+            Array(count(taskDetails.description, '__inp__'))
         ).map(() => 'No answer');
 
         for (let key of keys) {
@@ -31,7 +31,7 @@ const ContinueImageWord = ({ caseDetail, handleAnswer, taskId }) => {
     return (
         <div className="image-word-container task-types-container">
             <div className="image-word-image-box-wrapper">
-                {caseDetail.images.map(({ image, sentence }, index) => {
+                {taskDetails.images.map(({ image, sentence }, index) => {
                     return (
                         <div className="image-word-image-box" key={image}>
                             <img src={`${API}${image}`} alt="exercise" />

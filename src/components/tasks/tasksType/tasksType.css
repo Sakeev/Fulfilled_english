@@ -9,7 +9,7 @@
 }
 
 /* INPUTS COMPONENT */
-.inputs-container {
+/* .inputs-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,7 +46,7 @@
 .inputs-container button {
     align-self: flex-end;
     margin-top: 3em;
-}
+} */
 
 /* SENTENCE COMPONENT */
 .sentence-container {

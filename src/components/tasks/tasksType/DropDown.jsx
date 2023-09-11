@@ -12,8 +12,8 @@ const createInitAnswer = (dropdowns) => {
 };
 
 const Dropdown = ({
-    caseDetail,
-    caseDetail: { description, dropdowns },
+    taskDetails,
+    taskDetails: { description, dropdowns },
     handleAnswer,
     task_id,
     caseInfo,

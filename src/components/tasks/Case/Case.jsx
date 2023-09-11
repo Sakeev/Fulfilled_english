@@ -17,7 +17,7 @@ const Case = () => {
         getTaskDetails,
         getCases,
         cases,
-        caseDetail,
+        taskDetails,
         getCaseInfo,
         caseInfo,
     } = useTasks();
@@ -30,17 +30,15 @@ const Case = () => {
         getTaskDetails(caseId, 1);
     }, []);
 
-    console.log(caseDetail);
-
     return (
         <div className={styles.case}>
             <div className={styles.content}>
                 <div className={styles.text}>
                     <h2>
                         Homework - {capitalize(caseInfo?.title)} -{' '}
-                        <span>{capitalize(caseDetail?.implemented_case)}</span>
+                        <span>{capitalize(taskDetails?.implemented_case)}</span>
                     </h2>
-                    <p>{caseDetail?.condition}</p>
+                    <p>{taskDetails?.condition}</p>
                 </div>
                 {vocabulary ? (
                     <div>

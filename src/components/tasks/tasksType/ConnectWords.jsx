@@ -44,28 +44,28 @@ const colors = [
     '#ffbbee',
 ];
 
-const ConnectWords = ({ handleAnswer, caseInfo, taskId, caseDetail }) => {
+const ConnectWords = ({ handleAnswer, caseInfo, taskId, taskDetails }) => {
     const [wordsPairs, setWordsPairs] = useState([]);
 
     const [firstDesc, setFirstDesc] = useState(null);
     const [secondDesc, setSecondDesc] = useState(null);
 
     useEffect(() => {
-        setFirstDesc(caseDetail?.description1);
-        setSecondDesc(caseDetail?.description2);
+        setFirstDesc(taskDetails?.description1);
+        setSecondDesc(taskDetails?.description2);
     }, []);
 
     useEffect(() => {
-        setFirstDesc(caseDetail?.description1);
-        setSecondDesc(caseDetail?.description2);
+        setFirstDesc(taskDetails?.description1);
+        setSecondDesc(taskDetails?.description2);
     }, [taskId]);
 
     useEffect(() => {
-        if (caseDetail) {
-            setFirstDesc(caseDetail?.description1);
-            setSecondDesc(caseDetail?.description2);
+        if (taskDetails) {
+            setFirstDesc(taskDetails?.description1);
+            setSecondDesc(taskDetails?.description2);
         }
-    }, [caseDetail]);
+    }, [taskDetails]);
 
     const isWordInArr = (index) => {
         if (wordsPairs.length === 0) return false;

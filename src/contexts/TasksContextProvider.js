@@ -18,7 +18,7 @@ const INIT_STATE = {
     sent: [],
     answers: [],
     cases: [],
-    casesDetail: {},
+    taskDetails: {},
     singleCase: [],
     caseInfo: {},
     taskProgress: [],
@@ -41,7 +41,7 @@ const reducer = (state = INIT_STATE, action) => {
         case 'CASE':
             return { ...state, cases: action.payload };
         case 'CASE_DETAIL':
-            return { ...state, casesDetail: action.payload };
+            return { ...state, taskDetails: action.payload };
         case 'CASE_INFO':
             return { ...state, caseInfo: action.payload };
         case 'SINGLE_CASE':
@@ -194,7 +194,7 @@ const TasksContextProvider = ({ children }) => {
         handleTask,
         getCases,
         singleCase,
-        caseDetail: state.casesDetail,
+        taskDetails: state.taskDetails,
         getTaskDetails,
         cases: state.cases,
         tasks: state.tasks,

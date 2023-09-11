@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 import './tasksType.css';
 
-const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
+const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
     const [inps, setInps] = useState({});
     const [tableProps, setTableProps] = useState({
-        rows: caseDetail?.description.split('\r\n')[0].split('x')[1],
-        cells: caseDetail?.description.split('\r\n')[0].split('x')[0],
+        rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
+        cells: taskDetails?.description.split('\r\n')[0].split('x')[0],
     });
 
     const fillData = (data) => {
@@ -32,11 +32,11 @@ const Table = ({ caseDetail, handleAnswer, task_id, caseInfo }) => {
     };
 
     const [table, setTable] = useState({
-        data: fillData(caseDetail.description.split('\r\n').slice(1)),
+        data: fillData(taskDetails.description.split('\r\n').slice(1)),
     });
 
     const onSend = () => {
-        const splittedDescr = caseDetail.description.split('\r\n');
+        const splittedDescr = taskDetails.description.split('\r\n');
 
         const [cols, rows] = splittedDescr[0].split('x').map((size) => +size);
         const colHeadings = splittedDescr[1].split(' ');

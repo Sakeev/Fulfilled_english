@@ -3,17 +3,17 @@ import BuildSentence from './BuildSentence';
 import { useEffect, useState } from 'react';
 
 const BuildSentences = ({
-    handleCaseDetail,
+    getTaskDetails,
     id,
     task_id,
-    caseDetail,
+    taskDetails,
     handleAnswer,
     caseInfo,
 }) => {
     const [results, setResults] = useState({});
 
     useEffect(() => {
-        handleCaseDetail(id, task_id);
+        getTaskDetails(id, task_id);
     }, []);
 
     const formResults = () => {
@@ -22,7 +22,7 @@ const BuildSentences = ({
 
     return (
         <div className="build-sentences-container">
-            {caseDetail?.description.map((sentence, index) => {
+            {taskDetails?.description.map((sentence, index) => {
                 return (
                     <BuildSentence
                         key={index}

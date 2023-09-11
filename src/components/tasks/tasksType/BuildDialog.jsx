@@ -18,12 +18,12 @@ const styles = {
     },
 };
 
-const BuildDialog = ({ task_id, caseDetail, handleAnswer, caseInfo }) => {
+const BuildDialog = ({ task_id, taskDetails, handleAnswer, caseInfo }) => {
     const [sentences, setSentences] = useState([]);
     const [answer, setAnswer] = useState([]);
 
     useEffect(() => {
-        setSentences(caseDetail?.description.trim().split('|'));
+        setSentences(taskDetails?.description.trim().split('|'));
     }, []);
 
     const handleSentence = (ind) => {

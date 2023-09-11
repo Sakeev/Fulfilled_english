@@ -5,7 +5,7 @@ import BuildSentences from './BuildSentences';
 import BuildDialog from './BuildDialog';
 import Dropdown from './Dropdown';
 import Images from './Images';
-import Inputs from './Inputs';
+import Inputs from './Inputs/Inputs';
 import Table from './Table';
 
 export {
