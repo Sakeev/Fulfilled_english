@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { Button } from 'components/ui';
 import { formAnswer } from './utils';
 
 import styles from './Inputs.module.scss';
@@ -19,49 +20,68 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
         setInputValues(newInputValues);
     };
 
-    const rows = description.split('\r\n');
+    const listItems = description.split('\\li');
 
-    console.log(taskDetails);
+    console.log(inputValues);
 
-    const output = rows.map((row, outerInd) => {
-        const splittedRow = row.split('__inp__');
+    const output = listItems.map((listItem, outerInd) => {
+        const splittedRows = listItem
+            .split('\r\n')
+            .filter((splittedRow) => splittedRow.length > 0);
 
         return (
             <li className={styles.input} key={outerInd}>
-                {splittedRow.map((value, index) => (
-                    <>
-                        <span>{value}</span>
-                        {index < splittedRow.length - 1 && (
-                            <input
-                                onChange={(event) => {
-                                    handleInputChange(event, outerInd);
-                                }}
-                                value={inputValues[outerInd] || ''}
-                            />
-                        )}
-                    </>
-                ))}
+                {splittedRows.map((rows, index) => {
+                    const splittedRow = rows.split('__inp__');
+
+                    return (
+                        <div className={styles.row} key={index}>
+                            {splittedRow.map((value, innerInd) => {
+                                return (
+                                    <Fragment key={innerInd}>
+                                        <span>{value}</span>
+                                        {innerInd < splittedRow.length - 1 && (
+                                            <input
+                                                onChange={(event) => {
+                                                    handleInputChange(
+                                                        event,
+                                                        outerInd * 10 + index
+                                                    );
+                                                }}
+                                                value={
+                                                    inputValues[
+                                                        outerInd * 10 + index
+                                                    ] || ''
+                                                }
+                                            />
+                                        )}
+                                    </Fragment>
+                                );
+                            })}
+                        </div>
+                    );
+                })}
             </li>
         );
     });
 
     return (
-        <div className={styles.inputs}>
+        <div className={styles.inputsContainer}>
             {taskDetails.audio && (
                 <div className={styles.audio}>
                     <audio src={taskDetails.audio} controls />
                 </div>
             )}
-            <ul>{output}</ul>
+            <ol className={styles.inputs}>{output}</ol>
             {!displayDataType && (
-                <button
+                <Button
                     disabled={!taskDetails.id}
                     onClick={() => {
                         handleAnswer(formAnswer(inputValues), taskDetails.id);
                     }}
                 >
-                    send
-                </button>
+                    Submit
+                </Button>
             )}
         </div>
     );

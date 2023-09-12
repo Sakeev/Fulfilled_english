@@ -3,7 +3,7 @@ import { useTasks } from 'contexts/TasksContextProvider';
 import * as tasksType from '../tasksType';
 
 export const getVocabulary = (cases) => {
-    if (cases.length) return null;
+    if (!cases.length) return null;
 
     let vocabulary;
 

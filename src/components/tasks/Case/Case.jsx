@@ -24,6 +24,15 @@ const Case = () => {
 
     const vocabulary = getVocabulary(cases);
 
+    const renderCondition = (condition) => {
+        if (condition) {
+            return condition
+                .split('\r\n')
+                .map((row) => (row.length ? <p>{row}</p> : <br />));
+        }
+        return null;
+    };
+
     useEffect(() => {
         getCases();
         getCaseInfo(caseId);
@@ -38,9 +47,9 @@ const Case = () => {
                         Homework - {capitalize(caseInfo?.title)} -{' '}
                         <span>{capitalize(taskDetails?.implemented_case)}</span>
                     </h2>
-                    <p>{taskDetails?.condition}</p>
+                    <p>{renderCondition(taskDetails?.condition)}</p>
                 </div>
-                {vocabulary ? (
+                {/* {vocabulary ? (
                     <div>
                         <Vocabulary
                             showVocab={showVocab}
@@ -48,7 +57,7 @@ const Case = () => {
                             vocabTasks={[vocabulary]}
                         />
                     </div>
-                ) : null}
+                ) : null} */}
                 <div className={styles.task}>{taskComponent}</div>
                 <div className={styles.pagination}>
                     <Pagination count={caseInfo.quantity_task} />

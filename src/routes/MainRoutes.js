@@ -148,28 +148,29 @@ const MainRoutes = () => {
     return (
         <>
             <Routes>
+                {!user &&
+                    PUBLIC_ROUTES.map((item) => (
+                        <Route
+                            path={item.link}
+                            element={item.element}
+                            key={item.id}
+                        />
+                    ))}
                 <Route path="/" element={<SidebarLayout />}>
-                    {user
-                        ? PRIVATE_ROUTES.map((item) => (
-                              <Route
-                                  path={item.link}
-                                  element={
-                                      user ? (
-                                          item.element
-                                      ) : (
-                                          <Navigate replace to="*" />
-                                      )
-                                  }
-                                  key={item.id}
-                              />
-                          ))
-                        : PUBLIC_ROUTES.map((item) => (
-                              <Route
-                                  path={item.link}
-                                  element={item.element}
-                                  key={item.id}
-                              />
-                          ))}
+                    {user &&
+                        PRIVATE_ROUTES.map((item) => (
+                            <Route
+                                path={item.link}
+                                element={
+                                    user ? (
+                                        item.element
+                                    ) : (
+                                        <Navigate replace to="*" />
+                                    )
+                                }
+                                key={item.id}
+                            />
+                        ))}
                 </Route>
             </Routes>
         </>

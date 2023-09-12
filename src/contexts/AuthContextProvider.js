@@ -161,6 +161,7 @@ const AuthContextProvider = ({ children }) => {
         dispatch({ type: 'SET_IS_TEACHER', payload: false });
 
         setUser('');
+        navigate('/');
     }
 
     async function getRoomOrRooms() {
