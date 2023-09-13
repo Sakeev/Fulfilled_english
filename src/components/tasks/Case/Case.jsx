@@ -47,7 +47,7 @@ const Case = () => {
                         Homework - {capitalize(caseInfo?.title)} -{' '}
                         <span>{capitalize(taskDetails?.implemented_case)}</span>
                     </h2>
-                    <p>{renderCondition(taskDetails?.condition)}</p>
+                    {renderCondition(taskDetails?.condition)}
                 </div>
                 {/* {vocabulary ? (
                     <div>

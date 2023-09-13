@@ -8,46 +8,6 @@
     border-radius: 10px;
 }
 
-/* INPUTS COMPONENT */
-/* .inputs-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.inputs-container div {
-    font-size: 1.5rem;
-}
-
-.inputs-container div input {
-    font-family: 'Overpass';
-    font-size: 1.5rem;
-    min-width: 2.5em;
-    width: 2.5rem;
-    border: none;
-    outline: none;
-    text-align: center;
-    background-color: transparent;
-    padding: 0;
-}
-
-.inputs-container .MuiInputBase-root {
-    background-color: transparent !important;
-}
-
-.inputs-container .MuiInputBase-root:hover {
-    background-color: transparent;
-}
-
-.inputs-container .MuiInputBase-root::after {
-    border-bottom: 0.125rem solid #006d77;
-}
-
-.inputs-container button {
-    align-self: flex-end;
-    margin-top: 3em;
-} */
-
 /* SENTENCE COMPONENT */
 .sentence-container {
     display: flex;

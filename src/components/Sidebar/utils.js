@@ -1,44 +1,50 @@
-import HomeIcon from 'assets/icons/home.svg';
-import HomeworkIcon from 'assets/icons/homework.svg';
-import EssayIcon from 'assets/icons/essay.svg';
-import StudentsIcon from 'assets/icons/students.svg';
-import ScheduleIcon from 'assets/icons/schedule.svg';
-import LogoutIcon from 'assets/icons/logout.svg';
+import Home from 'assets/icons/home.svg';
+import HomeActive from 'assets/icons/home-active.svg';
+import Homework from 'assets/icons/homework.svg';
+import HomeworkActive from 'assets/icons/homework-active.svg';
+import Essay from 'assets/icons/essay.svg';
+import EssayActive from 'assets/icons/essay-active.svg';
+import Students from 'assets/icons/students.svg';
+import StudentsActive from 'assets/icons/students-active.svg';
+import Schedule from 'assets/icons/schedule.svg';
+import ScheduleActive from 'assets/icons/schedule-active.svg';
+import Logout from 'assets/icons/logout.svg';
+import LogoutActive from 'assets/icons/logout-active.svg';
 import { routes } from 'helpers/consts';
 
 export const sections = [
     {
         title: 'Dashboard',
-        icon: HomeIcon,
-        activeIcon: HomeworkIcon,
+        icon: Home,
+        activeIcon: HomeActive,
         alt: 'home',
         route: routes.HOME,
     },
     {
         title: 'Homework',
-        icon: HomeworkIcon,
-        activeIcon: HomeworkIcon,
+        icon: Homework,
+        activeIcon: HomeworkActive,
         alt: 'homework',
         route: routes.HOMEWORK,
     },
     {
         title: 'Essay',
-        icon: EssayIcon,
-        activeIcon: HomeworkIcon,
+        icon: Essay,
+        activeIcon: EssayActive,
         alt: 'essay',
         route: routes.ESSAY,
     },
     {
         title: 'Students',
-        icon: StudentsIcon,
-        activeIcon: HomeworkIcon,
+        icon: Students,
+        activeIcon: StudentsActive,
         alt: 'students',
         route: routes.STUDENTS,
     },
     {
         title: 'Schedule',
-        icon: ScheduleIcon,
-        activeIcon: HomeworkIcon,
+        icon: Schedule,
+        activeIcon: ScheduleActive,
         alt: 'schedule',
         route: routes.SCHEDULE,
     },
@@ -46,8 +52,8 @@ export const sections = [
 
 export const logoutSection = {
     title: 'Logout',
-    icon: LogoutIcon,
-    activeIcon: HomeworkIcon,
+    icon: Logout,
+    activeIcon: LogoutActive,
     alt: 'logout',
     route: '/',
 };

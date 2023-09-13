@@ -22,8 +22,6 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
 
     const listItems = description.split('\\li');
 
-    console.log(inputValues);
-
     const output = listItems.map((listItem, outerInd) => {
         const splittedRows = listItem
             .split('\r\n')
