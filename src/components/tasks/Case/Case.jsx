@@ -28,7 +28,9 @@ const Case = () => {
         if (condition) {
             return condition
                 .split('\r\n')
-                .map((row) => (row.length ? <p>{row}</p> : <br />));
+                .map((row, index) =>
+                    row.length ? <p key={index}>{row}</p> : <br key={index} />
+                );
         }
         return null;
     };

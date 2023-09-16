@@ -1,12 +1,12 @@
-import { capitalize } from '../../../helpers/funcs';
-import { Button } from '@mui/material';
+import { capitalize } from 'helpers/funcs';
+import { Button } from 'components/ui';
 import { useState } from 'react';
 
-import './tasksType.css';
+import styles from './Table.module.scss';
 
-const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
+const Table = ({ taskDetails, handleAnswer }) => {
     const [inps, setInps] = useState({});
-    const [tableProps, setTableProps] = useState({
+    const [tableProps] = useState({
         rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
         cells: taskDetails?.description.split('\r\n')[0].split('x')[0],
     });
@@ -25,15 +25,15 @@ const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
         return res;
     };
 
+    const table = {
+        data: fillData(taskDetails.description.split('\r\n').slice(1)),
+    };
+
     const handleInputsChange = (e, index) => {
         setInps((prev) => {
             return { ...prev, [index]: e.target.value };
         });
     };
-
-    const [table, setTable] = useState({
-        data: fillData(taskDetails.description.split('\r\n').slice(1)),
-    });
 
     const onSend = () => {
         const splittedDescr = taskDetails.description.split('\r\n');
@@ -65,13 +65,13 @@ const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
 
         handleAnswer(
             JSON.stringify({ answers: answerTemplate }),
-            caseInfo.tasks?.[task_id - 1].id
+            taskDetails.id
         );
     };
 
     return (
-        <div className="table-container task-types-container">
-            <table className="table_exercise">
+        <div className={styles.tableContainer}>
+            <table className={styles.table}>
                 <thead>
                     <tr>
                         {table.data[0].map((elem, index) => (
@@ -80,7 +80,7 @@ const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
                                     elem.replaceAll('_', ' ')
                                 ) : (
                                     <input
-                                        className="table_inp"
+                                        className={styles.input}
                                         onChange={(e) => handleInputsChange(e)}
                                     />
                                 )}
@@ -100,7 +100,7 @@ const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
                                             item.split('_').join(' ')
                                         ) : (
                                             <input
-                                                className="table_inp"
+                                                className={styles.input}
                                                 onChange={(e) =>
                                                     handleInputsChange(
                                                         e,
@@ -116,8 +116,12 @@ const Table = ({ taskDetails, handleAnswer, task_id, caseInfo }) => {
                     ))}
                 </tbody>
             </table>
-            <Button className="hw__send-btn" onClick={onSend}>
-                send
+            <Button
+                disabled={!taskDetails}
+                className={styles.submit}
+                onClick={onSend}
+            >
+                Submit
             </Button>
         </div>
     );

@@ -73,6 +73,7 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
             <ol className={styles.inputs}>{output}</ol>
             {!displayDataType && (
                 <Button
+                    className={styles.submit}
                     disabled={!taskDetails.id}
                     onClick={() => {
                         handleAnswer(formAnswer(inputValues), taskDetails.id);
