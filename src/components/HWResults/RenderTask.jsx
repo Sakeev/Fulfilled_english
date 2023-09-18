@@ -1,13 +1,15 @@
-import WriteSentencesWithGivenInfo from './resultDisplayTasks/WriteSentencesWithGivenInfo';
 import ContinueImageWord from './resultDisplayTasks/ContinueImageWord';
 import DescribeImages from './resultDisplayTasks/DescribeImages';
-import BuildSentences from './resultDisplayTasks/BuildSentences';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
-import BuildDialog from '../tasks/tasksType/BuildDialog';
-import Dropdown from '../tasks/tasksType/Dropdown';
-import Inputs from './resultDisplayTasks/Inputs';
-import Table from './resultDisplayTasks/Table';
+import {
+    Dropdown,
+    Inputs,
+    WriteSentencesWithGivenInfo,
+    Table,
+    BuildDialog,
+    BuildSentences,
+} from 'components/tasks/tasksType';
 
 const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
     const { getTaskDetails, handleAnswer, caseInfo } = useTasks();
@@ -19,8 +21,6 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
         return <></>;
     if (!task.answers[task.answers.length - 1])
         return <h2>This task hasn't done yet</h2>;
-
-    console.log(task);
 
     let component = null;
 
