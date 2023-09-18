@@ -6,14 +6,14 @@ import RenderTask from './RenderTask';
 import './HWResults.css';
 
 const HWResults = () => {
-    const { caseInfo, infoCase } = useTasks();
+    const { caseInfo, getCaseInfo } = useTasks();
     const { userId, taskId } = useParams();
     const [tasksQuan, setTasksQuan] = useState(0);
     const [activePage, setActivePage] = useState(1);
     const [currentTask, setCurrentTask] = useState(null);
 
     useEffect(() => {
-        infoCase(taskId, userId);
+        getCaseInfo(taskId, userId);
     }, []);
 
     useEffect(() => {

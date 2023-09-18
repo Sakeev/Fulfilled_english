@@ -36,12 +36,12 @@ const casesMainBox = {
 };
 
 const ShowCases = () => {
-    const { handleCase, cases } = useTasks();
+    const { getCases, cases } = useTasks();
     const { userId } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        handleCase(userId);
+        getCases(userId);
     }, []);
 
     console.log(userId, cases);

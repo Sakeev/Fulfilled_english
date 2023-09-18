@@ -99,7 +99,7 @@ const MainRoutes = () => {
         //     id: 10,
         // },
         {
-            link: '/student-tasks/:userId/results/:task_id',
+            link: '/student-tasks/:userId/results/:taskId',
             element: <TasksResultPage />,
             id: 10,
         },
@@ -108,11 +108,11 @@ const MainRoutes = () => {
             element: <TeachersHwPage />,
             id: 11,
         },
-        {
-            link: `/hwresults/:user_id/:id`,
-            element: <HwResultsPage />,
-            id: 12,
-        },
+        // {
+        //     link: `/hwresults/:user_id/:id`,
+        //     element: <HwResultsPage />,
+        //     id: 12,
+        // },
         {
             link: '/notes',
             element: <NotesPage />,

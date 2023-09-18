@@ -154,6 +154,7 @@ const TasksContextProvider = ({ children }) => {
         return data;
     };
     const getCaseInfo = async (id, userId) => {
+        console.log(id);
         const { data } = await axios(
             `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`,
             getConfig()
