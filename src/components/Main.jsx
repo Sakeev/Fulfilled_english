@@ -137,10 +137,7 @@ const Main = () => {
     // );
   }, []);
 
-  console.log(teacherInfo);
-
   useEffect(() => {
-    // console.log(tables);
     findCurrentLesson(tables);
   }, [tables]);
 
@@ -573,7 +570,7 @@ const Main = () => {
               bgcolor: "#EDF6F9",
               borderRadius: "10px 10px 10px 50px",
             }}
-            onClick={() => navigate("/notes")}
+            onClick={() => navigate(!isTeacher ? "/notes" : "/gradebook")}
           >
             {notes.length > 0 ? (
               <>
