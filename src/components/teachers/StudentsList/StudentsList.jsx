@@ -1,9 +1,9 @@
+import { useAuth } from '../../../contexts/AuthContextProvider';
 import ProgressModal from '../ProgressModal/ProgressModal';
-import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 
 import './StudentsList.css';
-import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const StudentsList = () => {
     // const { students } = useEssay();
@@ -15,7 +15,6 @@ const StudentsList = () => {
     useEffect(() => {
         getRoomOrRooms()
             .then((res) => {
-                console.log(res);
                 setStudentRooms(res);
             })
             .catch((err) => console.log(err));
@@ -39,9 +38,10 @@ const StudentsList = () => {
 
     return (
         <>
-            {showModal && (
-                <ProgressModal room={currentRoom} setShowModal={setShowModal} />
-            )}
+            <ProgressModal
+                room={currentRoom}
+                useStateHook={[showModal, setShowModal]}
+            />
             <div className="sl-container">
                 <div className="sl-headers">
                     <h2 style={{ width: '40%' }}>Students</h2>

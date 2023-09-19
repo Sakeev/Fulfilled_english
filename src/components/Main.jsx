@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import sticker from '../assets/images/startlesson.svg';
 import avatar from '../assets/images/images.png';
@@ -15,6 +15,7 @@ import api from '../http';
 import { API } from '../helpers/consts';
 import { useSchedule } from '../contexts/ScheduleContextProvider';
 import { useUsers } from '../contexts/UsersContextProvider';
+import { Modal } from './ui';
 
 const modalStyle = {
     position: 'absolute',
@@ -112,11 +113,11 @@ const Main = () => {
         { user: '', time: '', date: '' },
     ]);
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            setShowModal(false);
-        }
-    });
+    // document.addEventListener('keydown', (e) => {
+    //     if (e.key === 'Escape') {
+    //         setShowModal(false);
+    //     }
+    // });
 
     useEffect(() => {
         getUsers();
@@ -368,7 +369,7 @@ const Main = () => {
                             </div>
                         )}
                     </Paper>
-                    <Modal
+                    {/* <Modal
                         open={showModal}
                         onClose={() => setShowModal(false)}
                         aria-labelledby="modal-modal-title"
@@ -377,6 +378,9 @@ const Main = () => {
                         <Box sx={modalStyle}>
                             <CreateRoom />
                         </Box>
+                    </Modal> */}
+                    <Modal useStateHook={[showModal, setShowModal]}>
+                        <CreateRoom />
                     </Modal>
                 </Box>
                 <Box sx={{ width: '30%' }}>

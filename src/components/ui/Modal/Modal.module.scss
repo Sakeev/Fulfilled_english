@@ -1,0 +1,42 @@
+@import 'assets/styles/variables.scss';
+
+.modalContainer {
+    position: absolute;
+    z-index: 9;
+    display: none;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: $modal-bg;
+
+    &.show {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal {
+        display: flex;
+        flex-direction: column;
+        min-width: 20rem;
+        background-color: $page-color;
+        padding: 1em 1em 0.5em;
+        border-radius: 0.5rem;
+
+        img {
+            align-self: flex-end;
+            width: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+
+            &:hover {
+                transform: scale(0.85);
+            }
+        }
+
+        .content {
+            padding: 0.5em 1em;
+        }
+    }
+}
