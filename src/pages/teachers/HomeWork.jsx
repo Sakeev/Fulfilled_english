@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/Sidebar';
+import { useEffect, useState } from 'react';
 import { useUsers } from '../../contexts/UsersContextProvider';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Modal } from 'components/ui';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 const btnStyle = {
     margin: '10px 5px',
     width: '100px',
@@ -43,13 +29,6 @@ const selectContainer = {
     padding: '5px 0',
     borderRadius: '5px',
 };
-const modalContainer = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px',
-};
 
 const HomeWork = () => {
     const {
@@ -66,12 +45,10 @@ const HomeWork = () => {
     } = useUsers();
     const navigate = useNavigate();
     const [index, setIndex] = useState(null);
-    const [open, setOpen] = React.useState(false);
-    const [lesson, setLesson] = React.useState('1');
+    const [showModal, setShowModal] = useState(false);
+    const [lesson, setLesson] = useState('1');
 
     const [lessonValue, setLessonValue] = useState(' ');
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const [uniqLesson, setUniqLesson] = useState(onelesson?.case_tasks);
     useEffect(() => {
         getUsers();
@@ -103,7 +80,7 @@ const HomeWork = () => {
     const [currUser, setCurrUser] = useState(null);
 
     const highFunc = (id) => {
-        handleOpen();
+        setShowModal(true);
         getUserHw(id);
         setIndex(id);
         getUserHw(id);
@@ -142,14 +119,9 @@ const HomeWork = () => {
                             <p>{student.user?.email}</p>
                             <div className="essay-icon"></div>
                         </div>
-                        <Modal
-                            sx={modalContainer}
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style}>
+
+                        <Modal useStateHook={[showModal, setShowModal]}>
+                            <Box>
                                 <Typography
                                     id="modal-modal-title"
                                     variant="h6"
@@ -220,9 +192,6 @@ const HomeWork = () => {
                                                                             // navigate(
                                                                             //     `/hwresults/${item.id}/${index}`
                                                                             // );
-                                                                            console.log(
-                                                                                currUser
-                                                                            );
                                                                             navigate(
                                                                                 `/student-tasks/${currUser}`
                                                                             );
