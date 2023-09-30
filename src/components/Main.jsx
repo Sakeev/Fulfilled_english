@@ -570,9 +570,13 @@ const Main = () => {
               bgcolor: "#EDF6F9",
               borderRadius: "10px 10px 10px 50px",
             }}
-            onClick={() => navigate(!isTeacher ? "/notes" : "/gradebook")}
+            onClick={() =>
+              isTeacher ? navigate("/gradebook") : navigate("/notes")
+            }
           >
-            {notes.length > 0 ? (
+            {isTeacher ? (
+              <>Gradebook?</>
+            ) : notes.length > 0 ? (
               <>
                 <Paper
                   elevation={3}
