@@ -32,8 +32,8 @@ const setLesson = (lessons, time, weekday) => {
 
 const container = {
     margin: "0 auto",
-    width: "90%",
-    padding: "50px 70px",
+    width: "95%",
+    padding: "60px",
 };
 
 const table_style = {
@@ -53,57 +53,60 @@ const ScheduleTeachers = () => {
 
     return (
         <div style={container}>
+            <h2 className="schedule_heading">Schedule</h2>
             <table style={table_style} className="table_schedule">
                 <tbody>
                     <tr>
                         <th>GMT+3</th>
                         <th
                             className={
-                                getWeekDay() == "Monday" ? "today-active" : ""
+                                getWeekDay() == "Monday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            date={'02 oct'}
                         >
                             Mon
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Tuesday" ? "today-active" : ""
+                                getWeekDay() == "Tuesday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            date={'03 oct'}
                         >
                             Tue
                         </th>
                         <th
                             className={
                                 getWeekDay() == "Wendesday"
-                                    ? "today-active"
-                                    : ""
+                                    ? "weekdays today-active"
+                                    : "weekdays non-active-day"
                             }
                         >
                             Wed
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Thursday" ? "today-active" : ""
+                                getWeekDay() == "Thursday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
                         >
                             Thu
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Friday" ? "today-active" : ""
+                                getWeekDay() == "Friday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
                         >
                             Fri
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Saturday" ? "today-active" : ""
+                                getWeekDay() == "Saturday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
                         >
                             Sat
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Sunday" ? "today-active" : ""
+                                getWeekDay() == "Sunday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
                         >
                             Sun

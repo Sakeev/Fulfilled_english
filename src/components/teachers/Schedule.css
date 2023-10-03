@@ -1,6 +1,11 @@
+.schedule_heading {
+  color: #333;
+  margin-bottom: 35px;
+}
+
 table {
   font-size: small;
-  color: #006d77;
+  color: #333;
 }
 
 tr > th, td {
@@ -58,6 +63,7 @@ td {
 .lesson_block:hover {
   overflow:visible;
   width: max-content;
+  background-color: #C5E5E2;
 }
 
 .overlay {
@@ -89,16 +95,20 @@ td {
 }
  
 .today-active {
-  background-color: #E29578 !important;
-  color: #fff;
+  background-color: #C5E5E2 !important;
+  color: #333;
+}
+
+.weekdays {
   position: relative;
 }
 
-.today-active::before {
-  content: "15 sep";
+.weekdays::before {
+  content: attr(date);
   position: absolute;
+  font-weight: 400;
   top: -30px;
   left: 50%;
   transform: translate(-50%);
-  color: #006d77;
+  color: #006D77;
 }
