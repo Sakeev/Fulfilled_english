@@ -10,13 +10,16 @@ tr > th, td {
 td {
   padding: 1% 1%;
   text-align: center;
-  border-bottom: 1px solid gainsboro;
-  border-right: 1px solid gainsboro;
+  /* border-bottom: 1px solid gainsboro; */
+  /* border-right: 1px solid gainsboro; */
   min-height: 100px;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
+  max-width: 120px;
 }
 
 .table_schedule th {
-  background-color: #C5E5E2;
+  background-color: #F2F2F2;
   padding: 1%;
   border: none;
 }
@@ -33,6 +36,7 @@ td {
   width: 100%;
   padding-top: 10px;
   border: none;
+  box-shadow: none;
 }
 
 .table_row {
@@ -40,10 +44,20 @@ td {
 }
 
 .lesson_block {
-  background-color: #c2e7e4;
   border-radius: 2px;
-  padding: 5%;
+  padding: 3%;
   margin: 10px 0;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 150ms;
+  cursor: pointer;
+  background-color: white;
+}
+
+.lesson_block:hover {
+  overflow:visible;
+  width: max-content;
 }
 
 .overlay {
@@ -73,7 +87,18 @@ td {
 .modal select {
   padding: 2% 4%;
 }
-
+ 
 .today-active {
   background-color: #E29578 !important;
+  color: #fff;
+  position: relative;
+}
+
+.today-active::before {
+  content: "15 sep";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translate(-50%);
+  color: #006d77;
 }

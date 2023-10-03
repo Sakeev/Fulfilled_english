@@ -4,6 +4,7 @@ import { useUsers } from "../../contexts/UsersContextProvider";
 import AddSchedule from "./AddSchedule";
 import "./Schedule.css";
 import { getWeekDay } from "../../helpers/funcs";
+import ScheduleWindow from "./ScheduleWindow";
 
 const rows = ["08", "12", "16", "20", "24"];
 // const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -20,17 +21,7 @@ const setLesson = (lessons, time, weekday) => {
 
     let comp = lessonsOnTime.length ? (
         lessonsOnTime.map((lesson) => (
-            <div className="lesson_block" id={lesson.id}>
-                <p id={lesson.id}>{lesson.user}</p>
-                <p id={lesson.id}>
-                    <b id={lesson.id}>
-                        {lesson.accepted ? "accepted" : "not accepted"}
-                    </b>
-                </p>
-                <p id={lesson.id}>
-                    <b>{lesson?.time?.split(":")?.splice(0, 2).join(":")}</b>
-                </p>
-            </div>
+            <ScheduleWindow lesson={lesson} />
         ))
     ) : (
         <></>
