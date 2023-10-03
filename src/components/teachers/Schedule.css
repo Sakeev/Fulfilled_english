@@ -63,7 +63,16 @@ td {
 .lesson_block:hover {
   overflow:visible;
   width: max-content;
-  background-color: #C5E5E2;
+  background-color: #F2F2F2;
+}
+
+.lesson_block__time {
+  margin-top: 5px;
+  color: #333;
+  background-color: #F2F2F2;
+  width: fit-content;
+  padding: 2px 7px;
+  border-radius: 5px;
 }
 
 .overlay {

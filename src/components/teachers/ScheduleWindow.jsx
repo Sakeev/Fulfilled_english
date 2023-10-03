@@ -9,7 +9,7 @@ function ScheduleWindow({lesson}) {
                 {lesson.accepted ? "accepted" : "not accepted"}
             </b>
         </p>
-        <p id={lesson.id}>
+        <p id={lesson.id} className='lesson_block__time'>
             <b>{lesson?.time?.split(":")?.splice(0, 2).join(":")}</b>
         </p>
     </div>
