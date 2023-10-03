@@ -16,7 +16,7 @@ export const getVocabulary = (cases) => {
 
 export const useTaskComponent = () => {
     const { taskId } = useParams();
-    const { taskDetails, handleAnswer, caseInfo } = useTasks();
+    const { taskDetails, handleAnswer, caseInfo, getTaskDetails } = useTasks();
 
     const props = {
         key: taskId,
@@ -25,6 +25,7 @@ export const useTaskComponent = () => {
         handleAnswer: handleAnswer,
         caseInfo: caseInfo,
         taskDetails: taskDetails,
+        getTaskDetails: getTaskDetails, // need to remove and check tasksType components
     };
 
     const taskComponents = {

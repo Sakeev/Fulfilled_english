@@ -2,9 +2,10 @@ import ContinueImageWord from './resultDisplayTasks/ContinueImageWord';
 import DescribeImages from './resultDisplayTasks/DescribeImages';
 import { useTasks } from '../../contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
+import Inputs from './resultDisplayTasks/Inputs';
 import {
     Dropdown,
-    Inputs,
+    // Inputs,
     WriteSentencesWithGivenInfo,
     Table,
     BuildDialog,

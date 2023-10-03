@@ -1,12 +1,12 @@
-import { useEssay } from '../../../contexts/EssayContextProvider';
+import { useEssay } from 'contexts/EssayContextProvider';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
 
-import correct from '../../../assets/images/correct.png';
-import incorrect from '../../../assets/images/cross.png';
+import correct from 'assets/images/correct.png';
+import incorrect from 'assets/images/cross.png';
 
-import './TeacherEssay.css';
+import '../TeacherEssay.css';
 
 const btnStyle = {
     margin: '10px 5px',

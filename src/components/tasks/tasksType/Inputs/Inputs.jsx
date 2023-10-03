@@ -65,7 +65,7 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
 
     return (
         <div className={styles.inputsContainer}>
-            {taskDetails.audio && (
+            {taskDetails?.audio && (
                 <div className={styles.audio}>
                     <audio src={taskDetails.audio} controls />
                 </div>
