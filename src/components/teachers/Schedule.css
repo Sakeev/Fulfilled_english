@@ -49,8 +49,8 @@ td {
 }
 
 .lesson_block {
-  border-radius: 2px;
-  padding: 3%;
+  border-radius: 5px;
+  padding: 5%;
   margin: 10px 0;
   text-align: left;
   overflow: hidden;
