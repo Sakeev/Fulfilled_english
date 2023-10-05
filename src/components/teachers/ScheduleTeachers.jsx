@@ -34,10 +34,7 @@ const container = {
     margin: "0 auto",
     width: "95%",
     padding: "60px",
-};
-
-const table_style = {
-    width: "100%",
+    height: "90vh"
 };
 
 const ScheduleTeachers = () => {
@@ -54,7 +51,7 @@ const ScheduleTeachers = () => {
     return (
         <div style={container}>
             <h2 className="schedule_heading">Schedule</h2>
-            <table style={table_style} className="table_schedule">
+            <table className="table_schedule">
                 <tbody>
                     <tr>
                         <th>GMT+3</th>
