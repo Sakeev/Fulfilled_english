@@ -57,13 +57,10 @@ td {
   white-space: nowrap;
   transition: 150ms;
   cursor: pointer;
-  background-color: white;
+  background-color: #F2F2F2;
 }
 
 .lesson_block:hover {
-  overflow:visible;
-  width: max-content;
-  background-color: #F2F2F2;
 }
 
 .lesson_block__time {
