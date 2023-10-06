@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./Gradebook.module.scss";
 import { useAuth } from "contexts/AuthContextProvider";
 import { calculateAverageGrade, getGrade } from "./utils";
+import { MenuItem, ProgressBar, Select } from "components/ui";
 
 const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   const filteredGrades = grades.filter(
-    (grade) => selectedUser === null || grade.user === selectedUser
+    (grade) => selectedUser === null || grade.user === selectedUser.id
   );
 
   return (
@@ -21,18 +22,20 @@ const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
 };
 
 const Gradebook = () => {
-  const { users, getUsers } = useAuth();
+  const { users, getUsers, getRoomOrRooms } = useAuth();
   const { gradebook, getGradebook } = useSchedule();
 
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
 
   // Стейт для группировки оценок по лессонам
   const [groupedGrades, setGroupedGrades] = useState({});
+  const [rurooms, setRuroom] = useState([]);
 
   useEffect(() => {
     // innitialize load
     getGradebook();
     getUsers();
+    getRoomOrRooms().then((res) => setRuroom(res));
   }, []);
 
   useEffect(() => {
@@ -55,6 +58,14 @@ const Gradebook = () => {
     setGroupedGrades(newGroupedGrades);
   }, [gradebook]);
 
+  const handleSelect = (value) => {
+    // console.log("Selected value:", value?.email);
+    setSelectedUser(value);
+    // Здесь ты можешь сохранить значение в состоянии компонента или использовать его по своему усмотрению.
+  };
+
+  console.log(rurooms);
+
   return (
     <div className={styles.gradebook_container}>
       <div className={styles.wrapper}>
@@ -62,7 +73,7 @@ const Gradebook = () => {
         <div className={styles.gradebook_profile}>
           <label htmlFor="userSelect">Выберите пользователя: </label>
 
-          <select
+          {/* <select
             id="userSelect"
             className={styles.gradebook_select}
             onChange={(e) => setSelectedUser(+e.target.value)}
@@ -75,21 +86,46 @@ const Gradebook = () => {
                 {user?.email}
               </option>
             ))}
-          </select>
+          </select> */}
+          <Select
+            id="userSelect"
+            // className={styles.gradebook_select}
+            onSelect={handleSelect}
+            label={selectedUser.user?.email}
+          >
+            {rurooms.map((userData) => (
+              <MenuItem id={userData.id} value={userData} key={userData.id}>
+                {userData?.user?.email}
+              </MenuItem>
+            ))}
+          </Select>
           <div className={styles.gradebook_avatar}>
             <img src="" alt="" />
           </div>
         </div>
-        <div className="gradebook-progress"></div>
-        <div className="gradebook-schedule">
+        <div className={styles.gradebook_progress}>
+          <div className={styles.progress_left}>
+            <p>
+              level: <span>{selectedUser.level}</span>
+            </p>
+            <p>
+              email: <span>{selectedUser.user?.email}</span>
+            </p>
+          </div>
+          <div className={styles.progress_right}>
+            <p>Progress: </p>
+            <ProgressBar percent={selectedUser.progress} height={30} />
+          </div>
+        </div>
+        <div className={styles.gradebook_grades}>
           <table>
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Homework</th>
+                <th>Lesson</th>
                 <th>Essay</th>
                 <th>Classwork</th>
-                <th>Lesson</th>
+                <th>Homework</th>
               </tr>
             </thead>
             {selectedUser ? (
@@ -130,36 +166,3 @@ const Gradebook = () => {
 };
 
 export default Gradebook;
-
-// let gradebook = [
-//   {
-//     id: 153,
-//     cw: false,
-//     hw: true,
-//     grade: 5,
-//     created: "2023-09-27",
-//     essay: false,
-//     user: 2,
-//     lesson: 1,
-//   },
-//   {
-//     id: 154,
-//     cw: false,
-//     hw: false,
-//     grade: 8,
-//     created: "2023-09-28",
-//     essay: true,
-//     user: 2,
-//     lesson: 1,
-//   },
-//   {
-//     id: 154,
-//     cw: true,
-//     hw: false,
-//     grade: 3,
-//     created: "2023-09-28",
-//     essay: false,
-//     user: 2,
-//     lesson: 1,
-//   },
-// ];

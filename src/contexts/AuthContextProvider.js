@@ -8,7 +8,6 @@ export const authContext = createContext();
 
 const INIT_STATE = {
   users: [],
-  userProfile: {},
   userId: 0,
   isTeacher: false,
 };
@@ -17,8 +16,6 @@ const reducer = (state = INIT_STATE, action) => {
   switch (action.type) {
     case "SET_USERS":
       return { ...state, users: action.payload };
-    case "SET_USER_PROFILE":
-      return { ...state, userProfile: action.payload };
     case "SET_USER_ID":
       return { ...state, userId: action.payload };
     case "SET_IS_TEACHER":
@@ -30,6 +27,17 @@ const reducer = (state = INIT_STATE, action) => {
 
 export const useAuth = () => {
   return useContext(authContext);
+};
+
+const getToken = () => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  const Authorization = `Bearer ${token.access}`;
+  const config = {
+    headers: {
+      Authorization,
+    },
+  };
+  return config;
 };
 
 const AuthContextProvider = ({ children }) => {
@@ -176,28 +184,9 @@ const AuthContextProvider = ({ children }) => {
     else return res.data[0] || null;
   }
 
-  async function getProfile(id) {
-    try {
-      const res = await axios.get(`${PROFILE_API}/${id}`);
-      dispatch({
-        type: "SET_USER_PROFILE",
-        payload: res.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   async function getUsers() {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const Authorization = `Bearer ${token.access}`;
-    const config = {
-      headers: {
-        Authorization,
-      },
-    };
     try {
-      const res = await axios.get(`${USERS_API}`, config);
+      const res = await axios.get(USERS_API, getToken());
       dispatch({
         type: "SET_USERS",
         payload: res.data,
@@ -211,7 +200,6 @@ const AuthContextProvider = ({ children }) => {
     userId: state.userId,
     isTeacher: state.isTeacher,
     users: state.users,
-    userProfile: state.userProfile,
     token,
     login,
     logout,
@@ -220,7 +208,6 @@ const AuthContextProvider = ({ children }) => {
     checkAuth,
     isLoading,
     getRoomOrRooms,
-    getProfile,
     getUsers,
   };
 
