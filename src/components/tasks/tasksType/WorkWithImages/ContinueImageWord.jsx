@@ -1,9 +1,11 @@
-import { API } from '../../../helpers/consts';
-import { Button } from '@mui/material';
+import { count, renderInputs } from '../utils';
+import { Button } from 'components/ui';
+import { API } from 'helpers/consts';
 import { useState } from 'react';
-import { count, renderInputs } from './utils';
 
-const ContinueImageWord = ({ taskDetails, handleAnswer, taskId }) => {
+import styles from './ContinueImageWord.module.scss';
+
+const ContinueImageWord = ({ taskDetails, handleAnswer }) => {
     const splittedDescription = taskDetails.description.split('\r\n');
     const [results, setResults] = useState({});
 
@@ -28,24 +30,28 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, taskId }) => {
         return { answers: answerTemplate };
     };
 
+    console.log(results);
+
     return (
-        <div className="image-word-container task-types-container">
-            <div className="image-word-image-box-wrapper">
+        <div className={styles.imageWordContainer}>
+            <div className={styles.images}>
                 {taskDetails.images.map(({ image, sentence }, index) => {
                     return (
-                        <div className="image-word-image-box" key={image}>
+                        <div className={styles.image} key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
-                            <p>
-                                {index + 1}. {sentence}
-                            </p>
+                            {sentence && (
+                                <p>
+                                    {index + 1}. {sentence}
+                                </p>
+                            )}
                         </div>
                     );
                 })}
             </div>
-            <div className="image-word-inputs">
+            <div className={styles.inputs}>
                 {splittedDescription.map((string, index) => {
                     return (
-                        <div key={index} className="image-word-input">
+                        <div key={index} className={styles.inputBox}>
                             {string.split('|').map((row) => {
                                 return renderInputs(row, handleInput);
                             })}
@@ -54,12 +60,12 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, taskId }) => {
                 })}
             </div>
             <Button
-                className="hw__send-btn"
+                className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskId);
+                    handleAnswer(formRequest(), taskDetails.id);
                 }}
             >
-                send
+                Submit
             </Button>
         </div>
     );

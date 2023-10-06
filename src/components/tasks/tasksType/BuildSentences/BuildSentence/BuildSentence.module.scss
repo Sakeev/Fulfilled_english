@@ -1,0 +1,61 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+.taskContainer {
+    @include flex(column);
+    width: 60%;
+
+    .words,
+    .answerBlock {
+        @include flex(row, flex-start, flex-start);
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 0.375em 0.25em;
+
+        .word,
+        .pickedWord {
+            padding: 0.25em 0.375em;
+            border-radius: 0.375rem;
+            transition: 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+
+    .words {
+        gap: 0.5em;
+        margin-bottom: 0.5em;
+
+        .word {
+            background-color: $table-header;
+
+            &:hover {
+                background-color: $hover-secondary;
+            }
+        }
+    }
+
+    .answerBlock {
+        min-height: 5em;
+        border-radius: 0.5rem;
+        border: 0.1rem solid $border-color;
+        overflow: auto;
+        padding: 0.25em 0.25em;
+
+        .pickedWord {
+            color: $highlighted-text;
+            font-weight: 500;
+
+            &:hover {
+                background-color: $button-bg;
+            }
+        }
+    }
+
+    .submit {
+        position: sticky;
+        bottom: 0;
+        align-self: flex-end;
+        margin-right: 3em;
+    }
+}

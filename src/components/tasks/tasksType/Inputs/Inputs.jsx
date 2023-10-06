@@ -70,7 +70,13 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
                     <audio src={taskDetails.audio} controls />
                 </div>
             )}
-            <ol className={styles.inputs}>{output}</ol>
+            <ol
+                className={`${styles.inputs} ${
+                    listItems.length === 1 ? styles.hideOrdering : ''
+                }`}
+            >
+                {output}
+            </ol>
             {!displayDataType && (
                 <Button
                     className={styles.submit}

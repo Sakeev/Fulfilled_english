@@ -1,9 +1,11 @@
-import { API } from '../../../helpers/consts';
-import { Button } from '@mui/material';
+import { Button } from 'components/ui';
+import { renderInputs } from '../utils';
+import { API } from 'helpers/consts';
 import { useState } from 'react';
-import { renderInputs } from './utils';
 
-const Images = ({ taskDetails, handleAnswer, taskId }) => {
+import styles from './Images.module.scss';
+
+const Images = ({ taskDetails, handleAnswer }) => {
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -31,13 +33,12 @@ const Images = ({ taskDetails, handleAnswer, taskId }) => {
     };
 
     return (
-        <div className="images-container task-types-container">
+        <div className={styles.imagesContainer}>
             <div className="images-image-box-wrapper">
                 {taskDetails.images.map(({ image, sentence }) => {
                     return (
                         <div className="images-image-box" key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
-                            {/* {renderInputs(sentence, handleInput)} */}
                             {sentence.split('|').map((row) => {
                                 return renderInputs(row, handleInput);
                             })}
@@ -46,9 +47,9 @@ const Images = ({ taskDetails, handleAnswer, taskId }) => {
                 })}
             </div>
             <Button
-                className="hw__send-btn"
+                className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskId);
+                    handleAnswer(formRequest(), taskDetails.id);
                 }}
             >
                 send

@@ -37,7 +37,7 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
                 for (let j in newWordsPairs[i]) {
                     if (newWordsPairs[i][j].id === index) {
                         newWordsPairs[i].splice(j, 1);
-                        event.target.style.backgroundColor = '#9bd0cb';
+                        event.target.style.backgroundColor = '#f2f2f2';
                         break;
                     }
                 }

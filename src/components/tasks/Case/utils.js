@@ -35,10 +35,10 @@ export const useTaskComponent = () => {
         'connect words': <tasksType.ConnectWords {...props} />,
         'drop down': <tasksType.Dropdown {...props} />,
         table: <tasksType.Table {...props} />,
-        'describe image': <tasksType.Images {...props} />,
-        'work with images': <tasksType.ContinueImageWord {...props} />,
+        'describe image': <tasksType.DescribeImage {...props} />,
+        'work with images': <tasksType.WorkWithImages {...props} />,
         'write sentences with given info': (
-            <tasksType.WriteSentencesWithGivenInfo {...props} />
+            <tasksType.WriteSentences {...props} />
         ),
     };
 

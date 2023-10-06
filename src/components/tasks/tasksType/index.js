@@ -1,21 +1,21 @@
-import WriteSentencesWithGivenInfo from './WriteSentencesWithGivenInfo';
-import ContinueImageWord from './ContinueImageWord';
-import ConnectWords from './ConnectWords/ConnectWords';
+import WorkWithImages from './WorkWithImages/ContinueImageWord';
+import WriteSentences from './WriteSentences/WriteSentences';
 import BuildSentences from './BuildSentences/BuildSentences';
-import BuildDialog from './BuildDialog';
+import ConnectWords from './ConnectWords/ConnectWords';
+import BuildDialog from './BuildDialog/BuildDialog';
+import DescribeImage from './DescribeImage/Images';
 import Dropdown from './Dropdown';
-import Images from './Images';
 import Inputs from './Inputs/Inputs';
 import Table from './Table/Table';
 
 export {
-    WriteSentencesWithGivenInfo,
-    ContinueImageWord,
-    ConnectWords,
+    WorkWithImages,
+    WriteSentences,
     BuildSentences,
+    DescribeImage,
+    ConnectWords,
     BuildDialog,
     Dropdown,
-    Images,
     Inputs,
     Table,
 };
