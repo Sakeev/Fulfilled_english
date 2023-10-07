@@ -4,6 +4,7 @@ import styles from "./Gradebook.module.scss";
 import { useAuth } from "contexts/AuthContextProvider";
 import { calculateAverageGrade, getGrade } from "./utils";
 import { MenuItem, ProgressBar, Select } from "components/ui";
+import { API } from "helpers/consts";
 
 const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   const filteredGrades = grades.filter(
@@ -68,22 +69,7 @@ const Gradebook = () => {
       <div className={styles.wrapper}>
         <h2 className={styles.gradebook_title}>Gradebook</h2>
         <div className={styles.gradebook_profile}>
-          <label htmlFor="userSelect">Выберите пользователя: </label>
-
-          {/* <select
-            id="userSelect"
-            className={styles.gradebook_select}
-            onChange={(e) => setSelectedUser(+e.target.value)}
-          >
-            <option value={null} defaultValue>
-              Выберите студента...
-            </option>
-            {users.map((user) => (
-              <option id={user.id} value={user.id} key={user.id}>
-                {user?.email}
-              </option>
-            ))}
-          </select> */}
+          {/* <label htmlFor="userSelect">Выберите пользователя: </label> */}
           <Select
             id="userSelect"
             // className={styles.gradebook_select}
@@ -100,9 +86,14 @@ const Gradebook = () => {
               </MenuItem>
             ))}
           </Select>
-          <div className={styles.gradebook_avatar}>
-            <img src="" alt="" />
-          </div>
+          {selectedUser.user ? (
+            // <div className={styles.profile_avatar}>
+            <img
+              src={`${API}${selectedUser.user?.avatar}`}
+              alt={selectedUser.user?.avatar}
+            />
+          ) : // </div>
+          null}
         </div>
         <div className={styles.gradebook_progress}>
           <div className={styles.progress_left}>

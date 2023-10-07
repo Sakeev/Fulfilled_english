@@ -31,9 +31,24 @@ td {
 
   .gradebook_profile {
     width: 40%;
-    height: 15%;
-    // background-color: brown;
-    justify-content: flex-end;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    // .profile_avatar {
+    //   width: 40%;
+    //   height: 100%;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      vertical-align: middle;
+      border: 1px solid white;
+      border-radius: 100%;
+    }
+    // }
   }
 
   .gradebook_progress {
