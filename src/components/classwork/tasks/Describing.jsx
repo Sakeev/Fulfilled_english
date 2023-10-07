@@ -11,7 +11,7 @@ const Describing = ({ task }) => {
           style={{
             display: "flex",
             flexDirection: "column",
-            margin: "40px 10px",
+            margin: "40px 10px 0",
             rowGap: 20,
           }}
         >

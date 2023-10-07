@@ -81,8 +81,7 @@ export function capitalize(word) {
 }
 
 export const formatText = (note) => {
-  const regex = /(&nbsp;)+/g;
-  const textWithoutTags = note?.body.replace(regex, "\n");
-  // console.log(note.body);
-  return textWithoutTags?.trim().replace(/\s+/g, " ");
+    const regex = /(&nbsp;)+/g;
+    const textWithoutTags = note?.body.replace(regex, '\n');
+    return textWithoutTags?.trim().replace(/\s+/g, ' ');
 };

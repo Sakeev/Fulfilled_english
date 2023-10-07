@@ -45,10 +45,13 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
         }}
       >
         <input
-          type="text"
+          type="number"
           style={{ width: "50px", paddingLeft: "10px" }}
           placeholder="  / 10"
+          min="1"
+          max="10"
           onChange={handleMark}
+          className="no-arrows"
         />
         <Button
           color="warning"

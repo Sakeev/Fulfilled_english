@@ -1,0 +1,24 @@
+.cwScroll::-webkit-scrollbar {
+  width: 1.5em;
+}
+
+.cwScroll::-webkit-scrollbar-track {
+  margin-block: 0.25em;
+}
+
+.cwScroll::-webkit-scrollbar-thumb {
+  background-clip: content-box;
+  background-color: #b4b4b4;
+  border-radius: 100vw;
+  border: 0.5em solid transparent;
+}
+
+.cwScroll::-webkit-scrollbar-thumb:hover {
+  background-color: #639b96;
+}
+
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Убираем отступы в браузере Safari */
+}
