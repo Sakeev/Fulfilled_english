@@ -30,8 +30,6 @@ const TeacherEssay = () => {
         getLessons();
     }, []);
 
-    console.log(lessons);
-
     if (loading) {
         return (
             <div className="loader-wrapper">
@@ -53,8 +51,6 @@ const TeacherEssay = () => {
             </div>
             <ul className="essay-students-list">
                 {lessons.map((lesson) => {
-                    console.log(lesson);
-
                     return lesson.map((unit, index) => {
                         if (!unit.essay[0]) return null;
                         const essay = unit.essay[0];

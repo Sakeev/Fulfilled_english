@@ -25,6 +25,7 @@ import {
     TeacherEssayPage,
     ViewEssayPage,
 } from 'pages/EssayPages';
+import Gradebook from 'components/teachers/Gradebook';
 
 const MainRoutes = () => {
     const { checkAuth, isTeacher } = useAuth();
@@ -72,7 +73,7 @@ const MainRoutes = () => {
         },
         {
             link: '/essay',
-            element: isTeacher ? <TeacherEssayPage /> : <StudentEssayPage />,
+            element: isTeacher ? <TeacherEssayPage /> : <EssayPage />,
             id: 5,
         },
         {
@@ -144,6 +145,12 @@ const MainRoutes = () => {
             link: '/essay/view/:studentId',
             element: <ViewEssayPage />,
             id: PRIVATE_ROUTES.length + 2,
+        });
+
+        PRIVATE_ROUTES.push({
+            link: '/gradebook',
+            element: <Gradebook />,
+            id: PRIVATE_ROUTES.length + 3,
         });
     }
 

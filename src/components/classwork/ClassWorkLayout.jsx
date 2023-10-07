@@ -21,6 +21,7 @@ import ClassTasks from "./ClassTasks";
 import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
 import Vocabulary from "./tasks/Vocabulary";
+import "./ClassWorkLayout.css";
 
 const request_id = new Date().getTime();
 
@@ -236,8 +237,9 @@ const ClassWorkLayout = () => {
   }
 
   function handleMark(e) {
+    let newValue = parseInt(e.target.value);
     const obj = {
-      grade: e.target.value,
+      grade: newValue,
       user: userId,
       lesson: lesson.id,
     };
@@ -245,123 +247,139 @@ const ClassWorkLayout = () => {
   }
 
   function checkMark(mark, handleOpen) {
-    if (!mark.grade?.trim().length) {
-      prompt("Ertay gay");
-      alert("Po lyubomu gay");
+    if (!mark.grade || mark.grade <= 0 || mark.grade > 10) {
+      alert("Выставьте оценку от 1 до 10");
       return;
     }
     sendMark(mark, handleOpen);
   }
 
   return (
-    <div
-      style={{
-        width: "80%",
-        height: "95vh",
-        margin: "40px 0 0 30px",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "40%",
-          height: "100%",
-          minWidth: "300px",
-        }}
-      >
+    <>
+      {connectionStatus === "Closed" ? (
+        <div className="loader-wrapper">
+          <div className="loader"></div>
+        </div>
+      ) : (
         <div
           style={{
-            height: "50%",
+            height: "95vh",
+            margin: "40px 20px 0 30px",
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
           }}
         >
-          <Link href={zoomLink} target="_blank" underline="none">
-            <Button color="warning">Zoom link</Button>
-          </Link>
-        </div>
-        <span>The WebSocket is currently {connectionStatus}</span>
-
-        <EditorProvider>
-          <Editor
-            containerProps={{
-              style: {
-                height: "40vh",
-                maxHeight: "500px",
-                width: "100%",
-                overflowY: "auto",
-                position: "relative",
-              },
+          <div
+            style={{
+              margin: "0 30px",
+              width: "70%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              overflowY: "scroll",
+              paddingRight: "25px",
             }}
-            value={inps.chat}
-            onChange={handleHtmlChange}
-            disabled={!isTeacher()}
+            className="cwScroll"
           >
+            <Vocabulary
+              showVocab={showVocab}
+              setShowVocab={setShowVocab}
+              vocabTasks={vocabulary}
+            />
+            <ClassTasks
+              request_id={request_id}
+              lesson={lesson}
+              playing={playing}
+              sendJsonMessage={sendJsonMessage}
+              inps={inps}
+              setInps={setInps}
+              setTyping={setTyping}
+              current_time={current_time}
+              tablePlaying={tablePlaying}
+              table_current_time={table_current_time}
+              fillinpsPlaying={fillinpsPlaying}
+              fillinps_current_time={fillinps_current_time}
+              setShowVocab={setShowVocab}
+            />
             {isTeacher() ? (
-              <Toolbar style={{ position: "sticky", top: 0 }}>
-                <BtnUndo />
-                <BtnRedo />
-                <Separator />
-                <BtnBold />
-                <BtnItalic />
-                <BtnUnderline />
-                <BtnStrikeThrough />
-                <Separator />
-                <BtnNumberedList />
-                <BtnBulletList />
-                <Separator />
-                <Button
-                  sx={{ width: "29%" }}
-                  onClick={sendNote}
-                  color="success"
-                >
-                  Send Note
-                </Button>
-              </Toolbar>
+              <MarkCW
+                checkMark={checkMark}
+                handleMark={handleMark}
+                grade={grade}
+              />
             ) : (
               <></>
             )}
-          </Editor>
-        </EditorProvider>
-      </div>
-      <div
-        style={{
-          margin: "0 30px",
-          width: "70%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "scroll",
-        }}
-      >
-        <Vocabulary
-          showVocab={showVocab}
-          setShowVocab={setShowVocab}
-          vocabTasks={vocabulary}
-        />
-        <ClassTasks
-          request_id={request_id}
-          lesson={lesson}
-          playing={playing}
-          sendJsonMessage={sendJsonMessage}
-          inps={inps}
-          setInps={setInps}
-          setTyping={setTyping}
-          current_time={current_time}
-          tablePlaying={tablePlaying}
-          table_current_time={table_current_time}
-          fillinpsPlaying={fillinpsPlaying}
-          fillinps_current_time={fillinps_current_time}
-          setShowVocab={setShowVocab}
-        />
-        {isTeacher() ? (
-          <MarkCW checkMark={checkMark} handleMark={handleMark} grade={grade} />
-        ) : (
-          <></>
-        )}
-      </div>
-    </div>
+          </div>
+          <div
+            style={{
+              width: "40%",
+              height: "100%",
+              minWidth: "300px",
+              marginRight: "20px",
+            }}
+          >
+            <div
+              style={{
+                height: "40%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Link href={zoomLink} target="_blank" underline="none">
+                <Button color="warning">Zoom link</Button>
+              </Link>
+            </div>
+            <span>
+              The class is currently:{" "}
+              <span style={{ color: "#e29578" }}>{connectionStatus}</span>
+            </span>
+
+            <EditorProvider>
+              <Editor
+                containerProps={{
+                  style: {
+                    height: "40vh",
+                    maxHeight: "500px",
+                    width: "100%",
+                    overflowY: "auto",
+                    position: "relative",
+                  },
+                }}
+                value={inps.chat}
+                onChange={handleHtmlChange}
+                disabled={!isTeacher()}
+              >
+                {isTeacher() ? (
+                  <Toolbar style={{ position: "sticky", top: 0 }}>
+                    <BtnUndo />
+                    <BtnRedo />
+                    <Separator />
+                    <BtnBold />
+                    <BtnItalic />
+                    <BtnUnderline />
+                    <BtnStrikeThrough />
+                    <Separator />
+                    <BtnNumberedList />
+                    <BtnBulletList />
+                    <Separator />
+                    <Button
+                      sx={{ width: "29%" }}
+                      onClick={sendNote}
+                      color="success"
+                    >
+                      Send Note
+                    </Button>
+                  </Toolbar>
+                ) : (
+                  <></>
+                )}
+              </Editor>
+            </EditorProvider>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

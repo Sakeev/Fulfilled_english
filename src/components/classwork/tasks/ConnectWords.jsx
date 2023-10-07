@@ -22,7 +22,6 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
     inputArray.push(i);
   }
 
-  console.log(inputArray);
   return (
     <Box className="connect_words">
       <h2>Connect words</h2>

@@ -85,7 +85,6 @@ const UsersContextProvider = ({ children }) => {
       type: "GET_STUD_HW",
       payload: data,
     });
-    console.log(data);
   };
 
   const getOneHw = async (case_id, user_id) => {
@@ -122,7 +121,6 @@ const UsersContextProvider = ({ children }) => {
       `${API}room/get_lesson/?user_id=${user_id}&hw=true`,
       getConfig()
     );
-    console.log(data);
     dispatch({
       type: "GET_CURRENT_LESSON",
       payload: data,
@@ -130,12 +128,15 @@ const UsersContextProvider = ({ children }) => {
   };
 
   const getTeacher = async () => {
-    const { data } = await axios(`${API}account/get_teacher_user/`, getConfig());
+    const { data } = await axios(
+      `${API}account/get_teacher_user/`,
+      getConfig()
+    );
     dispatch({
-      type: 'GET_TEACHER',
+      type: "GET_TEACHER",
       payload: data,
-    })
-  }
+    });
+  };
 
   const cloud = {
     getStudents,
@@ -151,7 +152,7 @@ const UsersContextProvider = ({ children }) => {
     getCurrentLesson,
     currentlesson: state.currentlesson,
     getTeacher,
-    teacherInfo: state.teacherInfo
+    teacherInfo: state.teacherInfo,
   };
 
   return (
