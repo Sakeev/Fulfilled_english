@@ -143,7 +143,8 @@ tbody {
 .weekdays::before {
   content: attr(date);
   position: absolute;
-  font-weight: 400;
+  font-weight: 800;
+  font-size: larger;
   top: -30px;
   left: 50%;
   transform: translate(-50%);

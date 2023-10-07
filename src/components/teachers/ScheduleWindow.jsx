@@ -1,7 +1,6 @@
 import React from 'react'
 
 function ScheduleWindow({lesson}) {
-  console.log(lesson)
   return (
     <div className="lesson_block" id={lesson.id}>
         <div>

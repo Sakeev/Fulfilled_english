@@ -3,7 +3,7 @@ import { useSchedule } from "../../contexts/ScheduleContextProvider";
 import { useUsers } from "../../contexts/UsersContextProvider";
 import AddSchedule from "./AddSchedule";
 import "./Schedule.css";
-import { getWeekDay } from "../../helpers/funcs";
+import { getMonthInThreeLetter, getWeekDay } from "../../helpers/funcs";
 import ScheduleWindow from "./ScheduleWindow";
 
 const rows = ["08", "12", "16", "20", "24"];
@@ -30,6 +30,36 @@ const setLesson = (lessons, time, weekday) => {
     return <>{comp}</>;
 };
 
+// const getFitDate = (weekday, today) => {
+//     let res = '01';
+//     switch (weekday) {
+//         case 'mon':
+//             res = today.getDate() - today.getDay() + 1;
+//             break;
+//         case 'tue':
+//             res = today.getDate() - today.getDay() + 2;
+//             break;
+//         case 'wed':
+//             res = today.getDate() - today.getDay() + 3;
+//             break;
+//         case 'thu':
+//             res = today.getDate() - today.getDay() + 4;
+//             break;
+//         case 'fri':
+//             res = today.getDate() - today.getDay() + 5;
+//             break;
+//         case 'sat':
+//             res = today.getDate() - today.getDay() + 6;
+//             break;
+//         case 'sun':
+//             res = today.getDate() - today.getDay() + 7;
+//             break;
+//         default:
+//             break;
+//     }
+//     return res.toString().length == 1 ? "0" + res : res.toString();
+// }
+
 const container = {
     margin: "0 auto",
     width: "95%",
@@ -46,9 +76,15 @@ const ScheduleTeachers = () => {
         getSchedule();
     }, []);
 
-    console.log(schedule);
+    // console.log(schedule);
+    // let today = new Date();
+    // const nextweek = new Date(
+    //     today.getFullYear(),
+    //     today.getMonth(),
+    //     today.getDate() + 28,
+    // );
 
-    return (
+    return ( 
         <div style={container}>
             <h2 className="schedule_heading">Schedule</h2>
             <table className="table_schedule">
@@ -59,7 +95,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Monday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
-                            date={'02 oct'}
+                            // date={getFitDate('mon', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Mon
                         </th>
@@ -67,7 +103,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Tuesday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
-                            date={'03 oct'}
+                            // date={getFitDate('tue', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Tue
                         </th>
@@ -77,6 +113,7 @@ const ScheduleTeachers = () => {
                                     ? "weekdays today-active"
                                     : "weekdays non-active-day"
                             }
+                            // date={getFitDate('wed', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Wed
                         </th>
@@ -84,6 +121,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Thursday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('thu', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Thu
                         </th>
@@ -91,6 +129,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Friday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('fri', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Fri
                         </th>
@@ -98,6 +137,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Saturday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('sat', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Sat
                         </th>
@@ -105,6 +145,7 @@ const ScheduleTeachers = () => {
                             className={
                                 getWeekDay() == "Sunday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('sun', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Sun
                         </th>
