@@ -7,7 +7,7 @@ import { MenuItem, ProgressBar, Select } from "components/ui";
 
 const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   const filteredGrades = grades.filter(
-    (grade) => selectedUser === null || grade.user === selectedUser.id
+    (grade) => selectedUser === null || grade.user === selectedUser.user?.id
   );
 
   return (
@@ -22,7 +22,7 @@ const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
 };
 
 const Gradebook = () => {
-  const { users, getUsers, getRoomOrRooms } = useAuth();
+  const { getRoomOrRooms } = useAuth();
   const { gradebook, getGradebook } = useSchedule();
 
   const [selectedUser, setSelectedUser] = useState({});
@@ -34,7 +34,6 @@ const Gradebook = () => {
   useEffect(() => {
     // innitialize load
     getGradebook();
-    getUsers();
     getRoomOrRooms().then((res) => setRuroom(res));
   }, []);
 
@@ -59,9 +58,7 @@ const Gradebook = () => {
   }, [gradebook]);
 
   const handleSelect = (value) => {
-    // console.log("Selected value:", value?.email);
     setSelectedUser(value);
-    // Здесь ты можешь сохранить значение в состоянии компонента или использовать его по своему усмотрению.
   };
 
   console.log(rurooms);
@@ -94,7 +91,11 @@ const Gradebook = () => {
             label={selectedUser.user?.email}
           >
             {rurooms.map((userData) => (
-              <MenuItem id={userData.id} value={userData} key={userData.id}>
+              <MenuItem
+                id={userData.user.id}
+                value={userData}
+                key={userData.id}
+              >
                 {userData?.user?.email}
               </MenuItem>
             ))}
