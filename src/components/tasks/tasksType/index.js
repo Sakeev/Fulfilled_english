@@ -4,7 +4,6 @@ import BuildSentences from './BuildSentences/BuildSentences';
 import ConnectWords from './ConnectWords/ConnectWords';
 import BuildDialog from './BuildDialog/BuildDialog';
 import DescribeImage from './DescribeImage/Images';
-import Dropdown from './Dropdown';
 import Inputs from './Inputs/Inputs';
 import Table from './Table/Table';
 
@@ -15,7 +14,6 @@ export {
     DescribeImage,
     ConnectWords,
     BuildDialog,
-    Dropdown,
     Inputs,
     Table,
 };

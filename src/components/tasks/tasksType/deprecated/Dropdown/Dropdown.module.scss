@@ -1,0 +1,47 @@
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown-container button {
+    align-self: flex-end;
+}
+
+.dropdown-container .dropdown {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.dropdown div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.75em;
+    font-size: 1.5rem;
+    word-wrap: break-word;
+}
+
+.dropdown div .MuiInputBase-root {
+    font-family: 'Overpass';
+    font-size: 1.5rem;
+    height: 2.125rem;
+    background-color: transparent;
+    margin-inline: 0.375em;
+    padding-bottom: 0.25em;
+}
+
+.dropdown div .MuiInputBase-root::before {
+    border-bottom: 0.0625rem solid black;
+}
+
+.dropdown div .MuiInputBase-root::after {
+    border-bottom: 0.125rem solid #006d77;
+}
+
+.dropdown div .MuiInputBase-root .MuiSelect-select {
+    background-color: transparent;
+    padding: 0;
+    padding-right: 1.5em;
+}

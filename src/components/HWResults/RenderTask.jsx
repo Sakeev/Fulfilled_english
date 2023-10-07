@@ -4,7 +4,6 @@ import { useTasks } from 'contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
 import Inputs from './resultDisplayTasks/Inputs';
 import {
-    Dropdown,
     // Inputs,
     WriteSentences,
     Table,
@@ -66,17 +65,6 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}
-                />
-            );
-            break;
-
-        case 'drop down':
-            component = (
-                <Dropdown
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    taskDetails={task}
                 />
             );
             break;

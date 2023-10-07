@@ -33,7 +33,6 @@ export const useTaskComponent = () => {
         'build sentence': <tasksType.BuildSentences {...props} />,
         'build dialog': <tasksType.BuildDialog {...props} />,
         'connect words': <tasksType.ConnectWords {...props} />,
-        'drop down': <tasksType.Dropdown {...props} />,
         table: <tasksType.Table {...props} />,
         'describe image': <tasksType.DescribeImage {...props} />,
         'work with images': <tasksType.WorkWithImages {...props} />,

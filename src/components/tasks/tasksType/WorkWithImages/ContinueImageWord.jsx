@@ -30,8 +30,6 @@ const ContinueImageWord = ({ taskDetails, handleAnswer }) => {
         return { answers: answerTemplate };
     };
 
-    console.log(results);
-
     return (
         <div className={styles.imageWordContainer}>
             <div className={styles.images}>

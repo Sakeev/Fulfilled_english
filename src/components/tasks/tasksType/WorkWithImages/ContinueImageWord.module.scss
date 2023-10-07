@@ -32,6 +32,8 @@
         padding-left: 3em;
 
         .inputBox {
+            @include flex(column);
+            gap: 0.5em;
             position: relative;
             counter-increment: li-counter;
 
