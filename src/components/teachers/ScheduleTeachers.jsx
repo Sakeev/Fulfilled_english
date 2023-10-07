@@ -3,7 +3,8 @@ import { useSchedule } from "../../contexts/ScheduleContextProvider";
 import { useUsers } from "../../contexts/UsersContextProvider";
 import AddSchedule from "./AddSchedule";
 import "./Schedule.css";
-import { getWeekDay } from "../../helpers/funcs";
+import { getMonthInThreeLetter, getWeekDay } from "../../helpers/funcs";
+import ScheduleWindow from "./ScheduleWindow";
 
 const rows = ["08", "12", "16", "20", "24"];
 // const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -19,18 +20,8 @@ const setLesson = (lessons, time, weekday) => {
     );
 
     let comp = lessonsOnTime.length ? (
-        lessonsOnTime.map((lesson) => (
-            <div className="lesson_block" id={lesson.id}>
-                <p id={lesson.id}>{lesson.user}</p>
-                <p id={lesson.id}>
-                    <b id={lesson.id}>
-                        {lesson.accepted ? "accepted" : "not accepted"}
-                    </b>
-                </p>
-                <p id={lesson.id}>
-                    <b>{lesson?.time?.split(":")?.splice(0, 2).join(":")}</b>
-                </p>
-            </div>
+        lessonsOnTime.map((lesson, index) => (
+            <ScheduleWindow lesson={lesson} key={index} />
         ))
     ) : (
         <></>
@@ -39,14 +30,41 @@ const setLesson = (lessons, time, weekday) => {
     return <>{comp}</>;
 };
 
+// const getFitDate = (weekday, today) => {
+//     let res = '01';
+//     switch (weekday) {
+//         case 'mon':
+//             res = today.getDate() - today.getDay() + 1;
+//             break;
+//         case 'tue':
+//             res = today.getDate() - today.getDay() + 2;
+//             break;
+//         case 'wed':
+//             res = today.getDate() - today.getDay() + 3;
+//             break;
+//         case 'thu':
+//             res = today.getDate() - today.getDay() + 4;
+//             break;
+//         case 'fri':
+//             res = today.getDate() - today.getDay() + 5;
+//             break;
+//         case 'sat':
+//             res = today.getDate() - today.getDay() + 6;
+//             break;
+//         case 'sun':
+//             res = today.getDate() - today.getDay() + 7;
+//             break;
+//         default:
+//             break;
+//     }
+//     return res.toString().length == 1 ? "0" + res : res.toString();
+// }
+
 const container = {
     margin: "0 auto",
-    width: "90%",
-    padding: "50px 70px",
-};
-
-const table_style = {
-    width: "100%",
+    width: "95%",
+    padding: "60px",
+    height: "90vh"
 };
 
 const ScheduleTeachers = () => {
@@ -58,62 +76,76 @@ const ScheduleTeachers = () => {
         getSchedule();
     }, []);
 
-    console.log(schedule);
+    // console.log(schedule);
+    // let today = new Date();
+    // const nextweek = new Date(
+    //     today.getFullYear(),
+    //     today.getMonth(),
+    //     today.getDate() + 28,
+    // );
 
-    return (
+    return ( 
         <div style={container}>
-            <table style={table_style} className="table_schedule">
+            <h2 className="schedule_heading">Schedule</h2>
+            <table className="table_schedule">
                 <tbody>
                     <tr>
                         <th>GMT+3</th>
                         <th
                             className={
-                                getWeekDay() == "Monday" ? "today-active" : ""
+                                getWeekDay() == "Monday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('mon', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Mon
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Tuesday" ? "today-active" : ""
+                                getWeekDay() == "Tuesday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('tue', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Tue
                         </th>
                         <th
                             className={
                                 getWeekDay() == "Wendesday"
-                                    ? "today-active"
-                                    : ""
+                                    ? "weekdays today-active"
+                                    : "weekdays non-active-day"
                             }
+                            // date={getFitDate('wed', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Wed
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Thursday" ? "today-active" : ""
+                                getWeekDay() == "Thursday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('thu', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Thu
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Friday" ? "today-active" : ""
+                                getWeekDay() == "Friday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('fri', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Fri
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Saturday" ? "today-active" : ""
+                                getWeekDay() == "Saturday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('sat', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Sat
                         </th>
                         <th
                             className={
-                                getWeekDay() == "Sunday" ? "today-active" : ""
+                                getWeekDay() == "Sunday" ? "weekdays today-active" : "weekdays non-active-day"
                             }
+                            // date={getFitDate('sun', nextweek) + " " + getMonthInThreeLetter(nextweek)}
                         >
                             Sun
                         </th>

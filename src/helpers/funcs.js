@@ -85,3 +85,11 @@ export const formatText = (note) => {
     const textWithoutTags = note?.body.replace(regex, '\n');
     return textWithoutTags?.trim().replace(/\s+/g, ' ');
 };
+
+
+export function getMonthInThreeLetter(date) {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthIndex = date.getMonth();
+    const monthName = monthNames[monthIndex];
+    return monthName;
+}
