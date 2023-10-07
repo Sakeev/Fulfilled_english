@@ -1,0 +1,29 @@
+.select_menu {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border 0.3s ease;
+  z-index: 2;
+  background-color: #f2f2f2;
+}
+
+.select_list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  z-index: 2;
+  transition: height 0.3s ease;
+  background-color: #f2f2f2;
+}
+
+.menu_item {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 2;
+}

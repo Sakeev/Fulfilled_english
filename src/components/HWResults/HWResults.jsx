@@ -1,70 +1,68 @@
-import { useTasks } from '../../contexts/TasksContextProvider';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import RenderTask from './RenderTask';
+import { useTasks } from "../../contexts/TasksContextProvider";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import RenderTask from "./RenderTask";
 
-import './HWResults.css';
+import "./HWResults.css";
 
 const HWResults = () => {
-    const { caseInfo, getCaseInfo } = useTasks();
-    const { userId, taskId } = useParams();
-    const [tasksQuan, setTasksQuan] = useState(0);
-    const [activePage, setActivePage] = useState(1);
-    const [currentTask, setCurrentTask] = useState(null);
+  const { caseInfo, getCaseInfo } = useTasks();
+  const { userId, taskId } = useParams();
+  const [tasksQuan, setTasksQuan] = useState(0);
+  const [activePage, setActivePage] = useState(1);
+  const [currentTask, setCurrentTask] = useState(null);
 
-    useEffect(() => {
-        getCaseInfo(taskId, userId);
-    }, []);
+  useEffect(() => {
+    getCaseInfo(taskId, userId);
+  }, []);
 
-    useEffect(() => {
-        setTasksQuan(caseInfo?.quantity_task);
-        setCurrentTask(caseInfo?.tasks?.[activePage - 1] || null);
-    }, [caseInfo]);
+  useEffect(() => {
+    setTasksQuan(caseInfo?.quantity_task);
+    setCurrentTask(caseInfo?.tasks?.[activePage - 1] || null);
+  }, [caseInfo]);
 
-    useEffect(() => {
-        setCurrentTask(caseInfo?.tasks?.[activePage - 1] || null);
-    }, [activePage]);
+  useEffect(() => {
+    setCurrentTask(caseInfo?.tasks?.[activePage - 1] || null);
+  }, [activePage]);
 
-    const handlePaginationBtn = (direction) => {
-        if (
-            (tasksQuan <= activePage && direction !== -1) ||
-            (activePage <= 1 && direction !== 1)
-        ) {
-            return;
-        }
-        setActivePage(activePage + direction);
-    };
+  const handlePaginationBtn = (direction) => {
+    if (
+      (tasksQuan <= activePage && direction !== -1) ||
+      (activePage <= 1 && direction !== 1)
+    ) {
+      return;
+    }
+    setActivePage(activePage + direction);
+  };
 
-    const checkHW = () => {
-        if (currentTask) {
-            if (currentTask.answers.length === 0) return true;
+  const checkHW = () => {
+    if (currentTask) {
+      if (currentTask.answers.length === 0) return true;
 
-            return currentTask.answers[currentTask.answers.length - 1].accepted;
-        } else return false;
-    };
+      return currentTask.answers[currentTask.answers.length - 1].accepted;
+    } else return false;
+  };
 
-    // console.log(currentTask);
-
-    return (
-        <div className="hw-results">
-            <div className="slider__pagination">
-                <button
-                    onClick={() => handlePaginationBtn(-1)}
-                    disabled={activePage === 1 ? true : false}
-                >
-                    &#8249;&#8249;
-                </button>
-                <h5>{activePage}</h5>
-                <button
-                    onClick={() => handlePaginationBtn(1)}
-                    disabled={activePage === tasksQuan ? true : false}
-                >
-                    &#8250;&#8250;
-                </button>
-            </div>
-            <div className="hw-results-container">
-                <p className="hw-results-condition">{currentTask?.condition}</p>
-                {/* <div className="hw-results-student">
+  return (
+    <div className="hw-results">
+      <div className="slider__pagination">
+        <button
+          onClick={() => handlePaginationBtn(-1)}
+          disabled={activePage === 1 ? true : false}
+        >
+          &#8249;&#8249;
+        </button>
+        <h5>{activePage}</h5>
+        <button
+          onClick={() => handlePaginationBtn(1)}
+          disabled={activePage === tasksQuan ? true : false}
+        >
+          &#8250;&#8250;
+        </button>
+      </div>
+      <div className="hw-results-container">
+        <p className="hw-results-condition">{currentTask?.condition}</p>
+        {/* <div className="hw-results-student">
                     <div className="hw-results-task">
                         <RenderTask
                             task={currentTask}
@@ -90,23 +88,23 @@ const HWResults = () => {
                         </div>
                     </div>
                 )} */}
-                <RenderTask
-                    task={currentTask}
-                    id={userId}
-                    // task_id={task_id}
-                    displayDataType={'student'}
-                />
-                {!checkHW() && (
-                    <RenderTask
-                        task={currentTask}
-                        id={userId}
-                        // task_id={task_id}
-                        displayDataType={'teacher'}
-                    />
-                )}
-            </div>
-        </div>
-    );
+        <RenderTask
+          task={currentTask}
+          id={userId}
+          // task_id={task_id}
+          displayDataType={"student"}
+        />
+        {!checkHW() && (
+          <RenderTask
+            task={currentTask}
+            id={userId}
+            // task_id={task_id}
+            displayDataType={"teacher"}
+          />
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default HWResults;

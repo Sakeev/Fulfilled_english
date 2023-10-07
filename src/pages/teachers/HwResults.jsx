@@ -16,10 +16,7 @@ const HwResults = () => {
   const { getUsers, hwstudents, getUserHw, studentshw, getOneHw, onehw } =
     useUsers();
 
-  console.log(onehw);
-
   const { user_id, id } = useParams();
-  console.log(user_id, id);
   useEffect(() => {
     getOneHw(user_id, id);
   }, []);
@@ -42,17 +39,13 @@ const HwResults = () => {
     return item === true;
   });
 
-  console.log(results);
-
   useEffect(() => {
     colorManager();
   }, [isAllTrue]);
 
-  console.log(isAllTrue);
   const colorManager = () => {
     isAllTrue ? setColor("#83C5BE") : setColor("#E29578");
   };
-  console.log(color);
 
   return (
     <div style={{ display: "flex" }}>
