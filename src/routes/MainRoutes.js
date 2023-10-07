@@ -73,7 +73,7 @@ const MainRoutes = () => {
         },
         {
             link: '/essay',
-            element: isTeacher ? <TeacherEssayPage /> : <EssayPage />,
+            element: isTeacher ? <TeacherEssayPage /> : <StudentEssayPage />,
             id: 5,
         },
         {
