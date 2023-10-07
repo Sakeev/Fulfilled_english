@@ -108,6 +108,117 @@ const TasksContextProvider = ({ children }) => {
     }
   };
 
+<<<<<<< HEAD
+    const handleAnswer = async (obj, id) => {
+        try {
+            console.log(id);
+            const res = await axios.post(
+                `${API}room/tasks/${id}/answer/`,
+                obj,
+                getConfig()
+            );
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const getCases = async (id) => {
+        const { data } = await api.get(
+            `${API}room/get_lesson/?hw=true${id ? '&user_id=' + id : ''}`
+        );
+
+        dispatch({
+            type: 'CASE',
+            payload: data,
+        });
+    };
+
+    const getTaskDetails = async (caseId, taskId) => {
+        const { data } = await api.get(
+            `${API}room/case_tasks/${caseId}/?task=${taskId}`
+        );
+
+        dispatch({
+            type: 'CASE_DETAIL',
+            payload: data,
+        });
+    };
+    const singleCase = async (id) => {
+        const { data } = await axios(
+            `${API}room/case_tasks/${id}/`,
+            getConfig()
+        );
+        dispatch({
+            type: 'SINGLE_CASE',
+            payload: data,
+        });
+        return data;
+    };
+    const getCaseInfo = async (id, userId) => {
+        const { data } = await axios(
+            `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`,
+            getConfig()
+        );
+        dispatch({
+            type: 'CASE_INFO',
+            payload: data,
+        });
+    };
+
+    const editProgress = async (obj, caseIndex) => {
+        if (obj.task0) {
+            console.log('patch', obj);
+            let resObj = {
+                json_field: obj,
+            };
+
+            await axios.patch(
+                `${API}room/case_tasks/${caseIndex}/`,
+                resObj,
+                getConfig()
+            );
+        }
+    };
+
+    const getProgress = async (caseIndex) => {
+        const { data } = await axios.get(
+            `${API}room/case_tasks/${caseIndex}/`,
+            getConfig()
+        );
+        dispatch({
+            type: 'PROGRESS_OBJECT',
+            payload: data,
+        });
+    };
+
+    const values = {
+        handleTask,
+        getCases,
+        singleCase,
+        taskDetails: state.taskDetails,
+        getTaskDetails,
+        cases: state.cases,
+        tasks: state.tasks,
+        sent: state.sent,
+        fillInps: state.fillInps,
+        dispatch,
+        wordFind: state.wordFind,
+        handleAnswer,
+        getAnswers,
+        answers: state.answers,
+        oneCase: state.singleCase,
+        caseInfo: state.caseInfo,
+        getCaseInfo,
+        taskProgress: state.taskProgress,
+        editProgress,
+        getProgress,
+        progObj: state.progObj,
+        updateAnswer,
+    };
+
+    return (
+        <tasksContext.Provider value={values}>{children}</tasksContext.Provider>
+=======
   const handleAnswer = async (obj, id) => {
     try {
       const res = await axios.post(
@@ -122,6 +233,7 @@ const TasksContextProvider = ({ children }) => {
   const getCases = async (id) => {
     const { data } = await api.get(
       `${API}room/get_lesson/?hw=true${id ? "&user_id=" + id : ""}`
+>>>>>>> a2427cfb0a5c9f72e3b7409f58bea28711f247d7
     );
 
     dispatch({

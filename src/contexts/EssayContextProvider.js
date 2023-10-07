@@ -5,8 +5,8 @@ import React, {
     useReducer,
     useState,
 } from 'react';
-import { API } from '../helpers/consts';
-import api from '../http';
+import { API } from 'helpers/consts';
+import api from 'http';
 
 export const essayContext = createContext();
 
@@ -52,7 +52,6 @@ const EssayContextProvider = ({ children }) => {
     useEffect(() => {
         if (username) {
             getStudents();
-            // getEssays();
         }
     }, []);
 
@@ -125,22 +124,6 @@ const EssayContextProvider = ({ children }) => {
         }
     };
 
-    // const getEssays = async () => {
-    //     try {
-    //         setLoading(true);
-    //         let { data } = await api.get(`${API}room/essa/`);
-
-    //         dispatch({
-    //             type: 'GET_ESSAYS',
-    //             payload: data,
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const getStudent = async (id) => {
         try {
             setLoading(true);
@@ -179,8 +162,6 @@ const EssayContextProvider = ({ children }) => {
             setLoading(true);
 
             await api.patch(`${API}room/essa/${essayId}/`, newFields);
-
-            // getEssays();
         } catch (error) {
             setLoading(false);
             console.log(error);
@@ -199,11 +180,21 @@ const EssayContextProvider = ({ children }) => {
         else return noEssay;
     };
 
+    const setEssayGrade = (grade, lessonId, essayId, studentId) => {
+        const data = {
+            grade,
+            lesson: lessonId,
+            essay: essayId,
+            user: studentId,
+        };
+
+        api.post(`${API}gradebook/grade/`, data);
+    };
+
     const values = {
         essay: state.essay,
         getEssay,
         essays: state.essays,
-        // getEssays,
         student: state.student,
         students: state.students,
         getStudent,
@@ -216,6 +207,7 @@ const EssayContextProvider = ({ children }) => {
         getLessons,
         lessons: state.lessons,
         setEssay,
+        setEssayGrade,
     };
 
     return (

@@ -1,9 +1,11 @@
-import { API } from '../../../helpers/consts';
-import { renderInputs } from './utils';
-import { Button } from '@mui/material';
+import { renderInputs } from '../utils';
+import { Button } from 'components/ui';
+import { API } from 'helpers/consts';
 import { useState } from 'react';
 
-const WriteSentencesWithGivenInfo = ({ taskDetails, handleAnswer, taskId }) => {
+import styles from './WriteSentences.module.scss';
+
+const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
     const formAnswerTemplate = () => {
         const answerTemplate = {};
 
@@ -38,21 +40,20 @@ const WriteSentencesWithGivenInfo = ({ taskDetails, handleAnswer, taskId }) => {
             }
         }
 
+        console.log(resultsCopy);
+
         return { answers: resultsCopy };
     };
 
     return (
-        <div className="ws-w-given-info-container task-types-container">
-            <div className="ws-w-given-info-image-box-wrapper">
+        <div className={styles.writeSentencesContainer}>
+            <div className={styles.images}>
                 {taskDetails.images.map(
                     ({ image, sentence, additional_info }, index) => {
                         return (
-                            <div
-                                className="ws-w-given-info-image-box"
-                                key={image}
-                            >
+                            <div className={styles.image} key={image}>
                                 <img src={`${API}${image}`} alt="exercise" />
-                                {sentence && (
+                                {/* {sentence && (
                                     <p>
                                         {index + 1}. {sentence}
                                     </p>
@@ -64,16 +65,16 @@ const WriteSentencesWithGivenInfo = ({ taskDetails, handleAnswer, taskId }) => {
                                             .map((line, index) => (
                                                 <li key={index}>{line}</li>
                                             ))}
-                                </ul>
+                                </ul> */}
                             </div>
                         );
                     }
                 )}
             </div>
-            <div className="ws-w-given-info-input-columns">
+            <div className={styles.inputColumns}>
                 {Object.keys(taskDetails.description).map((key, index) => (
-                    <div className="ws-w-given-info-input-column" key={index}>
-                        <p>{key}</p>
+                    <div className={styles.inputColumn} key={index}>
+                        <p className={styles.header}>{key}</p>
                         <ol>
                             {Object.values(taskDetails.description)[index].map(
                                 (value, innerInd) => (
@@ -95,15 +96,15 @@ const WriteSentencesWithGivenInfo = ({ taskDetails, handleAnswer, taskId }) => {
                 ))}
             </div>
             <Button
-                className="hw__send-btn"
+                className={styles.submit}
                 onClick={() => {
                     handleAnswer(formRequest(), taskId);
                 }}
             >
-                send
+                Submit
             </Button>
         </div>
     );
 };
 
-export default WriteSentencesWithGivenInfo;
+export default WriteSentences;

@@ -1,27 +1,21 @@
-import { useEssay } from '../../../contexts/EssayContextProvider';
-import { useAuth } from '../../../contexts/AuthContextProvider';
-import { API } from '../../../helpers/consts';
-import { Button } from '@mui/material';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import api from '../../../http';
-import { useRef } from 'react';
-import React from 'react';
+import { useEssay } from 'contexts/EssayContextProvider';
+import { useEffect, useState, useRef } from 'react';
+import { Button } from 'components/ui';
+import { API } from 'helpers/consts';
+import api from 'http';
 
-import './Essay.css';
+import styles from './StudentEssay.module.scss';
 
-const Essay = () => {
+const StudentEssay = () => {
     const { getLesson, lesson, loading } = useEssay();
     const [essayTemplate, setEssayTemplate] = useState(null);
     const [essayText, setEssayText] = useState('');
     const [essay, setEssay] = useState(null);
     const [noEssay, setNoEssay] = useState(false);
-    const highlightedEssayText = useRef();
+    const highlightedText = useRef();
 
     useEffect(() => {
-        let isTeacher = localStorage.getItem('isTeacher');
-        isTeacher = isTeacher ? JSON.parse(isTeacher) : isTeacher;
-        if (!isTeacher) getLesson();
+        getLesson();
     }, []);
 
     useEffect(() => {
@@ -36,8 +30,8 @@ const Essay = () => {
             if (essayTemplate.user_essay[0]) {
                 setEssay(essayTemplate.user_essay[0]);
                 setEssayText(essayTemplate.user_essay[0].text);
-                if (highlightedEssayText.current) {
-                    highlightedEssayText.current.innerHTML =
+                if (highlightedText.current) {
+                    highlightedText.current.innerHTML =
                         essayTemplate.user_essay[0].html_text;
                 }
             }
@@ -56,7 +50,7 @@ const Essay = () => {
     };
 
     if (noEssay) {
-        return <h3 className="essay-no-essay">You haven't essay</h3>;
+        return <h3 className={styles.noEssay}>You haven't essay</h3>;
     }
 
     if (!essayTemplate || loading) {
@@ -67,44 +61,37 @@ const Essay = () => {
         );
     }
 
-    console.log(essayTemplate);
-
     return (
-        <div className="student-essay-wrapper">
-            <div className="student-essay">
-                <h2>Essay</h2>
-                <div className="student-essay-info-text">
-                    <div className="student-essay-subject">
-                        <span>Subject: {essayTemplate?.title}</span>
-                        {essayTemplate?.audio ? (
-                            <audio
-                                src={
-                                    essayTemplate
-                                        ? `${API}${essayTemplate?.audio}`
-                                        : ''
-                                }
-                                controls
-                            ></audio>
-                        ) : null}
+        <div className={styles.essayContainer}>
+            <div className={styles.essay}>
+                <div className={styles.essayHeader}>
+                    <div className={styles.studentInfo}>
+                        <h2>Essay</h2>
+                        <span>
+                            Status: {essay?.checked ? '' : ' not'} checked
+                        </span>
                     </div>
-                    <div className="student-essay-status">
-                        <span>Status:</span>
-                        <span>{essay?.checked ? '' : ' not'} checked</span>
+                    <div className={styles.subject}>
+                        <span>subject: </span>
+                        <p>{essayTemplate?.title}</p>
+                        {/* <audio
+                            src={essay ? `${API}${essay?.audio}` : ''}
+                            controls
+                        ></audio> */}
                     </div>
                 </div>
-                <div className="student-essay-textareas">
+                <div className={styles.windows}>
                     {essay?.checked && (
-                        <div className="student-essay-corrections info-window">
+                        <div className={styles.mistakesWindow}>
                             <p>Here is the teachers corrections:</p>
                             <ul>
                                 {essay?.mistakes.map((mistake, index) => {
                                     return (
                                         <li
                                             key={index}
-                                            className="student-essay-correction"
+                                            className={styles.mistake}
                                         >
                                             <div
-                                                className="correction-color"
                                                 style={{
                                                     backgroundColor:
                                                         mistake.color,
@@ -119,26 +106,26 @@ const Essay = () => {
                     )}
                     {essay?.checked ? (
                         <div
-                            ref={highlightedEssayText}
-                            className="unactive student-essay-text info-window"
+                            ref={highlightedText}
+                            className={`${styles.essayWindow} ${styles.unactive}`}
                         ></div>
                     ) : (
                         <textarea
-                            className={`${
-                                essay ? 'unactive' : ''
-                            } student-essay-text info-window`}
-                            readOnly={!!essay}
+                            className={`${essay ? 'unactive' : ''} ${
+                                styles.essayTextarea
+                            }`}
+                            readOnly={essay?.accepted}
                             onChange={(e) => setEssayText(e.target.value)}
                             value={essayText}
                         />
                     )}
                 </div>
-                <div className="student-essay-btns">
+                <div className={styles.studentEssayBtns}>
                     <Button
-                        disabled={!!essay}
+                        disabled={essay?.accepted}
                         onClick={() => sendEssay(essayText)}
                     >
-                        send
+                        Send
                     </Button>
                     {essay?.checked ? <span>{essay?.score}/10</span> : null}
                 </div>
@@ -147,4 +134,4 @@ const Essay = () => {
     );
 };
 
-export default Essay;
+export default StudentEssay;

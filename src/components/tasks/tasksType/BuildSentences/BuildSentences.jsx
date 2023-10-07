@@ -1,48 +1,35 @@
-import { Button } from '@mui/material';
-import BuildSentence from './BuildSentence';
-import { useEffect, useState } from 'react';
+import BuildSentence from './BuildSentence/BuildSentence';
+import { Button } from 'components/ui';
+import { useState } from 'react';
 
-const BuildSentences = ({
-    getTaskDetails,
-    id,
-    task_id,
-    taskDetails,
-    handleAnswer,
-    caseInfo,
-}) => {
+import styles from './BuildSentences.module.scss';
+
+const BuildSentences = ({ taskDetails, handleAnswer }) => {
     const [results, setResults] = useState({});
-
-    useEffect(() => {
-        getTaskDetails(id, task_id);
-    }, []);
 
     const formResults = () => {
         return Object.values(results).map((result) => result.join(' '));
     };
 
     return (
-        <div className="build-sentences-container">
+        <div className={styles.buildSentencesContainer}>
             {taskDetails?.description.map((sentence, index) => {
                 return (
                     <BuildSentence
                         key={index}
                         id={index}
-                        task_id={task_id}
                         sentence={sentence}
                         setResults={setResults}
                     />
                 );
             })}
             <Button
-                className="hw__send-btn"
+                className={styles.submit}
                 onClick={() => {
-                    handleAnswer(
-                        { answers: formResults() },
-                        caseInfo.tasks?.[task_id - 1].id
-                    );
+                    handleAnswer({ answers: formResults() }, taskDetails.id);
                 }}
             >
-                send
+                Submit
             </Button>
         </div>
     );
