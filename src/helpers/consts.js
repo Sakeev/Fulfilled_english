@@ -17,4 +17,5 @@ export const routes = {
   ESSAY: "/essay",
   STUDENTS: "/students",
   SCHEDULE: "/schedule",
+  GRADEBOOK: "/gradebook",
 };

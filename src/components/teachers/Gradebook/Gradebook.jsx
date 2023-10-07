@@ -74,7 +74,7 @@ const Gradebook = () => {
             id="userSelect"
             // className={styles.gradebook_select}
             onSelect={handleSelect}
-            label={selectedUser.user?.email}
+            // label={selectedUser.user?.email}
           >
             {rurooms.map((userData) => (
               <MenuItem
