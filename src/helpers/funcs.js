@@ -25,22 +25,6 @@ export const isTeacher = () => {
   return JSON.parse(localStorage.getItem("isTeacher")) || false;
 };
 
-export const timeFromMilliseconds = (countDownDate) => {
-  const now = new Date().getTime();
-  const timeleft = countDownDate - now;
-
-  let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-  days = days.toString().length === 1 ? `0${days}` : days;
-  let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  hours = hours.toString().length === 1 ? `0${hours}` : hours;
-  let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-  minutes = minutes.toString().length === 1 ? `0${minutes}` : minutes;
-  let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-  seconds = seconds.toString().length === 1 ? `0${seconds}` : seconds;
-
-  return `${days}:${hours}`;
-};
-
 export const dateFormate = (date = "0-0-0") => {
   const dateArr = date.split("-");
   switch (dateArr[1]) {
