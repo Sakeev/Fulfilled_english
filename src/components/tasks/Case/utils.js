@@ -16,7 +16,7 @@ export const getVocabulary = (cases) => {
 
 export const useTaskComponent = () => {
     const { taskId } = useParams();
-    const { taskDetails, handleAnswer, caseInfo } = useTasks();
+    const { taskDetails, handleAnswer, caseInfo, getTaskDetails } = useTasks();
 
     const props = {
         key: taskId,
@@ -25,6 +25,7 @@ export const useTaskComponent = () => {
         handleAnswer: handleAnswer,
         caseInfo: caseInfo,
         taskDetails: taskDetails,
+        getTaskDetails: getTaskDetails, // need to remove and check tasksType components
     };
 
     const taskComponents = {
@@ -32,12 +33,11 @@ export const useTaskComponent = () => {
         'build sentence': <tasksType.BuildSentences {...props} />,
         'build dialog': <tasksType.BuildDialog {...props} />,
         'connect words': <tasksType.ConnectWords {...props} />,
-        'drop down': <tasksType.Dropdown {...props} />,
         table: <tasksType.Table {...props} />,
-        'describe image': <tasksType.Images {...props} />,
-        'work with images': <tasksType.ContinueImageWord {...props} />,
+        'describe image': <tasksType.DescribeImage {...props} />,
+        'work with images': <tasksType.WorkWithImages {...props} />,
         'write sentences with given info': (
-            <tasksType.WriteSentencesWithGivenInfo {...props} />
+            <tasksType.WriteSentences {...props} />
         ),
     };
 

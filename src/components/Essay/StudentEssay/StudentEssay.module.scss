@@ -1,0 +1,34 @@
+@import 'components/Essay/Essay.module.scss';
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+.noEssay {
+    font-size: 1.75rem;
+    text-align: center;
+    margin-top: 2em;
+    color: $primary-color;
+}
+
+.essayTextarea {
+    font-size: 1.125rem;
+    width: 100%;
+    height: 30vh;
+    border-radius: 1rem;
+    border: 0.125rem solid $border-color;
+    margin-bottom: 1em;
+    padding: 1em 1em 1.5em 1.5em;
+    resize: none;
+    outline: none;
+    overflow: auto;
+}
+
+.studentEssayBtns {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    width: 50%;
+
+    span {
+        font-size: 1.5rem;
+    }
+}

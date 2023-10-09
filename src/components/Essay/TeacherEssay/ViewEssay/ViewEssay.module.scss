@@ -1,0 +1,231 @@
+@import 'components/Essay/Essay.module.scss';
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+// .viewEssay {
+//     width: 100%;
+
+//     .essay {
+//         @include flex(column);
+//         width: 65%;
+//         margin-left: 4em;
+//         margin-top: 4em;
+
+//         .essayHeader {
+//             @include flex(row, space-between);
+//             margin-bottom: 1em;
+//             font-size: 1.125rem;
+
+//             .studentInfo {
+//                 @include flex(column, space-between);
+//                 height: 100%;
+
+//                 h2 {
+//                     padding-bottom: 0.5em;
+//                 }
+
+//                 span {
+//                     font-weight: 600;
+
+//                     a {
+//                         color: $highlighted-text;
+//                         text-decoration: underline;
+//                         text-decoration-color: $highlighted-text;
+//                     }
+//                 }
+//             }
+
+//             .subject {
+//                 @include flex(column, space-between);
+
+//                 span {
+//                     margin-top: 0.5em;
+//                     font-weight: 600;
+//                 }
+//             }
+//         }
+
+//         .windows {
+//             @include flex(column);
+//             gap: 1.5em;
+//             max-height: 70vh;
+//             width: 100%;
+//             padding-block: 2em 0.5em;
+//         }
+
+.colorFills {
+    @include flex(row, space-between, center);
+    position: absolute;
+    opacity: 0;
+    gap: 0.25em;
+    padding: 0.375em;
+    background-color: $page-color;
+    box-shadow: 0.2rem 0.2rem 0.5rem -0.125rem rgba(0, 0, 0, 0.45);
+    border: 0.0625rem solid $border-color;
+    border-radius: 0.375rem;
+
+    .colorFill {
+        height: 2rem;
+        width: 2rem;
+        border-radius: 0.2rem;
+        background-color: orange;
+
+        &:nth-child(2) {
+            background-color: red;
+        }
+
+        &:nth-child(3) {
+            background-color: green;
+        }
+    }
+
+    img {
+        height: 2rem;
+        width: 2rem;
+        margin: 0;
+    }
+}
+
+.buttons {
+    @include flex(row, space-between);
+    width: 100%;
+
+    .editButtons {
+        @include flex(row, flex-start, flex-end);
+        gap: 1.5em;
+
+        div {
+            @include flex(row, flex-start, center);
+            font-size: 1.5rem;
+            border-bottom: 0.1rem $primary-color solid;
+
+            &.editUnactive {
+                color: $border-color;
+                border-bottom: 0.1rem transparent solid;
+
+                input {
+                    color: $border-color;
+                }
+            }
+
+            input {
+                font-size: 1.5rem;
+                width: 2.25rem;
+                margin: 0;
+                padding: 0;
+                border: none;
+                outline: none;
+                text-align: end;
+
+                &:disabled {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+}
+
+.highlightOrange {
+    color: orange;
+}
+
+.highlightRed {
+    color: red;
+}
+
+.highlightGreen {
+    color: green;
+}
+
+.highlightWhite {
+    color: black;
+}
+//     }
+// }
+
+// .mistakesContainer {
+//     @include flex(column, flex-start, flex-start);
+//     gap: 1em;
+//     margin-bottom: 1.5em;
+
+//     .mistakesWindow {
+//         width: 100%;
+//         padding: 1em 0 1em 2em;
+//         font-size: 1.125rem;
+//         border: 0.125rem solid $border-color;
+//         border-radius: 1rem;
+
+//         & > p {
+//             margin-bottom: 0.5em;
+//         }
+
+//         ul {
+//             list-style: none;
+//             height: 16vh;
+//             overflow-y: scroll;
+
+//             .mistake {
+//                 @include flex(row, flex-start, center);
+//                 gap: 0.5em;
+//                 margin-bottom: 0.5em;
+
+//                 div {
+//                     width: 1em;
+//                     height: 1em;
+//                     border-radius: 0.25rem;
+//                 }
+
+//                 img {
+//                     width: 1rem;
+//                     cursor: pointer;
+//                 }
+
+//                 input {
+//                     width: 0;
+//                     min-width: 20%;
+//                     font-size: 1rem;
+//                     border: none;
+//                     border: 0.1rem transparent solid;
+//                     border-radius: 0.25rem;
+//                     outline: none;
+
+//                     &:focus {
+//                         border: 0.1rem $border-color solid;
+//                     }
+
+//                     &:hover {
+//                         border: 0.1rem $border-color solid;
+//                     }
+
+//                     &:disabled {
+//                         background-color: transparent;
+//                         color: black;
+//                     }
+
+//                     &:disabled:hover {
+//                         border-bottom: 0.1rem transparent solid;
+//                     }
+//                 }
+//             }
+
+//             // &::-webkit-scrollbar {
+//             //     width: 1.375em;
+//             // }
+
+//             // &::-webkit-scrollbar-track {
+//             //     margin-block: -0.5rem;
+//             // }
+
+//             // &::-webkit-scrollbar-thumb {
+//             //     background-clip: content-box;
+//             //     background-color: $border-color;
+//             //     border-radius: 100vw;
+//             //     border: 0.5em solid transparent;
+//             // }
+
+//             // &::-webkit-scrollbar-thumb:hover {
+//             //     background-color: $border-hover-color;
+//             // }
+//         }
+//     }
+// }

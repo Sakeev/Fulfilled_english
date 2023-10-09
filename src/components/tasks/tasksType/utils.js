@@ -1,3 +1,5 @@
+import { Input } from 'components/ui';
+
 export const formResultTemplate = (splittedDescription) => {
     const resultTemplate = {};
 
@@ -49,12 +51,9 @@ export const renderInputs = (row, handler) => {
 
                 return (
                     <>
-                        {/* {index < splittedRow.length - 1
-                            ? value.slice(0, value.length - 1)
-                            : value} */}
                         {string}
                         {index < splittedRow.length - 1 && (
-                            <input
+                            <Input
                                 onChange={(event) => {
                                     handler(event, id);
                                 }}

@@ -11,6 +11,8 @@ const Notes = () => {
     getNotes();
   }, []);
 
+  console.log(notes);
+
   return (
     <>
       <Box sx={{ width: "85%", overflowY: "auto" }}>

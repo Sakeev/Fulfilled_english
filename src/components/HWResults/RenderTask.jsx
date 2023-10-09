@@ -1,11 +1,11 @@
 import ContinueImageWord from './resultDisplayTasks/ContinueImageWord';
 import DescribeImages from './resultDisplayTasks/DescribeImages';
-import { useTasks } from '../../contexts/TasksContextProvider';
+import { useTasks } from 'contexts/TasksContextProvider';
 import ConnectWords from './resultDisplayTasks/ConnectWords';
+import Inputs from './resultDisplayTasks/Inputs';
 import {
-    Dropdown,
-    Inputs,
-    WriteSentencesWithGivenInfo,
+    // Inputs,
+    WriteSentences,
     Table,
     BuildDialog,
     BuildSentences,
@@ -69,17 +69,6 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
             );
             break;
 
-        case 'drop down':
-            component = (
-                <Dropdown
-                    task_id={task_id}
-                    handleAnswer={handleAnswer}
-                    caseInfo={caseInfo}
-                    taskDetails={task}
-                />
-            );
-            break;
-
         case 'table':
             component = (
                 <Table
@@ -111,7 +100,7 @@ const RenderTask = ({ task, id, task_id, displayDataType = null }) => {
 
         case 'write sentences with given info':
             component = (
-                <WriteSentencesWithGivenInfo
+                <WriteSentences
                     task={task}
                     answer={task.answers[task.answers.length - 1] || null}
                     displayDataType={displayDataType}

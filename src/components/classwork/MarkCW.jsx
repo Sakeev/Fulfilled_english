@@ -30,7 +30,6 @@ const MarkCW = ({ checkMark, handleMark, grade }) => {
   };
 
   const { deleteRoom, room_pk } = useClassWork();
-  // console.log(room_pk);
 
   return (
     <>

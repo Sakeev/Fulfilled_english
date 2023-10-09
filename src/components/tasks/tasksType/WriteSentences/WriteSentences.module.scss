@@ -1,0 +1,79 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+.writeSentencesContainer {
+    @include flex(column, space-between);
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .images {
+        @include flex(row, center);
+        width: 100%;
+        margin-bottom: 2em;
+
+        .image {
+            @include flex(column, flex-start, center);
+            gap: 0.75em;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    .inputColumns {
+        @include flex(row, space-between);
+        flex-wrap: wrap;
+        gap: 3em;
+        padding-bottom: 2em;
+        counter-reset: li-counter;
+
+        .inputColumn {
+            position: relative;
+            flex-grow: 1;
+            flex-basis: 0;
+            counter-increment: li-counter;
+            padding-left: 0.75em;
+
+            &::before {
+                content: counter(li-counter);
+                position: absolute;
+                top: -0.25em;
+                left: -1.5em;
+                display: grid;
+                place-items: center;
+                color: $primary-color;
+                font-weight: bold;
+                background-color: $button-bg;
+                font-size: 1rem;
+                font-weight: 400;
+                height: 1.5rem;
+                width: 1.5rem;
+                border-radius: 0.5rem;
+            }
+
+            ol {
+                @include flex(column);
+                gap: 1em;
+                list-style: none;
+
+                input {
+                    width: 100%;
+                }
+            }
+
+            .header {
+                padding-bottom: 1em;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .submit {
+        position: sticky;
+        bottom: 0;
+        align-self: flex-end;
+        margin-right: 3em;
+    }
+}

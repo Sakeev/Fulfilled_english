@@ -13,4 +13,13 @@
     &:hover {
         background-color: $hover-color;
     }
+
+    &:disabled {
+        cursor: default;
+        color: $secondary-color;
+
+        &:hover {
+            background-color: $button-bg;
+        }
+    }
 }

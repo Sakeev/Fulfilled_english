@@ -7,13 +7,10 @@ import CoursesPage from '../pages/CoursesPage';
 import { useAuth } from '../contexts/AuthContextProvider';
 import TasksPage from '../pages/TasksPage';
 import ClassPage from '../pages/ClassPage';
-import EssayPage from '../pages/EssayPage';
 import ProfilePage from '../pages/ProfilePage';
 import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
-import TeacherEssayPage from '../pages/teachers/TeacherEssayPage';
-import ViewEssayPage from '../pages/teachers/ViewEssayPage';
 import Case from '../components/tasks/Case';
 import Progress from '../components/tasks/Progress';
 import NotesPage from '../pages/NotesPage';
@@ -23,6 +20,12 @@ import TeachersHwPage from '../pages/teachers/TeachersHwPage';
 import HwResultsPage from '../pages/teachers/HwResultsPage';
 import ShowCases from '../components/teachers/HWResults/ShowCases';
 import SidebarLayout from 'components/SidebarLayout';
+import {
+    StudentEssayPage,
+    TeacherEssayPage,
+    ViewEssayPage,
+} from 'pages/EssayPages';
+import Gradebook from 'components/teachers/Gradebook';
 
 const MainRoutes = () => {
     const { checkAuth, isTeacher } = useAuth();
@@ -70,7 +73,7 @@ const MainRoutes = () => {
         },
         {
             link: '/essay',
-            element: isTeacher ? <TeacherEssayPage /> : <EssayPage />,
+            element: isTeacher ? <TeacherEssayPage /> : <StudentEssayPage />,
             id: 5,
         },
         {
@@ -142,6 +145,12 @@ const MainRoutes = () => {
             link: '/essay/view/:studentId',
             element: <ViewEssayPage />,
             id: PRIVATE_ROUTES.length + 2,
+        });
+
+        PRIVATE_ROUTES.push({
+            link: '/gradebook',
+            element: <Gradebook />,
+            id: PRIVATE_ROUTES.length + 3,
         });
     }
 

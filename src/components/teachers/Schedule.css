@@ -1,6 +1,11 @@
+.schedule_heading {
+  color: #333;
+  margin-bottom: 35px;
+}
+
 table {
   font-size: small;
-  color: #006d77;
+  color: #333;
 }
 
 tr > th, td {
@@ -10,15 +15,26 @@ tr > th, td {
 td {
   padding: 1% 1%;
   text-align: center;
-  border-bottom: 1px solid gainsboro;
-  border-right: 1px solid gainsboro;
-  min-height: 100px;
+  /* border-bottom: 1px solid gainsboro; */
+  /* border-right: 1px solid gainsboro; */
+  min-height: 50px;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
+  max-width: 120px;
+}
+
+.table_schedule {
+  width: 100%;
+  max-height: 90vh;
+  height: 100%;
 }
 
 .table_schedule th {
-  background-color: #C5E5E2;
+  background-color: #F2F2F2;
   padding: 1%;
   border: none;
+  height: 5%;
+  max-height: 50px;
 }
 
 .table_schedule th:first-child {
@@ -33,17 +49,58 @@ td {
   width: 100%;
   padding-top: 10px;
   border: none;
+  box-shadow: none;
+}
+
+tbody {
+  height: 100%;
 }
 
 .table_row {
+  height: 10%;
   min-height: 100px;
 }
 
+.table_row > td {
+  height: 15%;
+}
+
 .lesson_block {
-  background-color: #c2e7e4;
-  border-radius: 2px;
-  padding: 5%;
-  margin: 10px 0;
+  border-radius: 5px;
+  height: 100%;
+  padding: 7%;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 150ms;
+  cursor: pointer;
+  background-color: #F2F2F2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.lesson_block__avatar {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.lesson_block__name {
+  font-size: larger;
+  font-weight: 600;
+  color: #006D77;
+}
+
+.lesson_block__settings {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 15px;
 }
 
 .overlay {
@@ -73,7 +130,23 @@ td {
 .modal select {
   padding: 2% 4%;
 }
-
+ 
 .today-active {
-  background-color: #E29578 !important;
+  background-color: #C5E5E2 !important;
+  color: #333;
+}
+
+.weekdays {
+  position: relative;
+}
+
+.weekdays::before {
+  content: attr(date);
+  position: absolute;
+  font-weight: 800;
+  font-size: larger;
+  top: -30px;
+  left: 50%;
+  transform: translate(-50%);
+  color: #006D77;
 }
