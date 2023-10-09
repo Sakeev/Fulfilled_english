@@ -78,9 +78,9 @@
 .slider__page_active {
   display: block;
 }
-.fillinps {
-  /* padding-bottom: 20px; */
-}
+/* .fillinps {
+  /* padding-bottom: 20px; 
+} */
 
 .fillinps__block {
   display: flex;
