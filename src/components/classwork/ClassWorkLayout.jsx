@@ -31,7 +31,7 @@ function isDocumentEvent(message) {
 }
 const ClassWorkLayout = () => {
   const { room_pk, postNote, sendMark } = useClassWork();
-  const [socketUrl, setSocketUrl] = useState(
+  const [socketUrl] = useState(
     `wss://www.fluentenglish.site/ws/chat/?token=${
       JSON.parse(localStorage.getItem("token")).access
     }`
@@ -82,6 +82,7 @@ const ClassWorkLayout = () => {
         );
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [lesson]
   );
 
@@ -214,6 +215,7 @@ const ClassWorkLayout = () => {
       500
     );
     return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typing]);
 
   const connectionStatus = {
@@ -257,8 +259,29 @@ const ClassWorkLayout = () => {
   return (
     <>
       {connectionStatus === "Closed" ? (
-        <div className="loader-wrapper">
-          <div className="loader"></div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-around",
+            width: "100%",
+            height: "70vh",
+          }}
+        >
+          <div className="loader-wrapper" style={{ height: "60%" }}>
+            <div className="loader"></div>
+          </div>
+          <Button
+            onClick={() => {
+              window.location.reload();
+            }}
+            sx={{ width: "200px" }}
+            variant="contained"
+            color="success"
+          >
+            Retry
+          </Button>
         </div>
       ) : (
         <div
@@ -300,14 +323,12 @@ const ClassWorkLayout = () => {
               fillinps_current_time={fillinps_current_time}
               setShowVocab={setShowVocab}
             />
-            {isTeacher() ? (
+            {isTeacher() && (
               <MarkCW
                 checkMark={checkMark}
                 handleMark={handleMark}
                 grade={grade}
               />
-            ) : (
-              <></>
             )}
           </div>
           <div
@@ -320,15 +341,17 @@ const ClassWorkLayout = () => {
           >
             <div
               style={{
-                height: "40%",
+                height: "34%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Link href={zoomLink} target="_blank" underline="none">
-                <Button color="warning">Zoom link</Button>
-              </Link>
+              {!isTeacher() && (
+                <Link href={zoomLink} target="_blank" underline="none">
+                  <Button color="warning">Zoom link</Button>
+                </Link>
+              )}
             </div>
             <span>
               The class is currently:{" "}
@@ -350,8 +373,15 @@ const ClassWorkLayout = () => {
                 onChange={handleHtmlChange}
                 disabled={!isTeacher()}
               >
-                {isTeacher() ? (
-                  <Toolbar style={{ position: "sticky", top: 0 }}>
+                {isTeacher() && (
+                  <Toolbar
+                    style={{
+                      position: "sticky",
+                      top: 0,
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
                     <BtnUndo />
                     <BtnRedo />
                     <Separator />
@@ -371,8 +401,6 @@ const ClassWorkLayout = () => {
                       Send Note
                     </Button>
                   </Toolbar>
-                ) : (
-                  <></>
                 )}
               </Editor>
             </EditorProvider>

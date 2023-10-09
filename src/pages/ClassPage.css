@@ -46,8 +46,8 @@
   align-items: center;
   gap: 10px;
   position: fixed;
-  bottom: 10px;
-  right: 20px;
+  bottom: 40px;
+  right: 5%;
   z-index: 1;
 }
 
@@ -78,9 +78,9 @@
 .slider__page_active {
   display: block;
 }
-.fillinps {
-  /* padding-bottom: 20px; */
-}
+/* .fillinps {
+  /* padding-bottom: 20px; 
+} */
 
 .fillinps__block {
   display: flex;
