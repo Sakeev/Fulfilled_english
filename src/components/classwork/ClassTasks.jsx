@@ -126,9 +126,10 @@ const ClassTasks = ({
   const [activePage, setActivePage] = useState(1);
 
   useEffect(() => {
-    if (activePage == 1) {
+    if (activePage === 1) {
       setShowVocab(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePage]);
   return (
     <>

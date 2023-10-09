@@ -41,14 +41,14 @@ const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
   };
 
   return (
-    <>
+    <div>
       <h2>Dictation</h2>
       <div>
         <EditorProvider>
           <Editor
             containerProps={{
               style: {
-                height: "40vh",
+                height: "60vh",
                 maxHeight: "500px",
                 width: "90%",
                 margin: "20px 0",
@@ -77,7 +77,7 @@ const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
           </Editor>
         </EditorProvider>
       </div>
-    </>
+    </div>
   );
 };
 
