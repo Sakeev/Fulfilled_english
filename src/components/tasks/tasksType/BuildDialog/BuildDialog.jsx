@@ -28,6 +28,10 @@ const BuildDialog = ({ taskDetails, handleAnswer }) => {
         setAnswer(newAns);
     };
 
+    const formRequest = () => {
+        return { answers: answer.length ? answer : ['No answer'] };
+    };
+
     return (
         <div className={styles.buildDialogContainer}>
             <div className={styles.taskBox}>
@@ -60,9 +64,7 @@ const BuildDialog = ({ taskDetails, handleAnswer }) => {
             </div>
             <Button
                 className={styles.submit}
-                onClick={() =>
-                    handleAnswer({ answers: answer }, taskDetails.id)
-                }
+                onClick={() => handleAnswer(formRequest(), taskDetails.id)}
             >
                 Submit
             </Button>

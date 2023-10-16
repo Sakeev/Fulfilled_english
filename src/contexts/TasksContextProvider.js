@@ -22,6 +22,7 @@ const INIT_STATE = {
     singleCase: [],
     caseInfo: {},
     taskProgress: [],
+    pastLessons: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
@@ -52,6 +53,11 @@ const reducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 taskProgress: [...state.taskProgress, action.payload],
+            };
+        case 'GET_PAST_LESSONS':
+            return {
+                ...state,
+                pastLessons: action.payload,
             };
         default:
             return state;
@@ -190,6 +196,16 @@ const TasksContextProvider = ({ children }) => {
         });
     };
 
+    const getPastLessons = async () => {
+        const { data } = await api.get(`${API}room/get_deactivated_lessons/
+        `);
+
+        dispatch({
+            type: 'GET_PAST_LESSONS',
+            payload: data,
+        });
+    };
+
     const values = {
         handleTask,
         getCases,
@@ -213,6 +229,8 @@ const TasksContextProvider = ({ children }) => {
         getProgress,
         progObj: state.progObj,
         updateAnswer,
+        getPastLessons,
+        pastLessons: state.pastLessons,
     };
 
     return (

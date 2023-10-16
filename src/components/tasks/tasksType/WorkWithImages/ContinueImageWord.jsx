@@ -32,7 +32,11 @@ const ContinueImageWord = ({ taskDetails, handleAnswer }) => {
 
     return (
         <div className={styles.imageWordContainer}>
-            <div className={styles.images}>
+            <div
+                className={`${styles.images} ${
+                    taskDetails.images.length > 1 ? '' : styles.oneImage
+                }`}
+            >
                 {taskDetails.images.map(({ image, sentence }, index) => {
                     return (
                         <div className={styles.image} key={image}>

@@ -1,5 +1,5 @@
 import Vocabulary from 'components/classwork/tasks/Vocabulary';
-import { getVocabulary, useTaskComponent } from './utils';
+import { getVocabulary, renderCondition, useTaskComponent } from './utils';
 import { useTasks } from 'contexts/TasksContextProvider';
 import Pagination from 'components/Pagination';
 import { useParams } from 'react-router-dom';
@@ -23,17 +23,6 @@ const Case = () => {
     } = useTasks();
 
     const vocabulary = getVocabulary(cases);
-
-    const renderCondition = (condition) => {
-        if (condition) {
-            return condition
-                .split('\r\n')
-                .map((row, index) =>
-                    row.length ? <p key={index}>{row}</p> : <br key={index} />
-                );
-        }
-        return null;
-    };
 
     useEffect(() => {
         getCases();
@@ -62,7 +51,10 @@ const Case = () => {
                 ) : null} */}
                 <div className={styles.task}>{taskComponent}</div>
                 <div className={styles.pagination}>
-                    <Pagination count={caseInfo.quantity_task} />
+                    <Pagination
+                        count={caseInfo.quantity_task}
+                        pagination={{ type: 'homework' }}
+                    />
                 </div>
             </div>
         </div>

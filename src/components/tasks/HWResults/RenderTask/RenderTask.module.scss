@@ -1,0 +1,29 @@
+@import 'assets/styles/mixins.scss';
+
+.renderTask {
+    width: 100%;
+    margin-top: 1em;
+
+    .answerType {
+        font-size: 1.125rem;
+        margin-bottom: 1.5em;
+    }
+
+    .taskWrapper {
+        @include flex(row, space-between, center);
+        padding-right: 3em;
+
+        .task {
+            flex-basis: 0;
+            flex-grow: 0.95;
+        }
+
+        .taskAccuracy {
+            width: 4em;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}

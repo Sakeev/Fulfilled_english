@@ -1,7 +1,14 @@
-export const formAnswer = (inputValues) => {
+import { count } from '../utils';
+
+export const formAnswer = (inputValues, taskDetails) => {
     const values = Object.values(inputValues);
+    const inpCount = count(taskDetails.description, '__inp__');
 
-    console.log({ answers: values.length ? values : [''] });
+    for (let i = 0; i < inpCount; i++) {
+        if (!values[i]) {
+            values[i] = 'No answer';
+        }
+    }
 
-    return { answers: values.length ? values : [''] };
+    return { answers: values };
 };
