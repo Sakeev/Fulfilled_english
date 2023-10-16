@@ -30,10 +30,6 @@ th {
   outline: #e29578;
 }
 
-.connect_words {
-  /* padding-bottom: 20px; */
-}
-
 .connect_words__block {
   display: flex;
   flex-direction: column;

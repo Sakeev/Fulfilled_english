@@ -4,15 +4,15 @@ import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import { useSchedule } from "../../contexts/ScheduleContextProvider";
 import { useUsers } from "../../contexts/UsersContextProvider";
 
-const inpStyle = {
-  padding: "10px",
-  border: "1px solid #9bd0cb",
-  borderRadius: "5px",
-  "&:focus": {
-    outline: "1px solid #006d77",
-    border: "none",
-  },
-};
+// const inpStyle = {
+//   padding: "10px",
+//   border: "1px solid #9bd0cb",
+//   borderRadius: "5px",
+//   "&:focus": {
+//     outline: "1px solid #006d77",
+//     border: "none",
+//   },
+// };
 
 const CreateRoom = () => {
   const [roomInfo, setRoomInfo] = useState({
@@ -20,10 +20,9 @@ const CreateRoom = () => {
     student: "",
     lesson_id: 0,
   });
-  const { getSchedule, schedule } = useSchedule();
+  const { getSchedule } = useSchedule();
   const { getLesson, lesson, createRoom, createRoomError, clearErrors } =
     useClassWork();
-  console.log(lesson);
   const { getStudents, studentsList } = useUsers();
 
   const handleSubmit = (e) => {
@@ -35,6 +34,7 @@ const CreateRoom = () => {
     getSchedule();
     getStudents();
     clearErrors();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -43,12 +43,13 @@ const CreateRoom = () => {
       lesson_id: lesson[0]?.id,
       student: lesson[0]?.user.email,
     });
+    // eslint-disable-next-line
   }, [lesson]);
 
-  const handleSelectChanges = (e) => {
-    getLesson(e.target.value);
-    setRoomInfo({ ...roomInfo, student: e.target.value });
-  };
+  // const handleSelectChanges = (e) => {
+  //   getLesson(e.target.value);
+  //   setRoomInfo({ ...roomInfo, student: e.target.value });
+  // };
 
   return (
     <Box>

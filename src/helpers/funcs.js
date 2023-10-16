@@ -25,22 +25,6 @@ export const isTeacher = () => {
   return JSON.parse(localStorage.getItem("isTeacher")) || false;
 };
 
-export const timeFromMilliseconds = (countDownDate) => {
-  const now = new Date().getTime();
-  const timeleft = countDownDate - now;
-
-  let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-  days = days.toString().length === 1 ? `0${days}` : days;
-  let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  hours = hours.toString().length === 1 ? `0${hours}` : hours;
-  let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-  minutes = minutes.toString().length === 1 ? `0${minutes}` : minutes;
-  let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-  seconds = seconds.toString().length === 1 ? `0${seconds}` : seconds;
-
-  return `${days}:${hours}:${minutes}:${seconds}`;
-};
-
 export const dateFormate = (date = "0-0-0") => {
   const dateArr = date.split("-");
   switch (dateArr[1]) {
@@ -81,15 +65,27 @@ export function capitalize(word) {
 }
 
 export const formatText = (note) => {
-    const regex = /(&nbsp;)+/g;
-    const textWithoutTags = note?.body.replace(regex, '\n');
-    return textWithoutTags?.trim().replace(/\s+/g, ' ');
+  const regex = /(&nbsp;)+/g;
+  const textWithoutTags = note?.body.replace(regex, "\n");
+  return textWithoutTags?.trim().replace(/\s+/g, " ").slice(0, 120);
 };
 
-
 export function getMonthInThreeLetter(date) {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const monthIndex = date.getMonth();
-    const monthName = monthNames[monthIndex];
-    return monthName;
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const monthIndex = date.getMonth();
+  const monthName = monthNames[monthIndex];
+  return monthName;
 }

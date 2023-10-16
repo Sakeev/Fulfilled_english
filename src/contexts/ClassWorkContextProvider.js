@@ -33,6 +33,7 @@ const init_state = {
   room_pk: room_pk,
   createRoomError: { title: "" },
   notes: [],
+  lessonCounter: "",
 };
 
 const reducer = (state = init_state, action) => {
@@ -46,6 +47,8 @@ const reducer = (state = init_state, action) => {
       return { ...state, createRoomError: { title: action.payload } };
     case "get_notes":
       return { ...state, notes: action.payload };
+    case "get_lesson_counter":
+      return { ...state, lessonCounter: action.payload };
     default:
       return state;
   }
@@ -56,8 +59,10 @@ const ClassWorkContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, init_state);
 
   const createRoom = async (roomInfo) => {
+    console.log(roomInfo);
     try {
       const res = await axios.post(CHAT_ROOM_API, roomInfo, getToken());
+      console.log(res, "create_room_success");
       dispatch({
         type: "set_room_pk",
         payload: res.data,
@@ -92,6 +97,7 @@ const ClassWorkContextProvider = ({ children }) => {
   const getRoom = async () => {
     try {
       const res = await axios.get(CHAT_ROOM_API, getToken());
+      console.log(res);
     } catch (error) {
       console.log(error, "get_room_error");
     }
@@ -110,6 +116,7 @@ const ClassWorkContextProvider = ({ children }) => {
       await axios.delete(`${CHAT_ROOM_API}${id}/`, getToken());
       navigate("/");
       handleClose();
+      localStorage.removeItem("room_pk");
     } catch (error) {
       console.log(error, "get_room_error");
     }
@@ -149,6 +156,22 @@ const ClassWorkContextProvider = ({ children }) => {
     }
   };
 
+  // Получение количества проведенных занятий
+  const getLessonCounter = async () => {
+    try {
+      const { data } = await axios(
+        ROOM_API + "get_lesson_counter/",
+        getToken()
+      );
+      dispatch({
+        type: "get_lesson_counter",
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error, "send_mark_error");
+    }
+  };
+
   const values = {
     createRoom,
     getLesson,
@@ -158,8 +181,10 @@ const ClassWorkContextProvider = ({ children }) => {
     deleteRoom,
     getNotes,
     sendMark,
+    getLessonCounter,
     createRoomError: state.createRoomError,
     lesson: state.lesson,
+    lessonCounter: state.lessonCounter,
     room_pk: state.room_pk,
     notes: state.notes,
   };
