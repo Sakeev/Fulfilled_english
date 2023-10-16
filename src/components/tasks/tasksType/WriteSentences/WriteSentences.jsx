@@ -40,8 +40,6 @@ const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
             }
         }
 
-        console.log(resultsCopy);
-
         return { answers: resultsCopy };
     };
 
@@ -98,7 +96,7 @@ const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
             <Button
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskId);
+                    handleAnswer(formRequest(), taskDetails.id);
                 }}
             >
                 Submit

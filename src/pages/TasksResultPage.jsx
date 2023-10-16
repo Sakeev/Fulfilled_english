@@ -1,7 +1,7 @@
 import { useTasks } from '../contexts/TasksContextProvider';
 import { Box } from '@mui/material';
+import HWResults from 'components/tasks/HWResults/HWResults';
 import { useEffect } from 'react';
-import HWResults from '../components/HWResults/HWResults';
 
 const TasksResultPage = () => {
     const { getAnswers } = useTasks();
@@ -18,7 +18,6 @@ const TasksResultPage = () => {
             }}
         >
             <Box sx={{ width: '100%' }}>
-                {/* <TasksResult /> */}
                 <HWResults />
             </Box>
         </Box>

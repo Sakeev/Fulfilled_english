@@ -1,13 +1,16 @@
 @import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
 
 .homework {
+    @include flex(column);
+    gap: 4em;
     color: $primary-color;
     padding: 4.5em 3.5em;
 
     h2 {
         font-weight: 500;
         font-size: 1.625rem;
-        padding-bottom: 1.5em;
+        padding-bottom: 1em;
     }
 
     p {

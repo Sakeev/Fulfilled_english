@@ -41,7 +41,7 @@
         }
 
         .answerBlock {
-            min-height: 30vh;
+            min-height: 25vh;
             border-radius: 0.5rem;
             border: 0.1rem solid $border-color;
             overflow: auto;
@@ -52,6 +52,15 @@
 
                 &:hover {
                     background-color: $button-bg;
+                }
+
+                &.results {
+                    color: $primary-color;
+
+                    &:hover {
+                        background-color: transparent;
+                        cursor: initial;
+                    }
                 }
             }
         }
