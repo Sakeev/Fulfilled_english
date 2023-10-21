@@ -12,7 +12,7 @@ const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   );
   return (
     <tr key={lessonKey}>
-      <td>{date}</td>
+      {/* <td>{date}</td> */}
       <td>{lessonKey.replace("lesson", "")}</td>
       <td>{getGrade(filteredGrades, "hw")}</td>
       <td>{getGrade(filteredGrades, "essay")}</td>
@@ -115,7 +115,7 @@ const Gradebook = () => {
           <table>
             <thead>
               <tr>
-                <th>Date</th>
+                {/* <th>Date</th> */}
                 <th>Lesson</th>
                 <th>Homework</th>
                 <th>Essay</th>
@@ -137,7 +137,6 @@ const Gradebook = () => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td></td>
                     <td></td>
                     <td colSpan="1">
                       {calculateAverageGrade(
