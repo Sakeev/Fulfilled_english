@@ -8,9 +8,8 @@ import { API } from "helpers/consts";
 
 const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   const filteredGrades = grades.filter(
-    (grade) => selectedUser === null || grade.user === selectedUser.user?.id
+    (grade) => selectedUser === null || grade.user === +selectedUser.user?.id
   );
-
   return (
     <tr key={lessonKey}>
       <td>{date}</td>
@@ -62,7 +61,10 @@ const Gradebook = () => {
     setSelectedUser(value);
   };
 
-  console.log(rurooms);
+  const filterByUser = (user) =>
+    gradebook.filter((grade) => grade.user === user);
+
+  console.log(gradebook);
 
   return (
     <div className={styles.gradebook_container}>
@@ -115,9 +117,9 @@ const Gradebook = () => {
               <tr>
                 <th>Date</th>
                 <th>Lesson</th>
+                <th>Homework</th>
                 <th>Essay</th>
                 <th>Classwork</th>
-                <th>Homework</th>
               </tr>
             </thead>
             {selectedUser ? (
@@ -138,13 +140,25 @@ const Gradebook = () => {
                     <td></td>
                     <td></td>
                     <td colSpan="1">
-                      {calculateAverageGrade(gradebook, "hw", selectedUser)}
+                      {calculateAverageGrade(
+                        gradebook,
+                        "hw",
+                        +selectedUser.user?.id
+                      )}
                     </td>
                     <td colSpan="1">
-                      {calculateAverageGrade(gradebook, "essay", selectedUser)}
+                      {calculateAverageGrade(
+                        gradebook,
+                        "essay",
+                        +selectedUser.user?.id
+                      )}
                     </td>
                     <td colSpan="1">
-                      {calculateAverageGrade(gradebook, "cw", selectedUser)}
+                      {calculateAverageGrade(
+                        gradebook,
+                        "cw",
+                        +selectedUser.user?.id
+                      )}
                     </td>
                   </tr>
                 </tfoot>
