@@ -12,12 +12,8 @@ import StudentsListPage from '../pages/teachers/StudentsPage';
 import SchedulePage from '../pages/teachers/SchedulePage';
 import TasksResultPage from '../pages/TasksResultPage';
 import Case from '../components/tasks/Case';
-import Progress from '../components/tasks/Progress';
 import NotesPage from '../pages/NotesPage';
-import HomeWork from '../pages/teachers/HomeWork';
-import HwResults from '../pages/teachers/HwResults';
 import TeachersHwPage from '../pages/teachers/TeachersHwPage';
-import HwResultsPage from '../pages/teachers/HwResultsPage';
 import ShowCases from '../components/teachers/HWResults/ShowCases';
 import SidebarLayout from 'components/SidebarLayout';
 import {
@@ -38,7 +34,7 @@ const MainRoutes = () => {
             if (localStorage.getItem('token')) checkAuth();
             else navigate('/');
         }
-    }, []);
+    }, [checkAuth, navigate, user]);
 
     const PRIVATE_ROUTES = [
         {
@@ -96,11 +92,6 @@ const MainRoutes = () => {
             element: <Case />,
             id: 9,
         },
-        // {
-        //     link: '/task/case/:id/task/:task_id/results',
-        //     element: <TasksResultPage />,
-        //     id: 10,
-        // },
         {
             link: '/student-tasks/:userId/results/:taskId',
             element: <TasksResultPage />,
@@ -111,11 +102,6 @@ const MainRoutes = () => {
             element: <TeachersHwPage />,
             id: 11,
         },
-        // {
-        //     link: `/hwresults/:user_id/:id`,
-        //     element: <HwResultsPage />,
-        //     id: 12,
-        // },
         {
             link: '/notes',
             element: <NotesPage />,

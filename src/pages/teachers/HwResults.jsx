@@ -13,7 +13,7 @@ const rightAnswers = {
 };
 
 const HwResults = () => {
-  const { getUsers, hwstudents, getUserHw, studentshw, getOneHw, onehw } =
+  const { getOneHw, onehw } =
     useUsers();
 
   const { user_id, id } = useParams();
@@ -84,7 +84,6 @@ const HwResults = () => {
             </div>
           );
         })}
-        {/* </ul> */}
       </div>
     </div>
   );
