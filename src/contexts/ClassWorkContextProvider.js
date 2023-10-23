@@ -146,6 +146,15 @@ const ClassWorkContextProvider = ({ children }) => {
     }
   };
 
+  const deleteNotes = async (id) => {
+    try {
+      await axios.delete(`${CHAT_NOTES_API}${id}/`, getToken());
+      getNotes();
+    } catch (error) {
+      console.log(error, "delete_notes_error");
+    }
+  };
+
   // Оценки классная
   const sendMark = async (mark, handleOpen) => {
     try {
@@ -180,6 +189,7 @@ const ClassWorkContextProvider = ({ children }) => {
     postNote,
     deleteRoom,
     getNotes,
+    deleteNotes,
     sendMark,
     getLessonCounter,
     createRoomError: state.createRoomError,
