@@ -1,0 +1,94 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+.studentListContainer {
+    width: 85%;
+    margin-inline: auto;
+    color: $primary-color;
+    padding-top: 4.5em;
+
+    .header {
+        padding-bottom: 1em;
+
+        h2 {
+            font-weight: 500;
+            font-size: 1.625rem;
+        }
+    }
+
+    .studentListWrapper {
+        min-height: 70vh;
+        background-color: $button-bg;
+        border-radius: 0.5rem;
+        padding: 2em;
+
+        &,
+        .studentList {
+            @include flex(column);
+            gap: 1em;
+
+            .student {
+                @include flex(row, space-between);
+                gap: 1.5em;
+                width: 100%;
+                height: 3rem;
+
+                .studentImg {
+                    @include flex(row, center);
+                    height: 3rem;
+                    width: 3rem;
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+
+                    img {
+                        height: 100%;
+                    }
+                }
+
+                .studentInfo {
+                    @include flex(row, space-between, center);
+                    background-color: white;
+                    flex-basis: 0;
+                    flex-grow: 1;
+                    border-radius: 0.5rem;
+                    border: 0.1rem solid $border-color;
+                    padding-inline: 1em;
+
+                    span {
+                        flex-basis: 0;
+                        flex-grow: 0.5;
+                    }
+                }
+
+                .viewBtn {
+                    background-color: white;
+                    border: 0.1rem solid $border-color;
+                    font-size: 1rem;
+
+                    &:hover {
+                        background-color: $border-color;
+                    }
+                }
+            }
+        }
+
+        & {
+            gap: 0;
+
+            .listHeader {
+                .studentInfo {
+                    background-color: transparent;
+                    border: none;
+                }
+
+                .viewBtn {
+                    background-color: transparent;
+                    color: transparent;
+                    border: none;
+                    pointer-events: none;
+                    user-select: none;
+                }
+            }
+        }
+    }
+}

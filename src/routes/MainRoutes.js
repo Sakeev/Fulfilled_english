@@ -14,7 +14,6 @@ import TasksResultPage from '../pages/TasksResultPage';
 import Case from '../components/tasks/Case';
 import Progress from '../components/tasks/Progress';
 import NotesPage from '../pages/NotesPage';
-import HomeWork from '../pages/teachers/HomeWork';
 import HwResults from '../pages/teachers/HwResults';
 import TeachersHwPage from '../pages/teachers/TeachersHwPage';
 import HwResultsPage from '../pages/teachers/HwResultsPage';
@@ -26,9 +25,11 @@ import {
     ViewEssayPage,
 } from 'pages/EssayPages';
 import Gradebook from 'components/teachers/Gradebook';
+import { isTeacher } from 'helpers/funcs';
 
 const MainRoutes = () => {
-    const { checkAuth, isTeacher } = useAuth();
+    const { checkAuth } = useAuth();
+
     const navigate = useNavigate();
 
     const user = localStorage.getItem('username');
@@ -63,7 +64,7 @@ const MainRoutes = () => {
         },
         {
             link: '/tasks',
-            element: isTeacher ? <TeachersHwPage /> : <TasksPage />,
+            element: isTeacher() ? <TeachersHwPage /> : <TasksPage />,
             id: 4,
         },
         {
@@ -73,7 +74,7 @@ const MainRoutes = () => {
         },
         {
             link: '/essay',
-            element: isTeacher ? <TeacherEssayPage /> : <StudentEssayPage />,
+            element: isTeacher() ? <TeacherEssayPage /> : <StudentEssayPage />,
             id: 5,
         },
         {
@@ -102,7 +103,7 @@ const MainRoutes = () => {
         //     id: 10,
         // },
         {
-            link: '/student-tasks/results/:caseId',
+            link: '/student-tasks/:userId?/results/:caseId',
             element: <TasksResultPage />,
             id: 10,
         },
@@ -140,7 +141,7 @@ const MainRoutes = () => {
         },
     ];
 
-    if (isTeacher) {
+    if (isTeacher()) {
         PRIVATE_ROUTES.push({
             link: '/essay/view/:studentId',
             element: <ViewEssayPage />,

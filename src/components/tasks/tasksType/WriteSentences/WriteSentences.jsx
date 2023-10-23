@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './WriteSentences.module.scss';
 
-const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
+const WriteSentences = ({ taskDetails, handleAnswer }) => {
     const formAnswerTemplate = () => {
         const answerTemplate = {};
 
@@ -46,12 +46,11 @@ const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
     return (
         <div className={styles.writeSentencesContainer}>
             <div className={styles.images}>
-                {taskDetails.images.map(
-                    ({ image, sentence, additional_info }, index) => {
-                        return (
-                            <div className={styles.image} key={image}>
-                                <img src={`${API}${image}`} alt="exercise" />
-                                {/* {sentence && (
+                {taskDetails.images.map(({ image }) => {
+                    return (
+                        <div className={styles.image} key={image}>
+                            <img src={`${API}${image}`} alt="exercise" />
+                            {/* {sentence && (
                                     <p>
                                         {index + 1}. {sentence}
                                     </p>
@@ -64,10 +63,9 @@ const WriteSentences = ({ taskDetails, handleAnswer, taskId }) => {
                                                 <li key={index}>{line}</li>
                                             ))}
                                 </ul> */}
-                            </div>
-                        );
-                    }
-                )}
+                        </div>
+                    );
+                })}
             </div>
             <div className={styles.inputColumns}>
                 {Object.keys(taskDetails.description).map((key, index) => (

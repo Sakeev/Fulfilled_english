@@ -3,7 +3,7 @@ import './resultDisplayTasks.css';
 import styles from '../../tasksType/ConnectWords/ConnectWords.module.scss';
 import { Button } from 'components/ui';
 
-const ConnectWords = ({ task, answer, displayDataType }) => {
+const ConnectWords = ({ taskDetails, answer, displayDataType }) => {
     if (answer === null) return <h2>This task hasn't done yet</h2>;
 
     let answers =
@@ -16,49 +16,38 @@ const ConnectWords = ({ task, answer, displayDataType }) => {
     }
 
     return (
-        <div>
-            <div>
-                {answers.map((wordPair, index) => (
-                    <p key={index}>
-                        {wordPair[0]} - {wordPair[1]}
-                    </p>
-                ))}
+        <div className={styles.connectWords}>
+            <div
+                className={`${styles.columns} ${styles.results} ${
+                    displayDataType === 'teacher' ? styles.teacherResults : ''
+                }`}
+            >
+                <div className={styles.column}>
+                    {answers?.map(([word], index) => (
+                        <Button key={index} className={styles.button}>
+                            {word}
+                        </Button>
+                    ))}
+                </div>
+                <div className={styles.connections}>
+                    {answers?.map((_, index) => (
+                        <div key={index} className={styles.line}>
+                            <div></div>
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.column}>
+                    {answers?.map(([, word], index) => (
+                        <Button
+                            key={index + answers?.length}
+                            className={styles.button}
+                        >
+                            {word}
+                        </Button>
+                    ))}
+                </div>
             </div>
         </div>
-        // <div className={styles.connectWords}>
-        //     <div className={styles.columns}>
-        //         <div className={styles.column}>
-        //             {firstColumn?.map((word, index) => (
-        //                 <Button
-        //                     key={index}
-        //                     className={styles.button}
-        //                     onClick={(event) => {
-        //                         handleWord(word, index, event);
-        //                     }}
-        //                 >
-        //                     {word}
-        //                 </Button>
-        //             ))}
-        //         </div>
-        //         <div className={styles.column}>
-        //             {secondColumn?.map((word, index) => (
-        //                 <Button
-        //                     key={index + firstColumn?.length}
-        //                     className={styles.button}
-        //                     onClick={(event) =>
-        //                         handleWord(
-        //                             word,
-        //                             index + firstColumn?.length,
-        //                             event
-        //                         )
-        //                     }
-        //                 >
-        //                     {word}
-        //                 </Button>
-        //             ))}
-        //         </div>
-        //     </div>
-        // </div>
     );
 };
 

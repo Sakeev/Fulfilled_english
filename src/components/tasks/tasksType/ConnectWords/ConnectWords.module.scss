@@ -1,18 +1,18 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
 .connectWords {
+    @include flex(column, space-between);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     width: 100%;
     height: 100%;
 
     .columns {
-        display: flex;
+        @include flex;
         gap: 4em;
 
         .column {
-            display: flex;
-            flex-direction: column;
+            @include flex(column);
             gap: 1em;
             width: 11em;
 
@@ -20,7 +20,42 @@
                 padding: 0.5em 2em;
             }
         }
+
+        // for homework results
+        &.results {
+            .column {
+                .button {
+                    pointer-events: none;
+                }
+            }
+        }
+        // for homework results
+
+        .connections {
+            display: none;
+        }
     }
+
+    // for homework results
+    .columns.teacherResults {
+        gap: 0;
+
+        .connections {
+            @include flex(column, space-around);
+            gap: 1em;
+
+            .line {
+                @include flex(row, center, center);
+                height: 100%;
+
+                div {
+                    width: 4em;
+                    border-bottom: 0.175rem solid $table-header;
+                }
+            }
+        }
+    }
+    // for homework results
 
     .submit {
         position: sticky;

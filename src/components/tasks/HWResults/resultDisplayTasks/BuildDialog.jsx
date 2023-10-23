@@ -1,6 +1,6 @@
 import styles from '../../tasksType/BuildDialog/BuildDialog.module.scss';
 
-const BuildDialog = ({ task, answer, displayDataType }) => {
+const BuildDialog = ({ taskDetails, answer, displayDataType }) => {
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
 

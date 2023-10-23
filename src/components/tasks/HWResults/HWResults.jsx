@@ -1,44 +1,73 @@
 import { renderCondition } from 'components/tasks/Case/utils';
 import { useTasks } from 'contexts/TasksContextProvider';
+import { capitalize, isTeacher } from 'helpers/funcs';
+import RenderTask from './RenderTask/RenderTask';
 import Pagination from 'components/Pagination';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { capitalize } from 'helpers/funcs';
-import RenderTask from './RenderTask/RenderTask';
+import { Button } from 'components/ui';
 
 import styles from 'components/tasks/Case/Case.module.scss';
 
 const HWResults = () => {
-    const { caseInfo, getCaseInfo } = useTasks();
-    const { caseId } = useParams();
-    const [tasksQuan, setTasksQuan] = useState(0);
-    const [taskDetails, setTaskDetails] = useState(null);
+    const {
+        caseInfo,
+        getCaseInfo,
+        updateAnswer,
+        taskDetails,
+        setTaskDetails,
+        getTaskDetails,
+    } = useTasks();
+    const { userId, caseId } = useParams();
+    const [page, setPage] = useState(0);
+    const [quantityTask, setQuantityTask] = useState(0);
 
     useEffect(() => {
-        getCaseInfo(caseId);
+        getCaseInfo(caseId, userId);
     }, []);
-
-    // console.log(caseInfo, taskDetails);
 
     useEffect(() => {
         if (caseInfo.id) {
-            setTasksQuan(caseInfo.quantity_task);
-            setTaskDetails(caseInfo.tasks[0]);
+            const taskDetails = caseInfo.tasks[0];
+            setQuantityTask(caseInfo.quantity_task);
+            setTaskDetails(taskDetails);
         }
     }, [caseInfo]);
 
     const checkHW = () => {
         if (taskDetails) {
-            if (taskDetails.answers.length === 0) return true;
+            if (
+                taskDetails.answers.length === 0 ||
+                taskDetails.right_answer === ''
+            )
+                return false;
 
-            return taskDetails.answers[taskDetails.answers.length - 1].accepted;
+            return !taskDetails.answers[taskDetails.answers.length - 1]
+                .accepted;
         } else return false;
     };
 
     const handlePage = (page) => {
         if (caseInfo.id) {
-            setTaskDetails(caseInfo.tasks[page - 1] || null);
+            const taskDetails = caseInfo.tasks[page - 1] || null;
+
+            setTaskDetails(taskDetails);
+            setPage(page);
         }
+    };
+
+    const setAccuracy = (accuracy) => {
+        updateAnswer(taskDetails.answers[taskDetails.answers.length - 1].id, {
+            checked: true,
+            accepted: accuracy,
+        });
+        getTaskDetails(caseId, page, userId);
+    };
+
+    const isDisabled = () => {
+        return taskDetails?.id
+            ? taskDetails.answers[taskDetails.answers.length - 1].checked
+            : false;
     };
 
     return (
@@ -63,20 +92,36 @@ const HWResults = () => {
                 <div className={`${styles.task} ${styles.results}`}>
                     <RenderTask
                         taskDetails={taskDetails}
-                        // task_id={task_id}
                         displayDataType={'student'}
                     />
-                    {!checkHW() && (
+                    {checkHW() && (
                         <RenderTask
                             taskDetails={taskDetails}
-                            // task_id={task_id}
                             displayDataType={'teacher'}
                         />
                     )}
+                    {!taskDetails?.right_answer &&
+                    isTeacher() &&
+                    taskDetails?.answers.length ? (
+                        <div className={styles.checkBtns}>
+                            <Button
+                                disabled={isDisabled()}
+                                onClick={() => setAccuracy(true)}
+                            >
+                                Correct
+                            </Button>
+                            <Button
+                                disabled={isDisabled()}
+                                onClick={() => setAccuracy(false)}
+                            >
+                                Incorrect
+                            </Button>
+                        </div>
+                    ) : null}
                 </div>
                 <div className={styles.pagination}>
                     <Pagination
-                        count={tasksQuan}
+                        count={quantityTask}
                         pagination={{ type: 'results', cb: handlePage }}
                     />
                 </div>

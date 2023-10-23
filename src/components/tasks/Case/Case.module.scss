@@ -49,6 +49,15 @@
             // For homework results
         }
 
+        .checkBtns {
+            @include flex;
+            gap: 1.5em;
+            position: sticky;
+            bottom: 0;
+            align-self: flex-end;
+            margin-right: 3em;
+        }
+
         .pagination {
             @include flex(row, center);
             width: 100%;

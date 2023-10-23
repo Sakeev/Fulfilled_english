@@ -1,11 +1,8 @@
-import { useTasks } from 'contexts/TasksContextProvider';
 import { Fragment } from 'react';
 
 import styles from 'components/tasks/tasksType/Inputs/Inputs.module.scss';
 
-const Inputs = ({ task, answer, displayDataType }) => {
-    const { updateAnswer } = useTasks();
-
+const Inputs = ({ taskDetails, answer, displayDataType }) => {
     if (answer === null) return <h2>This task hasn't done yet</h2>;
 
     const answers =
@@ -17,7 +14,7 @@ const Inputs = ({ task, answer, displayDataType }) => {
         }
     }
 
-    const listItems = task.description.split('\\li');
+    const listItems = taskDetails.description.split('\\li');
 
     const output = listItems.map((listItem, outerInd) => {
         const splittedRows = listItem
