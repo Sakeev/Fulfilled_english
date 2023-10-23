@@ -61,8 +61,8 @@ const Gradebook = () => {
     setSelectedUser(value);
   };
 
-  const filterByUser = (user) =>
-    gradebook.filter((grade) => grade.user === user);
+  // const filterByUser = (user) =>
+  //   gradebook.filter((grade) => grade.user === user);
 
   console.log(gradebook);
 
