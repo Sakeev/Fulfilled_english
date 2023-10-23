@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeWork from './HomeWork';
+import HWStudentList from './HWStudentList';
 import { Box } from '@mui/material';
 
 const TeachersHwPage = () => {
@@ -12,7 +12,7 @@ const TeachersHwPage = () => {
                     display: 'flex',
                 }}
             >
-                <HomeWork />
+                <HWStudentList />
             </Box>
         </div>
     );

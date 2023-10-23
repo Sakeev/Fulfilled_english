@@ -18,7 +18,6 @@ const Pagination = ({ count, pagination }) => {
         } else {
             navigate(`/task/case/${caseId}/task/${page}`);
             getTaskDetails(caseId, page);
-            console.log('adsa');
         }
     }, [page]);
 

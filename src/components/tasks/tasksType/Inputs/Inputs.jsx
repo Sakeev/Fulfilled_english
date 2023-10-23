@@ -4,7 +4,7 @@ import { formAnswer } from './utils';
 
 import styles from './Inputs.module.scss';
 
-const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
+const Inputs = ({ handleAnswer, taskDetails }) => {
     const [description, setDescription] = useState('');
     const [inputValues, setInputValues] = useState({});
 
@@ -19,8 +19,6 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
         const newInputValues = { ...inputValues, [index]: value };
         setInputValues(newInputValues);
     };
-
-    console.log(description);
 
     const listItems = description.split('\\li');
 
@@ -81,20 +79,18 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
             >
                 {output}
             </ol>
-            {!displayDataType && (
-                <Button
-                    className={styles.submit}
-                    disabled={!taskDetails.id}
-                    onClick={() => {
-                        handleAnswer(
-                            formAnswer(inputValues, taskDetails),
-                            taskDetails.id
-                        );
-                    }}
-                >
-                    Submit
-                </Button>
-            )}
+            <Button
+                className={styles.submit}
+                disabled={!taskDetails.id}
+                onClick={() => {
+                    handleAnswer(
+                        formAnswer(inputValues, taskDetails),
+                        taskDetails.id
+                    );
+                }}
+            >
+                Submit
+            </Button>
         </div>
     );
 };

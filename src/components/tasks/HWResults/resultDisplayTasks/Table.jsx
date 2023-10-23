@@ -1,6 +1,6 @@
 import styles from '../../tasksType/Table/Table.module.scss';
 
-const Table = ({ taskDetails, answer, displayDataType }) => {
+const Table = ({ answer, displayDataType }) => {
     if (answer === null) return <h2>This task hasn't done yet</h2>;
 
     const answers =

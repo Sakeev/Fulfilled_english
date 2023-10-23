@@ -12,24 +12,26 @@ export const useTasks = () => {
 
 const INIT_STATE = {
     tasks: [],
-    taskDetails: {},
     wordFind: [],
     fillInps: [],
     sent: [],
     answers: [],
     cases: [],
-    taskDetails: {},
+    taskDetails: null,
     singleCase: [],
     caseInfo: {},
     taskProgress: [],
     pastLessons: [],
+    studentsLessons: [],
 };
 
 const reducer = (state = INIT_STATE, action) => {
     switch (action.type) {
         case 'GET_TASKS':
             return { ...state, tasks: action.payload };
-        case 'GET_TASKS_DETAIL':
+        case 'SET_TASK_DETAILS':
+            return { ...state, taskDetails: action.payload };
+        case 'GET_TASK_DETAILS':
             return { ...state, taskDetails: action.payload };
         case 'GET_WORD':
             return { ...state, wordFind: action.payload };
@@ -41,8 +43,6 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, answers: action.payload };
         case 'CASE':
             return { ...state, cases: action.payload };
-        case 'CASE_DETAIL':
-            return { ...state, taskDetails: action.payload };
         case 'CASE_INFO':
             return { ...state, caseInfo: action.payload };
         case 'SINGLE_CASE':
@@ -59,6 +59,8 @@ const reducer = (state = INIT_STATE, action) => {
                 ...state,
                 pastLessons: action.payload,
             };
+        case 'GET_STUDENT_LESSONS':
+            return { ...state, studentsLessons: action.payload };
         default:
             return state;
     }
@@ -80,6 +82,14 @@ const TasksContextProvider = ({ children }) => {
         };
         return config;
     };
+
+    const setTaskDetails = (taskDetails) => {
+        dispatch({
+            type: 'SET_TASK_DETAILS',
+            payload: taskDetails,
+        });
+    };
+
     const handleTask = async () => {
         try {
             const res = await axios(`${API}room/tasks/`, getConfig());
@@ -108,7 +118,7 @@ const TasksContextProvider = ({ children }) => {
 
     const updateAnswer = async (id, fields) => {
         try {
-            await api.patch(`${API}room/asnwers/${id}/`, fields);
+            await api.patch(`${API}room/answers/${id}/`, fields);
         } catch (error) {
             console.log(error);
         }
@@ -138,13 +148,15 @@ const TasksContextProvider = ({ children }) => {
         });
     };
 
-    const getTaskDetails = async (caseId, taskId) => {
+    const getTaskDetails = async (caseId, taskId, userId) => {
         const { data } = await api.get(
-            `${API}room/case_tasks/${caseId}/?task=${taskId}`
+            `${API}room/case_tasks/${caseId}/?task=${taskId}${
+                userId ? `&user_id=${userId}` : ''
+            }`
         );
 
         dispatch({
-            type: 'CASE_DETAIL',
+            type: 'GET_TASK_DETAILS',
             payload: data,
         });
     };
@@ -206,11 +218,21 @@ const TasksContextProvider = ({ children }) => {
         });
     };
 
+    const getStudentLessons = async (id) => {
+        const { data } = await axios(
+            `${API}room/get_deactivated_lessons/?user_id=${id}&hw=true`,
+            getConfig()
+        );
+        dispatch({
+            type: 'GET_STUDENT_LESSONS',
+            payload: data,
+        });
+    };
+
     const values = {
         handleTask,
         getCases,
         singleCase,
-        taskDetails: state.taskDetails,
         getTaskDetails,
         cases: state.cases,
         tasks: state.tasks,
@@ -231,6 +253,10 @@ const TasksContextProvider = ({ children }) => {
         updateAnswer,
         getPastLessons,
         pastLessons: state.pastLessons,
+        getStudentLessons,
+        studentsLessons: state.studentsLessons,
+        setTaskDetails,
+        taskDetails: state.taskDetails,
     };
 
     return (
