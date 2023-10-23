@@ -6,12 +6,13 @@ import styles from "./Main.module.scss";
 import { useAuth } from "contexts/AuthContextProvider";
 import StartLesson from "./StartLesson/StartLesson";
 import api from "http";
+import { SCHEDULE_API } from "helpers/consts";
 
 const Main = () => {
   const { isTeacher } = useAuth();
   const [nextLesson, setNextLesson] = useState(null);
   const getUpcomingLessons = () => {
-    api.get("https://www.fluentenglish.site/schedule/schedule/").then((res) => {
+    api.get(SCHEDULE_API).then((res) => {
       let data = res.data;
       data.sort((a, b) => a.weekday - b.weekday);
       if (data.length > 0) {
