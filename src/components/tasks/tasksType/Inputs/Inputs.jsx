@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Button } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { formAnswer } from './utils';
 
 import styles from './Inputs.module.scss';
@@ -20,6 +20,8 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
         setInputValues(newInputValues);
     };
 
+    console.log(description);
+
     const listItems = description.split('\\li');
 
     const output = listItems.map((listItem, outerInd) => {
@@ -37,9 +39,11 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
                             {splittedRow.map((value, innerInd) => {
                                 return (
                                     <Fragment key={innerInd}>
-                                        <span>{value}</span>
+                                        {value.length === 0 ? null : (
+                                            <span>{value}</span>
+                                        )}
                                         {innerInd < splittedRow.length - 1 && (
-                                            <input
+                                            <Input
                                                 onChange={(event) => {
                                                     handleInputChange(
                                                         event,
@@ -82,7 +86,10 @@ const Inputs = ({ handleAnswer, taskDetails, displayDataType }) => {
                     className={styles.submit}
                     disabled={!taskDetails.id}
                     onClick={() => {
-                        handleAnswer(formAnswer(inputValues), taskDetails.id);
+                        handleAnswer(
+                            formAnswer(inputValues, taskDetails),
+                            taskDetails.id
+                        );
                     }}
                 >
                     Submit

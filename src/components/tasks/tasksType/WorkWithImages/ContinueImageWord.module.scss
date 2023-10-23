@@ -14,6 +14,10 @@
         gap: 2em;
         margin-bottom: 2em;
 
+        &.oneImage {
+            justify-content: flex-start;
+        }
+
         .image {
             @include flex(column, flex-start, center);
             gap: 0.75em;
@@ -28,14 +32,16 @@
     .inputs {
         @include flex(column);
         flex-wrap: wrap;
-        gap: 1.5em;
+        gap: 1em;
         padding-left: 3em;
 
         .inputBox {
-            @include flex(column);
+            @include flex(column, center);
             gap: 0.5em;
             position: relative;
             counter-increment: li-counter;
+            white-space: nowrap;
+            height: 1.75rem;
 
             &::before {
                 content: counter(li-counter);

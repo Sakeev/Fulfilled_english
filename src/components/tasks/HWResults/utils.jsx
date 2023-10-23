@@ -1,12 +1,12 @@
-import { useTasks } from '../../contexts/TasksContextProvider';
+import { useTasks } from 'contexts/TasksContextProvider';
 import { useState } from 'react';
 
-import ContinueSentence from '../tasks/tasksType/ContinueSentence';
+import ContinueSentence from 'components/tasks/tasksType/ContinueSentence';
 import { BuildSentences } from 'components/tasks/tasksType';
-import BuildDialog from '../tasks/tasksType/BuildDialog';
-import Dropdown from '../tasks/tasksType/Dropdown';
-import Inputs from '../tasks/tasksType/Inputs';
-import Table from '../tasks/tasksType/Table';
+import BuildDialog from 'components/tasks/tasksType/BuildDialog';
+import Dropdown from 'components/tasks/tasksType/Dropdown';
+import Inputs from 'components/tasks/tasksType/Inputs';
+import Table from 'components/tasks/tasksType/Table';
 
 export const useRenderTask = (task, id, task_id, displayDataType = null) => {
     const { getTaskDetails, handleAnswer, caseInfo } = useTasks();

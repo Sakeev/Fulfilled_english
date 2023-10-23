@@ -66,6 +66,31 @@ export const renderInputs = (row, handler) => {
     );
 };
 
+export const renderOutput = (row, classes, answers) => {
+    const splittedRow = row.split('__inp__');
+
+    return (
+        <p>
+            {splittedRow.map((value, index) => {
+                const [id, string] = parseId(value);
+
+                return (
+                    <>
+                        {string}
+                        {index < splittedRow.length - 1 && (
+                            <span className={classes}>
+                                {(typeof answers[id] === 'object'
+                                    ? answers[id][0]
+                                    : answers[id]) || ''}
+                            </span>
+                        )}
+                    </>
+                );
+            })}
+        </p>
+    );
+};
+
 const parseId = (string) => {
     if (!isNumeric(string[string.length - 1])) return [0, string];
     let id = '';

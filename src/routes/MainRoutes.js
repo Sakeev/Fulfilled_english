@@ -93,7 +93,7 @@ const MainRoutes = () => {
             id: 9,
         },
         {
-            link: '/student-tasks/:userId/results/:taskId',
+            link: '/student-tasks/results/:caseId',
             element: <TasksResultPage />,
             id: 10,
         },

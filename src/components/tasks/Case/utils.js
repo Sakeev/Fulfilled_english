@@ -2,6 +2,17 @@ import { useParams } from 'react-router-dom';
 import { useTasks } from 'contexts/TasksContextProvider';
 import * as tasksType from '../tasksType';
 
+export const renderCondition = (condition) => {
+    if (condition) {
+        return condition
+            .split('\r\n')
+            .map((row, index) =>
+                row.length ? <p key={index}>{row}</p> : <br key={index} />
+            );
+    }
+    return null;
+};
+
 export const getVocabulary = (cases) => {
     if (!cases.length) return null;
 

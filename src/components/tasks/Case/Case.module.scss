@@ -1,14 +1,14 @@
 @import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
 
 .case {
     width: calc(100vw - $sidebar-width);
     height: 100%;
     padding: 5em 0 2em;
+    background-color: $page-color;
 
     .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        @include flex(column, space-between);
         height: 100%;
         width: 100%;
         // padding-inline: 5%;
@@ -40,11 +40,17 @@
             overflow-y: auto;
             flex-grow: 1;
             padding-inline: 5%;
+
+            // For homework results
+            &.results {
+                @include flex(column);
+                gap: 1.5em;
+            }
+            // For homework results
         }
 
         .pagination {
-            display: flex;
-            justify-content: center;
+            @include flex(row, center);
             width: 100%;
         }
     }
