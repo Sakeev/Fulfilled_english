@@ -22,6 +22,7 @@ const Cases = () => {
                     title,
                     passed_quantity: passed,
                     quantity_task: tasks,
+                    lesson,
                 }) => {
                     if (title === 'vocabulary') return null;
 
@@ -33,9 +34,7 @@ const Cases = () => {
                                     navigate(`/task/case/${id}/task/1`)
                                 }
                             >
-                                <span>
-                                    {title[0].toUpperCase() + title.slice(1)}
-                                </span>
+                                <span>Lesson {lesson}</span>
                             </div>
                             <span
                                 className={`${styles.progress} ${
