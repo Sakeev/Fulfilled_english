@@ -1,8 +1,7 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useReducer, useState } from 'react';
 import { createContext } from 'react';
-import { API } from '../helpers/consts';
-import api from '../http';
+import { API } from 'helpers/consts';
+import api from 'http';
 
 export const tasksContext = createContext();
 
@@ -12,15 +11,10 @@ export const useTasks = () => {
 
 const INIT_STATE = {
     tasks: [],
-    wordFind: [],
-    fillInps: [],
-    sent: [],
     answers: [],
     cases: [],
     taskDetails: null,
-    singleCase: [],
     caseInfo: {},
-    taskProgress: [],
     pastLessons: [],
     studentsLessons: [],
 };
@@ -33,27 +27,12 @@ const reducer = (state = INIT_STATE, action) => {
             return { ...state, taskDetails: action.payload };
         case 'GET_TASK_DETAILS':
             return { ...state, taskDetails: action.payload };
-        case 'GET_WORD':
-            return { ...state, wordFind: action.payload };
-        case 'GET_INPS':
-            return { ...state, fillInps: action.payload };
-        case 'GET_SENT':
-            return { ...state, sent: action.payload };
         case 'ANSWERS':
             return { ...state, answers: action.payload };
         case 'CASE':
             return { ...state, cases: action.payload };
         case 'CASE_INFO':
             return { ...state, caseInfo: action.payload };
-        case 'SINGLE_CASE':
-            return { ...state, singleCase: action.payload };
-        case 'PROGRESS_OBJECT':
-            return { ...state, progObj: action.payload };
-        case 'TASK_PROGRESS':
-            return {
-                ...state,
-                taskProgress: [...state.taskProgress, action.payload],
-            };
         case 'GET_PAST_LESSONS':
             return {
                 ...state,
@@ -67,21 +46,7 @@ const reducer = (state = INIT_STATE, action) => {
 };
 const TasksContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INIT_STATE);
-
-    const getConfig = () => {
-        const token = localStorage.getItem('token')
-            ? JSON.parse(localStorage.getItem('token'))
-            : '';
-        // console.log(token.access);
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token.access}`,
-            },
-        };
-        return config;
-    };
+    const [loading, setLoading] = useState(false);
 
     const setTaskDetails = (taskDetails) => {
         dispatch({
@@ -92,7 +57,7 @@ const TasksContextProvider = ({ children }) => {
 
     const handleTask = async () => {
         try {
-            const res = await axios(`${API}room/tasks/`, getConfig());
+            const res = await api.get(`${API}room/tasks/`);
 
             dispatch({
                 type: 'GET_TASKS',
@@ -105,8 +70,8 @@ const TasksContextProvider = ({ children }) => {
 
     const getAnswers = async () => {
         try {
-            const res = await axios(`${API}room/answers/`, getConfig());
-            // console.log(res);
+            const res = await api.get(`${API}room/answers/`);
+
             dispatch({
                 type: 'ANSWERS',
                 payload: res.data,
@@ -126,17 +91,12 @@ const TasksContextProvider = ({ children }) => {
 
     const handleAnswer = async (obj, id) => {
         try {
-            console.log(id);
-            const res = await axios.post(
-                `${API}room/tasks/${id}/answer/`,
-                obj,
-                getConfig()
-            );
-            console.log(res);
+            await api.post(`${API}room/tasks/${id}/answer/`, obj);
         } catch (error) {
             console.log(error);
         }
     };
+
     const getCases = async (id) => {
         const { data } = await api.get(
             `${API}room/get_lesson/?hw=true${id ? '&user_id=' + id : ''}`
@@ -160,50 +120,13 @@ const TasksContextProvider = ({ children }) => {
             payload: data,
         });
     };
-    const singleCase = async (id) => {
-        const { data } = await axios(
-            `${API}room/case_tasks/${id}/`,
-            getConfig()
-        );
-        dispatch({
-            type: 'SINGLE_CASE',
-            payload: data,
-        });
-        return data;
-    };
+
     const getCaseInfo = async (id, userId) => {
-        const { data } = await axios(
-            `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`,
-            getConfig()
+        const { data } = await api.get(
+            `${API}room/case_tasks/${id}/${userId ? '?user_id=' + userId : ''}`
         );
         dispatch({
             type: 'CASE_INFO',
-            payload: data,
-        });
-    };
-
-    const editProgress = async (obj, caseIndex) => {
-        if (obj.task0) {
-            console.log('patch', obj);
-            let resObj = {
-                json_field: obj,
-            };
-
-            await axios.patch(
-                `${API}room/case_tasks/${caseIndex}/`,
-                resObj,
-                getConfig()
-            );
-        }
-    };
-
-    const getProgress = async (caseIndex) => {
-        const { data } = await axios.get(
-            `${API}room/case_tasks/${caseIndex}/`,
-            getConfig()
-        );
-        dispatch({
-            type: 'PROGRESS_OBJECT',
             payload: data,
         });
     };
@@ -219,44 +142,38 @@ const TasksContextProvider = ({ children }) => {
     };
 
     const getStudentLessons = async (id) => {
-        const { data } = await axios(
-            `${API}room/get_deactivated_lessons/?user_id=${id}&hw=true`,
-            getConfig()
+        setLoading(true);
+        const { data } = await api.get(
+            `${API}room/get_deactivated_lessons/?user_id=${id}&hw=true`
         );
+
         dispatch({
             type: 'GET_STUDENT_LESSONS',
             payload: data,
         });
+        setLoading(false);
     };
 
     const values = {
-        handleTask,
-        getCases,
-        singleCase,
-        getTaskDetails,
-        cases: state.cases,
-        tasks: state.tasks,
-        sent: state.sent,
-        fillInps: state.fillInps,
+        loading,
         dispatch,
-        wordFind: state.wordFind,
+        getTaskDetails,
+        taskDetails: state.taskDetails,
+        getCases,
+        cases: state.cases,
+        handleTask,
+        tasks: state.tasks,
         handleAnswer,
         getAnswers,
-        answers: state.answers,
-        oneCase: state.singleCase,
-        caseInfo: state.caseInfo,
-        getCaseInfo,
-        taskProgress: state.taskProgress,
-        editProgress,
-        getProgress,
-        progObj: state.progObj,
         updateAnswer,
+        answers: state.answers,
+        getCaseInfo,
+        caseInfo: state.caseInfo,
         getPastLessons,
         pastLessons: state.pastLessons,
         getStudentLessons,
         studentsLessons: state.studentsLessons,
         setTaskDetails,
-        taskDetails: state.taskDetails,
     };
 
     return (

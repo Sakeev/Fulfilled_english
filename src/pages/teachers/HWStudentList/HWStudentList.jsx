@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
 import { useUsers } from 'contexts/UsersContextProvider';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { useTasks } from 'contexts/TasksContextProvider';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'components/ui';
-import { useTasks } from 'contexts/TasksContextProvider';
+import { useEffect, useState } from 'react';
 
 import styles from './HWStudentList.module.scss';
 
-const selectContainer = {
-    margin: '10px 0',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px',
-    padding: '5px 0',
-    borderRadius: '5px',
-};
-
 const HWStudentList = () => {
     const { getStudents, students } = useUsers();
-    const { getStudentLessons, studentsLessons } = useTasks();
+    const { getStudentLessons, studentsLessons, loading } = useTasks();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [student, setStudent] = useState(null);
 
     useEffect(() => {
         getStudents();
@@ -36,10 +23,13 @@ const HWStudentList = () => {
         if (caseId) navigate(`/student-tasks/${userId}/results/${caseId}`);
     };
 
-    const onView = (id) => {
+    const onView = (student) => {
         setShowModal(true);
-        getStudentLessons(id);
+        getStudentLessons(student.id);
+        setStudent(student);
     };
+
+    console.log(studentsLessons);
 
     return (
         <div className={styles.studentListContainer}>
@@ -67,81 +57,55 @@ const HWStudentList = () => {
                             </div>
                             <Button
                                 className={styles.viewBtn}
-                                onClick={() => onView(student.id)}
+                                onClick={() => onView(student)}
                             >
                                 view h/w
                             </Button>
-
-                            <Modal useStateHook={[showModal, setShowModal]}>
-                                <Box>
-                                    <Typography
-                                        id="modal-modal-title"
-                                        variant="h6"
-                                        component="h2"
-                                    >
-                                        Home works
-                                    </Typography>
-                                    <div
-                                        id="modal-modal-description"
-                                        sx={{ mt: 2 }}
-                                    >
-                                        {studentsLessons.length > 0 ? (
-                                            <>
-                                                <label
-                                                    style={{ marginTop: '5%' }}
-                                                    htmlFor="lessons"
-                                                >
-                                                    Choose a lesson:
-                                                </label>
-                                                <select
-                                                    name="lessons"
-                                                    onChange={(event) =>
-                                                        handleChange(
-                                                            event,
-                                                            student.id
-                                                        )
-                                                    }
-                                                    style={selectContainer}
-                                                >
-                                                    <option
-                                                        value="-"
-                                                        defaultChecked
-                                                    >
-                                                        -
-                                                    </option>
-                                                    {studentsLessons.map(
-                                                        (lesson) => {
-                                                            return (
-                                                                <option
-                                                                    key={
-                                                                        lesson.id
-                                                                    }
-                                                                    value={
-                                                                        lesson
-                                                                            .case_tasks[0]
-                                                                            ?.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        lesson.title
-                                                                    }
-                                                                </option>
-                                                            );
-                                                        }
-                                                    )}
-                                                </select>
-                                            </>
-                                        ) : (
-                                            <Typography>
-                                                There are no lessons
-                                            </Typography>
-                                        )}
-                                    </div>
-                                </Box>
-                            </Modal>
                         </li>
                     ))}
                 </ul>
+                <Modal useStateHook={[showModal, setShowModal]}>
+                    <div className={styles.modalContent}>
+                        <h2 className={styles.modalHeader}>Home works</h2>
+                        <div className={styles.selectLessonWrapper}>
+                            {studentsLessons.length > 0 && !loading ? (
+                                <>
+                                    <label htmlFor="lessons">
+                                        Choose a lesson:
+                                    </label>
+                                    <select
+                                        className={styles.selectLesson}
+                                        name="lessons"
+                                        onChange={(event) =>
+                                            handleChange(event, student.id)
+                                        }
+                                    >
+                                        <option value="-" defaultChecked>
+                                            -
+                                        </option>
+                                        {studentsLessons.map(
+                                            (lesson, index) => {
+                                                return (
+                                                    <option
+                                                        key={index}
+                                                        value={
+                                                            lesson.case_tasks[0]
+                                                                ?.id
+                                                        }
+                                                    >
+                                                        {lesson.title}
+                                                    </option>
+                                                );
+                                            }
+                                        )}
+                                    </select>
+                                </>
+                            ) : (
+                                <p>There are no lessons</p>
+                            )}
+                        </div>
+                    </div>
+                </Modal>
             </div>
         </div>
     );

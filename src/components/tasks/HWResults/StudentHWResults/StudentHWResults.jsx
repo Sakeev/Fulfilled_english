@@ -17,17 +17,21 @@ const StudentHWResults = () => {
     };
 
     return (
-        <div>
-            <select onChange={onSelect}>
+        <div className={styles.lessonResults}>
+            <select className={styles.selectLesson} onChange={onSelect}>
                 <option value="" defaultChecked hidden>
                     Choose lesson
                 </option>
-                {pastLessons.map((lesson) => {
+                {pastLessons.map((lesson, index) => {
                     const caseId = lesson.case_tasks.find(
                         (caseTask) => caseTask.title === 'grammar'
                     ).id;
 
-                    return <option value={caseId}>{lesson.title}</option>;
+                    return (
+                        <option key={index} value={caseId}>
+                            {lesson.title}
+                        </option>
+                    );
                 })}
             </select>
         </div>
