@@ -11,8 +11,9 @@ import ScheduleActive from "assets/icons/schedule-active.svg";
 import Logout from "assets/icons/logout.svg";
 import LogoutActive from "assets/icons/logout-active.svg";
 import { routes } from "helpers/consts";
+import { isTeacher } from "helpers/funcs";
 
-export const sections = [
+const sections = [
   {
     title: "Dashboard",
     icon: Home,
@@ -42,7 +43,7 @@ export const sections = [
   //     route: routes.STUDENTS,
   // },
   {
-    title: "Students",
+    title: "Gradebook",
     icon: Students,
     activeIcon: StudentsActive,
     alt: "students",
@@ -57,10 +58,16 @@ export const sections = [
   },
 ];
 
-export const logoutSection = {
+const logoutSection = {
   title: "Logout",
   icon: Logout,
   activeIcon: LogoutActive,
   alt: "logout",
   route: "/",
 };
+
+if (!isTeacher()) {
+  sections.splice(3, 1);
+}
+
+export { sections, logoutSection };
