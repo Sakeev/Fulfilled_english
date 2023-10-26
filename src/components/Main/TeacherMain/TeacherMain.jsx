@@ -4,12 +4,12 @@ import clip from "../assets/clip.svg";
 import profileImg from "../assets/profile-img.svg";
 import styles from "./TeacherMain.module.scss";
 import { useClassWork } from "contexts/ClassWorkContextProvider";
-import logoBeginner from "../assets/logo-beginner.svg";
-import logoElementary from "../assets/logo-elementary.svg";
-import logoPre from "../assets/logo-pre.svg";
-import logoInterm from "../assets/logo-interm.svg";
-import logoUpper from "../assets/logo-upper.svg";
-import logoAdv from "../assets/logo-adv.svg";
+import logoBeginner from "assets/images/logo-beginner.svg";
+import logoElementary from "assets/images/logo-elementary.svg";
+import logoPre from "assets/images/logo-pre.svg";
+import logoInterm from "assets/images/logo-interm.svg";
+import logoUpper from "assets/images/logo-upper.svg";
+import logoAdv from "assets/images/logo-adv.svg";
 import { useUsers } from "contexts/UsersContextProvider";
 import { useSchedule } from "contexts/ScheduleContextProvider";
 import { useNavigate } from "react-router-dom";
@@ -37,19 +37,19 @@ const TeacherMain = () => {
 
   function lvlcheck(lvl) {
     switch (lvl) {
-      case "beg":
+      case "beginner":
         return <img src={logoBeginner} alt="level" className={styles.level} />;
-      case "elem":
+      case "elementary":
         return (
           <img src={logoElementary} alt="level" className={styles.level} />
         );
-      case "pre":
+      case "pre-intermediate":
         return <img src={logoPre} alt="level" className={styles.level} />;
-      case "inter":
+      case "intermediate":
         return <img src={logoInterm} alt="level" className={styles.level} />;
-      case "upper":
+      case "upper-intermediate":
         return <img src={logoUpper} alt="level" className={styles.level} />;
-      case "adv":
+      case "advanced":
         return <img src={logoAdv} alt="level" className={styles.level} />;
       default:
         return;

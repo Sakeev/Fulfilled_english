@@ -1,3 +1,10 @@
+import logoBeginner from "assets/images/logo-beginner.svg";
+import logoElementary from "assets/images/logo-elementary.svg";
+import logoPre from "assets/images/logo-pre.svg";
+import logoInterm from "assets/images/logo-interm.svg";
+import logoUpper from "assets/images/logo-upper.svg";
+import logoAdv from "assets/images/logo-adv.svg";
+
 export const getWeekDay = () => {
   const d = new Date();
   let WEEK_DAY = d.getDay();
@@ -88,4 +95,34 @@ export function getMonthInThreeLetter(date) {
   const monthIndex = date.getMonth();
   const monthName = monthNames[monthIndex];
   return monthName;
+}
+
+export function lvlcheck(lvl) {
+  const levels = {
+    beginner: {
+      logo: logoBeginner,
+      level: "Beginner",
+    },
+    elementary: {
+      logo: logoElementary,
+      level: "Elementary",
+    },
+    "pre-intermediate": {
+      logo: logoPre,
+      level: "Pre-Intermediate",
+    },
+    intermediate: {
+      logo: logoInterm,
+      level: "Intermediate",
+    },
+    "upper-intermediate": {
+      logo: logoUpper,
+      level: "Upper-Intermediate",
+    },
+    advanced: {
+      logo: logoAdv,
+      level: "Advanced",
+    },
+  };
+  return lvl ? levels[lvl] : { logo: logoBeginner, level: null };
 }

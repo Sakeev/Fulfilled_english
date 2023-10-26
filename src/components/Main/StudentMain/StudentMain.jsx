@@ -1,12 +1,7 @@
-import { formatText } from "helpers/funcs";
+import { formatText, lvlcheck } from "helpers/funcs";
 import React, { useEffect, useState } from "react";
 import clip from "../assets/clip.svg";
-import logoBeginner from "../assets/logo-beginner.svg";
-import logoElementary from "../assets/logo-elementary.svg";
-import logoPre from "../assets/logo-pre.svg";
-import logoInterm from "../assets/logo-interm.svg";
-import logoUpper from "../assets/logo-upper.svg";
-import logoAdv from "../assets/logo-adv.svg";
+
 import profileImg from "../assets/profile-img.svg";
 import ProgressBar from "./ProgressBar";
 import styles from "./StudentMain.module.scss";
@@ -35,56 +30,7 @@ const StudentMain = () => {
   // Для определения уровня и прогресса
   const [progress, setProgress] = useState(0);
 
-  function lvlcheck(lvl) {
-    switch (lvl) {
-      case "beg":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoBeginner} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Beginner</p>
-          </div>
-        );
-
-      case "elem":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoElementary} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Elementary</p>
-          </div>
-        );
-
-      case "pre":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoPre} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Pre-Intermediate</p>
-          </div>
-        );
-      case "inter":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoInterm} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Intermediate</p>
-          </div>
-        );
-      case "upper":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoUpper} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Upper-Intermediate</p>
-          </div>
-        );
-      case "adv":
-        return (
-          <div className={styles.levelicon}>
-            <img src={logoAdv} alt="logo" className={styles.levelimg} />
-            <p className={styles.leveltext}>Advance</p>
-          </div>
-        );
-      default:
-        return;
-    }
-  }
+  const { logo, level } = lvlcheck(hwstudents[0]?.level);
 
   //   __html:
   useEffect(() => {
@@ -109,7 +55,10 @@ const StudentMain = () => {
           </div>
           <div className={styles.level}>
             <h3>Level</h3>
-            {lvlcheck(hwstudents[0]?.level)}
+            <div className={styles.levelicon}>
+              <img src={logo} alt="logo" className={styles.levelimg} />
+              <p className={styles.leveltext}>{level}</p>
+            </div>
           </div>
         </div>
         <div
