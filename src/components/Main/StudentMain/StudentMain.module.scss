@@ -93,6 +93,16 @@
         align-items: center;
         justify-content: center;
       }
+
+      .message {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+
       .note {
         height: 85%;
         width: 100%;
