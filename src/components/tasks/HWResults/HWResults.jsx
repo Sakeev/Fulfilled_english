@@ -49,9 +49,10 @@ const HWResults = () => {
 
     const handlePage = (page) => {
         if (caseInfo.id) {
-            const taskDetails = caseInfo.tasks[page - 1] || null;
+            // const taskDetails = caseInfo.tasks[page - 1] || null;
 
-            setTaskDetails(taskDetails);
+            // setTaskDetails(taskDetails);
+            getTaskDetails(caseId, page, userId);
             setPage(page);
         }
     };

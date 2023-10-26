@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { createContext, useContext, useReducer } from 'react';
-import { API } from '../helpers/consts';
+import { API, API_USER_PROGRESS, TEACHER_PROFILE_API } from '../helpers/consts';
+import api from 'http';
+import { isTeacher } from 'helpers/funcs';
 
 const usersContext = createContext();
 export const useUsers = () => useContext(usersContext);
@@ -12,6 +14,8 @@ const init_state = {
     onelesson: {},
     currentlesson: {},
     teacherInfo: {},
+    user: null,
+    studentProgress: null,
 };
 
 const reducer = (state = init_state, action) => {
@@ -31,6 +35,10 @@ const reducer = (state = init_state, action) => {
             return { ...state, currentlesson: action.payload };
         case 'GET_TEACHER':
             return { ...state, teacherInfo: action.payload };
+        case 'SET_STUDENT_PROGRESS':
+            return { ...state, studentProgress: action.payload };
+        case 'SET_USER':
+            return { ...state, user: action.payload };
         default:
             return state;
     }
@@ -126,6 +134,33 @@ const UsersContextProvider = ({ children }) => {
         });
     };
 
+    const getStudentProgress = async () => {
+        const { data } = await api.get(API_USER_PROGRESS);
+
+        dispatch({ type: 'SET_STUDENT_PROGRESS', payload: data[0] || null });
+    };
+
+    const getUser = async () => {
+        const { data } = await api.get(API_USER_PROGRESS);
+
+        dispatch({ type: 'SET_USER', payload: data[0]?.user || null });
+    };
+
+    const getUserAndProgress = async () => {
+        let user = null;
+
+        if (isTeacher()) {
+            user = (await api.get(TEACHER_PROFILE_API)).data;
+        } else {
+            user = (await api.get(API_USER_PROGRESS)).data[0]?.user;
+        }
+
+        const { data } = await api.get(API_USER_PROGRESS);
+
+        dispatch({ type: 'SET_USER', payload: user || null });
+        dispatch({ type: 'SET_STUDENT_PROGRESS', payload: data[0] || null });
+    };
+
     const cloud = {
         getStudents,
         students: state.students,
@@ -139,6 +174,11 @@ const UsersContextProvider = ({ children }) => {
         currentlesson: state.currentlesson,
         getTeacher,
         teacherInfo: state.teacherInfo,
+        user: state.user,
+        studentProgress: state.studentProgress,
+        getStudentProgress,
+        getUser,
+        getUserAndProgress,
     };
 
     return (

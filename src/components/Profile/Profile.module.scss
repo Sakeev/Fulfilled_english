@@ -1,0 +1,71 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
+
+.profileContainer {
+    width: 90%;
+    height: 85%;
+    margin: auto;
+
+    span {
+        color: $highlighted-text;
+    }
+
+    .userInfo {
+        @include flex(row, space-between);
+        width: 100%;
+
+        .userAvatar {
+            @include flex(row, center);
+            flex: 0.22 1 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+
+            img {
+                height: 100%;
+            }
+        }
+
+        .userInfoCard {
+            @include flex(column, space-between);
+            flex: 0.73 1 0;
+            padding: 1em 1.5em;
+            border-radius: 0.5rem;
+            background-color: $button-bg;
+
+            .userFullName {
+            }
+
+            .courseInfo {
+                p {
+                    padding-bottom: 0.375em;
+                }
+
+                .studentProgress {
+                    margin-top: 0.5em;
+
+                    .progress {
+                        position: relative;
+                        width: 15rem;
+                        height: 2rem;
+                        background-color: $border-color;
+                        border-radius: 0.5rem;
+
+                        .percent {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+
+                        .progressBar {
+                            height: 100%;
+                            background-color: $hover-secondary;
+                            border-radius: 0.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
