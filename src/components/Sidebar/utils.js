@@ -66,8 +66,4 @@ const logoutSection = {
   route: "/",
 };
 
-if (!isTeacher()) {
-  sections.splice(3, 1);
-}
-
 export { sections, logoutSection };
