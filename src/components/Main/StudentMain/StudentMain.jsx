@@ -22,7 +22,6 @@ const StudentMain = () => {
   const { getSchedule, schedule } = useSchedule();
 
   const navigate = useNavigate();
-
   useEffect(() => {
     getRoom();
     getNotes();
@@ -136,19 +135,25 @@ const StudentMain = () => {
           <div className={styles.head}>
             <h3>Notes</h3>
           </div>
-          <div
-            className={styles.note}
-            onClick={() => {
-              navigate("/notes");
-            }}
-          >
-            <span>Lesson {notes[0]?.lesson}</span>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: formatText(notes[0]),
+          {notes.length > 0 ? (
+            <div
+              className={styles.note}
+              onClick={() => {
+                navigate("/notes");
               }}
-            ></p>
-          </div>
+            >
+              <span>Lesson {notes[0]?.lesson}</span>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: formatText(notes[0]),
+                }}
+              ></p>
+            </div>
+          ) : (
+            <div className={styles.message}>
+              <span>you dont have any notes</span>
+            </div>
+          )}
         </div>
         <div className={styles.schedule}>
           <div className={styles.head}>
