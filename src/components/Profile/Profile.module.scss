@@ -26,43 +26,68 @@
             }
         }
 
-        .userInfoCard {
-            @include flex(column, space-between);
+        .userInfoCardWrapper {
+            @include flex(row, space-between);
             flex: 0.73 1 0;
             padding: 1em 1.5em;
             border-radius: 0.5rem;
             background-color: $button-bg;
 
-            .userFullName {
-            }
+            .userInfoCard {
+                @include flex(column, space-between);
+                width: 40%;
 
-            .courseInfo {
-                p {
-                    padding-bottom: 0.375em;
+                .userFullName {
                 }
 
-                .studentProgress {
-                    margin-top: 0.5em;
+                .courseInfo {
+                    height: 65%;
 
-                    .progress {
-                        position: relative;
-                        width: 15rem;
-                        height: 2rem;
-                        background-color: $border-color;
-                        border-radius: 0.5rem;
+                    p {
+                        padding-bottom: 0.375em;
+                    }
 
-                        .percent {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                        }
+                    .studentProgress {
+                        margin-top: 0.5em;
 
-                        .progressBar {
-                            height: 100%;
-                            background-color: $hover-secondary;
+                        .progress {
+                            position: relative;
+                            width: 15rem;
+                            height: 2rem;
+                            background-color: $border-color;
                             border-radius: 0.5rem;
+
+                            .percent {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                            }
+
+                            .progressBar {
+                                height: 100%;
+                                background-color: $hover-secondary;
+                                border-radius: 0.5rem;
+                            }
                         }
+                    }
+                }
+            }
+
+            .level {
+                @include flex(column, flex-start, center);
+                width: 50%;
+
+                p {
+                    margin-bottom: 1em;
+                }
+
+                .emblem {
+                    min-height: 8rem;
+                    height: 60%;
+
+                    img {
+                        height: 100%;
                     }
                 }
             }
