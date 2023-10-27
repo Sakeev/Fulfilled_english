@@ -13,7 +13,7 @@ const LessonRow = ({ lessonKey, date, grades, selectedUser }) => {
   return (
     <tr key={lessonKey}>
       {/* <td>{date}</td> */}
-      <td>{lessonKey.replace("lesson", "")}</td>
+      {selectedUser.user ? <td>{lessonKey.replace("lesson", "")}</td> : ""}
       <td>{getGrade(filteredGrades, "hw")}</td>
       <td>{getGrade(filteredGrades, "essay")}</td>
       <td>{getGrade(filteredGrades, "cw")}</td>
@@ -60,11 +60,6 @@ const Gradebook = () => {
   const handleSelect = (value) => {
     setSelectedUser(value);
   };
-
-  // const filterByUser = (user) =>
-  //   gradebook.filter((grade) => grade.user === user);
-
-  console.log(gradebook);
 
   return (
     <div className={styles.gradebook_container}>
