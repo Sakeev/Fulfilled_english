@@ -29,6 +29,12 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
                     return (
                         <div className={styles.row} key={index}>
                             {splittedRow.map((value, innerInd) => {
+                                let temp = '';
+
+                                if (innerInd < splittedRow.length - 1) {
+                                    temp = answers.shift();
+                                }
+
                                 return (
                                     <Fragment key={innerInd}>
                                         {value.length === 0 ? null : (
@@ -36,10 +42,9 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
                                         )}
                                         {innerInd < splittedRow.length - 1 && (
                                             <span className={styles.answer}>
-                                                {(typeof answers[innerInd] ===
-                                                'object'
-                                                    ? answers[innerInd][0]
-                                                    : answers[innerInd]) || ''}
+                                                {(typeof temp === 'object'
+                                                    ? temp[0]
+                                                    : temp) || ''}
                                             </span>
                                         )}
                                     </Fragment>

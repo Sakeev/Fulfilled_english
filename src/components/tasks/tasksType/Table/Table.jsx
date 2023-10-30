@@ -63,10 +63,7 @@ const Table = ({ taskDetails, handleAnswer }) => {
 
         answerTemplate.unshift(colHeadings);
 
-        handleAnswer(
-            JSON.stringify({ answers: answerTemplate }),
-            taskDetails.id
-        );
+        handleAnswer({ answers: answerTemplate }, taskDetails.id);
     };
 
     return (
