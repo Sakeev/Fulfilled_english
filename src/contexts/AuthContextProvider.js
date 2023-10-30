@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API, AUTH_API, PROFILE_API, USERS_API } from '../helpers/consts';
+import { API, AUTH_API, USERS_API } from '../helpers/consts';
 import axios from 'axios';
 import api from '../http';
 

@@ -82,6 +82,12 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
     };
 
     const formObj = () => {
+        for (let i in wordsPairs) {
+            if (wordsPairs[i].length === 2) {
+                wordsPairs[i].sort((a, b) => a.id - b.id);
+            }
+        }
+
         const answer = [];
 
         for (let i = 0; i < firstColumn.length; i++) {
@@ -93,6 +99,7 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
                 answer[i][j] = wordsPairs[i][j].word.toLowerCase();
             }
         }
+        console.log(answer);
 
         return {
             answers: answer,
