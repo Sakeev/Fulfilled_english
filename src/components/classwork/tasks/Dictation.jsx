@@ -1,9 +1,7 @@
 import React, { useRef } from "react";
 import {
   BtnBold,
-  BtnBulletList,
   BtnItalic,
-  BtnNumberedList,
   BtnStrikeThrough,
   BtnUnderline,
   Editor,
@@ -60,12 +58,12 @@ const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
             {isTeacher() && (
               <Toolbar>
                 <BtnBold />
-                <BtnItalic />
-                <BtnUnderline />
-                <BtnStrikeThrough />
                 <Separator />
-                <BtnNumberedList />
-                <BtnBulletList />
+                <BtnItalic />
+                <Separator />
+                <BtnUnderline />
+                <Separator />
+                <BtnStrikeThrough />
                 <Separator />
                 <input
                   ref={inputRef}

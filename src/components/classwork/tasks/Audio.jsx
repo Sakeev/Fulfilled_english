@@ -1,3 +1,4 @@
+import { isTeacher } from "helpers/funcs";
 import React, { useCallback, useEffect, useRef } from "react";
 
 const Audio = ({
@@ -70,7 +71,7 @@ const Audio = ({
       action: "get_listening",
       request_id: request_id,
     });
-  });
+  }, []);
 
   return (
     <>
@@ -79,12 +80,15 @@ const Audio = ({
         src={audioSource}
         onPause={() => sendToggleButton(false)}
         onPlay={() => sendToggleButton(true)}
-        // muted="muted"
-        controls
+        controls={isTeacher() ? "controls" : ""}
+        style={{ margin: "15px 0", width: "80%" }}
+        preload="auto"
         onSeeked={(e) => {
           changeTime(e.target.currentTime);
         }}
-      />
+      >
+        Your browser does not support the audio element.
+      </audio>
     </>
   );
 };

@@ -23,7 +23,8 @@ const CreateRoom = () => {
   const { getSchedule } = useSchedule();
   const { getLesson, lesson, createRoom, createRoomError, clearErrors } =
     useClassWork();
-  const { getStudents, studentsList } = useUsers();
+  const { getStudents, students } = useUsers();
+  console.log(students);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,7 +87,7 @@ const CreateRoom = () => {
           placeholder="student"
         >
           <option value={0}></option>
-          {studentsList?.map((student, key) => (
+          {students?.map((student, key) => (
             <option key={key} value={student.id}>
               {student.email}
             </option>
