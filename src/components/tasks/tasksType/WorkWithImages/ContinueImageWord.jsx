@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './ContinueImageWord.module.scss';
 
-const ContinueImageWord = ({ taskDetails, handleAnswer }) => {
+const ContinueImageWord = ({ taskDetails, handleAnswer, ids }) => {
     const splittedDescription = taskDetails.description.split('\r\n');
     const [results, setResults] = useState({});
 
@@ -54,17 +54,21 @@ const ContinueImageWord = ({ taskDetails, handleAnswer }) => {
                 {splittedDescription.map((string, index) => {
                     return (
                         <div key={index} className={styles.inputBox}>
-                            {string.split('|').map((row) => {
-                                return renderInputs(row, handleInput);
+                            {string.split('|').map((row, pInd) => {
+                                return renderInputs(row, handleInput, pInd);
                             })}
                         </div>
                     );
                 })}
             </div>
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskDetails.id);
+                    handleAnswer(formRequest(), taskDetails.id, ids);
                 }}
             >
                 Submit

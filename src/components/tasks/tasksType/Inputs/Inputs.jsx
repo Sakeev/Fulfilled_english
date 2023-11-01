@@ -4,7 +4,7 @@ import { formAnswer } from './utils';
 
 import styles from './Inputs.module.scss';
 
-const Inputs = ({ handleAnswer, taskDetails }) => {
+const Inputs = ({ handleAnswer, taskDetails, ids }) => {
     const [description, setDescription] = useState('');
     const [inputValues, setInputValues] = useState({});
 
@@ -80,12 +80,16 @@ const Inputs = ({ handleAnswer, taskDetails }) => {
                 {output}
             </ol>
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
-                disabled={!taskDetails.id}
                 onClick={() => {
                     handleAnswer(
                         formAnswer(inputValues, taskDetails),
-                        taskDetails.id
+                        taskDetails.id,
+                        ids
                     );
                 }}
             >

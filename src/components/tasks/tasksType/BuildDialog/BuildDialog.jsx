@@ -3,7 +3,7 @@ import { Button } from 'components/ui';
 
 import styles from './BuildDialog.module.scss';
 
-const BuildDialog = ({ taskDetails, handleAnswer }) => {
+const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
     const [sentences, setSentences] = useState([]);
     const [answer, setAnswer] = useState([]);
 
@@ -63,8 +63,12 @@ const BuildDialog = ({ taskDetails, handleAnswer }) => {
                 </div>
             </div>
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
-                onClick={() => handleAnswer(formRequest(), taskDetails.id)}
+                onClick={() => handleAnswer(formRequest(), taskDetails.id, ids)}
             >
                 Submit
             </Button>

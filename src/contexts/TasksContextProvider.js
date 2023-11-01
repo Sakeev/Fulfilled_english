@@ -89,10 +89,10 @@ const TasksContextProvider = ({ children }) => {
         }
     };
 
-    const handleAnswer = async (obj, id) => {
+    const handleAnswer = async (obj, id, { caseId, taskId }) => {
         try {
-            console.log(obj);
             await api.post(`${API}room/tasks/${id}/answer/`, obj);
+            getTaskDetails(caseId, taskId);
         } catch (error) {
             console.log(error);
         }

@@ -4,9 +4,8 @@ import { colors } from './utils';
 
 import styles from './ConnectWords.module.scss';
 
-const ConnectWords = ({ handleAnswer, taskDetails }) => {
+const ConnectWords = ({ handleAnswer, taskDetails, ids }) => {
     const [wordsPairs, setWordsPairs] = useState([]);
-
     const [firstColumn, setFirstColumn] = useState(null);
     const [secondColumn, setSecondColumn] = useState(null);
 
@@ -85,6 +84,12 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
         for (let i in wordsPairs) {
             if (wordsPairs[i].length === 2) {
                 wordsPairs[i].sort((a, b) => a.id - b.id);
+            } else if (wordsPairs[i].length === 1) {
+                if (wordsPairs[i][0].id < firstColumn.length) {
+                    wordsPairs[i].push(null);
+                } else {
+                    wordsPairs[i].unshift(null);
+                }
             }
         }
 
@@ -96,10 +101,13 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
 
         for (let i = 0; i < wordsPairs.length; i++) {
             for (let j = 0; j < wordsPairs[i].length; j++) {
-                answer[i][j] = wordsPairs[i][j].word.toLowerCase();
+                if (wordsPairs[i][j]) {
+                    answer[i][j] = wordsPairs[i][j].word.toLowerCase();
+                } else {
+                    answer[i][j] = 'No answer';
+                }
             }
         }
-        console.log(answer);
 
         return {
             answers: answer,
@@ -141,9 +149,12 @@ const ConnectWords = ({ handleAnswer, taskDetails }) => {
                 </div>
             </div>
             <Button
-                disabled={!taskDetails}
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
-                onClick={() => handleAnswer(formObj(), taskDetails.id)}
+                onClick={() => handleAnswer(formObj(), taskDetails.id, ids)}
             >
                 Submit
             </Button>

@@ -1,11 +1,12 @@
-import { Button } from 'components/ui';
+import { useParams } from 'react-router-dom';
 import { renderInputs } from '../utils';
+import { Button } from 'components/ui';
 import { API } from 'helpers/consts';
 import { useState } from 'react';
 
 import styles from './Images.module.scss';
 
-const Images = ({ taskDetails, handleAnswer }) => {
+const Images = ({ taskDetails, handleAnswer, ids }) => {
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -39,17 +40,21 @@ const Images = ({ taskDetails, handleAnswer }) => {
                     return (
                         <div className={styles.image} key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
-                            {sentence.split('|').map((row) => {
-                                return renderInputs(row, handleInput);
+                            {sentence.split('|').map((row, pInd) => {
+                                return renderInputs(row, handleInput, pInd);
                             })}
                         </div>
                     );
                 })}
             </div>
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskDetails.id);
+                    handleAnswer(formRequest(), taskDetails.id, ids);
                 }}
             >
                 Submit

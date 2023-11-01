@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './WriteSentences.module.scss';
 
-const WriteSentences = ({ taskDetails, handleAnswer }) => {
+const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
     const formAnswerTemplate = () => {
         const answerTemplate = {};
 
@@ -75,13 +75,16 @@ const WriteSentences = ({ taskDetails, handleAnswer }) => {
                             {Object.values(taskDetails.description)[index].map(
                                 (value, innerInd) => (
                                     <li key={innerInd}>
-                                        {value.split('|').map((row) => {
-                                            return renderInputs(row, (event) =>
-                                                handleInput(
-                                                    event,
-                                                    titles[index],
-                                                    innerInd
-                                                )
+                                        {value.split('|').map((row, pInd) => {
+                                            return renderInputs(
+                                                row,
+                                                (event) =>
+                                                    handleInput(
+                                                        event,
+                                                        titles[index],
+                                                        innerInd
+                                                    ),
+                                                pInd
                                             );
                                         })}
                                     </li>
@@ -92,9 +95,13 @@ const WriteSentences = ({ taskDetails, handleAnswer }) => {
                 ))}
             </div>
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskDetails.id);
+                    handleAnswer(formRequest(), taskDetails.id, ids);
                 }}
             >
                 Submit

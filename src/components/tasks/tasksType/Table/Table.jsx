@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './Table.module.scss';
 
-const Table = ({ taskDetails, handleAnswer }) => {
+const Table = ({ taskDetails, handleAnswer, ids }) => {
     const [inps, setInps] = useState({});
     const [tableProps] = useState({
         rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
@@ -63,7 +63,7 @@ const Table = ({ taskDetails, handleAnswer }) => {
 
         answerTemplate.unshift(colHeadings);
 
-        handleAnswer({ answers: answerTemplate }, taskDetails.id);
+        handleAnswer({ answers: answerTemplate }, taskDetails.id, ids);
     };
 
     return (
@@ -114,7 +114,10 @@ const Table = ({ taskDetails, handleAnswer }) => {
                 </tbody>
             </table>
             <Button
-                disabled={!taskDetails}
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
                 onClick={onSend}
             >

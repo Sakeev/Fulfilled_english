@@ -1,4 +1,5 @@
 import { Input } from 'components/ui';
+import { Fragment } from 'react';
 
 export const formResultTemplate = (splittedDescription) => {
     const resultTemplate = {};
@@ -41,16 +42,16 @@ export const count = (string, toCount) => {
     return n;
 };
 
-export const renderInputs = (row, handler) => {
+export const renderInputs = (row, handler, key) => {
     const splittedRow = row.split('__inp__');
 
     return (
-        <p>
+        <p key={key}>
             {splittedRow.map((value, index) => {
                 const [id, string] = parseId(value);
 
                 return (
-                    <>
+                    <Fragment key={index}>
                         {string}
                         {index < splittedRow.length - 1 && (
                             <Input
@@ -59,7 +60,7 @@ export const renderInputs = (row, handler) => {
                                 }}
                             />
                         )}
-                    </>
+                    </Fragment>
                 );
             })}
         </p>

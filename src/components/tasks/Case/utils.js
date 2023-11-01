@@ -26,13 +26,14 @@ export const getVocabulary = (cases) => {
 };
 
 export const useTaskComponent = () => {
-    const { taskId } = useParams();
+    const { caseId, taskId } = useParams();
     const { taskDetails, handleAnswer } = useTasks();
 
     const props = {
         key: taskId,
         handleAnswer: handleAnswer,
         taskDetails: taskDetails,
+        ids: { caseId, taskId },
     };
 
     const taskComponents = {

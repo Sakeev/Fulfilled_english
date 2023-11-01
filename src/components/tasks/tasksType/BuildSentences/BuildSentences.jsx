@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './BuildSentences.module.scss';
 
-const BuildSentences = ({ taskDetails, handleAnswer }) => {
+const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
     const [results, setResults] = useState({});
 
     const formResults = () => {
@@ -24,9 +24,17 @@ const BuildSentences = ({ taskDetails, handleAnswer }) => {
                 );
             })}
             <Button
+                disabled={
+                    !taskDetails ||
+                    taskDetails.answers[taskDetails.answers.length - 1]?.passed
+                }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer({ answers: formResults() }, taskDetails.id);
+                    handleAnswer(
+                        { answers: formResults() },
+                        taskDetails.id,
+                        ids
+                    );
                 }}
             >
                 Submit
