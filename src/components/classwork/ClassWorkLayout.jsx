@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   BtnBold,
-  BtnBulletList,
   BtnItalic,
-  BtnNumberedList,
   BtnRedo,
   BtnStrikeThrough,
   BtnUnderline,
@@ -389,9 +387,6 @@ const ClassWorkLayout = () => {
                     <BtnItalic />
                     <BtnUnderline />
                     <BtnStrikeThrough />
-                    <Separator />
-                    <BtnNumberedList />
-                    <BtnBulletList />
                     <Separator />
                     <Button
                       sx={{ width: "29%" }}

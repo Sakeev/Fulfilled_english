@@ -3,6 +3,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
+import { isTeacher } from "helpers/funcs";
 
 const Table = ({
   task,
@@ -112,38 +113,42 @@ const Table = ({
         )}
 
         {task[0]?.audio && (
-          <Accordion
-            sx={{
-              boxShadow: "none",
-              border: "1px solid #ef9042",
-              padding: "0 4px",
-              margin: "20px 0 15px",
-              borderRadius: "5px",
+          // <Accordion
+          //   sx={{
+          //     boxShadow: "none",
+          //     border: "1px solid #ef9042",
+          //     padding: "0 4px",
+          //     margin: "20px 0 15px",
+          //     borderRadius: "5px",
+          //   }}
+          // >
+          //   <AccordionSummary
+          //     expandIcon={<ExpandMoreIcon />}
+          //     aria-controls="panel1a-content"
+          //     id="panel1a-header"
+          //     sx={{ padding: "0" }}
+          //   >
+          //     <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
+          //       Audio player
+          //     </h4>
+          //   </AccordionSummary>
+          //   <AccordionDetails sx={{ padding: "0 8px 24px" }}>
+          <audio
+            src={API + task[0]?.audio}
+            ref={audioRef}
+            controls={isTeacher() ? "controls" : ""}
+            style={{ margin: "15px 0", width: "80%" }}
+            preload="auto"
+            onPause={() => handleTogglePlayback(false)}
+            onPlay={() => handleTogglePlayback(true)}
+            onSeeked={(e) => {
+              changeTime(e.target.currentTime);
             }}
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              sx={{ padding: "0" }}
-            >
-              <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
-                Audio player
-              </h4>
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: "0 8px 24px" }}>
-              <audio
-                src={API + task[0]?.audio}
-                controls
-                ref={audioRef}
-                onPause={() => handleTogglePlayback(false)}
-                onPlay={() => handleTogglePlayback(true)}
-                onSeeked={(e) => {
-                  changeTime(e.target.currentTime);
-                }}
-              />
-            </AccordionDetails>
-          </Accordion>
+            Your browser does not support the audio element.
+          </audio>
+          //   </AccordionDetails>
+          // </Accordion>
         )}
 
         {task[0].images?.map((image, index) => (
