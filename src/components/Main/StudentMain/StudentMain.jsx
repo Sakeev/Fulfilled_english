@@ -91,7 +91,7 @@ const StudentMain = () => {
                 navigate("/notes");
               }}
             >
-              <span>Lesson {notes[0]?.lesson}</span>
+              <span>Lesson {notes.sort((a, b) => b.id - a.id)[0]?.lesson}</span>
               <p
                 dangerouslySetInnerHTML={{
                   __html: formatText(notes[0]),
@@ -100,7 +100,7 @@ const StudentMain = () => {
             </div>
           ) : (
             <div className={styles.message}>
-              <span>you dont have any notes</span>
+              <span>You don't have any notes</span>
             </div>
           )}
         </div>
