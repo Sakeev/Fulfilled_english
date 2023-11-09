@@ -9,7 +9,7 @@ const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
     const splittedDescription = taskDetails.description.split('\r\n');
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
-
+    console.log(answers);
     return (
         <div className={styles.imageWordContainer}>
             <div
@@ -34,11 +34,12 @@ const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
                 {splittedDescription.map((string, index) => {
                     return (
                         <div key={index} className={styles.inputBox}>
-                            {string.split('|').map((row) => {
+                            {string.split('|').map((row, pInd) => {
                                 return renderOutput(
                                     row,
                                     answerStyles.answer,
-                                    answers
+                                    answers,
+                                    pInd
                                 );
                             })}
                         </div>

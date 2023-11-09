@@ -15,6 +15,7 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
     }
 
     const listItems = taskDetails.description.split('\\li');
+    const answersCopy = JSON.parse(JSON.stringify(answers));
 
     const output = listItems.map((listItem, outerInd) => {
         const splittedRows = listItem
@@ -32,7 +33,7 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
                                 let temp = '';
 
                                 if (innerInd < splittedRow.length - 1) {
-                                    temp = answers.shift();
+                                    temp = answersCopy.shift();
                                 }
 
                                 return (

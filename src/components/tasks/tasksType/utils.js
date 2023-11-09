@@ -67,16 +67,16 @@ export const renderInputs = (row, handler, key) => {
     );
 };
 
-export const renderOutput = (row, classes, answers) => {
+export const renderOutput = (row, classes, answers, key) => {
     const splittedRow = row.split('__inp__');
 
     return (
-        <p>
+        <p key={key}>
             {splittedRow.map((value, index) => {
                 const [id, string] = parseId(value);
 
                 return (
-                    <>
+                    <Fragment key={index}>
                         {string}
                         {index < splittedRow.length - 1 && (
                             <span className={classes}>
@@ -85,7 +85,7 @@ export const renderOutput = (row, classes, answers) => {
                                     : answers[id]) || ''}
                             </span>
                         )}
-                    </>
+                    </Fragment>
                 );
             })}
         </p>

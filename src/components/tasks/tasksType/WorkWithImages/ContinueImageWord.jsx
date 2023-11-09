@@ -27,6 +27,8 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids }) => {
             else answerTemplate[key] = results[key];
         }
 
+        console.log(answerTemplate);
+
         return { answers: answerTemplate };
     };
 

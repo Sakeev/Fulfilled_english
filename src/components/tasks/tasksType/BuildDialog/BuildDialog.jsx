@@ -8,7 +8,9 @@ const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
     const [answer, setAnswer] = useState([]);
 
     useEffect(() => {
-        setSentences(taskDetails?.description.trim().split('|'));
+        setSentences(
+            taskDetails?.description.trim().replaceAll('\r\n', '').split('|')
+        );
     }, []);
 
     const handleSentence = (ind) => {
@@ -29,6 +31,7 @@ const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
     };
 
     const formRequest = () => {
+        console.log(answer);
         return { answers: answer.length ? answer : ['No answer'] };
     };
 
