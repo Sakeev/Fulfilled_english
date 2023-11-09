@@ -1,25 +1,28 @@
+import { renderOutput } from 'components/tasks/tasksType/utils';
 import { API } from 'helpers/consts';
 
-import './resultDisplayTasks.css';
+import styles from '../../tasksType/DescribeImage/Images.module.scss';
 
-const Images = ({ answer, displayDataType }) => {
+const Images = ({ taskDetails, answer, displayDataType }) => {
     if (answer === null) return <h2>This task hasn't done yet</h2>;
 
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
 
     return (
-        <div className="rdt-images-image-box-wrapper">
-            {answer.images.map(({ image }, index) => {
-                return (
-                    <div className="images-image-box" key={image}>
-                        <img src={`${API}${image}`} alt="exercise" />
-                        <p>
-                            {index + 1}. {answers[index]}
-                        </p>
-                    </div>
-                );
-            })}
+        <div className={styles.imagesContainer}>
+            <div className={styles.images}>
+                {taskDetails.images.map(({ image, sentence }) => {
+                    return (
+                        <div className={styles.image} key={image}>
+                            <img src={`${API}${image}`} alt="exercise" />
+                            {sentence.split('|').map((row, pInd) => {
+                                return renderOutput(row, '', answers, pInd);
+                            })}
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };

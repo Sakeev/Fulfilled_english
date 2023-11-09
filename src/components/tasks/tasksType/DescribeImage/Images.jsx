@@ -21,7 +21,7 @@ const Images = ({ taskDetails, handleAnswer, ids }) => {
             image.sentence.includes('__inp__') ? 'No answer' : image.sentence
         );
         const examplesCount = answerTemplate.filter(
-            (template) => template !== ''
+            (template) => template !== 'No answer'
         ).length;
 
         answerTemplate.splice(0, examplesCount);
