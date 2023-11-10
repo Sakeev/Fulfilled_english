@@ -92,7 +92,7 @@ export const renderOutput = (row, classes, answers, key) => {
     );
 };
 
-const parseId = (string) => {
+export const parseId = (string) => {
     if (!isNumeric(string[string.length - 1])) return [0, string];
     let id = '';
     let i = 1;

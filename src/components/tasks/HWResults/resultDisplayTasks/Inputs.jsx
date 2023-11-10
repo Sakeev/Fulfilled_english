@@ -1,3 +1,4 @@
+import { parseId } from 'components/tasks/tasksType/utils';
 import { Fragment } from 'react';
 
 import styles from 'components/tasks/tasksType/Inputs/Inputs.module.scss';
@@ -31,6 +32,9 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
                         <div className={styles.row} key={index}>
                             {splittedRow.map((value, innerInd) => {
                                 let temp = '';
+                                const [_, string] = parseId(value);
+
+                                if (string.length === 0) return null;
 
                                 if (innerInd < splittedRow.length - 1) {
                                     temp = answersCopy.shift();
@@ -38,9 +42,7 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
 
                                 return (
                                     <Fragment key={innerInd}>
-                                        {value.length === 0 ? null : (
-                                            <span>{value}</span>
-                                        )}
+                                        <span>{string}</span>
                                         {innerInd < splittedRow.length - 1 && (
                                             <span className={styles.answer}>
                                                 {(typeof temp === 'object'
