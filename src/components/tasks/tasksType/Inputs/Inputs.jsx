@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Button, Input } from 'components/ui';
 import { formAnswer } from './utils';
+import { parseId } from '../utils';
 
 import styles from './Inputs.module.scss';
 
@@ -35,24 +36,22 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
                     return (
                         <div className={styles.row} key={index}>
                             {splittedRow.map((value, innerInd) => {
+                                const [id, string] = parseId(value);
+
+                                if (string.length === 0) return null;
+
                                 return (
                                     <Fragment key={innerInd}>
-                                        {value.length === 0 ? null : (
-                                            <span>{value}</span>
-                                        )}
+                                        <span>{string}</span>
                                         {innerInd < splittedRow.length - 1 && (
                                             <Input
                                                 onChange={(event) => {
                                                     handleInputChange(
                                                         event,
-                                                        outerInd * 10 + index
+                                                        id
                                                     );
                                                 }}
-                                                value={
-                                                    inputValues[
-                                                        outerInd * 10 + index
-                                                    ] || ''
-                                                }
+                                                value={inputValues[id] || ''}
                                             />
                                         )}
                                     </Fragment>

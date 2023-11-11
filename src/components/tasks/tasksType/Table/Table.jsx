@@ -63,6 +63,7 @@ const Table = ({ taskDetails, handleAnswer, ids }) => {
 
         answerTemplate.unshift(colHeadings);
 
+
         handleAnswer({ answers: answerTemplate }, taskDetails.id, ids);
     };
 
