@@ -20,6 +20,7 @@ import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
 import Vocabulary from "./tasks/Vocabulary";
 import "./ClassWorkLayout.css";
+import { useRef } from "react";
 
 const request_id = new Date().getTime();
 
@@ -83,6 +84,7 @@ const ClassWorkLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [lesson]
   );
+  const chatRef = useRef();
 
   const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
     onOpen: () => {
@@ -135,6 +137,8 @@ const ClassWorkLayout = () => {
           break;
         case "create":
           setInps({ ...data.data.body });
+          // chatRef.current.value = data.data.body.chat;
+
           break;
         case "get_listening":
           setPlaying({
@@ -202,19 +206,19 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false,
   });
 
-  useEffect(() => {
-    const timeOut = setTimeout(
-      () =>
-        sendJsonMessage({
-          message: inps,
-          action: "create_message",
-          request_id: request_id,
-        }),
-      500
-    );
-    return () => clearTimeout(timeOut);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typing]);
+  // useEffect(() => {
+  //   const timeOut = setTimeout(
+  //     () =>
+  //       sendJsonMessage({
+  //         message: inps,
+  //         action: "create_message",
+  //         request_id: request_id,
+  //       }),
+  //     500
+  //   );
+  //   return () => clearTimeout(timeOut);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [typing]);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -225,8 +229,13 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
-    setInps({ ...inps, chat: e.target.value });
-    setTyping((prev) => !prev);
+    sendJsonMessage({
+      message: { ...inps, chat: e.target.value },
+      action: "create_message",
+      request_id: request_id,
+    });
+    // setInps({ ...inps, chat: e.target.value });
+    // setTyping((prev) => !prev);
   }
 
   function sendNote() {
