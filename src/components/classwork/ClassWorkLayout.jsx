@@ -20,7 +20,6 @@ import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
 import Vocabulary from "./tasks/Vocabulary";
 import "./ClassWorkLayout.css";
-import { useRef } from "react";
 
 const request_id = new Date().getTime();
 
@@ -65,6 +64,7 @@ const ClassWorkLayout = () => {
   });
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
+  const [user, setUser] = useState("");
   const [grade, setGrade] = useState({});
   const [vocabulary, setVocabulary] = useState([]);
   const [showVocab, setShowVocab] = useState(false);
@@ -84,8 +84,6 @@ const ClassWorkLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [lesson]
   );
-  const chatRef = useRef();
-
   const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
     onOpen: () => {
       console.log("WebSocket connection established.");
@@ -130,15 +128,17 @@ const ClassWorkLayout = () => {
       const data = JSON.parse(e.data);
       switch (data.action) {
         case "retrieve":
+          console.log(data.data);
           setZoomLink(data.data.host.zoom_link);
           setNote(data.data.lesson.notes?.id);
           tasks(data.data.lesson);
           setUserId(data.data.student.id);
+          setUser(data.data.user);
+          setInps({ ...data.data.last_message.body });
+
           break;
         case "create":
-          setInps({ ...data.data.body });
-          // chatRef.current.value = data.data.body.chat;
-
+          data.data.body.user !== user && setInps({ ...data.data.body });
           break;
         case "get_listening":
           setPlaying({
@@ -206,19 +206,19 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false,
   });
 
-  // useEffect(() => {
-  //   const timeOut = setTimeout(
-  //     () =>
-  //       sendJsonMessage({
-  //         message: inps,
-  //         action: "create_message",
-  //         request_id: request_id,
-  //       }),
-  //     500
-  //   );
-  //   return () => clearTimeout(timeOut);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [typing]);
+  const chatRender = () => {
+    // const timeOut = setTimeout(
+    //   () =>
+    sendJsonMessage({
+      message: { ...inps, user },
+      action: "create_message",
+      request_id: request_id,
+    });
+    //   500
+    // );
+    //   return () => clearTimeout(timeOut);
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -229,13 +229,9 @@ const ClassWorkLayout = () => {
   }[readyState];
 
   function handleHtmlChange(e) {
-    sendJsonMessage({
-      message: { ...inps, chat: e.target.value },
-      action: "create_message",
-      request_id: request_id,
-    });
-    // setInps({ ...inps, chat: e.target.value });
-    // setTyping((prev) => !prev);
+    console.log(e.target.value);
+    setInps({ ...inps, chat: e.target.value });
+    chatRender();
   }
 
   function sendNote() {
@@ -323,6 +319,7 @@ const ClassWorkLayout = () => {
               inps={inps}
               setInps={setInps}
               setTyping={setTyping}
+              chatRender={chatRender}
               current_time={current_time}
               tablePlaying={tablePlaying}
               table_current_time={table_current_time}

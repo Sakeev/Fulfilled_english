@@ -15,6 +15,7 @@ const ClassTasks = ({
   inps,
   setInps,
   setTyping,
+  chatRender,
   request_id,
   tablePlaying,
   table_current_time,
@@ -30,7 +31,7 @@ const ClassTasks = ({
             setShowVocab={setShowVocab}
             inps={inps}
             setInps={setInps}
-            setTyping={setTyping}
+            chatRender={chatRender}
           />
         );
       case "listening":
