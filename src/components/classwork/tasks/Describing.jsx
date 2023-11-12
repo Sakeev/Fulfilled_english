@@ -16,7 +16,7 @@ const Describing = ({ task }) => {
           }}
         >
           {index !== 0 && <Divider />}
-          <h2>Exercise</h2>
+          <h2>Describing</h2>
           {elem.images.map((image, index) => (
             <img
               key={index}

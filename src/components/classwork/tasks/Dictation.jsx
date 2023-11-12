@@ -11,13 +11,13 @@ import {
 } from "react-simple-wysiwyg";
 import { isTeacher } from "../../../helpers/funcs";
 
-const Dictation = ({ inps, setInps, setTyping, setShowVocab }) => {
+const Dictation = ({ inps, setInps, chatRender, setShowVocab }) => {
   const inputRef = useRef();
 
   function handleHtmlChange(e) {
     setShowVocab(false);
     setInps({ ...inps, dictation: e.target.value });
-    setTyping((prev) => !prev);
+    chatRender({ ...inps, dictation: e.target.value });
   }
 
   const handleColorChange = () => {

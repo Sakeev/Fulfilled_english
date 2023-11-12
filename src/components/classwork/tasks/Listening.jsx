@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React from "react";
+import React, { useState } from "react";
 import { API } from "../../../helpers/consts";
 import Audio from "./Audio";
 
@@ -13,6 +13,10 @@ const Listening = ({
   taskId,
   current_time,
 }) => {
+  console.log(playing);
+  const [showAudioText, setShowAudioText] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
+
   return (
     <>
       <h2>Listening</h2>
@@ -22,30 +26,11 @@ const Listening = ({
             key={index}
             src={API + image.image}
             style={{ width: image.size, margin: "4px 0" }}
+            className="listening-box__img"
             alt=""
           />
         ))}
         {task[0]?.audio && (
-          // <Accordion
-          //   sx={{
-          //     boxShadow: "none",
-          //     border: "1px solid #ef9042",
-          //     padding: "0 4px",
-          //     margin: "20px 0 15px",
-          //     borderRadius: "5px",
-          //   }}
-          // >
-          //   <AccordionSummary
-          //     expandIcon={<ExpandMoreIcon />}
-          //     aria-controls="panel1a-content"
-          //     id="panel1a-header"
-          //     sx={{ padding: "0" }}
-          //   >
-          //     <h4 style={{ color: "#ef9042", margin: "10px 24px 6px" }}>
-          //       Audio player
-          //     </h4>
-          //   </AccordionSummary>
-          //   <AccordionDetails>
           <Audio
             audioSource={API + task[0]?.audio}
             playing={playing}
@@ -54,11 +39,14 @@ const Listening = ({
             listeningId={listeningId}
             taskId={taskId}
             current_time={current_time}
+            setShowAudioText={setShowAudioText}
+            setIsDisable={setIsDisable}
           />
-          //   </AccordionDetails>
-          // </Accordion>
         )}
         <Accordion
+          disabled={isDisable}
+          expanded={showAudioText}
+          onChange={() => setShowAudioText((prev) => !prev)}
           sx={{
             boxShadow: "none",
             border: "1px solid #006d77",

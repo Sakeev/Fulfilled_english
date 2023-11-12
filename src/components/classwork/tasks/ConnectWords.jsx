@@ -4,17 +4,23 @@ import { useState } from "react";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
 
-const ConnectWords = ({ task, inps, setInps, setTyping }) => {
+const ConnectWords = ({ task, inps, setInps, chatRender }) => {
   const [inpsCount, setInpsCount] = useState(task[0]?.flag || 0);
 
   function handleHtmlChange1(e, inp) {
     setInps({ ...inps, ["connect_words1" + task[0].id + inp]: e.target.value });
-    setTyping((prev) => !prev);
+    chatRender({
+      ...inps,
+      ["connect_words1" + task[0].id + inp]: e.target.value,
+    });
   }
 
   function handleHtmlChange2(e, inp) {
     setInps({ ...inps, ["connect_words2" + task[0].id + inp]: e.target.value });
-    setTyping((prev) => !prev);
+    chatRender({
+      ...inps,
+      ["connect_words2" + task[0].id + inp]: e.target.value,
+    });
   }
 
   const inputArray = [];
@@ -84,8 +90,8 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
             </Box>
           </Box>
         ))}
-        {inputArray.map((inp) => (
-          <>
+        {inputArray.map((inp, index) => (
+          <React.Fragment key={index}>
             <h5>Exercise {inp}</h5>
             <Box key={inp} className="connect_words__inputs">
               <textarea
@@ -99,7 +105,7 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
                 onChange={(e) => handleHtmlChange2(e, inp)}
               />
             </Box>
-          </>
+          </React.Fragment>
         ))}
       </Box>
     </Box>

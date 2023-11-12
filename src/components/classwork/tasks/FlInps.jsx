@@ -2,12 +2,13 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useEffect, useRef, useState } from "react";
 import { API } from "../../../helpers/consts";
+import { isTeacher } from "helpers/funcs";
 
 const FlInps = ({
   task,
   inps,
   setInps,
-  setTyping,
+  chatRender,
   taskId,
   sendJsonMessage,
   request_id,
@@ -28,11 +29,14 @@ const FlInps = ({
   const handleInputChange = (e, index, type, i = 0) => {
     if (type === "textarea") {
       setInps({ ...inps, [`inp${task[0].id}_${index}`]: e.target.value });
+      chatRender({ ...inps, [`inp${task[0].id}_${index}`]: e.target.value });
     } else if (type === "input") {
       setInps({ ...inps, [`inp${task[0].id}_${index}_${i}`]: e.target.value });
+      chatRender({
+        ...inps,
+        [`inp${task[0].id}_${index}_${i}`]: e.target.value,
+      });
     }
-
-    setTyping((prev) => !prev);
   };
 
   // Audio
@@ -127,7 +131,9 @@ const FlInps = ({
           <AccordionDetails sx={{ padding: "0 8px 24px" }}>
             <audio
               src={API + task[0]?.audio}
-              controls
+              controls={isTeacher() ? "controls" : ""}
+              style={{ margin: "15px 0", width: "80%" }}
+              preload="auto"
               ref={audioRef}
               onPause={() => handleTogglePlayback(false)}
               onPlay={() => handleTogglePlayback(true)}

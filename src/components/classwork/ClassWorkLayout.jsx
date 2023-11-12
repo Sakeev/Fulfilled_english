@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   BtnBold,
   BtnItalic,
@@ -20,7 +20,6 @@ import { useClassWork } from "../../contexts/ClassWorkContextProvider";
 import MarkCW from "./MarkCW";
 import Vocabulary from "./tasks/Vocabulary";
 import "./ClassWorkLayout.css";
-import { useRef } from "react";
 
 const request_id = new Date().getTime();
 
@@ -35,9 +34,9 @@ const ClassWorkLayout = () => {
       JSON.parse(localStorage.getItem("token")).access
     }`
   );
+  const [isLesson, setIsLesson] = useState(false);
   const [lesson, setLesson] = useState({});
   const [inps, setInps] = useState({ chat: "" });
-  const [typing, setTyping] = useState(true);
   const [playing, setPlaying] = useState({
     unit1: { id: 0, task: { is_playing: false } },
     unit2: { id: 0, task: { is_playing: false } },
@@ -65,29 +64,26 @@ const ClassWorkLayout = () => {
   });
   const [note_id, setNote] = useState(0);
   const [userId, setUserId] = useState(0);
+  const [user, setUser] = useState("");
   const [grade, setGrade] = useState({});
   const [vocabulary, setVocabulary] = useState([]);
   const [showVocab, setShowVocab] = useState(false);
   const [zoomLink, setZoomLink] = useState("#");
 
-  const tasks = useCallback(
-    (data) => {
-      if (data.case_tasks) {
-        setLesson(data);
-        setVocabulary(
-          data.case_tasks.unit1
-            .concat(data.case_tasks.unit2)
-            .filter(({ title }) => title === "vocabulary")
-        );
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lesson]
-  );
-  const chatRef = useRef();
-
+  const tasks = (data) => {
+    console.log(data);
+    if (data.case_tasks) {
+      setLesson(data);
+      setVocabulary(
+        data.case_tasks.unit1
+          .concat(data.case_tasks.unit2)
+          .filter(({ title }) => title === "vocabulary")
+      );
+      setIsLesson(true);
+    }
+  };
   const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
-    onOpen: () => {
+    onOpen: (e) => {
       console.log("WebSocket connection established.");
       const joinRoom = {
         pk: room_pk,
@@ -130,15 +126,17 @@ const ClassWorkLayout = () => {
       const data = JSON.parse(e.data);
       switch (data.action) {
         case "retrieve":
+          console.log(data.data);
           setZoomLink(data.data.host.zoom_link);
           setNote(data.data.lesson.notes?.id);
           tasks(data.data.lesson);
           setUserId(data.data.student.id);
+          setUser(data.data.user);
+          setInps({ ...data.data.last_message.body });
+
           break;
         case "create":
-          setInps({ ...data.data.body });
-          // chatRef.current.value = data.data.body.chat;
-
+          data.data.body.user !== user && setInps({ ...data.data.body });
           break;
         case "get_listening":
           setPlaying({
@@ -206,19 +204,15 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false,
   });
 
-  // useEffect(() => {
-  //   const timeOut = setTimeout(
-  //     () =>
-  //       sendJsonMessage({
-  //         message: inps,
-  //         action: "create_message",
-  //         request_id: request_id,
-  //       }),
-  //     500
-  //   );
-  //   return () => clearTimeout(timeOut);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [typing]);
+  const chatRender = (inps) => {
+    sendJsonMessage({
+      message: { ...inps, user },
+      action: "create_message",
+      request_id: request_id,
+    });
+
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -228,15 +222,10 @@ const ClassWorkLayout = () => {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
-  function handleHtmlChange(e) {
-    sendJsonMessage({
-      message: { ...inps, chat: e.target.value },
-      action: "create_message",
-      request_id: request_id,
-    });
-    // setInps({ ...inps, chat: e.target.value });
-    // setTyping((prev) => !prev);
-  }
+  const handleHtmlChange = (e) => {
+    setInps({ ...inps, chat: e.target.value });
+    chatRender({ ...inps, chat: e.target.value });
+  };
 
   function sendNote() {
     let obj = Object.assign({
@@ -298,46 +287,60 @@ const ClassWorkLayout = () => {
             display: "flex",
           }}
         >
-          <div
-            style={{
-              margin: "0 30px",
-              width: "70%",
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              overflowY: "scroll",
-              paddingRight: "25px",
-            }}
-            className="cwScroll"
-          >
-            <Vocabulary
-              showVocab={showVocab}
-              setShowVocab={setShowVocab}
-              vocabTasks={vocabulary}
-            />
-            <ClassTasks
-              request_id={request_id}
-              lesson={lesson}
-              playing={playing}
-              sendJsonMessage={sendJsonMessage}
-              inps={inps}
-              setInps={setInps}
-              setTyping={setTyping}
-              current_time={current_time}
-              tablePlaying={tablePlaying}
-              table_current_time={table_current_time}
-              fillinpsPlaying={fillinpsPlaying}
-              fillinps_current_time={fillinps_current_time}
-              setShowVocab={setShowVocab}
-            />
-            {isTeacher() && (
-              <MarkCW
-                checkMark={checkMark}
-                handleMark={handleMark}
-                grade={grade}
+          {!isLesson ? (
+            <div
+              style={{
+                width: "50vw",
+                height: "100%",
+                paddingRight: "25px",
+              }}
+            >
+              <div className="loader-wrapper" style={{ height: "80%" }}>
+                <div className="loader"></div>
+              </div>
+            </div>
+          ) : (
+            <div
+              style={{
+                margin: "0 30px",
+                width: "70%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                overflowY: "scroll",
+                paddingRight: "25px",
+              }}
+              className="cwScroll"
+            >
+              <Vocabulary
+                showVocab={showVocab}
+                setShowVocab={setShowVocab}
+                vocabTasks={vocabulary}
               />
-            )}
-          </div>
+              <ClassTasks
+                request_id={request_id}
+                lesson={lesson}
+                playing={playing}
+                sendJsonMessage={sendJsonMessage}
+                inps={inps}
+                setInps={setInps}
+                chatRender={chatRender}
+                current_time={current_time}
+                tablePlaying={tablePlaying}
+                table_current_time={table_current_time}
+                fillinpsPlaying={fillinpsPlaying}
+                fillinps_current_time={fillinps_current_time}
+                setShowVocab={setShowVocab}
+              />
+              {isTeacher() && (
+                <MarkCW
+                  checkMark={checkMark}
+                  handleMark={handleMark}
+                  grade={grade}
+                />
+              )}
+            </div>
+          )}
           <div
             style={{
               width: "40%",
@@ -354,11 +357,9 @@ const ClassWorkLayout = () => {
                 alignItems: "center",
               }}
             >
-              {!isTeacher() && (
-                <Link href={zoomLink} target="_blank" underline="none">
-                  <Button color="warning">Zoom link</Button>
-                </Link>
-              )}
+              <Link href={zoomLink} target="_blank" underline="none">
+                <Button color="warning">Zoom link</Button>
+              </Link>
             </div>
             <span>
               The class is currently:{" "}

@@ -13,7 +13,16 @@
 
 .listening-box {
   color: #006d77;
-  /* padding-bottom: 20px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.listening-box__img:nth-child(odd) {
+  align-self: flex-start;
+}
+.listening-box__img:nth-child(even) {
+  align-self: flex-end;
 }
 
 .listening-text {
