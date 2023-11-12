@@ -84,8 +84,8 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
             </Box>
           </Box>
         ))}
-        {inputArray.map((inp) => (
-          <>
+        {inputArray.map((inp, index) => (
+          <React.Fragment key={index}>
             <h5>Exercise {inp}</h5>
             <Box key={inp} className="connect_words__inputs">
               <textarea
@@ -99,7 +99,7 @@ const ConnectWords = ({ task, inps, setInps, setTyping }) => {
                 onChange={(e) => handleHtmlChange2(e, inp)}
               />
             </Box>
-          </>
+          </React.Fragment>
         ))}
       </Box>
     </Box>
