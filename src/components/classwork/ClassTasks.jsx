@@ -14,7 +14,6 @@ const ClassTasks = ({
   sendJsonMessage,
   inps,
   setInps,
-  setTyping,
   chatRender,
   request_id,
   tablePlaying,
@@ -54,7 +53,7 @@ const ClassTasks = ({
             sendJsonMessage={sendJsonMessage}
             inps={inps}
             setInps={setInps}
-            setTyping={setTyping}
+            chatRender={chatRender}
             tablePlaying={tablePlaying}
             table_current_time={table_current_time}
             request_id={request_id}
@@ -68,7 +67,7 @@ const ClassTasks = ({
             task={task.tasks}
             inps={inps}
             setInps={setInps}
-            setTyping={setTyping}
+            chatRender={chatRender}
             sendJsonMessage={sendJsonMessage}
             fillinpsPlaying={fillinpsPlaying}
             fillinps_current_time={fillinps_current_time}
@@ -85,7 +84,7 @@ const ClassTasks = ({
             task={task.tasks}
             inps={inps}
             setInps={setInps}
-            setTyping={setTyping}
+            chatRender={chatRender}
           />
         );
       default:

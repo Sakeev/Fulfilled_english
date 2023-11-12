@@ -4,17 +4,23 @@ import { useState } from "react";
 import { API } from "../../../helpers/consts";
 import "./Tasks.css";
 
-const ConnectWords = ({ task, inps, setInps, setTyping }) => {
+const ConnectWords = ({ task, inps, setInps, chatRender }) => {
   const [inpsCount, setInpsCount] = useState(task[0]?.flag || 0);
 
   function handleHtmlChange1(e, inp) {
     setInps({ ...inps, ["connect_words1" + task[0].id + inp]: e.target.value });
-    setTyping((prev) => !prev);
+    chatRender({
+      ...inps,
+      ["connect_words1" + task[0].id + inp]: e.target.value,
+    });
   }
 
   function handleHtmlChange2(e, inp) {
     setInps({ ...inps, ["connect_words2" + task[0].id + inp]: e.target.value });
-    setTyping((prev) => !prev);
+    chatRender({
+      ...inps,
+      ["connect_words2" + task[0].id + inp]: e.target.value,
+    });
   }
 
   const inputArray = [];

@@ -9,6 +9,8 @@ const Audio = ({
   listeningId,
   taskId,
   current_time,
+  setShowAudioText,
+  setIsDisable,
 }) => {
   const audioRef = useRef();
 
@@ -49,11 +51,20 @@ const Audio = ({
     if (listeningId === unit1.id) {
       const timeout = setTimeout(() => {
         audioRef.current[unit1.task.is_playing ? "play" : "pause"]();
+        if (!isTeacher()) {
+          if (unit1.task.is_playing) {
+            setShowAudioText(false);
+            setIsDisable(true);
+          } else {
+            setIsDisable(false);
+          }
+        }
       }, 200);
       return () => clearTimeout(timeout);
     } else if (listeningId === unit2.id) {
       const timeout = setTimeout(() => {
         audioRef.current[unit2.task.is_playing ? "play" : "pause"]();
+        unit2.task.is_playing && setShowAudioText(false);
       }, 200);
       return () => clearTimeout(timeout);
     }

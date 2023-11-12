@@ -17,7 +17,7 @@ const Dictation = ({ inps, setInps, chatRender, setShowVocab }) => {
   function handleHtmlChange(e) {
     setShowVocab(false);
     setInps({ ...inps, dictation: e.target.value });
-    chatRender();
+    chatRender({ ...inps, dictation: e.target.value });
   }
 
   const handleColorChange = () => {
