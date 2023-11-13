@@ -14,6 +14,17 @@ import { isTeacher } from "../../../helpers/funcs";
 const Dictation = ({ inps, setInps, chatRender, setShowVocab }) => {
   const inputRef = useRef();
 
+  const checkTab = (e) => {
+    if (e.keyCode === 9) {
+      // Добавляем отступ к инпуту или текстовой области
+      e.preventDefault(); // Предотвращаем дефолтное поведение Tab (переключение фокуса)
+      // Вы можете установить свой собственный отступ
+      const updatedValue = inps.dictation + "\u00A0\u00A0\u00A0\u00A0"; // Например, два пробела
+      setInps({ ...inps, dictation: updatedValue });
+      chatRender({ ...inps, dictation: updatedValue });
+    }
+  };
+
   function handleHtmlChange(e) {
     setShowVocab(false);
     setInps({ ...inps, dictation: e.target.value });
@@ -48,11 +59,14 @@ const Dictation = ({ inps, setInps, chatRender, setShowVocab }) => {
               style: {
                 height: "60vh",
                 maxHeight: "500px",
+                maxWidth: "525px",
+                overflow: "auto",
                 width: "90%",
                 margin: "20px 0",
               },
             }}
             value={inps.dictation || ""}
+            onKeyDown={checkTab}
             onChange={handleHtmlChange}
           >
             {isTeacher() && (

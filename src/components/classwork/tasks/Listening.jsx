@@ -13,7 +13,6 @@ const Listening = ({
   taskId,
   current_time,
 }) => {
-  console.log(playing);
   const [showAudioText, setShowAudioText] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
 

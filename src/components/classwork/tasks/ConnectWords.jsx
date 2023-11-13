@@ -39,6 +39,7 @@ const ConnectWords = ({ task, inps, setInps, chatRender }) => {
                 key={index}
                 src={API + elem?.images[0]?.image}
                 style={{ maxWidth: elem?.images[0]?.size, margin: "10px 0" }}
+                alt=""
               />
             );
         })}

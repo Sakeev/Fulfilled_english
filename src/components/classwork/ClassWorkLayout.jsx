@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   BtnBold,
   BtnItalic,
@@ -71,7 +71,6 @@ const ClassWorkLayout = () => {
   const [zoomLink, setZoomLink] = useState("#");
 
   const tasks = (data) => {
-    console.log(data);
     if (data.case_tasks) {
       setLesson(data);
       setVocabulary(
@@ -126,7 +125,6 @@ const ClassWorkLayout = () => {
       const data = JSON.parse(e.data);
       switch (data.action) {
         case "retrieve":
-          console.log(data.data);
           setZoomLink(data.data.host.zoom_link);
           setNote(data.data.lesson.notes?.id);
           tasks(data.data.lesson);
@@ -204,14 +202,23 @@ const ClassWorkLayout = () => {
     shouldReconnect: () => false,
   });
 
+  const checkTab = (e) => {
+    if (e.keyCode === 9) {
+      // Добавляем отступ к инпуту или текстовой области
+      e.preventDefault(); // Предотвращаем дефолтное поведение Tab (переключение фокуса)
+      // Вы можете установить свой собственный отступ
+      const updatedValue = inps.chat + "\u00A0\u00A0\u00A0\u00A0"; // Например, два пробела
+      setInps({ ...inps, chat: updatedValue });
+      chatRender({ ...inps, chat: updatedValue });
+    }
+  };
+
   const chatRender = (inps) => {
     sendJsonMessage({
       message: { ...inps, user },
       action: "create_message",
       request_id: request_id,
     });
-
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const connectionStatus = {
@@ -373,11 +380,13 @@ const ClassWorkLayout = () => {
                     height: "40vh",
                     maxHeight: "500px",
                     width: "100%",
+                    maxWidth: "400px",
                     overflowY: "auto",
                     position: "relative",
                   },
                 }}
                 value={inps.chat}
+                onKeyDown={checkTab}
                 onChange={handleHtmlChange}
                 disabled={!isTeacher()}
               >
