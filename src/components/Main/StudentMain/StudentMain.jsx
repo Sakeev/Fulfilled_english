@@ -1,7 +1,6 @@
 import { formatText, lvlcheck } from "helpers/funcs";
 import React, { useEffect, useState } from "react";
 import clip from "../assets/clip.svg";
-
 import profileImg from "../assets/profile-img.svg";
 import ProgressBar from "./ProgressBar";
 import styles from "./StudentMain.module.scss";
@@ -30,10 +29,16 @@ const StudentMain = () => {
   const [progress, setProgress] = useState(0);
 
   const { logo, level } = lvlcheck(hwstudents[0]?.level);
+  console.log(hwstudents);
 
   //   __html:
   useEffect(() => {
-    setProgress(hwstudents[0] ? hwstudents[0].progress : 0);
+    setProgress(
+      hwstudents[0]
+        ? (hwstudents[0].progress_classwork * 100) /
+            hwstudents[0].lessons.length
+        : 0
+    );
   }, [hwstudents]);
 
   const currentDate = new Date();
