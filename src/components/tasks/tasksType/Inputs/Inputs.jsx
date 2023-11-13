@@ -21,6 +21,8 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
         setInputValues(newInputValues);
     };
 
+    // console.log(taskDetails);
+
     const listItems = description.split('\\li');
 
     const output = listItems.map((listItem, outerInd) => {
@@ -28,6 +30,7 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
             .split('\r\n')
             .filter((splittedRow) => splittedRow.length > 0);
 
+        console.log(splittedRows);
         return (
             <li className={styles.input} key={outerInd}>
                 {splittedRows.map((rows, index) => {
@@ -38,7 +41,8 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
                             {splittedRow.map((value, innerInd) => {
                                 const [id, string] = parseId(value);
 
-                                if (string.length === 0) return null;
+                                if (string.length === 0 && id === -1)
+                                    return null;
 
                                 return (
                                     <Fragment key={innerInd}>

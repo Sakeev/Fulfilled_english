@@ -103,7 +103,10 @@ export const parseId = (string) => {
         i++;
     }
 
-    return [+id, string.slice(0, string.length - (i - 1))];
+    return [
+        id.length === 0 ? -1 : +id,
+        string.slice(0, string.length - (i - 1)),
+    ];
 };
 
 function isNumeric(str) {
