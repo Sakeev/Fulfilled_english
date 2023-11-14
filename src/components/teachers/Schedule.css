@@ -52,6 +52,7 @@ td {
   box-shadow: none;
 }
 
+
 tbody {
   height: 100%;
 }
@@ -67,7 +68,6 @@ tbody {
 
 .lesson_block {
   border-radius: 5px;
-  height: 100%;
   padding: 7%;
   text-align: left;
   overflow: hidden;
@@ -80,6 +80,14 @@ tbody {
   gap: 5px;
   justify-content: space-between;
   position: relative;
+}
+
+.lesson_block:last-child {
+  margin-top: 7px;
+}
+
+.lesson_block:first-child {
+  margin-top: 0;
 }
 
 .lesson_block__avatar {

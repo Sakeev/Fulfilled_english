@@ -20,8 +20,8 @@ const setLesson = (lessons, time, weekday) => {
     );
 
     let comp = lessonsOnTime.length ? (
-        lessonsOnTime.map((lesson, index) => (
-            <ScheduleWindow lesson={lesson} key={index} />
+        lessonsOnTime.map((lesson, index, array) => (
+            <ScheduleWindow lesson={lesson} length={array.length} key={index} />
         ))
     ) : (
         <></>
