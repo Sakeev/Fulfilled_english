@@ -7,10 +7,12 @@ import { useAuth } from "contexts/AuthContextProvider";
 import StartLesson from "./StartLesson/StartLesson";
 import api from "http";
 import { SCHEDULE_API } from "helpers/consts";
+import { useClassWork } from "contexts/ClassWorkContextProvider";
 
 const Main = () => {
   const { isTeacher } = useAuth();
   const [nextLesson, setNextLesson] = useState(null);
+  const { getRoom } = useClassWork();
   const getUpcomingLessons = () => {
     api.get(SCHEDULE_API).then((res) => {
       let data = res.data;
@@ -24,6 +26,7 @@ const Main = () => {
 
   useEffect(() => {
     getUpcomingLessons();
+    getRoom();
   }, []);
 
   return (
