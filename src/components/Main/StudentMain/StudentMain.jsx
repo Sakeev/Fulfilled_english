@@ -11,13 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { API } from "helpers/consts";
 
 const StudentMain = () => {
-  const { getRoom, getNotes, notes } = useClassWork();
+  const { getNotes, notes } = useClassWork();
   const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers();
   const { getSchedule, schedule } = useSchedule();
 
   const navigate = useNavigate();
   useEffect(() => {
-    getRoom();
     getNotes();
     getUsers();
     getTeacher();

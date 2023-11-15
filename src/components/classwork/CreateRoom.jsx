@@ -24,7 +24,7 @@ const CreateRoom = () => {
   const { getLesson, lesson, createRoom, createRoomError, clearErrors } =
     useClassWork();
   const { getStudents, students } = useUsers();
-  console.log(students);
+  // console.log(students);
 
   const handleSubmit = (e) => {
     e.preventDefault();

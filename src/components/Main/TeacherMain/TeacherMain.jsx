@@ -17,14 +17,13 @@ import { API } from "helpers/consts";
 
 const TeacherMain = () => {
   const { getLessonCounter, lessonCounter } = useClassWork();
-  const { getRoom, getNotes } = useClassWork();
+  const { getNotes } = useClassWork();
   const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers();
   const { getSchedule, schedule } = useSchedule();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getRoom();
     getNotes();
     getUsers();
     getTeacher();
@@ -32,7 +31,7 @@ const TeacherMain = () => {
     getLessonCounter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  console.log(1);
   const currentDate = new Date();
 
   function lvlcheck(lvl) {
@@ -100,7 +99,11 @@ const TeacherMain = () => {
                     <div className={styles.clipbox}>
                       <img src={clip} alt="clip" className={styles.clipimg} />
                       <div>
-                        <p className={styles.studentname}>{onepoint.user}</p>
+                        <p className={styles.studentname}>
+                          {onepoint.user.first_name +
+                            " " +
+                            onepoint.user.last_name}
+                        </p>
                         <p className={styles.date}>{`${day} ${month}`}</p>
                       </div>
                     </div>
