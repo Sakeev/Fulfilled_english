@@ -34,6 +34,7 @@ const Gradebook = () => {
   useEffect(() => {
     // innitialize load
     getGradebook();
+
     getRoomOrRooms().then((res) => setRuroom(res));
   }, []);
 
@@ -55,6 +56,7 @@ const Gradebook = () => {
     }, {});
 
     setGroupedGrades(newGroupedGrades);
+    getRoomOrRooms().then((res) => setRuroom(res));
   }, [gradebook]);
 
   const handleSelect = (value) => {
@@ -73,15 +75,17 @@ const Gradebook = () => {
             onSelect={handleSelect}
             // label={selectedUser.user?.email}
           >
-            {rurooms.map((userData) => (
-              <MenuItem
-                id={userData.user.id}
-                value={userData}
-                key={userData.id}
-              >
-                {userData?.user?.email}
-              </MenuItem>
-            ))}
+            {rurooms.length > 0
+              ? rurooms.map((userData) => (
+                  <MenuItem
+                    id={userData.user.id}
+                    value={userData}
+                    key={userData.id}
+                  >
+                    {userData?.user?.email}
+                  </MenuItem>
+                ))
+              : null}
           </Select>
           {selectedUser.user ? (
             // <div className={styles.profile_avatar}>
@@ -117,7 +121,7 @@ const Gradebook = () => {
                 <th>Classwork</th>
               </tr>
             </thead>
-            {selectedUser ? (
+            {selectedUser.id ? (
               <>
                 <tbody>
                   {Object.keys(groupedGrades).map((lessonKey) => (
