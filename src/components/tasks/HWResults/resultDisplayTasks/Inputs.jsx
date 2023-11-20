@@ -32,9 +32,10 @@ const Inputs = ({ taskDetails, answer, displayDataType }) => {
                         <div className={styles.row} key={index}>
                             {splittedRow.map((value, innerInd) => {
                                 let temp = '';
-                                const [_, string] = parseId(value);
+                                const [id, string] = parseId(value);
 
-                                if (string.length === 0) return null;
+                                if (string.length === 0 && id === -1)
+                                    return null;
 
                                 if (innerInd < splittedRow.length - 1) {
                                     temp = answersCopy.shift();

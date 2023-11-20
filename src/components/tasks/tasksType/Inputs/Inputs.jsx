@@ -21,7 +21,7 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
         setInputValues(newInputValues);
     };
 
-    // console.log(taskDetails);
+    console.log(taskDetails);
 
     const listItems = description.split('\\li');
 
