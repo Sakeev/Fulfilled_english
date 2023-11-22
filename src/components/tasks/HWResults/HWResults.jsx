@@ -19,7 +19,7 @@ const HWResults = () => {
         getTaskDetails,
     } = useTasks();
     const { userId, caseId } = useParams();
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [quantityTask, setQuantityTask] = useState(0);
 
     useEffect(() => {
@@ -124,6 +124,7 @@ const HWResults = () => {
                     <Pagination
                         count={quantityTask}
                         pagination={{ type: 'results', cb: handlePage }}
+                        pageHook={[page, setPage]}
                     />
                 </div>
             </div>

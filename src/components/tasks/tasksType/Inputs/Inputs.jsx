@@ -5,7 +5,7 @@ import { parseId } from '../utils';
 
 import styles from './Inputs.module.scss';
 
-const Inputs = ({ handleAnswer, taskDetails, ids }) => {
+const Inputs = ({ handleAnswer, taskDetails, ids, nextTask }) => {
     const [description, setDescription] = useState('');
     const [inputValues, setInputValues] = useState({});
 
@@ -21,8 +21,6 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
         setInputValues(newInputValues);
     };
 
-    console.log(taskDetails);
-
     const listItems = description.split('\\li');
 
     const output = listItems.map((listItem, outerInd) => {
@@ -30,7 +28,6 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
             .split('\r\n')
             .filter((splittedRow) => splittedRow.length > 0);
 
-        console.log(splittedRows);
         return (
             <li className={styles.input} key={outerInd}>
                 {splittedRows.map((rows, index) => {
@@ -94,6 +91,7 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
                         taskDetails.id,
                         ids
                     );
+                    nextTask();
                 }}
             >
                 Submit

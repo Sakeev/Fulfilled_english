@@ -92,7 +92,10 @@ const TasksContextProvider = ({ children }) => {
     const handleAnswer = async (obj, id, { caseId, taskId }) => {
         try {
             await api.post(`${API}room/tasks/${id}/answer/`, obj);
-            getTaskDetails(caseId, taskId);
+
+            if (Number(state.caseInfo.quantity_task) === Number(taskId)) {
+                getTaskDetails(caseId, taskId);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -110,6 +113,7 @@ const TasksContextProvider = ({ children }) => {
     };
 
     const getTaskDetails = async (caseId, taskId, userId) => {
+        setLoading(true);
         const { data } = await api.get(
             `${API}room/case_tasks/${caseId}/?task=${taskId}${
                 userId ? `&user_id=${userId}` : ''
@@ -120,6 +124,7 @@ const TasksContextProvider = ({ children }) => {
             type: 'GET_TASK_DETAILS',
             payload: data,
         });
+        setLoading(false);
     };
 
     const getCaseInfo = async (id, userId) => {

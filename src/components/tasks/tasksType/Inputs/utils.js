@@ -14,7 +14,5 @@ export const formAnswer = (inputValues, taskDetails) => {
         }
     }
 
-    console.log(values);
-
     return { answers: values };
 };

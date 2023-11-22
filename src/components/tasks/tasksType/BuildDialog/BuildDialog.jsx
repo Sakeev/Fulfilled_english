@@ -3,7 +3,7 @@ import { Button } from 'components/ui';
 
 import styles from './BuildDialog.module.scss';
 
-const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
+const BuildDialog = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const [sentences, setSentences] = useState([]);
     const [answer, setAnswer] = useState([]);
 
@@ -31,7 +31,6 @@ const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
     };
 
     const formRequest = () => {
-        console.log(answer);
         return { answers: answer.length ? answer : ['No answer'] };
     };
 
@@ -71,7 +70,10 @@ const BuildDialog = ({ taskDetails, handleAnswer, ids }) => {
                     taskDetails.answers[taskDetails.answers.length - 1]?.passed
                 }
                 className={styles.submit}
-                onClick={() => handleAnswer(formRequest(), taskDetails.id, ids)}
+                onClick={() => {
+                    handleAnswer(formRequest(), taskDetails.id, ids);
+                    nextTask();
+                }}
             >
                 Submit
             </Button>

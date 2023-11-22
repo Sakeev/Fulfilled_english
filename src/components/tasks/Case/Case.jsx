@@ -9,25 +9,18 @@ import { capitalize } from 'helpers/funcs';
 import styles from './Case.module.scss';
 
 const Case = () => {
+    const { getCases, cases, taskDetails, getCaseInfo, caseInfo } = useTasks();
     const { caseId } = useParams();
-    const taskComponent = useTaskComponent();
+    const [page, setPage] = useState(1);
     const [showVocab, setShowVocab] = useState(false);
-
-    const {
-        getTaskDetails,
-        getCases,
-        cases,
-        taskDetails,
-        getCaseInfo,
-        caseInfo,
-    } = useTasks();
-
     const vocabulary = getVocabulary(cases);
+    const taskComponent = useTaskComponent(() =>
+        setPage((prev) => (prev < caseInfo.quantity_task ? prev + 1 : prev))
+    );
 
     useEffect(() => {
         getCases();
         getCaseInfo(caseId);
-        getTaskDetails(caseId, 1);
     }, []);
 
     return (
@@ -54,6 +47,7 @@ const Case = () => {
                     <Pagination
                         count={caseInfo.quantity_task}
                         pagination={{ type: 'homework' }}
+                        pageHook={[page, setPage]}
                     />
                 </div>
             </div>

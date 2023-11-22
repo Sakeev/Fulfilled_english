@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './WriteSentences.module.scss';
 
-const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
+const WriteSentences = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const formAnswerTemplate = () => {
         const answerTemplate = {};
 
@@ -102,6 +102,7 @@ const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
                 className={styles.submit}
                 onClick={() => {
                     handleAnswer(formRequest(), taskDetails.id, ids);
+                    nextTask();
                 }}
             >
                 Submit

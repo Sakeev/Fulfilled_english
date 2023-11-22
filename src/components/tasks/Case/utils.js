@@ -25,7 +25,7 @@ export const getVocabulary = (cases) => {
     return vocabulary || null;
 };
 
-export const useTaskComponent = () => {
+export const useTaskComponent = (nextTask = null) => {
     const { caseId, taskId } = useParams();
     const { taskDetails, handleAnswer } = useTasks();
 
@@ -34,6 +34,7 @@ export const useTaskComponent = () => {
         handleAnswer: handleAnswer,
         taskDetails: taskDetails,
         ids: { caseId, taskId },
+        nextTask: nextTask,
     };
 
     const taskComponents = {

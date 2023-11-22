@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import { renderInputs } from '../utils';
 import { Button } from 'components/ui';
 import { API } from 'helpers/consts';
@@ -6,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './Images.module.scss';
 
-const Images = ({ taskDetails, handleAnswer, ids }) => {
+const Images = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const [results, setResults] = useState({});
 
     const handleInput = (event, index) => {
@@ -55,6 +54,7 @@ const Images = ({ taskDetails, handleAnswer, ids }) => {
                 className={styles.submit}
                 onClick={() => {
                     handleAnswer(formRequest(), taskDetails.id, ids);
+                    nextTask();
                 }}
             >
                 Submit

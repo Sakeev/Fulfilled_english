@@ -44,8 +44,6 @@ const ShowCases = () => {
         getCases(userId);
     }, []);
 
-    console.log(userId, cases);
-
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={mainBox}>

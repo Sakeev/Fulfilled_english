@@ -68,7 +68,9 @@
     .submit {
         position: sticky;
         bottom: 0;
+        background-color: $hover-color;
         align-self: flex-end;
         margin-right: 3em;
+        background-color: $hover-color;
     }
 }

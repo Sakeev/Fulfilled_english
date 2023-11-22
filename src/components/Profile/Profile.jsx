@@ -19,9 +19,6 @@ const Profile = () => {
         );
     };
 
-    console.log(studentProgress);
-    console.log(user);
-
     if (!user) return <></>;
 
     const { logo, level } = lvlcheck(studentProgress.level);

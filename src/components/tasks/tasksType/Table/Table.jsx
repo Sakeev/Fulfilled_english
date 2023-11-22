@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './Table.module.scss';
 
-const Table = ({ taskDetails, handleAnswer, ids }) => {
+const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const [inps, setInps] = useState({});
     const [tableProps] = useState({
         rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
@@ -63,8 +63,8 @@ const Table = ({ taskDetails, handleAnswer, ids }) => {
 
         answerTemplate.unshift(colHeadings);
 
-
         handleAnswer({ answers: answerTemplate }, taskDetails.id, ids);
+        nextTask();
     };
 
     return (

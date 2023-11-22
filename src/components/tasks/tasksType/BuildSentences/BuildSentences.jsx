@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './BuildSentences.module.scss';
 
-const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
+const BuildSentences = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const [results, setResults] = useState({});
 
     const formResults = () => {
@@ -35,6 +35,7 @@ const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
                         taskDetails.id,
                         ids
                     );
+                    nextTask();
                 }}
             >
                 Submit

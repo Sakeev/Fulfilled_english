@@ -35,8 +35,6 @@ const ViewEssay = () => {
         }
     }, [lesson]);
 
-    console.log(lesson);
-
     useEffect(() => {
         if (essayRef.current && studentEssay.id) {
             essayRef.current.innerHTML = studentEssay.html_text;
@@ -86,8 +84,6 @@ const ViewEssay = () => {
             </div>
         );
     }
-
-    console.log();
 
     return (
         <div className={styles.essayContainer}>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import styles from './ContinueImageWord.module.scss';
 
-const ContinueImageWord = ({ taskDetails, handleAnswer, ids }) => {
+const ContinueImageWord = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const splittedDescription = taskDetails.description.split('\r\n');
     const [results, setResults] = useState({});
 
@@ -26,8 +26,6 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids }) => {
             if (results[key].trim() === '') answerTemplate[key] = 'No answer';
             else answerTemplate[key] = results[key];
         }
-
-        console.log(answerTemplate);
 
         return { answers: answerTemplate };
     };
@@ -71,6 +69,7 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids }) => {
                 className={styles.submit}
                 onClick={() => {
                     handleAnswer(formRequest(), taskDetails.id, ids);
+                    nextTask();
                 }}
             >
                 Submit

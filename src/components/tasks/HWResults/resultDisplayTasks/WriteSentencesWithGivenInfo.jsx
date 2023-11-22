@@ -12,8 +12,6 @@ const WriteSentencesWithGivenInfo = ({
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
 
-    console.log(taskDetails);
-
     return (
         <div className={styles.writeSentencesContainer}>
             <div className={styles.images}>

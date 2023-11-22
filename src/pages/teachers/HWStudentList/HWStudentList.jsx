@@ -29,8 +29,6 @@ const HWStudentList = () => {
         setStudent(student);
     };
 
-    console.log(studentsLessons);
-
     return (
         <div className={styles.studentListContainer}>
             <div className={styles.header}>

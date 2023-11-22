@@ -4,7 +4,7 @@ import { colors } from './utils';
 
 import styles from './ConnectWords.module.scss';
 
-const ConnectWords = ({ handleAnswer, taskDetails, ids }) => {
+const ConnectWords = ({ handleAnswer, taskDetails, ids, nextTask }) => {
     const [wordsPairs, setWordsPairs] = useState([]);
     const [firstColumn, setFirstColumn] = useState(null);
     const [secondColumn, setSecondColumn] = useState(null);
@@ -154,7 +154,10 @@ const ConnectWords = ({ handleAnswer, taskDetails, ids }) => {
                     taskDetails.answers[taskDetails.answers.length - 1]?.passed
                 }
                 className={styles.submit}
-                onClick={() => handleAnswer(formObj(), taskDetails.id, ids)}
+                onClick={() => {
+                    handleAnswer(formObj(), taskDetails.id, ids);
+                    nextTask();
+                }}
             >
                 Submit
             </Button>

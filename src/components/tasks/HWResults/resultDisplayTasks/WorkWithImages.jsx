@@ -9,7 +9,7 @@ const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
     const splittedDescription = taskDetails.description.split('\r\n');
     const answers =
         displayDataType === 'student' ? answer.answer : answer.right_answer;
-    console.log(answers);
+
     return (
         <div className={styles.imageWordContainer}>
             <div
