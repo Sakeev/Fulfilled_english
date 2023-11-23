@@ -1,6 +1,6 @@
-import { Box } from '@mui/material';
-import React from 'react';
-import Notes from '../components/notes/Notes';
+import { Box } from '@mui/material'
+import React from 'react'
+import Notes from '../components/notes/Notes'
 
 const NotesPage = () => {
     return (
@@ -15,7 +15,7 @@ const NotesPage = () => {
                 <Notes />
             </Box>
         </>
-    );
-};
+    )
+}
 
-export default NotesPage;
+export default NotesPage

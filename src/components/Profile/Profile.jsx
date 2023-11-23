@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
-import { useUsers } from 'contexts/UsersContextProvider';
-import { capitalize, isTeacher, lvlcheck } from 'helpers/funcs';
-import { API } from 'helpers/consts';
+import { useEffect } from 'react'
+import { useUsers } from 'contexts/UsersContextProvider'
+import { capitalize, isTeacher, lvlcheck } from 'helpers/funcs'
+import { API } from 'helpers/consts'
 
-import styles from './Profile.module.scss';
+import styles from './Profile.module.scss'
 
 const Profile = () => {
-    const { user, studentProgress, getUserAndProgress } = useUsers();
+    const { user, studentProgress, getUserAndProgress } = useUsers()
 
     useEffect(() => {
-        getUserAndProgress();
-    }, []);
+        getUserAndProgress()
+    }, [])
 
     const getPercents = () => {
         return Math.round(
             (100 / studentProgress.lessons.length) *
                 studentProgress.progres_classwork
-        );
-    };
+        )
+    }
 
-    if (!user) return <></>;
+    if (!user) return <></>
 
-    const { logo, level } = lvlcheck(studentProgress.level);
+    const { logo, level } = lvlcheck(studentProgress.level)
 
     return (
         <div className={styles.profileContainer}>
@@ -76,7 +76,7 @@ const Profile = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Profile;
+export default Profile

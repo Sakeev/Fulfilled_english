@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
-import { useTasks } from 'contexts/TasksContextProvider';
-import * as tasksType from '../tasksType';
+import { useParams } from 'react-router-dom'
+import { useTasks } from 'contexts/TasksContextProvider'
+import * as tasksType from '../tasksType'
 
 export const renderCondition = (condition) => {
     if (condition) {
@@ -8,26 +8,26 @@ export const renderCondition = (condition) => {
             .split('\r\n')
             .map((row, index) =>
                 row.length ? <p key={index}>{row}</p> : <br key={index} />
-            );
+            )
     }
-    return null;
-};
+    return null
+}
 
 export const getVocabulary = (cases) => {
-    if (!cases.length) return null;
+    if (!cases.length) return null
 
-    let vocabulary;
+    let vocabulary
 
     cases[0]?.case_tasks.forEach((caseTask) => {
-        if (caseTask.title === 'vocabulary') vocabulary = caseTask;
-    });
+        if (caseTask.title === 'vocabulary') vocabulary = caseTask
+    })
 
-    return vocabulary || null;
-};
+    return vocabulary || null
+}
 
 export const useTaskComponent = (nextTask = null) => {
-    const { caseId, taskId } = useParams();
-    const { taskDetails, handleAnswer } = useTasks();
+    const { caseId, taskId } = useParams()
+    const { taskDetails, handleAnswer } = useTasks()
 
     const props = {
         key: taskId,
@@ -35,7 +35,7 @@ export const useTaskComponent = (nextTask = null) => {
         taskDetails: taskDetails,
         ids: { caseId, taskId },
         nextTask: nextTask,
-    };
+    }
 
     const taskComponents = {
         'missing word': <tasksType.Inputs {...props} />,
@@ -48,7 +48,7 @@ export const useTaskComponent = (nextTask = null) => {
         'write sentences with given info': (
             <tasksType.WriteSentences {...props} />
         ),
-    };
+    }
 
-    return taskComponents[taskDetails?.implemented_case];
-};
+    return taskComponents[taskDetails?.implemented_case]
+}

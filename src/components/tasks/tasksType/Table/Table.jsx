@@ -1,50 +1,50 @@
-import { capitalize } from 'helpers/funcs';
-import { Button } from 'components/ui';
-import { useState } from 'react';
+import { capitalize } from 'helpers/funcs'
+import { Button } from 'components/ui'
+import { useState } from 'react'
 
-import styles from './Table.module.scss';
+import styles from './Table.module.scss'
 
 const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
-    const [inps, setInps] = useState({});
+    const [inps, setInps] = useState({})
     const [tableProps] = useState({
         rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
         cells: taskDetails?.description.split('\r\n')[0].split('x')[0],
-    });
+    })
 
     const fillData = (data) => {
         while (data.length < tableProps.rows) {
-            data.push('');
+            data.push('')
         }
         const res = data.map((elem) => {
-            let temp = elem.split(' ');
+            let temp = elem.split(' ')
             while (temp.length < tableProps.cells) {
-                temp.push('');
+                temp.push('')
             }
-            return temp;
-        });
-        return res;
-    };
+            return temp
+        })
+        return res
+    }
 
     const table = {
         data: fillData(taskDetails.description.split('\r\n').slice(1)),
-    };
+    }
 
     const handleInputsChange = (e, index) => {
         setInps((prev) => {
-            return { ...prev, [index]: e.target.value };
-        });
-    };
+            return { ...prev, [index]: e.target.value }
+        })
+    }
 
     const onSend = () => {
-        const splittedDescr = taskDetails.description.split('\r\n');
+        const splittedDescr = taskDetails.description.split('\r\n')
 
-        const [cols, rows] = splittedDescr[0].split('x').map((size) => +size);
-        const colHeadings = splittedDescr[1].split(' ');
-        const content = splittedDescr.slice(2).map((val) => val.split(' '));
-        const answerTemplate = [];
+        const [cols, rows] = splittedDescr[0].split('x').map((size) => +size)
+        const colHeadings = splittedDescr[1].split(' ')
+        const content = splittedDescr.slice(2).map((val) => val.split(' '))
+        const answerTemplate = []
 
         for (let row = 0; row < rows; row++) {
-            answerTemplate[row] = Array(cols).fill('');
+            answerTemplate[row] = Array(cols).fill('')
         }
 
         for (let row = 0; row < rows; row++) {
@@ -52,20 +52,20 @@ const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                 if (row * cols + col in inps) {
                     answerTemplate[row][col] = capitalize(
                         inps[row * cols + col]
-                    );
+                    )
                 } else if (content[row][col]) {
-                    answerTemplate[row][col] = capitalize(content[row][col]);
+                    answerTemplate[row][col] = capitalize(content[row][col])
                 } else {
-                    answerTemplate[row][col] = '-';
+                    answerTemplate[row][col] = '-'
                 }
             }
         }
 
-        answerTemplate.unshift(colHeadings);
+        answerTemplate.unshift(colHeadings)
 
-        handleAnswer({ answers: answerTemplate }, taskDetails.id, ids);
-        nextTask();
-    };
+        handleAnswer({ answers: answerTemplate }, taskDetails.id, ids)
+        nextTask()
+    }
 
     return (
         <div className={styles.tableContainer}>
@@ -90,7 +90,7 @@ const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                     {table.data.slice(1).map((elem, index) => (
                         <tr key={index}>
                             {elem.map((item, index_inner) => {
-                                let tdIndex = index * elem.length + index_inner;
+                                let tdIndex = index * elem.length + index_inner
 
                                 return (
                                     <td key={tdIndex}>
@@ -108,7 +108,7 @@ const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                                             />
                                         )}
                                     </td>
-                                );
+                                )
                             })}
                         </tr>
                     ))}
@@ -125,7 +125,7 @@ const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                 Submit
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default Table;
+export default Table

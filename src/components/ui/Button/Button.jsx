@@ -1,4 +1,4 @@
-import styles from './Button.module.scss';
+import styles from './Button.module.scss'
 
 const Button = ({ children, ...otherProps }) => {
     return (
@@ -8,7 +8,7 @@ const Button = ({ children, ...otherProps }) => {
         >
             {children}
         </button>
-    );
-};
+    )
+}
 
-export default Button;
+export default Button

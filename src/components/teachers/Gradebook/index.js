@@ -1,3 +1,3 @@
-import Gradebook from "./Gradebook";
+import Gradebook from './Gradebook'
 
-export default Gradebook;
+export default Gradebook

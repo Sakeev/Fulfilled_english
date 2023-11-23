@@ -1,3 +1,3 @@
-import SidebarLayout from './SidebarLayout';
+import SidebarLayout from './SidebarLayout'
 
-export default SidebarLayout;
+export default SidebarLayout

@@ -1,12 +1,12 @@
-import { useEssay } from 'contexts/EssayContextProvider';
-import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
-import { useEffect } from 'react';
+import { useEssay } from 'contexts/EssayContextProvider'
+import { Link } from 'react-router-dom'
+import { Button } from '@mui/material'
+import { useEffect } from 'react'
 
-import correct from 'assets/images/correct.png';
-import incorrect from 'assets/images/cross.png';
+import correct from 'assets/images/correct.png'
+import incorrect from 'assets/images/cross.png'
 
-import '../TeacherEssay.css';
+import '../TeacherEssay.css'
 
 const btnStyle = {
     margin: '10px 5px',
@@ -17,25 +17,25 @@ const btnStyle = {
         backgroundColor: '#006D77',
         color: '#9bd0cb',
     },
-};
+}
 
 // localhost/room/essa/ POST - Create essay for student
 // localhost/room/get_lesson/ GET - Get lesson for teacher and for student
 // localhost/room/essa/ PATCH - Check student essay for teacher
 
 const TeacherEssay = () => {
-    const { loading, getLessons, lessons, setEssay } = useEssay();
+    const { loading, getLessons, lessons, setEssay } = useEssay()
 
     useEffect(() => {
-        getLessons();
-    }, []);
+        getLessons()
+    }, [])
 
     if (loading) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
-        );
+        )
     }
 
     return (
@@ -52,8 +52,8 @@ const TeacherEssay = () => {
             <ul className="essay-students-list">
                 {lessons.map((lesson) => {
                     return lesson.map((unit, index) => {
-                        if (!unit.essay[0]) return null;
-                        const essay = unit.essay[0];
+                        if (!unit.essay[0]) return null
+                        const essay = unit.essay[0]
 
                         return (
                             <li className="essay-student" key={index}>
@@ -92,7 +92,7 @@ const TeacherEssay = () => {
                                     }}
                                     onClick={() => {
                                         if (essay.user_essay[0])
-                                            setEssay(essay.user_essay[0]);
+                                            setEssay(essay.user_essay[0])
                                     }}
                                 >
                                     <Link to={`/essay/view/${unit.user?.id}`}>
@@ -102,12 +102,12 @@ const TeacherEssay = () => {
                                     </Link>
                                 </Button>
                             </li>
-                        );
-                    });
+                        )
+                    })
                 })}
             </ul>
         </div>
-    );
-};
+    )
+}
 
-export default TeacherEssay;
+export default TeacherEssay

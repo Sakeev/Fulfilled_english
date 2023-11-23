@@ -1,16 +1,16 @@
-import { API } from 'helpers/consts';
+import { API } from 'helpers/consts'
 
-import styles from '../../tasksType/WriteSentences/WriteSentences.module.scss';
+import styles from '../../tasksType/WriteSentences/WriteSentences.module.scss'
 
 const WriteSentencesWithGivenInfo = ({
     taskDetails,
     answer,
     displayDataType,
 }) => {
-    if (answer === null) return <h2>This task hasn't done yet</h2>;
+    if (answer === null) return <h2>This task hasn't done yet</h2>
 
     const answers =
-        displayDataType === 'student' ? answer.answer : answer.right_answer;
+        displayDataType === 'student' ? answer.answer : answer.right_answer
 
     return (
         <div className={styles.writeSentencesContainer}>
@@ -20,7 +20,7 @@ const WriteSentencesWithGivenInfo = ({
                         <div className={styles.image} key={image}>
                             <img src={`${API}${image}`} alt="exercise" />
                         </div>
-                    );
+                    )
                 })}
             </div>
             <div className={styles.inputColumns}>
@@ -85,7 +85,7 @@ const WriteSentencesWithGivenInfo = ({
         //         ))}
         //     </div>
         // </div>
-    );
-};
+    )
+}
 
-export default WriteSentencesWithGivenInfo;
+export default WriteSentencesWithGivenInfo

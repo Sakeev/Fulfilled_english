@@ -1,97 +1,97 @@
-@import "assets/styles/variables.scss";
-@import "assets/styles/mixins.scss";
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/mixins.scss';
 
 .profileContainer {
-  width: 90%;
-  height: 85%;
-  margin: auto;
+    width: 90%;
+    height: 85%;
+    margin: auto;
 
-  span {
-    color: $highlighted-text;
-  }
-
-  .userInfo {
-    @include flex(row, space-between);
-    max-width: 80vw;
-
-    .userAvatar {
-      @include flex(row, center);
-      flex: 0.22 1 0;
-      border-radius: 0.5rem;
-      overflow: hidden;
-      aspect-ratio: 1 / 1;
-      width: 20%;
-      img {
-        height: 100%;
-      }
+    span {
+        color: $highlighted-text;
     }
 
-    .userInfoCardWrapper {
-      @include flex(row, space-between);
-      flex: 0.73 1 0;
-      padding: 1em 1.5em;
-      border-radius: 0.5rem;
-      background-color: $button-bg;
-      width: 20%;
+    .userInfo {
+        @include flex(row, space-between);
+        max-width: 80vw;
 
-      .userInfoCard {
-        @include flex(column, space-between);
-        width: 40%;
-
-        .userFullName {
-        }
-
-        .courseInfo {
-          height: 65%;
-
-          p {
-            padding-bottom: 0.375em;
-          }
-
-          .studentProgress {
-            margin-top: 0.5em;
-
-            .progress {
-              position: relative;
-              width: 15rem;
-              height: 2rem;
-              background-color: $border-color;
-              border-radius: 0.5rem;
-
-              .percent {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-              }
-
-              .progressBar {
+        .userAvatar {
+            @include flex(row, center);
+            flex: 0.22 1 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            width: 20%;
+            img {
                 height: 100%;
-                background-color: $hover-secondary;
-                border-radius: 0.5rem;
-              }
             }
-          }
-        }
-      }
-
-      .level {
-        @include flex(column, flex-start, center);
-        width: 50%;
-
-        p {
-          margin-bottom: 1em;
         }
 
-        .emblem {
-          min-height: 8rem;
-          height: 60%;
+        .userInfoCardWrapper {
+            @include flex(row, space-between);
+            flex: 0.73 1 0;
+            padding: 1em 1.5em;
+            border-radius: 0.5rem;
+            background-color: $button-bg;
+            width: 20%;
 
-          img {
-            height: 100%;
-          }
+            .userInfoCard {
+                @include flex(column, space-between);
+                width: 40%;
+
+                .userFullName {
+                }
+
+                .courseInfo {
+                    height: 65%;
+
+                    p {
+                        padding-bottom: 0.375em;
+                    }
+
+                    .studentProgress {
+                        margin-top: 0.5em;
+
+                        .progress {
+                            position: relative;
+                            width: 15rem;
+                            height: 2rem;
+                            background-color: $border-color;
+                            border-radius: 0.5rem;
+
+                            .percent {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                            }
+
+                            .progressBar {
+                                height: 100%;
+                                background-color: $hover-secondary;
+                                border-radius: 0.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .level {
+                @include flex(column, flex-start, center);
+                width: 50%;
+
+                p {
+                    margin-bottom: 1em;
+                }
+
+                .emblem {
+                    min-height: 8rem;
+                    height: 60%;
+
+                    img {
+                        height: 100%;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

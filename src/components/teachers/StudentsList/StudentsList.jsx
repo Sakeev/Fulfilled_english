@@ -1,40 +1,40 @@
-import { useAuth } from '../../../contexts/AuthContextProvider';
-import ProgressModal from '../ProgressModal/ProgressModal';
-import { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { useAuth } from '../../../contexts/AuthContextProvider'
+import ProgressModal from '../ProgressModal/ProgressModal'
+import { useEffect, useState } from 'react'
+import { Button } from '@mui/material'
 
-import './StudentsList.css';
+import './StudentsList.css'
 
 const StudentsList = () => {
     // const { students } = useEssay();
-    const { isTeacher, getRoomOrRooms } = useAuth();
-    const [showModal, setShowModal] = useState(false);
-    const [currentRoom, setCurrentRoom] = useState(null);
-    const [studentRooms, setStudentRooms] = useState([]);
+    const { isTeacher, getRoomOrRooms } = useAuth()
+    const [showModal, setShowModal] = useState(false)
+    const [currentRoom, setCurrentRoom] = useState(null)
+    const [studentRooms, setStudentRooms] = useState([])
 
     useEffect(() => {
         getRoomOrRooms()
             .then((res) => {
-                setStudentRooms(res);
+                setStudentRooms(res)
             })
-            .catch((err) => console.log(err));
-    }, [isTeacher]);
+            .catch((err) => console.log(err))
+    }, [isTeacher])
 
     // const studentProgress = Math.round(
     //     (100 / progress.lessonsQuantity) * progress.passedLessons
     // );
 
     const onReviewHomeworks = (room) => {
-        setShowModal(true);
-        setCurrentRoom(room);
-    };
+        setShowModal(true)
+        setCurrentRoom(room)
+    }
 
     if (studentRooms.length === undefined)
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>;
             </div>
-        );
+        )
 
     return (
         <>
@@ -50,7 +50,7 @@ const StudentsList = () => {
                 {studentRooms?.map((room, index) => {
                     const studentProgress = Math.round(
                         (100 / room.count_lessons) * room.progres_classwork
-                    );
+                    )
 
                     return (
                         <div className="sl-student-row" key={index}>
@@ -76,11 +76,11 @@ const StudentsList = () => {
                                 </Button>
                             </div>
                         </div>
-                    );
+                    )
                 })}
             </div>
         </>
-    );
-};
+    )
+}
 
-export default StudentsList;
+export default StudentsList

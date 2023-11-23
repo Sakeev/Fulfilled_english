@@ -1,15 +1,15 @@
-import { Button } from '@mui/material';
-import { useEffect } from 'react';
-import { useState, Fragment } from 'react';
+import { Button } from '@mui/material'
+import { useEffect } from 'react'
+import { useState, Fragment } from 'react'
 
-import './tasksType.css';
+import './tasksType.css'
 
 const createInitAnswer = (dropdowns) => {
     return dropdowns.reduce((answer, _, index) => {
-        answer[index] = 'choose word';
-        return answer;
-    }, {});
-};
+        answer[index] = 'choose word'
+        return answer
+    }, {})
+}
 
 const Dropdown = ({
     taskDetails,
@@ -20,27 +20,27 @@ const Dropdown = ({
 }) => {
     const [studentAnswer, setStudentAnswer] = useState(
         createInitAnswer(dropdowns)
-    );
-    const splittedDesc = description.split('__drop__');
+    )
+    const splittedDesc = description.split('__drop__')
 
     useEffect(() => {
-        setStudentAnswer(createInitAnswer(dropdowns));
-    }, [dropdowns]);
+        setStudentAnswer(createInitAnswer(dropdowns))
+    }, [dropdowns])
 
     const chooseWord = (event, index) => {
         setStudentAnswer((prev) => {
-            return { ...prev, [index]: event.target.value };
-        });
-    };
+            return { ...prev, [index]: event.target.value }
+        })
+    }
 
     const getStudentAnswer = () => {
         const splittedAnswer = splittedDesc.map((sentencePart, index) => {
-            if (index + 1 === splittedDesc.length) return sentencePart;
-            return sentencePart + studentAnswer[index];
-        });
+            if (index + 1 === splittedDesc.length) return sentencePart
+            return sentencePart + studentAnswer[index]
+        })
 
-        return splittedAnswer.join('');
-    };
+        return splittedAnswer.join('')
+    }
 
     const dropdownArr = splittedDesc.map((sentencePart, index) => {
         return (
@@ -65,8 +65,8 @@ const Dropdown = ({
                     </Button>
                 </div>
             </>
-        );
-    });
+        )
+    })
 
     return (
         <div className="dropdown-container task-types-container">
@@ -84,7 +84,7 @@ const Dropdown = ({
                 send
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default Dropdown;
+export default Dropdown

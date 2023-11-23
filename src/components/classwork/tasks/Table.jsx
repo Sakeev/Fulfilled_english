@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { API } from '../../../helpers/consts';
-import './Tasks.css';
-import { isTeacher } from 'helpers/funcs';
+import React, { useEffect, useRef, useState } from 'react'
+import { API } from '../../../helpers/consts'
+import './Tasks.css'
+import { isTeacher } from 'helpers/funcs'
 
 const Table = ({
     task,
@@ -18,28 +18,28 @@ const Table = ({
     const [tableProps, setTableProps] = useState({
         rows: task[0]?.description.split('\r\n')[0].split('x')[1],
         cells: task[0]?.description.split('\r\n')[0].split('x')[0],
-    });
+    })
 
     const fillData = (data) => {
         while (data.length < tableProps.rows) {
-            data.push('');
+            data.push('')
         }
         const res = data.map((elem) => {
-            let temp = elem.split(' ');
+            let temp = elem.split(' ')
             while (temp.length < tableProps.cells) {
-                temp.push('');
+                temp.push('')
             }
-            return temp;
-        });
-        return res;
-    };
+            return temp
+        })
+        return res
+    }
 
     const [table, setTable] = useState({
         data: fillData(task[0]?.description.split('\r\n').slice(1)),
-    });
+    })
 
     // Audio
-    const audioRef = useRef();
+    const audioRef = useRef()
 
     const handleTogglePlayback = (booli = false) => {
         sendJsonMessage({
@@ -47,28 +47,28 @@ const Table = ({
             booli: booli,
             request_id: request_id,
             task_id: taskId,
-        });
+        })
         sendJsonMessage({
             pk: listeningId,
             action: 'get_listening_te',
             request_id: request_id,
-        });
-    };
+        })
+    }
 
     useEffect(() => {
-        const { unit1, unit2 } = tablePlaying;
+        const { unit1, unit2 } = tablePlaying
         if (listeningId === unit1.id) {
             const timeout = setTimeout(() => {
-                audioRef.current[unit1.task.is_playing ? 'play' : 'pause']();
-            }, 200);
-            return () => clearTimeout(timeout);
+                audioRef.current[unit1.task.is_playing ? 'play' : 'pause']()
+            }, 200)
+            return () => clearTimeout(timeout)
         } else if (listeningId === unit2.id) {
             const timeout = setTimeout(() => {
-                audioRef.current[unit2.task.is_playing ? 'play' : 'pause']();
-            }, 200);
-            return () => clearTimeout(timeout);
+                audioRef.current[unit2.task.is_playing ? 'play' : 'pause']()
+            }, 200)
+            return () => clearTimeout(timeout)
         }
-    }, [tablePlaying, listeningId]);
+    }, [tablePlaying, listeningId])
 
     const changeTime = (currentTime) => {
         sendJsonMessage({
@@ -76,33 +76,33 @@ const Table = ({
             current_time: currentTime,
             request_id: request_id,
             task_id: taskId,
-        });
+        })
         sendJsonMessage({
             pk: listeningId,
             action: 'get_current_time_te',
             request_id: request_id,
-        });
-    };
+        })
+    }
 
     useEffect(() => {
         if (listeningId === table_current_time.unit1.id) {
             const timeout = setTimeout(() => {
                 audioRef.current.currentTime =
-                    +table_current_time.unit1.task?.seeked;
-            }, 200);
-            return () => clearTimeout(timeout);
+                    +table_current_time.unit1.task?.seeked
+            }, 200)
+            return () => clearTimeout(timeout)
         }
-    }, [table_current_time.unit1.task?.seeked, listeningId]);
+    }, [table_current_time.unit1.task?.seeked, listeningId])
 
     useEffect(() => {
         if (listeningId === table_current_time.unit2.id) {
             const timeout = setTimeout(() => {
                 audioRef.current.currentTime =
-                    +table_current_time.unit2.task?.seeked;
-            }, 200);
-            return () => clearTimeout(timeout);
+                    +table_current_time.unit2.task?.seeked
+            }, 200)
+            return () => clearTimeout(timeout)
         }
-    }, [table_current_time.unit2.task?.seeked, listeningId]);
+    }, [table_current_time.unit2.task?.seeked, listeningId])
 
     return (
         <>
@@ -122,7 +122,7 @@ const Table = ({
                         onPause={() => handleTogglePlayback(false)}
                         onPlay={() => handleTogglePlayback(true)}
                         onSeeked={(e) => {
-                            changeTime(e.target.currentTime);
+                            changeTime(e.target.currentTime)
                         }}
                     >
                         Your browser does not support the audio element.
@@ -160,12 +160,12 @@ const Table = ({
                                                 setInps({
                                                     ...inps,
                                                     [`th${index}`]: `${e.target.value}`,
-                                                });
+                                                })
                                                 chatRender({
                                                     ...inps,
                                                     [`th${index}`]:
                                                         e.target.value,
-                                                });
+                                                })
                                             }}
                                         />
                                     )}
@@ -200,7 +200,7 @@ const Table = ({
                                                                 ],
                                                                 [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
                                                             },
-                                                    });
+                                                    })
                                                     chatRender({
                                                         ...inps,
                                                         [`table_${task[0]?.id}`]:
@@ -210,7 +210,7 @@ const Table = ({
                                                                 ],
                                                                 [`td${rowIndex}_${cellIndex}`]: `${e.target.value}`,
                                                             },
-                                                    });
+                                                    })
                                                 }}
                                             />
                                         )}
@@ -222,7 +222,7 @@ const Table = ({
                 </table>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default Table;
+export default Table

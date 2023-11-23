@@ -1,95 +1,95 @@
-import Mistakes from 'components/Essay/Mistakes/Mistakes';
-import { useEssay } from 'contexts/EssayContextProvider';
-import { useState, useEffect, useRef } from 'react';
-import { highlightSelection } from 'helpers/essay';
-import { useParams } from 'react-router-dom';
-import { Button } from 'components/ui';
+import Mistakes from 'components/Essay/Mistakes/Mistakes'
+import { useEssay } from 'contexts/EssayContextProvider'
+import { useState, useEffect, useRef } from 'react'
+import { highlightSelection } from 'helpers/essay'
+import { useParams } from 'react-router-dom'
+import { Button } from 'components/ui'
 
-import cancelled from 'assets/images/cancelled.png';
+import cancelled from 'assets/images/cancelled.png'
 
-import styles from './ViewEssay.module.scss';
+import styles from './ViewEssay.module.scss'
 
 const ViewEssay = () => {
     const { updateEssay, loading, getLesson, lesson, setEssayGrade } =
-        useEssay();
-    const [studentEssay, setStudentEssay] = useState(null);
-    const [selection, setSelection] = useState(null);
-    const [edit, setEdit] = useState(false);
-    const [grade, setGrade] = useState(0);
-    const [essay, setEssay] = useState(null);
-    const colorFillsRef = useRef();
-    const essayRef = useRef();
-    const params = useParams();
+        useEssay()
+    const [studentEssay, setStudentEssay] = useState(null)
+    const [selection, setSelection] = useState(null)
+    const [edit, setEdit] = useState(false)
+    const [grade, setGrade] = useState(0)
+    const [essay, setEssay] = useState(null)
+    const colorFillsRef = useRef()
+    const essayRef = useRef()
+    const params = useParams()
 
     useEffect(() => {
-        getLesson(params.studentId);
-    }, []);
+        getLesson(params.studentId)
+    }, [])
 
     useEffect(() => {
         if (lesson) {
-            const essay = lesson.essay[0];
-            setEssay(essay);
+            const essay = lesson.essay[0]
+            setEssay(essay)
             if (essay) {
-                setStudentEssay(essay.user_essay[0]);
+                setStudentEssay(essay.user_essay[0])
             }
         }
-    }, [lesson]);
+    }, [lesson])
 
     useEffect(() => {
         if (essayRef.current && studentEssay.id) {
-            essayRef.current.innerHTML = studentEssay.html_text;
-            setGrade(+studentEssay.score);
+            essayRef.current.innerHTML = studentEssay.html_text
+            setGrade(+studentEssay.score)
         }
-    }, [essayRef.current, studentEssay]);
+    }, [essayRef.current, studentEssay])
 
     const onSend = async () => {
         await updateEssay(studentEssay.id, {
             checked: true,
-        });
+        })
         setEssayGrade(
             +studentEssay?.score,
             lesson.id,
             studentEssay.id,
             params.studentId
-        );
-        getLesson(params.studentId);
-    };
+        )
+        getLesson(params.studentId)
+    }
 
     const onMouseUp = (event) => {
-        const userSelection = window.getSelection();
-        const s = userSelection.toString();
+        const userSelection = window.getSelection()
+        const s = userSelection.toString()
 
         if (s.trim() === '') {
-            return;
+            return
         }
 
-        setSelection(userSelection.getRangeAt(0));
+        setSelection(userSelection.getRangeAt(0))
 
-        colorFillsRef.current.style.left = event.clientX + 'px';
-        colorFillsRef.current.style.top = `calc(${event.clientY}px - 3rem`;
-        colorFillsRef.current.style.opacity = 1;
-    };
+        colorFillsRef.current.style.left = event.clientX + 'px'
+        colorFillsRef.current.style.top = `calc(${event.clientY}px - 3rem`
+        colorFillsRef.current.style.opacity = 1
+    }
 
     const colorFillHandler = (class_) => {
-        highlightSelection(selection, class_);
-        colorFillsRef.current.style.left = 0;
-        colorFillsRef.current.style.top = 0;
-        colorFillsRef.current.style.opacity = 0;
-    };
+        highlightSelection(selection, class_)
+        colorFillsRef.current.style.left = 0
+        colorFillsRef.current.style.top = 0
+        colorFillsRef.current.style.opacity = 0
+    }
 
     if (loading || !essay) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
-        );
+        )
     }
 
     return (
         <div className={styles.essayContainer}>
             <div
                 onMouseLeave={() => {
-                    colorFillsRef.current.style.opacity = 0;
+                    colorFillsRef.current.style.opacity = 0
                 }}
                 ref={colorFillsRef}
                 className={styles.colorFills}
@@ -154,7 +154,7 @@ const ViewEssay = () => {
                                 type="text"
                                 value={grade}
                                 onChange={(event) => {
-                                    const value = event.target.value;
+                                    const value = event.target.value
 
                                     if (!isNaN(value - parseFloat(value))) {
                                         if (
@@ -162,8 +162,8 @@ const ViewEssay = () => {
                                             parseFloat(value) >= 0
                                         )
                                             if (value.length <= 3)
-                                                setGrade(value);
-                                    } else if (value === '') setGrade(value);
+                                                setGrade(value)
+                                    } else if (value === '') setGrade(value)
                                 }}
                             />
                             <span>/10</span>
@@ -175,13 +175,13 @@ const ViewEssay = () => {
                                     await updateEssay(studentEssay.id, {
                                         html_text: essayRef.current.innerHTML,
                                         score: grade,
-                                    });
+                                    })
 
-                                    getLesson(params.studentId);
+                                    getLesson(params.studentId)
                                 }
                                 setEdit((prev) => {
-                                    return !prev;
-                                });
+                                    return !prev
+                                })
                             }}
                         >
                             {edit ? 'Save' : 'Edit'}
@@ -190,7 +190,7 @@ const ViewEssay = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ViewEssay;
+export default ViewEssay

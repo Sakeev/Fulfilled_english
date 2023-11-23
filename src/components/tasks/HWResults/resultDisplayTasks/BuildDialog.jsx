@@ -1,8 +1,8 @@
-import styles from '../../tasksType/BuildDialog/BuildDialog.module.scss';
+import styles from '../../tasksType/BuildDialog/BuildDialog.module.scss'
 
 const BuildDialog = ({ taskDetails, answer, displayDataType }) => {
     const answers =
-        displayDataType === 'student' ? answer.answer : answer.right_answer;
+        displayDataType === 'student' ? answer.answer : answer.right_answer
 
     return (
         <div className={styles.buildDialogContainer}>
@@ -19,7 +19,7 @@ const BuildDialog = ({ taskDetails, answer, displayDataType }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default BuildDialog;
+export default BuildDialog

@@ -1,14 +1,14 @@
-import { useTasks } from '../contexts/TasksContextProvider';
-import { Box } from '@mui/material';
-import HWResults from 'components/tasks/HWResults/HWResults';
-import { useEffect } from 'react';
+import { useTasks } from '../contexts/TasksContextProvider'
+import { Box } from '@mui/material'
+import HWResults from 'components/tasks/HWResults/HWResults'
+import { useEffect } from 'react'
 
 const TasksResultPage = () => {
-    const { getAnswers } = useTasks();
+    const { getAnswers } = useTasks()
 
     useEffect(() => {
-        getAnswers();
-    }, []);
+        getAnswers()
+    }, [])
 
     return (
         <Box
@@ -21,7 +21,7 @@ const TasksResultPage = () => {
                 <HWResults />
             </Box>
         </Box>
-    );
-};
+    )
+}
 
-export default TasksResultPage;
+export default TasksResultPage

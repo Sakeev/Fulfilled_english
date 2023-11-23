@@ -1,45 +1,45 @@
-import React from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import Registration from '../components/auth/Registration';
-import NotFoundPage from '../components/NotFoundPage';
-import AuthPage from '../pages/AuthPage';
-import CoursesPage from '../pages/CoursesPage';
-import { useAuth } from '../contexts/AuthContextProvider';
-import TasksPage from '../pages/TasksPage';
-import ClassPage from '../pages/ClassPage';
-import ProfilePage from '../pages/ProfilePage';
-import StudentsListPage from '../pages/teachers/StudentsPage';
-import SchedulePage from '../pages/teachers/SchedulePage';
-import TasksResultPage from '../pages/TasksResultPage';
-import Case from '../components/tasks/Case';
-import Progress from '../components/tasks/Progress';
-import NotesPage from '../pages/NotesPage';
-import HwResults from '../pages/teachers/HwResults';
-import TeachersHwPage from '../pages/teachers/TeachersHwPage';
-import HwResultsPage from '../pages/teachers/HwResultsPage';
-import ShowCases from '../components/teachers/HWResults/ShowCases';
-import SidebarLayout from 'components/SidebarLayout';
+import React from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import Registration from '../components/auth/Registration'
+import NotFoundPage from '../components/NotFoundPage'
+import AuthPage from '../pages/AuthPage'
+import CoursesPage from '../pages/CoursesPage'
+import { useAuth } from '../contexts/AuthContextProvider'
+import TasksPage from '../pages/TasksPage'
+import ClassPage from '../pages/ClassPage'
+import ProfilePage from '../pages/ProfilePage'
+import StudentsListPage from '../pages/teachers/StudentsPage'
+import SchedulePage from '../pages/teachers/SchedulePage'
+import TasksResultPage from '../pages/TasksResultPage'
+import Case from '../components/tasks/Case'
+import Progress from '../components/tasks/Progress'
+import NotesPage from '../pages/NotesPage'
+import HwResults from '../pages/teachers/HwResults'
+import TeachersHwPage from '../pages/teachers/TeachersHwPage'
+import HwResultsPage from '../pages/teachers/HwResultsPage'
+import ShowCases from '../components/teachers/HWResults/ShowCases'
+import SidebarLayout from 'components/SidebarLayout'
 import {
     StudentEssayPage,
     TeacherEssayPage,
     ViewEssayPage,
-} from 'pages/EssayPages';
-import Gradebook from 'components/teachers/Gradebook';
-import { isTeacher } from 'helpers/funcs';
+} from 'pages/EssayPages'
+import Gradebook from 'components/teachers/Gradebook'
+import { isTeacher } from 'helpers/funcs'
 
 const MainRoutes = () => {
-    const { checkAuth } = useAuth();
+    const { checkAuth } = useAuth()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const user = localStorage.getItem('username');
+    const user = localStorage.getItem('username')
 
     React.useEffect(() => {
         if (user) {
-            if (localStorage.getItem('token')) checkAuth();
-            else navigate('/');
+            if (localStorage.getItem('token')) checkAuth()
+            else navigate('/')
         }
-    }, []);
+    }, [])
 
     const PRIVATE_ROUTES = [
         {
@@ -122,7 +122,7 @@ const MainRoutes = () => {
             element: <NotesPage />,
             id: 13,
         },
-    ];
+    ]
     const PUBLIC_ROUTES = [
         {
             link: '/',
@@ -139,20 +139,20 @@ const MainRoutes = () => {
             element: <NotFoundPage />,
             id: 3,
         },
-    ];
+    ]
 
     if (isTeacher()) {
         PRIVATE_ROUTES.push({
             link: '/essay/view/:studentId',
             element: <ViewEssayPage />,
             id: PRIVATE_ROUTES.length + 2,
-        });
+        })
 
         PRIVATE_ROUTES.push({
             link: '/gradebook',
             element: <Gradebook />,
             id: PRIVATE_ROUTES.length + 3,
-        });
+        })
     }
 
     return (
@@ -184,7 +184,7 @@ const MainRoutes = () => {
                 </Route>
             </Routes>
         </>
-    );
-};
+    )
+}
 
-export default MainRoutes;
+export default MainRoutes

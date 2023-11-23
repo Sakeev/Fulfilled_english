@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box } from '@mui/material';
-import Profile from '../components/Profile';
+import React from 'react'
+import { Box } from '@mui/material'
+import Profile from '../components/Profile'
 
 const ProfilePage = () => {
     return (
@@ -14,7 +14,7 @@ const ProfilePage = () => {
         >
             <Profile />
         </Box>
-    );
-};
+    )
+}
 
-export default ProfilePage;
+export default ProfilePage

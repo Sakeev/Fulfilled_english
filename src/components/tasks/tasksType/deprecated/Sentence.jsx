@@ -1,10 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { useTasks } from '../../../contexts/TasksContextProvider';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { useEffect } from 'react'
+import { useTasks } from '../../../contexts/TasksContextProvider'
+import { useNavigate } from 'react-router-dom'
 
-import './tasksType.css';
+import './tasksType.css'
 // const words = [
 
 //     ['cute' , 'is' , 'she'],
@@ -22,7 +22,7 @@ const styles = {
             bgcolor: '#9bd0cb',
         },
     },
-};
+}
 
 const Sentence = ({
     taskBox,
@@ -34,68 +34,68 @@ const Sentence = ({
     handleAnswer,
     caseInfo,
 }) => {
-    const { dispatch, sent } = useTasks();
-    const navigate = useNavigate();
-    const [words, setWords] = useState([]);
+    const { dispatch, sent } = useTasks()
+    const navigate = useNavigate()
+    const [words, setWords] = useState([])
     useEffect(() => {
-        getTaskDetails(id, task_id);
+        getTaskDetails(id, task_id)
         // setWords([taskDetails?.description.split(" ")])
-    }, []);
+    }, [])
 
     useEffect(() => {
-        setWords([taskDetails?.description.split(' ')]);
-    }, [task_id]);
+        setWords([taskDetails?.description.split(' ')])
+    }, [task_id])
 
     useEffect(() => {
         if (taskDetails) {
-            setWords([taskDetails?.description.split(' ')]);
+            setWords([taskDetails?.description.split(' ')])
         }
-    }, [taskDetails]);
+    }, [taskDetails])
 
     const checkFields = () => {
-        let res = [];
+        let res = []
         for (let i = 0; i < words.length; i++) {
-            res.push([]);
+            res.push([])
         }
-        return res;
-    };
+        return res
+    }
 
     useEffect(() => {
-        setAnswer(checkFields());
-    }, [words]);
+        setAnswer(checkFields())
+    }, [words])
 
-    const [answer, setAnswer] = useState([]);
+    const [answer, setAnswer] = useState([])
 
     const handleWord = (ind, index) => {
-        let pickedWord = words[index].splice(ind, 1);
-        let newAns = [];
-        newAns.push(pickedWord[0]);
-        let res = [...answer];
-        res[index] = res[index].concat([...newAns]);
+        let pickedWord = words[index].splice(ind, 1)
+        let newAns = []
+        newAns.push(pickedWord[0])
+        let res = [...answer]
+        res[index] = res[index].concat([...newAns])
 
-        setAnswer(res);
+        setAnswer(res)
 
         dispatch({
             type: 'GET_SENT',
             payload: res,
-        });
-    };
+        })
+    }
 
     const handleWordBack = (ind, index) => {
-        words[index].splice(ind, 0, answer[index][ind]);
-        let newAns = [...answer];
-        newAns[index].splice(ind, 1);
-        setAnswer(newAns);
+        words[index].splice(ind, 0, answer[index][ind])
+        let newAns = [...answer]
+        newAns[index].splice(ind, 1)
+        setAnswer(newAns)
         dispatch({
             type: 'GET_SENT',
             payload: newAns,
-        });
-    };
-    const str = answer[0]?.join(' ');
+        })
+    }
+    const str = answer[0]?.join(' ')
 
     const obj = {
         answers: str,
-    };
+    }
     return (
         <div className="sentence-container task-types-container">
             {/* <div className="sentence-task-box-wrapper"> */}
@@ -108,7 +108,7 @@ const Sentence = ({
                                     key={'inner' + ind}
                                     sx={styles.word}
                                     onClick={() => {
-                                        handleWord(ind, index);
+                                        handleWord(ind, index)
                                     }}
                                 >
                                     {word}
@@ -124,7 +124,7 @@ const Sentence = ({
                                 <p
                                     key={'inner_ans' + ind}
                                     onClick={() => {
-                                        handleWordBack(ind, index);
+                                        handleWordBack(ind, index)
                                     }}
                                 >
                                     {item}
@@ -144,7 +144,7 @@ const Sentence = ({
                 send
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default Sentence;
+export default Sentence

@@ -1,29 +1,29 @@
-import { MenuItem, Select } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { Modal } from 'components/ui';
-import api from '../../../http';
+import { MenuItem, Select } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Modal } from 'components/ui'
+import api from '../../../http'
 
-import './ProgressModal.css';
+import './ProgressModal.css'
 
 const ProgressModal = ({ room, useStateHook }) => {
-    const [age, setAge] = useState('');
-    const [units, setUnits] = useState([]);
-    const [currentUnit, setCurrentUnit] = useState(null);
+    const [age, setAge] = useState('')
+    const [units, setUnits] = useState([])
+    const [currentUnit, setCurrentUnit] = useState(null)
 
     useEffect(() => {
-        setUnits([]);
+        setUnits([])
         if (room) {
             for (let unitURL of room.lessons) {
                 api.get(unitURL).then((response) =>
                     setUnits((prev) => [...prev, response.data])
-                );
+                )
             }
         }
-    }, [room?.lessons]);
+    }, [room?.lessons])
 
     const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+        setAge(event.target.value)
+    }
 
     return (
         <Modal useStateHook={useStateHook}>
@@ -59,7 +59,7 @@ const ProgressModal = ({ room, useStateHook }) => {
                 ))}
             </div>
         </Modal>
-    );
-};
+    )
+}
 
-export default ProgressModal;
+export default ProgressModal

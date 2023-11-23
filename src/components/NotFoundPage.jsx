@@ -1,9 +1,9 @@
-import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import React from 'react';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContextProvider';
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import React from 'react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContextProvider'
 
 const NotFoundPage = () => {
     // const navigate = useNavigate()
@@ -13,8 +13,8 @@ const NotFoundPage = () => {
     // },[])
     return (
         <>
-            <Box sx={{display: "flex",}}>
-                <Typography variant={'h4'} sx={{ m: "30px auto"}}>
+            <Box sx={{ display: 'flex' }}>
+                <Typography variant={'h4'} sx={{ m: '30px auto' }}>
                     {/* Not Found Page 404 */}
                 </Typography>
                 <div className="loader-wrapper">
@@ -22,7 +22,7 @@ const NotFoundPage = () => {
                 </div>
             </Box>
         </>
-    );
-};
+    )
+}
 
-export default NotFoundPage;
+export default NotFoundPage

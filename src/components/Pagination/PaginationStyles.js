@@ -27,4 +27,4 @@ export const styles = {
             cursor: 'default',
         },
     },
-};
+}

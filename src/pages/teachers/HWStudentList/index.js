@@ -1,3 +1,3 @@
-import HWStudentList from './HWStudentList';
+import HWStudentList from './HWStudentList'
 
-export default HWStudentList;
+export default HWStudentList

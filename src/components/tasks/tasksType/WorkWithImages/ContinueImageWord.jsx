@@ -1,34 +1,34 @@
-import { count, renderInputs } from '../utils';
-import { Button } from 'components/ui';
-import { API } from 'helpers/consts';
-import { useState } from 'react';
+import { count, renderInputs } from '../utils'
+import { Button } from 'components/ui'
+import { API } from 'helpers/consts'
+import { useState } from 'react'
 
-import styles from './ContinueImageWord.module.scss';
+import styles from './ContinueImageWord.module.scss'
 
 const ContinueImageWord = ({ taskDetails, handleAnswer, ids, nextTask }) => {
-    const splittedDescription = taskDetails.description.split('\r\n');
-    const [results, setResults] = useState({});
+    const splittedDescription = taskDetails.description.split('\r\n')
+    const [results, setResults] = useState({})
 
     const handleInput = (event, index) => {
         setResults((results) => {
-            return { ...results, [index]: event.target.value };
-        });
-    };
+            return { ...results, [index]: event.target.value }
+        })
+    }
 
     const formRequest = () => {
-        const keys = Object.keys(results);
+        const keys = Object.keys(results)
         const answerTemplate = Array.apply(
             null,
             Array(count(taskDetails.description, '__inp__'))
-        ).map(() => 'No answer');
+        ).map(() => 'No answer')
 
         for (let key of keys) {
-            if (results[key].trim() === '') answerTemplate[key] = 'No answer';
-            else answerTemplate[key] = results[key];
+            if (results[key].trim() === '') answerTemplate[key] = 'No answer'
+            else answerTemplate[key] = results[key]
         }
 
-        return { answers: answerTemplate };
-    };
+        return { answers: answerTemplate }
+    }
 
     return (
         <div className={styles.imageWordContainer}>
@@ -47,7 +47,7 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                                 </p>
                             )}
                         </div>
-                    );
+                    )
                 })}
             </div>
             <div className={styles.inputs}>
@@ -55,10 +55,10 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                     return (
                         <div key={index} className={styles.inputBox}>
                             {string.split('|').map((row, pInd) => {
-                                return renderInputs(row, handleInput, pInd);
+                                return renderInputs(row, handleInput, pInd)
                             })}
                         </div>
-                    );
+                    )
                 })}
             </div>
             <Button
@@ -68,14 +68,14 @@ const ContinueImageWord = ({ taskDetails, handleAnswer, ids, nextTask }) => {
                 }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskDetails.id, ids);
-                    nextTask();
+                    handleAnswer(formRequest(), taskDetails.id, ids)
+                    nextTask()
                 }}
             >
                 Submit
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default ContinueImageWord;
+export default ContinueImageWord

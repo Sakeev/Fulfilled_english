@@ -1,14 +1,14 @@
-import { renderOutput } from 'components/tasks/tasksType/utils';
-import { API } from 'helpers/consts';
+import { renderOutput } from 'components/tasks/tasksType/utils'
+import { API } from 'helpers/consts'
 
-import styles from 'components/tasks/tasksType/WorkWithImages/ContinueImageWord.module.scss';
-import answerStyles from '../HWResults.module.scss';
+import styles from 'components/tasks/tasksType/WorkWithImages/ContinueImageWord.module.scss'
+import answerStyles from '../HWResults.module.scss'
 
 const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
-    if (answer === null) return <h2>This task hasn't done yet</h2>;
-    const splittedDescription = taskDetails.description.split('\r\n');
+    if (answer === null) return <h2>This task hasn't done yet</h2>
+    const splittedDescription = taskDetails.description.split('\r\n')
     const answers =
-        displayDataType === 'student' ? answer.answer : answer.right_answer;
+        displayDataType === 'student' ? answer.answer : answer.right_answer
 
     return (
         <div className={styles.imageWordContainer}>
@@ -27,7 +27,7 @@ const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
                                 </p>
                             )}
                         </div>
-                    );
+                    )
                 })}
             </div>
             <div className={styles.inputs}>
@@ -40,14 +40,14 @@ const WorkWithImages = ({ taskDetails, answer, displayDataType }) => {
                                     answerStyles.answer,
                                     answers,
                                     pInd
-                                );
+                                )
                             })}
                         </div>
-                    );
+                    )
                 })}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default WorkWithImages;
+export default WorkWithImages

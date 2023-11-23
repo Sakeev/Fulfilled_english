@@ -1,22 +1,22 @@
 .svg {
-  display: block;
-  /* margin: 20px auto; */
-  max-width: 100%;
+    display: block;
+    /* margin: 20px auto; */
+    max-width: 100%;
 }
 
 .svg-circle-bg {
-  fill: none;
+    fill: none;
 }
 
 .svg-circle {
-  fill: none;
-  transform: rotate(-90deg); /* Изменено направление вращения */
-  transform-origin: center;
+    fill: none;
+    transform: rotate(-90deg); /* Изменено направление вращения */
+    transform-origin: center;
 }
 
 .svg-circle-text {
-  font-size: 1.4rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  fill: rgb(0, 0, 0);
+    font-size: 1.4rem;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: rgb(0, 0, 0);
 }

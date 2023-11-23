@@ -1,20 +1,20 @@
-import { API } from 'helpers/consts';
-import axios from 'axios';
+import { API } from 'helpers/consts'
+import axios from 'axios'
 
 const api = axios.create({
     withCredentials: true,
     baseURL: API,
-});
+})
 
 api.interceptors.request.use((config) => {
-    const token = JSON.parse(localStorage.getItem('token'));
-    config.withCredentials = false;
+    const token = JSON.parse(localStorage.getItem('token'))
+    config.withCredentials = false
 
-    if (!token) return config;
+    if (!token) return config
 
-    config.headers.Authorization = `Bearer ${token.access}`;
+    config.headers.Authorization = `Bearer ${token.access}`
 
-    return config;
-});
+    return config
+})
 
-export default api;
+export default api

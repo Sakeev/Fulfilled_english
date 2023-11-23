@@ -1,3 +1,3 @@
-import Case from './Case';
+import Case from './Case'
 
-export default Case;
+export default Case

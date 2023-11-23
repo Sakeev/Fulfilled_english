@@ -1,68 +1,68 @@
-import { useEssay } from 'contexts/EssayContextProvider';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Button } from 'components/ui';
-import { API } from 'helpers/consts';
-import api from 'http';
+import { useEssay } from 'contexts/EssayContextProvider'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Button } from 'components/ui'
+import { API } from 'helpers/consts'
+import api from 'http'
 
-import styles from './Mistakes.module.scss';
+import styles from './Mistakes.module.scss'
 
 const Mistakes = ({ essay, studentEssay }) => {
-    const { getLesson } = useEssay();
-    const [showPicker, setShowPicker] = useState(false);
+    const { getLesson } = useEssay()
+    const [showPicker, setShowPicker] = useState(false)
     const [mistakesArr, setMistakesArr] = useState(
         essay?.user_essay[0].mistakes || []
-    );
-    const params = useParams();
+    )
+    const params = useParams()
 
     useEffect(() => {
         if (essay) {
-            setMistakesArr(essay.user_essay[0].mistakes);
+            setMistakesArr(essay.user_essay[0].mistakes)
         }
-    }, [essay]);
+    }, [essay])
 
     const onCreateMarker = async () => {
-        setShowPicker((prev) => !prev);
-    };
+        setShowPicker((prev) => !prev)
+    }
 
     const createMistake = async (color) => {
         const data = {
             color: color,
             description: '',
-        };
+        }
 
-        await api.post(`${API}room/essa/${studentEssay.id}/add_mistake/`, data);
-        setShowPicker(false);
-        getLesson(params.studentId);
-    };
+        await api.post(`${API}room/essa/${studentEssay.id}/add_mistake/`, data)
+        setShowPicker(false)
+        getLesson(params.studentId)
+    }
 
     const onMistakeChange = (e, index) => {
         setMistakesArr((prev) => {
-            const newMistakesArr = JSON.parse(JSON.stringify(prev));
-            newMistakesArr[index].description = e.target.value;
-            return newMistakesArr;
-        });
-    };
+            const newMistakesArr = JSON.parse(JSON.stringify(prev))
+            newMistakesArr[index].description = e.target.value
+            return newMistakesArr
+        })
+    }
 
     const onMistakeBlur = async (index) => {
-        const data = { ...mistakesArr[index] };
+        const data = { ...mistakesArr[index] }
 
         await api.patch(
             `${API}room/essa/${studentEssay.id}/update_mistake/`,
             data
-        );
-    };
+        )
+    }
 
     const deleteMistake = async (index) => {
-        const data = { data: { id: mistakesArr[index].id } };
+        const data = { data: { id: mistakesArr[index].id } }
 
         await api.delete(
             `${API}room/essa/${studentEssay.id}/delete_mistake/`,
             data
-        );
+        )
 
-        getLesson(params.studentId);
-    };
+        getLesson(params.studentId)
+    }
 
     return (
         <div className={styles.mistakesContainer}>
@@ -82,8 +82,8 @@ const Mistakes = ({ essay, studentEssay }) => {
                                     onBlur={() => onMistakeBlur(index)}
                                     onChange={(e) => {
                                         e.target.style.width =
-                                            e.target.value.length + 'ch';
-                                        onMistakeChange(e, index);
+                                            e.target.value.length + 'ch'
+                                        onMistakeChange(e, index)
                                     }}
                                     value={mistake.description}
                                     type="text"
@@ -96,7 +96,7 @@ const Mistakes = ({ essay, studentEssay }) => {
                                     />
                                 )}
                             </li>
-                        );
+                        )
                     })}
                 </ul>
             </div>
@@ -127,7 +127,7 @@ const Mistakes = ({ essay, studentEssay }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Mistakes;
+export default Mistakes
