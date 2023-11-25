@@ -34,7 +34,6 @@ const Gradebook = () => {
   useEffect(() => {
     // innitialize load
     getGradebook();
-
     getRoomOrRooms().then((res) => setRuroom(res));
   }, []);
 
@@ -61,6 +60,13 @@ const Gradebook = () => {
 
   const handleSelect = (value) => {
     setSelectedUser(value);
+  };
+
+  const getPercents = () => {
+    if (selectedUser?.progress_classwork == 0) return 0;
+    return Math.round(
+      (100 / selectedUser?.lessons?.length) * selectedUser?.progress_classwork
+    );
   };
 
   return (
@@ -107,7 +113,9 @@ const Gradebook = () => {
           </div>
           <div className={styles.progress_right}>
             <p>Progress: </p>
-            <ProgressBar percent={selectedUser.progress} height={30} />
+            {selectedUser.user ? (
+              <ProgressBar percent={getPercents()} height={30} />
+            ) : null}
           </div>
         </div>
         <div className={styles.gradebook_grades}>

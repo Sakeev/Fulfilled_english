@@ -11,7 +11,7 @@ const ProgressBar = ({ percent, height, color }) => {
   return (
     <div className={styles.progress_bar_container}>
       <div className={styles.progress_bar} style={style}>
-        {percent ? `${percent}%` : null}
+        {percent < 0 ? null : `${percent}%`}
       </div>
     </div>
   );
