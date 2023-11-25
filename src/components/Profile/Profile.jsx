@@ -78,7 +78,7 @@ const Profile = () => {
       <div className={styles.userHobby}>
         <p>Interest and Hobby's</p>
         <ul className={styles.hobbysList}>
-          {studentProgress.user.hobby.map((item) => (
+          {studentProgress.user?.hobby.map((item) => (
             <li>{item}</li>
           ))}
         </ul>
