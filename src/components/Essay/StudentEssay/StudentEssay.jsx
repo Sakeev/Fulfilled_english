@@ -1,56 +1,56 @@
-import { useEssay } from 'contexts/EssayContextProvider';
-import { useEffect, useState, useRef } from 'react';
-import { Button } from 'components/ui';
-import { API } from 'helpers/consts';
-import api from 'http';
+import { useEssay } from 'contexts/EssayContextProvider'
+import { useEffect, useState, useRef } from 'react'
+import { Button } from 'components/ui'
+import { API } from 'helpers/consts'
+import api from 'http'
 
-import styles from './StudentEssay.module.scss';
+import styles from './StudentEssay.module.scss'
 
 const StudentEssay = () => {
-    const { getLesson, lesson, loading } = useEssay();
-    const [essayTemplate, setEssayTemplate] = useState(null);
-    const [essayText, setEssayText] = useState('');
-    const [essay, setEssay] = useState(null);
-    const [noEssay, setNoEssay] = useState(false);
-    const highlightedText = useRef();
+    const { getLesson, lesson, loading } = useEssay()
+    const [essayTemplate, setEssayTemplate] = useState(null)
+    const [essayText, setEssayText] = useState('')
+    const [essay, setEssay] = useState(null)
+    const [noEssay, setNoEssay] = useState(false)
+    const highlightedText = useRef()
 
     useEffect(() => {
-        getLesson();
-    }, []);
+        getLesson()
+    }, [])
 
     useEffect(() => {
         if (lesson?.essay) {
-            if (lesson.essay.length === 0) setNoEssay(true);
-            else setEssayTemplate(lesson.essay[0]);
+            if (lesson.essay.length === 0) setNoEssay(true)
+            else setEssayTemplate(lesson.essay[0])
         }
-    }, [lesson]);
+    }, [lesson])
 
     useEffect(() => {
         if (essayTemplate) {
             if (essayTemplate.user_essay[0]) {
-                setEssay(essayTemplate.user_essay[0]);
-                setEssayText(essayTemplate.user_essay[0].text);
+                setEssay(essayTemplate.user_essay[0])
+                setEssayText(essayTemplate.user_essay[0].text)
                 if (highlightedText.current) {
                     highlightedText.current.innerHTML =
-                        essayTemplate.user_essay[0].html_text;
+                        essayTemplate.user_essay[0].html_text
                 }
             }
         }
-    }, [essayTemplate]);
+    }, [essayTemplate])
 
     const sendEssay = async () => {
         const data = {
             text: essayText,
             html_text: essayText,
             essay: essayTemplate.id,
-        };
+        }
 
-        await api.post(`${API}room/essa/`, data);
-        getLesson();
-    };
+        await api.post(`${API}room/essa/`, data)
+        getLesson()
+    }
 
     if (noEssay) {
-        return <h3 className={styles.noEssay}>You haven't essay</h3>;
+        return <h3 className={styles.noEssay}>You haven't essay</h3>
     }
 
     if (!essayTemplate || loading) {
@@ -58,7 +58,7 @@ const StudentEssay = () => {
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
-        );
+        )
     }
 
     return (
@@ -99,7 +99,7 @@ const StudentEssay = () => {
                                             ></div>
                                             <p>{mistake.description}</p>
                                         </li>
-                                    );
+                                    )
                                 })}
                             </ul>
                         </div>
@@ -131,7 +131,7 @@ const StudentEssay = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default StudentEssay;
+export default StudentEssay

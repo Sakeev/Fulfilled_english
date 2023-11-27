@@ -1,9 +1,9 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Progress = () => {
-    const navigate = useNavigate();
-    const { caseId, taskId } = useParams();
+    const navigate = useNavigate()
+    const { caseId, taskId } = useParams()
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -27,7 +27,7 @@ const Progress = () => {
                 <img src="/images/arrow.png" alt="" style={{ width: '5%' }} />
             </button>
         </div>
-    );
-};
+    )
+}
 
-export default Progress;
+export default Progress

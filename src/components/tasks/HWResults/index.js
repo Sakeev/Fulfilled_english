@@ -1,3 +1,3 @@
-import StudentHWResults from './StudentHWResults/StudentHWResults';
+import StudentHWResults from './StudentHWResults/StudentHWResults'
 
-export { StudentHWResults };
+export { StudentHWResults }

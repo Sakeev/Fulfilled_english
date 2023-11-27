@@ -1,15 +1,15 @@
-import BuildSentence from './BuildSentence/BuildSentence';
-import { Button } from 'components/ui';
-import { useState } from 'react';
+import BuildSentence from './BuildSentence/BuildSentence'
+import { Button } from 'components/ui'
+import { useState } from 'react'
 
-import styles from './BuildSentences.module.scss';
+import styles from './BuildSentences.module.scss'
 
-const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
-    const [results, setResults] = useState({});
+const BuildSentences = ({ taskDetails, handleAnswer, ids, nextTask }) => {
+    const [results, setResults] = useState({})
 
     const formResults = () => {
-        return Object.values(results).map((result) => result.join(' '));
-    };
+        return Object.values(results).map((result) => result.join(' '))
+    }
 
     return (
         <div className={styles.buildSentencesContainer}>
@@ -21,7 +21,7 @@ const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
                         sentence={sentence}
                         setResults={setResults}
                     />
-                );
+                )
             })}
             <Button
                 disabled={
@@ -34,13 +34,14 @@ const BuildSentences = ({ taskDetails, handleAnswer, ids }) => {
                         { answers: formResults() },
                         taskDetails.id,
                         ids
-                    );
+                    )
+                    nextTask()
                 }}
             >
                 Submit
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default BuildSentences;
+export default BuildSentences

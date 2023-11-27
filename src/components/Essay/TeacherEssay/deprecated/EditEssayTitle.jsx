@@ -1,32 +1,32 @@
-import { Box, CircularProgress, IconButton, TextField } from '@mui/material';
-import { useEssay } from '../../../contexts/EssayContextProvider';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, CircularProgress, IconButton, TextField } from '@mui/material'
+import { useEssay } from '../../../contexts/EssayContextProvider'
+import EditIcon from '@mui/icons-material/Edit'
 
 const EditEssayTitle = ({ essayTitleObj, student, index }) => {
-    const { updateEssay, loading, getStudentEssay } = useEssay();
+    const { updateEssay, loading, getStudentEssay } = useEssay()
 
-    const { editTitle, setEditTitle } = essayTitleObj;
-    const { editTitleId, setEditTitleId } = essayTitleObj;
-    const { essayTitle, setEssayTitle } = essayTitleObj;
+    const { editTitle, setEditTitle } = essayTitleObj
+    const { editTitleId, setEditTitleId } = essayTitleObj
+    const { essayTitle, setEssayTitle } = essayTitleObj
 
     const onClickEditIcon = (studentId, index) => {
         if (editTitle && index === editTitleId) {
             if (getStudentEssay(studentId).title !== essayTitle) {
                 updateEssay(getStudentEssay(studentId).id, {
                     title: essayTitle,
-                });
+                })
             }
-            setEditTitle(false);
+            setEditTitle(false)
         } else if (!editTitle) {
-            setEditTitle(true);
-            setEditTitleId(index);
-            setEssayTitle(getStudentEssay(studentId).title);
+            setEditTitle(true)
+            setEditTitleId(index)
+            setEssayTitle(getStudentEssay(studentId).title)
         } else {
-            setEditTitle(false);
-            setEditTitleId(null);
-            setEssayTitle('');
+            setEditTitle(false)
+            setEditTitleId(null)
+            setEssayTitle('')
         }
-    };
+    }
 
     return (
         <div>
@@ -38,7 +38,7 @@ const EditEssayTitle = ({ essayTitleObj, student, index }) => {
                 <TextField
                     onKeyPress={(event) => {
                         if (event.key === 'Enter') {
-                            onClickEditIcon(student.id, index);
+                            onClickEditIcon(student.id, index)
                         }
                     }}
                     onChange={(e) => setEssayTitle(e.target.value)}
@@ -65,7 +65,7 @@ const EditEssayTitle = ({ essayTitleObj, student, index }) => {
                 <EditIcon fontSize="inherit" />
             </IconButton>
         </div>
-    );
-};
+    )
+}
 
-export default EditEssayTitle;
+export default EditEssayTitle

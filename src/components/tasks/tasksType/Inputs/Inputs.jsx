@@ -1,48 +1,45 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Button, Input } from 'components/ui';
-import { formAnswer } from './utils';
-import { parseId } from '../utils';
+import { Fragment, useEffect, useState } from 'react'
+import { Button, Input } from 'components/ui'
+import { formAnswer } from './utils'
+import { parseId } from '../utils'
 
-import styles from './Inputs.module.scss';
+import styles from './Inputs.module.scss'
 
-const Inputs = ({ handleAnswer, taskDetails, ids }) => {
-    const [description, setDescription] = useState('');
-    const [inputValues, setInputValues] = useState({});
+const Inputs = ({ handleAnswer, taskDetails, ids, nextTask }) => {
+    const [description, setDescription] = useState('')
+    const [inputValues, setInputValues] = useState({})
 
     useEffect(() => {
         if (taskDetails) {
-            setDescription(taskDetails?.description);
+            setDescription(taskDetails?.description)
         }
-    }, [taskDetails]);
+    }, [taskDetails])
 
     const handleInputChange = (event, index) => {
-        const { value } = event.target;
-        const newInputValues = { ...inputValues, [index]: value };
-        setInputValues(newInputValues);
-    };
+        const { value } = event.target
+        const newInputValues = { ...inputValues, [index]: value }
+        setInputValues(newInputValues)
+    }
 
-    console.log(taskDetails);
-
-    const listItems = description.split('\\li');
+    const listItems = description.split('\\li')
 
     const output = listItems.map((listItem, outerInd) => {
         const splittedRows = listItem
             .split('\r\n')
-            .filter((splittedRow) => splittedRow.length > 0);
+            .filter((splittedRow) => splittedRow.length > 0)
 
-        console.log(splittedRows);
         return (
             <li className={styles.input} key={outerInd}>
                 {splittedRows.map((rows, index) => {
-                    const splittedRow = rows.split('__inp__');
+                    const splittedRow = rows.split('__inp__')
 
                     return (
                         <div className={styles.row} key={index}>
                             {splittedRow.map((value, innerInd) => {
-                                const [id, string] = parseId(value);
+                                const [id, string] = parseId(value)
 
                                 if (string.length === 0 && id === -1)
-                                    return null;
+                                    return null
 
                                 return (
                                     <Fragment key={innerInd}>
@@ -50,23 +47,20 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
                                         {innerInd < splittedRow.length - 1 && (
                                             <Input
                                                 onChange={(event) => {
-                                                    handleInputChange(
-                                                        event,
-                                                        id
-                                                    );
+                                                    handleInputChange(event, id)
                                                 }}
                                                 value={inputValues[id] || ''}
                                             />
                                         )}
                                     </Fragment>
-                                );
+                                )
                             })}
                         </div>
-                    );
+                    )
                 })}
             </li>
-        );
-    });
+        )
+    })
 
     return (
         <div className={styles.inputsContainer}>
@@ -93,13 +87,14 @@ const Inputs = ({ handleAnswer, taskDetails, ids }) => {
                         formAnswer(inputValues, taskDetails),
                         taskDetails.id,
                         ids
-                    );
+                    )
+                    nextTask()
                 }}
             >
                 Submit
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default Inputs;
+export default Inputs

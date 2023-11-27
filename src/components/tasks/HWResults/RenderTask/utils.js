@@ -1,4 +1,4 @@
-import * as TaskResults from '../resultDisplayTasks';
+import * as TaskResults from '../resultDisplayTasks'
 
 export const useTaskResultsComponent = (taskDetails, displayDataType) => {
     const props = {
@@ -6,7 +6,7 @@ export const useTaskResultsComponent = (taskDetails, displayDataType) => {
         taskDetails: taskDetails,
         displayDataType: displayDataType,
         answer: taskDetails?.answers[taskDetails.answers.length - 1] || null,
-    };
+    }
 
     const taskComponents = {
         'missing word': <TaskResults.Inputs {...props} />,
@@ -19,7 +19,7 @@ export const useTaskResultsComponent = (taskDetails, displayDataType) => {
         'write sentences with given info': (
             <TaskResults.WriteSentencesWithGivenInfo {...props} />
         ),
-    };
+    }
 
-    return taskComponents[taskDetails?.implemented_case];
-};
+    return taskComponents[taskDetails?.implemented_case]
+}

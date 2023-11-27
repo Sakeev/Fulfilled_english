@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
-import styles from './BuildSentence.module.scss';
+import styles from './BuildSentence.module.scss'
 
 const BuildSentence = ({ id, sentence, setResults }) => {
-    const [words, _] = useState(sentence.split(' '));
-    const [answer, setAnswer] = useState([]);
+    const [words, _] = useState(sentence.split(' '))
+    const [answer, setAnswer] = useState([])
 
     useEffect(() => {
         setResults((results) => {
-            return { ...results, [id]: answer };
-        });
-    }, [answer]);
+            return { ...results, [id]: answer }
+        })
+    }, [answer])
 
     const handleWord = (ind) => {
-        const pickedWord = words.splice(ind, 1);
+        const pickedWord = words.splice(ind, 1)
 
-        setAnswer((answer) => [...answer, ...pickedWord]);
-    };
+        setAnswer((answer) => [...answer, ...pickedWord])
+    }
 
     const handleWordBack = (ind) => {
-        words.splice(ind, 0, answer[ind]);
-        let newAns = [...answer];
-        newAns.splice(ind, 1);
-        setAnswer(newAns);
-    };
+        words.splice(ind, 0, answer[ind])
+        let newAns = [...answer]
+        newAns.splice(ind, 1)
+        setAnswer(newAns)
+    }
 
     return (
         <div className={styles.taskContainer}>
@@ -33,7 +33,7 @@ const BuildSentence = ({ id, sentence, setResults }) => {
                         key={ind}
                         className={styles.word}
                         onClick={() => {
-                            handleWord(ind);
+                            handleWord(ind)
                         }}
                     >
                         {word}
@@ -46,7 +46,7 @@ const BuildSentence = ({ id, sentence, setResults }) => {
                         className={styles.pickedWord}
                         key={ind}
                         onClick={() => {
-                            handleWordBack(ind);
+                            handleWordBack(ind)
                         }}
                     >
                         {item}
@@ -54,7 +54,7 @@ const BuildSentence = ({ id, sentence, setResults }) => {
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default BuildSentence;
+export default BuildSentence

@@ -1,7 +1,7 @@
-import { StudentHWResults } from 'components/tasks/HWResults';
-import Cases from 'components/tasks/Cases';
+import { StudentHWResults } from 'components/tasks/HWResults'
+import Cases from 'components/tasks/Cases'
 
-import styles from './TasksPage.module.scss';
+import styles from './TasksPage.module.scss'
 
 const TasksPage = () => (
     <div className={styles.homework}>
@@ -16,6 +16,6 @@ const TasksPage = () => (
             <StudentHWResults />
         </div>
     </div>
-);
+)
 
-export default TasksPage;
+export default TasksPage

@@ -1,18 +1,18 @@
-import './resultDisplayTasks.css';
+import './resultDisplayTasks.css'
 
-import styles from '../../tasksType/ConnectWords/ConnectWords.module.scss';
-import { Button } from 'components/ui';
+import styles from '../../tasksType/ConnectWords/ConnectWords.module.scss'
+import { Button } from 'components/ui'
 
 const ConnectWords = ({ taskDetails, answer, displayDataType }) => {
-    if (answer === null) return <h2>This task hasn't done yet</h2>;
+    if (answer === null) return <h2>This task hasn't done yet</h2>
 
     let answers =
-        displayDataType === 'student' ? answer.answer : answer.right_answer;
+        displayDataType === 'student' ? answer.answer : answer.right_answer
 
     if (displayDataType === 'teacher') {
         answers = answers
             .split(',')
-            .map((wordPair) => wordPair.trim().split(' '));
+            .map((wordPair) => wordPair.trim().split(' '))
     }
 
     return (
@@ -48,7 +48,7 @@ const ConnectWords = ({ taskDetails, answer, displayDataType }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ConnectWords;
+export default ConnectWords

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useTasks } from '../../../contexts/TasksContextProvider';
+import React, { useEffect } from 'react'
+import { Box } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTasks } from '../../../contexts/TasksContextProvider'
 
 const mainBox = {
     width: '80%',
     display: 'flex',
     flexDirection: 'column',
     padding: '40px 0',
-};
+}
 
 const casesBox = {
     width: '40%',
@@ -28,23 +28,21 @@ const casesBox = {
     '&:hover': {
         backgroundColor: '#9bd0cb',
     },
-};
+}
 const casesMainBox = {
     width: '100%',
     height: '100%',
     marginTop: '20px',
-};
+}
 
 const ShowCases = () => {
-    const { getCases, cases } = useTasks();
-    const { userId } = useParams();
-    const navigate = useNavigate();
+    const { getCases, cases } = useTasks()
+    const { userId } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        getCases(userId);
-    }, []);
-
-    console.log(userId, cases);
+        getCases(userId)
+    }, [])
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -52,7 +50,7 @@ const ShowCases = () => {
                 <h1 style={{ color: '#006D77' }}>Cases</h1>
                 <Box style={casesMainBox}>
                     {cases[0]?.case_tasks?.map((e, key) => {
-                        if (e.title === 'vocabulary') return null;
+                        if (e.title === 'vocabulary') return null
 
                         return (
                             <Box
@@ -80,12 +78,12 @@ const ShowCases = () => {
                                     </p>
                                 )}
                             </Box>
-                        );
+                        )
                     })}
                 </Box>
             </Box>
         </div>
-    );
-};
+    )
+}
 
-export default ShowCases;
+export default ShowCases

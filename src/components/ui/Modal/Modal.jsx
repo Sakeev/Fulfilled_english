@@ -1,25 +1,25 @@
-import closeIcon from 'assets/icons/close.svg';
-import { useEffect } from 'react';
+import closeIcon from 'assets/icons/close.svg'
+import { useEffect } from 'react'
 
-import styles from './Modal.module.scss';
+import styles from './Modal.module.scss'
 
 const Modal = ({ children, useStateHook }) => {
-    const [show, setShow] = useStateHook;
+    const [show, setShow] = useStateHook
 
     useEffect(() => {
-        if (!show) document.removeEventListener('keydown', escape);
-        else document.addEventListener('keydown', escape);
-    }, [show]);
+        if (!show) document.removeEventListener('keydown', escape)
+        else document.addEventListener('keydown', escape)
+    }, [show])
 
     const escape = (event) => {
         if (event.key === 'Escape') {
-            setShow(false);
+            setShow(false)
         }
-    };
+    }
 
     const close = () => {
-        setShow(false);
-    };
+        setShow(false)
+    }
 
     return (
         <div
@@ -34,7 +34,7 @@ const Modal = ({ children, useStateHook }) => {
                 <div className={styles.content}>{children}</div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Modal;
+export default Modal

@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import TeacherMain from "./TeacherMain/TeacherMain";
-import StudentMain from "./StudentMain/StudentMain";
-import styles from "./Main.module.scss";
-import { useAuth } from "contexts/AuthContextProvider";
-import StartLesson from "./StartLesson/StartLesson";
-import api from "http";
-import { SCHEDULE_API } from "helpers/consts";
-import { useClassWork } from "contexts/ClassWorkContextProvider";
+import TeacherMain from './TeacherMain/TeacherMain'
+import StudentMain from './StudentMain/StudentMain'
+import styles from './Main.module.scss'
+import { useAuth } from 'contexts/AuthContextProvider'
+import StartLesson from './StartLesson/StartLesson'
+import api from 'http'
+import { SCHEDULE_API } from 'helpers/consts'
+import { useClassWork } from 'contexts/ClassWorkContextProvider'
 
 const Main = () => {
-  const { isTeacher } = useAuth();
-  const [nextLesson, setNextLesson] = useState(null);
-  const { getRoom } = useClassWork();
-  const getUpcomingLessons = () => {
-    api.get(SCHEDULE_API).then((res) => {
-      let data = res.data;
-      data.sort((a, b) => a.weekday - b.weekday);
-      if (data.length > 0) {
-        const date = new Date(`${data[0].date}T${data[0].time}`);
-        setNextLesson(date);
-      }
-    });
-  };
+    const { isTeacher } = useAuth()
+    const [nextLesson, setNextLesson] = useState(null)
+    const { getRoom } = useClassWork()
+    const getUpcomingLessons = () => {
+        api.get(SCHEDULE_API).then((res) => {
+            let data = res.data
+            data.sort((a, b) => a.weekday - b.weekday)
+            if (data.length > 0) {
+                const date = new Date(`${data[0].date}T${data[0].time}`)
+                setNextLesson(date)
+            }
+        })
+    }
 
-  useEffect(() => {
-    getUpcomingLessons();
-    getRoom();
-  }, []);
+    useEffect(() => {
+        getUpcomingLessons()
+        getRoom()
+    }, [])
 
-  return (
-    <>
-      <div className={styles.main}>
-        {nextLesson && (
-          <StartLesson
-            isTeacher={isTeacher}
-            styles={styles}
-            startTime={nextLesson}
-          />
-        )}
+    return (
+        <>
+            <div className={styles.main}>
+                {nextLesson && (
+                    <StartLesson
+                        isTeacher={isTeacher}
+                        styles={styles}
+                        startTime={nextLesson}
+                    />
+                )}
 
-        {isTeacher ? <TeacherMain /> : <StudentMain />}
-      </div>
-    </>
-  );
-};
+                {isTeacher ? <TeacherMain /> : <StudentMain />}
+            </div>
+        </>
+    )
+}
 
-export default Main;
+export default Main

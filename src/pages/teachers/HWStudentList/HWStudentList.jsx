@@ -1,35 +1,33 @@
-import { useUsers } from 'contexts/UsersContextProvider';
-import { useTasks } from 'contexts/TasksContextProvider';
-import { useNavigate } from 'react-router-dom';
-import { Button, Modal } from 'components/ui';
-import { useEffect, useState } from 'react';
+import { useUsers } from 'contexts/UsersContextProvider'
+import { useTasks } from 'contexts/TasksContextProvider'
+import { useNavigate } from 'react-router-dom'
+import { Button, Modal } from 'components/ui'
+import { useEffect, useState } from 'react'
 
-import styles from './HWStudentList.module.scss';
+import styles from './HWStudentList.module.scss'
 
 const HWStudentList = () => {
-    const { getStudents, students } = useUsers();
-    const { getStudentLessons, studentsLessons, loading } = useTasks();
-    const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
-    const [student, setStudent] = useState(null);
+    const { getStudents, students } = useUsers()
+    const { getStudentLessons, studentsLessons, loading } = useTasks()
+    const navigate = useNavigate()
+    const [showModal, setShowModal] = useState(false)
+    const [student, setStudent] = useState(null)
 
     useEffect(() => {
-        getStudents();
-    }, []);
+        getStudents()
+    }, [])
 
     const handleChange = (event, userId) => {
-        const caseId = event.target.value;
+        const caseId = event.target.value
 
-        if (caseId) navigate(`/student-tasks/${userId}/results/${caseId}`);
-    };
+        if (caseId) navigate(`/student-tasks/${userId}/results/${caseId}`)
+    }
 
     const onView = (student) => {
-        setShowModal(true);
-        getStudentLessons(student.id);
-        setStudent(student);
-    };
-
-    console.log(studentsLessons);
+        setShowModal(true)
+        getStudentLessons(student.id)
+        setStudent(student)
+    }
 
     return (
         <div className={styles.studentListContainer}>
@@ -95,7 +93,7 @@ const HWStudentList = () => {
                                                     >
                                                         {lesson.title}
                                                     </option>
-                                                );
+                                                )
                                             }
                                         )}
                                     </select>
@@ -108,7 +106,7 @@ const HWStudentList = () => {
                 </Modal>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default HWStudentList;
+export default HWStudentList

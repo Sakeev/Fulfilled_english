@@ -1,47 +1,47 @@
-import { renderInputs } from '../utils';
-import { Button } from 'components/ui';
-import { API } from 'helpers/consts';
-import { useState } from 'react';
+import { renderInputs } from '../utils'
+import { Button } from 'components/ui'
+import { API } from 'helpers/consts'
+import { useState } from 'react'
 
-import styles from './WriteSentences.module.scss';
+import styles from './WriteSentences.module.scss'
 
-const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
+const WriteSentences = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const formAnswerTemplate = () => {
-        const answerTemplate = {};
+        const answerTemplate = {}
 
         for (let [key, value] of Object.entries(taskDetails.description)) {
             answerTemplate[key] = value.map((sentence) =>
                 sentence.includes('__inp__') ? '' : sentence
-            );
+            )
         }
 
-        return answerTemplate;
-    };
+        return answerTemplate
+    }
 
-    const [results, setResults] = useState(formAnswerTemplate());
-    const titles = Object.keys(taskDetails.description);
+    const [results, setResults] = useState(formAnswerTemplate())
+    const titles = Object.keys(taskDetails.description)
 
     const handleInput = (event, title, innerInd) => {
         setResults((results) => {
-            const newAnswer = [...results[title]];
-            newAnswer[innerInd] = event.target.value;
-            return { ...results, [title]: newAnswer };
-        });
-    };
+            const newAnswer = [...results[title]]
+            newAnswer[innerInd] = event.target.value
+            return { ...results, [title]: newAnswer }
+        })
+    }
 
     const formRequest = () => {
-        const resultsCopy = JSON.parse(JSON.stringify(results));
+        const resultsCopy = JSON.parse(JSON.stringify(results))
 
         for (let key in resultsCopy) {
             for (let i in resultsCopy[key]) {
                 if (resultsCopy[key][i].trim() === '') {
-                    resultsCopy[key][i] = 'No answer';
+                    resultsCopy[key][i] = 'No answer'
                 }
             }
         }
 
-        return { answers: resultsCopy };
-    };
+        return { answers: resultsCopy }
+    }
 
     return (
         <div className={styles.writeSentencesContainer}>
@@ -64,7 +64,7 @@ const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
                                             ))}
                                 </ul> */}
                         </div>
-                    );
+                    )
                 })}
             </div>
             <div className={styles.inputColumns}>
@@ -85,7 +85,7 @@ const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
                                                         innerInd
                                                     ),
                                                 pInd
-                                            );
+                                            )
                                         })}
                                     </li>
                                 )
@@ -101,13 +101,14 @@ const WriteSentences = ({ taskDetails, handleAnswer, ids }) => {
                 }
                 className={styles.submit}
                 onClick={() => {
-                    handleAnswer(formRequest(), taskDetails.id, ids);
+                    handleAnswer(formRequest(), taskDetails.id, ids)
+                    nextTask()
                 }}
             >
                 Submit
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default WriteSentences;
+export default WriteSentences

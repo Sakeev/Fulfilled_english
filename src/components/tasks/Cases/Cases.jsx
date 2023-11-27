@@ -1,18 +1,18 @@
-import { useTasks } from 'contexts/TasksContextProvider';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useTasks } from 'contexts/TasksContextProvider'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
-import styles from './Cases.module.scss';
+import styles from './Cases.module.scss'
 
 const Cases = () => {
-    const { handleTask, getCases, cases } = useTasks();
+    const { handleTask, getCases, cases } = useTasks()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     useEffect(() => {
-        handleTask();
-        getCases();
-    }, []);
+        handleTask()
+        getCases()
+    }, [])
 
     return (
         <div className={styles.cases}>
@@ -24,7 +24,7 @@ const Cases = () => {
                     quantity_task: tasks,
                     lesson,
                 }) => {
-                    if (title === 'vocabulary') return null;
+                    if (title === 'vocabulary') return null
 
                     return (
                         <div className={styles.case} key={id}>
@@ -44,11 +44,11 @@ const Cases = () => {
                                 {passed}/{tasks}
                             </span>
                         </div>
-                    );
+                    )
                 }
             )}
         </div>
-    );
-};
+    )
+}
 
-export default Cases;
+export default Cases

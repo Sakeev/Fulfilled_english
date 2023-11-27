@@ -1,12 +1,10 @@
-import styles from '../../tasksType/Table/Table.module.scss';
+import styles from '../../tasksType/Table/Table.module.scss'
 
 const Table = ({ answer, displayDataType }) => {
-    if (answer === null) return <h2>This task hasn't done yet</h2>;
+    if (answer === null) return <h2>This task hasn't done yet</h2>
 
     const answers =
-        displayDataType === 'student' ? answer.answer : answer.right_answer;
-
-    console.log(answers);
+        displayDataType === 'student' ? answer.answer : answer.right_answer
 
     return (
         <div className={styles.tableContainer}>
@@ -22,7 +20,7 @@ const Table = ({ answer, displayDataType }) => {
                     {answers.slice(1).map((elem, index) => (
                         <tr key={index}>
                             {elem.map((item, index_inner) => {
-                                let tdIndex = index * elem.length + index_inner;
+                                let tdIndex = index * elem.length + index_inner
 
                                 return (
                                     <td key={tdIndex}>
@@ -30,14 +28,14 @@ const Table = ({ answer, displayDataType }) => {
                                             ? item.replaceAll('_', ' ')
                                             : item[0].replaceAll('_', ' ')}
                                     </td>
-                                );
+                                )
                             })}
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
-    );
-};
+    )
+}
 
-export default Table;
+export default Table

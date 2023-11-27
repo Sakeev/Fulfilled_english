@@ -17,6 +17,7 @@
     &:disabled {
         cursor: default;
         color: $secondary-color;
+        background-color: $button-bg !important;
 
         &:hover {
             background-color: $button-bg;

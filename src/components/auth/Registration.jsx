@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth } from '../../contexts/AuthContextProvider';
-import { useNavigate } from 'react-router-dom';
-import { Modal } from '@mui/material';
+import * as React from 'react'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Link from '@mui/material/Link'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useAuth } from '../../contexts/AuthContextProvider'
+import { useNavigate } from 'react-router-dom'
+import { Modal } from '@mui/material'
 
 function Copyright(props) {
     return (
@@ -26,7 +26,7 @@ function Copyright(props) {
             {new Date().getFullYear()}
             {'.'}
         </Typography>
-    );
+    )
 }
 
 const style = {
@@ -44,33 +44,32 @@ const style = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-};
+}
 
-const theme = createTheme();
+const theme = createTheme()
 
 export default function Registration() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [open, setOpen] = React.useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [password_confirmation, setPassword_confirmation] =
-        React.useState('');
-    const [full_name, setFull_name] = React.useState('');
-    const { token, error } = useAuth();
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [password_confirmation, setPassword_confirmation] = React.useState('')
+    const [full_name, setFull_name] = React.useState('')
+    const { token, error } = useAuth()
 
     function handleRegister() {
-        token(email, password);
+        token(email, password)
     }
 
     const modal = () => {
         if (email && password && password_confirmation && full_name) {
-            handleOpen();
+            handleOpen()
         }
-    };
+    }
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -97,8 +96,8 @@ export default function Registration() {
                             variant="outlined"
                             sx={{ alignSelf: 'flex-end' }}
                             onClick={() => {
-                                handleClose();
-                                navigate('/');
+                                handleClose()
+                                navigate('/')
                             }}
                         >
                             Закрыть
@@ -202,7 +201,7 @@ export default function Registration() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={() => {
-                                    modal();
+                                    modal()
                                 }}
                             >
                                 Зарегистрироваться
@@ -220,5 +219,5 @@ export default function Registration() {
                 </Grid>
             </Grid>
         </ThemeProvider>
-    );
+    )
 }
