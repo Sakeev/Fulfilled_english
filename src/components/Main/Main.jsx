@@ -45,6 +45,7 @@ const Main = () => {
         getUpcomingLessons()
         getRoom()
     }, [])
+
     return (
         <>
             <div className={styles.main}>
