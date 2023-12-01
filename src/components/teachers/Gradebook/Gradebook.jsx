@@ -158,22 +158,28 @@ const Gradebook = () => {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
-                                        <td colSpan="1">
+                                        <td colSpan={1}></td>
+                                        <td colSpan={1}></td>
+                                        <td colSpan={1}></td>
+                                        <td colSpan={1}></td>
+                                    </tr>
+                                    <tr>
+                                        <td>AVG</td>
+                                        <td>
                                             {calculateAverageGrade(
                                                 gradebook,
                                                 'hw',
                                                 +selectedUser.user?.id
                                             )}
                                         </td>
-                                        <td colSpan="1">
+                                        <td>
                                             {calculateAverageGrade(
                                                 gradebook,
                                                 'essay',
                                                 +selectedUser.user?.id
                                             )}
                                         </td>
-                                        <td colSpan="1">
+                                        <td>
                                             {calculateAverageGrade(
                                                 gradebook,
                                                 'cw',
