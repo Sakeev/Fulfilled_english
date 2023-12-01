@@ -31,7 +31,7 @@ const TeacherMain = () => {
         getLessonCounter()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(1)
+    // console.log(1)
     const currentDate = new Date()
 
     function lvlcheck(lvl) {
