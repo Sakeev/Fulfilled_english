@@ -14,10 +14,11 @@
         .column {
             @include flex(column);
             gap: 1em;
-            width: 11em;
+            min-width: 11em;
 
             .button {
                 padding: 0.5em 2em;
+                white-space: nowrap;
             }
         }
 

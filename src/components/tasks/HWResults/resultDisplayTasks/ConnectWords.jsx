@@ -25,7 +25,7 @@ const ConnectWords = ({ taskDetails, answer, displayDataType }) => {
                 <div className={styles.column}>
                     {answers?.map(([word], index) => (
                         <Button key={index} className={styles.button}>
-                            {word}
+                            {word.replaceAll('_', ' ')}
                         </Button>
                     ))}
                 </div>
@@ -42,7 +42,7 @@ const ConnectWords = ({ taskDetails, answer, displayDataType }) => {
                             key={index + answers?.length}
                             className={styles.button}
                         >
-                            {word}
+                            {word.replaceAll('_', ' ')}
                         </Button>
                     ))}
                 </div>
