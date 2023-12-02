@@ -24,13 +24,11 @@ const Main = () => {
                     new Date(`${a.date}T${a.time}`).getTime() -
                     new Date(`${b.date}T${b.time}`).getTime()
             )
-            console.log(data)
             data = data.filter((date) => {
                 const dateTime = new Date(`${date.date}T${date.time}`) // Создаем объект Date из даты и времени объекта date
                 const diffInMinutes = (dateTime - currentTime) / (1000 * 60) // Разница в минутах
 
-                console.log(diffInMinutes)
-                return diffInMinutes >= -50 || diffInMinutes >= 0
+                return diffInMinutes >= -50
             })
 
             if (data.length > 0) {
@@ -49,14 +47,20 @@ const Main = () => {
     return (
         <>
             <div className={styles.main}>
-                {isLessonStart && (
-                    <StartLesson
-                        isTeacher={isTeacher}
-                        styles={styles}
-                        startTime={nextLesson}
-                    />
+                {isLessonStart ? (
+                    <>
+                        <StartLesson
+                            isTeacher={isTeacher}
+                            styles={styles}
+                            startTime={nextLesson}
+                        />
+                        {isTeacher ? <TeacherMain /> : <StudentMain />}
+                    </>
+                ) : (
+                    <div className="loader-wrapper">
+                        <div className="loader"></div>
+                    </div>
                 )}
-                {isTeacher ? <TeacherMain /> : <StudentMain />}
             </div>
         </>
     )
