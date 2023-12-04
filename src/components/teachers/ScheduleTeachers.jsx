@@ -3,7 +3,11 @@ import { useSchedule } from '../../contexts/ScheduleContextProvider'
 import { useUsers } from '../../contexts/UsersContextProvider'
 import AddSchedule from './AddSchedule'
 import './Schedule.css'
-import { getMonthInThreeLetter, getWeekDay, isInCurrentWeek } from '../../helpers/funcs'
+import {
+    getMonthInThreeLetter,
+    getWeekDay,
+    isInCurrentWeek,
+} from '../../helpers/funcs'
 import ScheduleWindow from './ScheduleWindow'
 
 const rows = ['08', '12', '16', '20', '24']
@@ -18,8 +22,8 @@ const setLesson = (lessons, time, weekday) => {
             +les.time.split(':')[0] < +time + 4 &&
             les.weekday === weekday
     )
-    
-    if(lessonsOnTime.length && !isInCurrentWeek(lessonsOnTime[0]?.date)) {
+
+    if (lessonsOnTime.length && !isInCurrentWeek(lessonsOnTime[0]?.date)) {
         lessonsOnTime = []
     }
 

@@ -1,5 +1,5 @@
-import { isTeacher } from 'helpers/funcs'
-import React, { useCallback, useEffect, useRef } from 'react'
+import { isTeacher } from "helpers/funcs";
+import React, { useCallback, useEffect, useRef } from "react";
 
 const Audio = ({
     audioSource = '',

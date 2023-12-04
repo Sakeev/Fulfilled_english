@@ -12,15 +12,33 @@ import { useClassWork } from 'contexts/ClassWorkContextProvider'
 const Main = () => {
     const { isTeacher } = useAuth()
     const [nextLesson, setNextLesson] = useState(null)
+    const [isLessonStart, setIsLessonStart] = useState(false)
+
     const { getRoom } = useClassWork()
     const getUpcomingLessons = () => {
         api.get(SCHEDULE_API).then((res) => {
+            const currentTime = new Date(
+                new Date().toLocaleString('en-US', {
+                    timeZone: 'Europe/Moscow',
+                })
+            )
             let data = res.data
-            data.sort((a, b) => a.weekday - b.weekday)
+            data.sort(
+                (a, b) =>
+                    new Date(`${a.date}T${a.time}`).getTime() -
+                    new Date(`${b.date}T${b.time}`).getTime()
+            )
+            data = data.filter((date) => {
+                const dateTime = new Date(`${date.date}T${date.time}`) // Создаем объект Date из даты и времени объекта date
+                const diffInMinutes = (dateTime - currentTime) / (1000 * 60) // Разница в минутах
+                return diffInMinutes >= -50
+            })
+
             if (data.length > 0) {
                 const date = new Date(`${data[0].date}T${data[0].time}`)
                 setNextLesson(date)
             }
+            setIsLessonStart(true)
         })
     }
 
@@ -32,15 +50,20 @@ const Main = () => {
     return (
         <>
             <div className={styles.main}>
-                {nextLesson && (
-                    <StartLesson
-                        isTeacher={isTeacher}
-                        styles={styles}
-                        startTime={nextLesson}
-                    />
+                {isLessonStart ? (
+                    <>
+                        <StartLesson
+                            isTeacher={isTeacher}
+                            styles={styles}
+                            startTime={nextLesson}
+                        />
+                        {isTeacher ? <TeacherMain /> : <StudentMain />}
+                    </>
+                ) : (
+                    <div className="loader-wrapper">
+                        <div className="loader"></div>
+                    </div>
                 )}
-
-                {isTeacher ? <TeacherMain /> : <StudentMain />}
             </div>
         </>
     )

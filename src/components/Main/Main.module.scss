@@ -46,13 +46,14 @@
             width: 50%;
             display: flex;
             justify-content: flex-end;
-            // font-family: Inter;
+
             .timerText {
                 font-size: 18px;
                 display: flex;
                 align-items: center;
             }
             .timer {
+                width: 75px;
                 font-size: 28px;
                 display: flex;
                 align-items: center;
