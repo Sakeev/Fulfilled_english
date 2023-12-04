@@ -38,7 +38,7 @@ const Notes = () => {
     useEffect(() => {
         getNotes()
     }, [])
-    console.log(notes)
+
     return (
         <>
             <div className={styles.notes_container}>

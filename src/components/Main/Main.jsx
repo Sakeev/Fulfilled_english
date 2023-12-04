@@ -7,7 +7,6 @@ import { useAuth } from 'contexts/AuthContextProvider'
 import StartLesson from './StartLesson/StartLesson'
 import api from 'http'
 import { SCHEDULE_API } from 'helpers/consts'
-import { useClassWork } from 'contexts/ClassWorkContextProvider'
 import { useSchedule } from 'contexts/ScheduleContextProvider'
 
 const Main = () => {
@@ -17,7 +16,6 @@ const Main = () => {
     const [nextLesson, setNextLesson] = useState(null)
     const [isLessonStart, setIsLessonStart] = useState(false)
 
-    const { getRoom } = useClassWork()
     const currentTime = new Date(
         new Date().toLocaleString('en-US', {
             timeZone: 'Europe/Moscow',
@@ -49,7 +47,6 @@ const Main = () => {
 
     useEffect(() => {
         getUpcomingLessons()
-        getRoom()
     }, [])
 
     return (
