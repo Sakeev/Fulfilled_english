@@ -11,15 +11,13 @@ import logoInterm from 'assets/images/logo-interm.svg'
 import logoUpper from 'assets/images/logo-upper.svg'
 import logoAdv from 'assets/images/logo-adv.svg'
 import { useUsers } from 'contexts/UsersContextProvider'
-import { useSchedule } from 'contexts/ScheduleContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { API } from 'helpers/consts'
 
-const TeacherMain = () => {
+const TeacherMain = ({ currentTime, schedule }) => {
     const { getLessonCounter, lessonCounter } = useClassWork()
     const { getNotes } = useClassWork()
     const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers()
-    const { getSchedule, schedule } = useSchedule()
 
     const navigate = useNavigate()
 
@@ -27,12 +25,9 @@ const TeacherMain = () => {
         getNotes()
         getUsers()
         getTeacher()
-        getSchedule()
         getLessonCounter()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    // console.log(1)
-    const currentDate = new Date()
 
     function lvlcheck(lvl) {
         switch (lvl) {
@@ -91,7 +86,7 @@ const TeacherMain = () => {
                                 const itemDate = new Date(
                                     `${item.date}T${item.time}`
                                 )
-                                return itemDate >= currentDate
+                                return itemDate >= currentTime
                             })
                             .sort(
                                 (a, b) =>

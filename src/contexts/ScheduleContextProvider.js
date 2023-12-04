@@ -51,12 +51,10 @@ const ScheduleContextProvider = ({ children }) => {
     }
 
     const setSchedule = async (info) => {
-        try {
-            let res = await axios.post(SCHEDULE_API, info, getToken())
-            getSchedule()
-        } catch (error) {
-            console.log(error)
-        }
+        dispatch({
+            type: 'GET_SCHEDULE',
+            payload: info,
+        })
     }
 
     const deleteSchedule = async (id) => {

@@ -47,7 +47,7 @@ const StartLesson = ({ styles, startTime, isTeacher }) => {
     const joinLesson = async () => {
         setConnectingLesson(true)
         const chatRoom = await api.get(`${API}chat/room/`)
-
+        console.log(chatRoom.data)
         if (chatRoom.data.length) {
             localStorage.setItem('room_pk', chatRoom.data[0].pk)
             navigate('/classwork')
