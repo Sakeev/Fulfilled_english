@@ -97,6 +97,7 @@ const ClassWorkContextProvider = ({ children }) => {
     const getRoom = async () => {
         try {
             const res = await axios.get(CHAT_ROOM_API, getToken())
+            console.log(res)
         } catch (error) {
             console.log(error, 'get_room_error')
         }
