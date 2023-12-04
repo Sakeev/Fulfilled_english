@@ -17,7 +17,11 @@ const Main = () => {
     const { getRoom } = useClassWork()
     const getUpcomingLessons = () => {
         api.get(SCHEDULE_API).then((res) => {
-            const currentTime = new Date()
+            const currentTime = new Date(
+                new Date().toLocaleString('en-US', {
+                    timeZone: 'Europe/Moscow',
+                })
+            )
             let data = res.data
             data.sort(
                 (a, b) =>
@@ -27,7 +31,6 @@ const Main = () => {
             data = data.filter((date) => {
                 const dateTime = new Date(`${date.date}T${date.time}`) // Создаем объект Date из даты и времени объекта date
                 const diffInMinutes = (dateTime - currentTime) / (1000 * 60) // Разница в минутах
-
                 return diffInMinutes >= -50
             })
 
