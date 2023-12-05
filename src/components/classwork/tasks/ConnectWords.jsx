@@ -5,7 +5,7 @@ import { API } from '../../../helpers/consts'
 import './Tasks.css'
 
 const ConnectWords = ({ task, inps, setInps, chatRender }) => {
-    const [inpsCount, setInpsCount] = useState(task[0]?.flag || 0)
+    const [inpsCount] = useState(task[0]?.flag || 0)
 
     function handleHtmlChange1(e, inp) {
         setInps({
@@ -39,8 +39,8 @@ const ConnectWords = ({ task, inps, setInps, chatRender }) => {
             <h2>Connect words</h2>
             <Box className="connect_words__block">
                 {task?.map((elem, index) => {
-                    if (elem?.images[0])
-                        return (
+                    return (
+                        elem?.images[0] && (
                             <img
                                 key={index}
                                 src={API + elem?.images[0]?.image}
@@ -51,6 +51,7 @@ const ConnectWords = ({ task, inps, setInps, chatRender }) => {
                                 alt=""
                             />
                         )
+                    )
                 })}
                 {task?.map((elem, index) => (
                     <Box key={index}>

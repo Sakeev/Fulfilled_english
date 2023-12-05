@@ -15,7 +15,7 @@ const Table = ({
     listeningId,
     taskId,
 }) => {
-    const [tableProps, setTableProps] = useState({
+    const [tableProps] = useState({
         rows: task[0]?.description.split('\r\n')[0].split('x')[1],
         cells: task[0]?.description.split('\r\n')[0].split('x')[0],
     })
@@ -34,7 +34,7 @@ const Table = ({
         return res
     }
 
-    const [table, setTable] = useState({
+    const [table] = useState({
         data: fillData(task[0]?.description.split('\r\n').slice(1)),
     })
 
@@ -92,6 +92,7 @@ const Table = ({
             }, 200)
             return () => clearTimeout(timeout)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [table_current_time.unit1.task?.seeked, listeningId])
 
     useEffect(() => {
@@ -102,6 +103,7 @@ const Table = ({
             }, 200)
             return () => clearTimeout(timeout)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [table_current_time.unit2.task?.seeked, listeningId])
 
     return (
