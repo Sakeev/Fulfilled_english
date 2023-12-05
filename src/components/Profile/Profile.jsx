@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useUsers } from 'contexts/UsersContextProvider'
 import { capitalize, isTeacher, lvlcheck } from 'helpers/funcs'
 import { API } from 'helpers/consts'
@@ -6,7 +6,9 @@ import { API } from 'helpers/consts'
 import styles from './Profile.module.scss'
 
 const Profile = () => {
-    const { user, studentProgress, getUserAndProgress } = useUsers()
+    const { user, studentProgress, getUserAndProgress, updateAvatar } =
+        useUsers()
+    const [avatar, setAvatar] = useState(null)
 
     useEffect(() => {
         getUserAndProgress()
@@ -23,11 +25,39 @@ const Profile = () => {
 
     const { logo, level } = lvlcheck(studentProgress.level)
 
+    const handleAvatar = (e) => {
+        setAvatar(e.target.files[0])
+    }
+    console.log(user)
     return (
         <div className={styles.profileContainer}>
             <div className={styles.userInfo}>
                 <div className={styles.userAvatar}>
                     <img src={`${API}${user.avatar}`} alt="user" />
+                    <div className={styles.overlay}>
+                        {/* <span >Edit</span> */}
+                        <label
+                            className={styles.cameraIcon}
+                            htmlFor="avatarEditBtn"
+                        >
+                            Edit
+                            <input
+                                id="avatarEditBtn"
+                                type="file"
+                                className={styles.inputFile}
+                                onChange={handleAvatar}
+                            />
+                        </label>
+                        {avatar ? (
+                            <p
+                                onClick={() =>
+                                    updateAvatar(avatar, studentProgress)
+                                }
+                            >
+                                upload
+                            </p>
+                        ) : null}
+                    </div>
                 </div>
                 <div className={styles.userInfoCardWrapper}>
                     <div className={styles.userInfoCard}>
@@ -79,12 +109,19 @@ const Profile = () => {
                 </div>
             </div>
             <div className={styles.userHobby}>
-                <p>Interest and Hobby's</p>
-                <ul className={styles.hobbysList}>
-                    {studentProgress.user?.hobby.map((item) => (
-                        <li>{item}</li>
-                    ))}
-                </ul>
+                <div className={styles.hobby}>
+                    <p>Interest and Hobby's</p>
+                    <ul className={styles.hobbysList}>
+                        {user.hobby &&
+                            user?.hobby.map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
+                    </ul>
+                </div>
+                <div className={styles.aboutMe}>
+                    <p>About</p>
+                    <p className={styles.about}>{user.about}</p>
+                </div>
             </div>
         </div>
     )

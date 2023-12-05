@@ -18,20 +18,61 @@
             @include flex(row, center);
             flex: 0.22 1 0;
             border-radius: 0.5rem;
-            overflow: hidden;
             aspect-ratio: 1 / 1;
             width: 20%;
+            position: relative;
+            overflow: hidden;
             img {
                 height: 100%;
+                width: 100%;
+                transition: transform 0.3s ease-in-out;
+                object-fit: contain;
             }
+        }
+        userAvatar:hover img {
+            transform: scale(1.1);
+        }
+        .overlay {
+            position: absolute;
+            // top: 0;
+            // left: 0;
+            width: 100%;
+            height: 100%;
+            // object-fit: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(190, 190, 190, 0.53);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .userAvatar:hover .overlay {
+            opacity: 1;
+        }
+
+        .cameraIcon {
+            font-size: 24px;
+            color: #171717;
+            cursor: pointer;
+        }
+
+        .inputFile {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
         }
 
         .userInfoCardWrapper {
             @include flex(row, space-between);
             flex: 0.73 1 0;
-            padding: 1em 1.5em;
+            padding: 2em 2.5em;
             border-radius: 0.5rem;
-            background-color: $button-bg;
+            background-color: $profile-bg;
             width: 20%;
 
             .userInfoCard {
@@ -50,7 +91,9 @@
 
                     .studentProgress {
                         margin-top: 0.5em;
-
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
                         .progress {
                             position: relative;
                             width: 15rem;
@@ -94,30 +137,81 @@
             }
         }
     }
+
     .userHobby {
-        // @include flex(row, space-between);
+        width: 100%;
+        height: auto;
+        display: flex;
+        margin-top: 2em;
+        justify-content: center;
+        background-color: $profile-bg;
         flex: 0.73 1 0;
-        padding: 1em 1.5em;
+        padding: 2em 2.5em;
         border-radius: 0.5rem;
-        background-color: $button-bg;
-        margin-top: 20px;
-        // width: 90%;
-        height: 50vh;
         p {
-            font-size: 1.5em;
+            font-size: 1.5rem;
         }
-        .hobbysList {
-            list-style-type: disc;
-            margin: 1.5em 0;
-            width: 100%;
+
+        .hobby {
+            width: 40%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            li {
-                margin-bottom: 1em;
+            .hobbysList {
+                margin: 1.5em 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5em;
+                justify-content: flex-start;
+                li {
+                    list-style-type: none;
+                    width: fit-content;
+                    // background-color: rgb(131, 197, 190);
+                    padding: 8px;
+                    border-radius: 10px;
+                    background-color: white;
+                    border: rgb(131, 197, 190) 2px solid;
+                    // color: white;
+                }
+            }
+        }
+
+        .aboutMe {
+            width: 60%;
+            height: 100%;
+
+            .about {
+                margin-top: 1em;
+                font-size: 1rem;
             }
         }
     }
+
+    // .userHobby {
+    //     @include flex(row, space-between);
+
+    //     flex: 0.73 1 0;
+    //     padding: 1em 1.5em;
+    //     border-radius: 0.5rem;
+    //     background-color: $button-bg;
+    //     margin-top: 20px;
+    //     // width: 90%;
+    //     height: 50vh;
+    //     p {
+    //         font-size: 1.5em;
+    //     }
+    //     .hobbysList {
+    //         list-style-type: disc;
+    //         margin: 1.5em 0;
+    //         width: 100%;
+    //         height: 100%;
+    //         display: flex;
+    //         flex-direction: column;
+    //         flex-wrap: wrap;
+    //         justify-content: flex-start;
+    //         li {
+    //             margin-bottom: 1em;
+    //         }
+    //     }
+    // }
 }
