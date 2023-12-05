@@ -14,7 +14,7 @@ export const calculateAverageGrade = (grades, type, selectedUser) => {
     )
     const average = totalGrades / filteredGrades.length
 
-    return average.toFixed(2)
+    return `${average.toFixed(2)}`
 }
 
 export const getGrade = (grades, type) => {
