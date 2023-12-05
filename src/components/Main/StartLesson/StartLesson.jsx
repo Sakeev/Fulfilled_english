@@ -6,7 +6,14 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const StartLesson = ({ styles, startTime, isTeacher }) => {
-    const [timeRemaining, setTimeRemaining] = useState(startTime - new Date())
+    const [timeRemaining, setTimeRemaining] = useState(
+        startTime -
+            new Date(
+                new Date().toLocaleString('en-US', {
+                    timeZone: 'Europe/Moscow',
+                })
+            )
+    )
     const [showStartButton, setShowStartButton] = useState(false)
     const [connectingLesson, setConnectingLesson] = useState(false)
 
@@ -14,13 +21,16 @@ const StartLesson = ({ styles, startTime, isTeacher }) => {
     const [showModal, setShowModal] = useState(false)
 
     const navigate = useNavigate()
-
     const minutes = Math.floor(timeRemaining / 60000)
     const seconds = Math.floor((timeRemaining % 60000) / 1000)
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const currentTime = new Date()
+            const currentTime = new Date(
+                new Date().toLocaleString('en-US', {
+                    timeZone: 'Europe/Moscow',
+                })
+            )
             const remaining = startTime - currentTime
             setTimeRemaining(remaining)
             if (remaining < 1000) {
@@ -37,7 +47,7 @@ const StartLesson = ({ styles, startTime, isTeacher }) => {
     const joinLesson = async () => {
         setConnectingLesson(true)
         const chatRoom = await api.get(`${API}chat/room/`)
-
+        console.log(chatRoom.data)
         if (chatRoom.data.length) {
             localStorage.setItem('room_pk', chatRoom.data[0].pk)
             navigate('/classwork')

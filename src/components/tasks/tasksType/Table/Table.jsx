@@ -1,18 +1,25 @@
 import { capitalize } from 'helpers/funcs'
 import { Button } from 'components/ui'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import styles from './Table.module.scss'
 
 const Table = ({ taskDetails, handleAnswer, ids, nextTask }) => {
     const [inps, setInps] = useState({})
-    const [tableProps] = useState({
+    const [tableProps, setTableProps] = useState({
         rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
         cells: taskDetails?.description.split('\r\n')[0].split('x')[0],
     })
 
+    useEffect(() => {
+        setTableProps({
+            rows: taskDetails?.description.split('\r\n')[0].split('x')[1],
+            cells: taskDetails?.description.split('\r\n')[0].split('x')[0],
+        })
+    }, [taskDetails])
+
     const fillData = (data) => {
-        while (data.length < tableProps.rows) {
+        while (data.length <= tableProps.rows) {
             data.push('')
         }
         const res = data.map((elem) => {

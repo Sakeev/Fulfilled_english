@@ -126,3 +126,26 @@ export function lvlcheck(lvl) {
     }
     return lvl ? levels[lvl] : { logo: logoBeginner, level: null }
 }
+
+// Function for check if the given date is in current week
+export function isInCurrentWeek(dateString) {
+    // Convert the input string to a Date object
+    const inputDate = new Date(dateString)
+
+    // Get the current date
+    const currentDate = new Date()
+
+    // Calculate the start and end dates of the current week
+    const startOfWeek = new Date(currentDate)
+    const dayOfWeek = currentDate.getDay() // 0 (Sunday) to 6 (Saturday)
+    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) // Adjust when the current day is Sunday
+    startOfWeek.setDate(diff)
+    startOfWeek.setHours(0, 0, 0, 0)
+
+    const endOfWeek = new Date(startOfWeek)
+    endOfWeek.setDate(startOfWeek.getDate() + 6)
+    endOfWeek.setHours(23, 59, 59, 999)
+
+    // Check if the input date is within the current week
+    return inputDate >= startOfWeek && inputDate <= endOfWeek
+}

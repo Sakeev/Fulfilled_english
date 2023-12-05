@@ -37,8 +37,9 @@ const Notes = () => {
 
     useEffect(() => {
         getNotes()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(notes)
+
     return (
         <>
             <div className={styles.notes_container}>

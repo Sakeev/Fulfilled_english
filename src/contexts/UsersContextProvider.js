@@ -147,7 +147,6 @@ const UsersContextProvider = ({ children }) => {
 
     const getUser = async () => {
         const { data } = await api.get(API_USER_PROGRESS)
-
         dispatch({ type: 'SET_USER', payload: data[0]?.user || null })
     }
 

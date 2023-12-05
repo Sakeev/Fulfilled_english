@@ -30,7 +30,6 @@ export const useTaskComponent = (nextTask = null) => {
     const { taskDetails, handleAnswer } = useTasks()
 
     const props = {
-        key: taskId,
         handleAnswer: handleAnswer,
         taskDetails: taskDetails,
         ids: { caseId, taskId },

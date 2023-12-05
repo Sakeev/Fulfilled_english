@@ -5,22 +5,20 @@ import profileImg from '../assets/profile-img.svg'
 import ProgressBar from './ProgressBar'
 import styles from './StudentMain.module.scss'
 import { useClassWork } from 'contexts/ClassWorkContextProvider'
-import { useSchedule } from 'contexts/ScheduleContextProvider'
 import { useUsers } from 'contexts/UsersContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { API } from 'helpers/consts'
 
-const StudentMain = () => {
+const StudentMain = ({ currentTime, schedule }) => {
     const { getNotes, notes } = useClassWork()
     const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers()
-    const { getSchedule, schedule } = useSchedule()
 
     const navigate = useNavigate()
+
     useEffect(() => {
         getNotes()
         getUsers()
         getTeacher()
-        getSchedule()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -39,8 +37,6 @@ const StudentMain = () => {
         )
     }, [hwstudents])
 
-    const currentDate = new Date()
-
     return (
         <div className={styles.student}>
             <div className={styles.userinfo}>
@@ -49,8 +45,8 @@ const StudentMain = () => {
                         <h3>Progress</h3>
                         <ProgressBar
                             progress={progress}
-                            size={130}
-                            strokeWidth={20}
+                            size={110}
+                            strokeWidth={15}
                             circleOneStroke="#E29578"
                             circleTwoStroke="#83c5be"
                         />
@@ -127,7 +123,7 @@ const StudentMain = () => {
                                 const itemDate = new Date(
                                     `${item.date}T${item.time}`
                                 )
-                                return itemDate >= currentDate
+                                return itemDate >= currentTime
                             })
                             .map((onepoint, key) => {
                                 //date
