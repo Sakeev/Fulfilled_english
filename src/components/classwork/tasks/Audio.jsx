@@ -35,6 +35,7 @@ const Audio = ({
             }, 200)
             return () => clearTimeout(timeout)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [current_time.unit1.task?.seeked, listeningId])
 
     useEffect(() => {
@@ -44,6 +45,7 @@ const Audio = ({
             }, 200)
             return () => clearTimeout(timeout)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [current_time.unit2.task?.seeked, listeningId])
 
     useEffect(() => {
@@ -56,6 +58,7 @@ const Audio = ({
                         setShowAudioText(false)
                         setIsDisable(true)
                     } else {
+                        setShowAudioText(false)
                         setIsDisable(false)
                     }
                 }
@@ -64,10 +67,19 @@ const Audio = ({
         } else if (listeningId === unit2.id) {
             const timeout = setTimeout(() => {
                 audioRef.current[unit2.task.is_playing ? 'play' : 'pause']()
-                unit2.task.is_playing && setShowAudioText(false)
+                if (!isTeacher()) {
+                    if (unit2.task.is_playing) {
+                        setShowAudioText(false)
+                        setIsDisable(true)
+                    } else {
+                        setShowAudioText(false)
+                        setIsDisable(false)
+                    }
+                }
             }, 200)
             return () => clearTimeout(timeout)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playing, listeningId])
 
     const sendToggleButton = useCallback((booli = false) => {
@@ -82,6 +94,7 @@ const Audio = ({
             action: 'get_listening',
             request_id: request_id,
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

@@ -45,8 +45,8 @@ const StudentMain = ({ currentTime, schedule }) => {
                         <h3>Progress</h3>
                         <ProgressBar
                             progress={progress}
-                            size={130}
-                            strokeWidth={20}
+                            size={110}
+                            strokeWidth={15}
                             circleOneStroke="#E29578"
                             circleTwoStroke="#83c5be"
                         />

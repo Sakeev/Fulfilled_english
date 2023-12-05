@@ -47,6 +47,7 @@ const Main = () => {
 
     useEffect(() => {
         getUpcomingLessons()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
