@@ -7,22 +7,25 @@ import { useAuth } from 'contexts/AuthContextProvider'
 import StartLesson from './StartLesson/StartLesson'
 import api from 'http'
 import { SCHEDULE_API } from 'helpers/consts'
-import { useClassWork } from 'contexts/ClassWorkContextProvider'
+import { useSchedule } from 'contexts/ScheduleContextProvider'
 
 const Main = () => {
     const { isTeacher } = useAuth()
+    const { schedule, setSchedule } = useSchedule()
+
     const [nextLesson, setNextLesson] = useState(null)
     const [isLessonStart, setIsLessonStart] = useState(false)
 
-    const { getRoom } = useClassWork()
+    const currentTime = new Date(
+        new Date().toLocaleString('en-US', {
+            timeZone: 'Europe/Moscow',
+        })
+    )
     const getUpcomingLessons = () => {
         api.get(SCHEDULE_API).then((res) => {
-            const currentTime = new Date(
-                new Date().toLocaleString('en-US', {
-                    timeZone: 'Europe/Moscow',
-                })
-            )
             let data = res.data
+            setSchedule(data)
+
             data.sort(
                 (a, b) =>
                     new Date(`${a.date}T${a.time}`).getTime() -
@@ -44,7 +47,7 @@ const Main = () => {
 
     useEffect(() => {
         getUpcomingLessons()
-        getRoom()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -57,7 +60,17 @@ const Main = () => {
                             styles={styles}
                             startTime={nextLesson}
                         />
-                        {isTeacher ? <TeacherMain /> : <StudentMain />}
+                        {isTeacher ? (
+                            <TeacherMain
+                                currentTime={currentTime}
+                                schedule={schedule}
+                            />
+                        ) : (
+                            <StudentMain
+                                currentTime={currentTime}
+                                schedule={schedule}
+                            />
+                        )}
                     </>
                 ) : (
                     <div className="loader-wrapper">

@@ -1,6 +1,11 @@
 import axios from 'axios'
 import React, { createContext, useContext, useReducer } from 'react'
-import { API, API_USER_PROGRESS, TEACHER_PROFILE_API } from '../helpers/consts'
+import {
+    API,
+    API_USER_PROGRESS,
+    TEACHER_PROFILE_API,
+    UPDATE_PROFILE_API,
+} from '../helpers/consts'
 import api from 'http'
 import { isTeacher } from 'helpers/funcs'
 
@@ -142,7 +147,6 @@ const UsersContextProvider = ({ children }) => {
 
     const getUser = async () => {
         const { data } = await api.get(API_USER_PROGRESS)
-
         dispatch({ type: 'SET_USER', payload: data[0]?.user || null })
     }
 
@@ -159,6 +163,21 @@ const UsersContextProvider = ({ children }) => {
 
         dispatch({ type: 'SET_USER', payload: user || null })
         dispatch({ type: 'SET_STUDENT_PROGRESS', payload: data[0] || null })
+    }
+
+    const updateAvatar = async (avatar, studentData) => {
+        try {
+            let formData = new FormData()
+            formData.append('avatar', avatar)
+            const res = await api.patch(
+                `${UPDATE_PROFILE_API}${studentData.user.id}/`,
+                formData,
+                getConfig()
+            )
+            getUserAndProgress()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const cloud = {
@@ -179,6 +198,7 @@ const UsersContextProvider = ({ children }) => {
         getStudentProgress,
         getUser,
         getUserAndProgress,
+        updateAvatar,
     }
 
     return (

@@ -83,7 +83,7 @@ const ClassWorkLayout = () => {
     }
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: (e) => {
-            console.log('WebSocket connection established.')
+            console.log('WebSocket connection established.', room_pk)
             const joinRoom = {
                 pk: room_pk,
                 action: 'join_room',
@@ -395,7 +395,7 @@ const ClassWorkLayout = () => {
                                         position: 'relative',
                                     },
                                 }}
-                                value={inps.chat}
+                                value={inps.chat || ''}
                                 onKeyDown={checkTab}
                                 onChange={handleHtmlChange}
                                 disabled={!isTeacher()}

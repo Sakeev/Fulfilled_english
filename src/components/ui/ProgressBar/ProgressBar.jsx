@@ -7,11 +7,12 @@ const ProgressBar = ({ percent, height, color }) => {
         backgroundColor: color || '#83C5BE',
         transition: 'width 0.5s ease-in-out',
     }
+    console.log(percent)
 
     return (
         <div className={styles.progress_bar_container}>
             <div className={styles.progress_bar} style={style}>
-                {percent < 0 ? null : `${percent}%`}
+                {percent === 0 || percent < 0 ? null : `${percent}%`}
             </div>
         </div>
     )
