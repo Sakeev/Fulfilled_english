@@ -52,3 +52,57 @@
         }
     }
 }
+
+// -----------------------
+
+.mistakesContainer {
+    ul {
+        @include flex(row, space-between, flex-start);
+        width: 100%;
+
+        .mistake {
+            @include flex(column, flex-start, flex-start);
+            width: 30%;
+
+            .mistakeHeader {
+                @include flex(row, flex-start, center);
+                width: 100%;
+                height: 2.25em;
+
+                span {
+                    margin-left: 0.5em;
+                }
+            }
+
+            textarea {
+                // max-width: 100%;
+                // min-width: 100%;
+                height: 6em;
+                padding: 0.375em;
+                width: 100%;
+                resize: none;
+                display: block;
+                // overflow: hidden;
+                // min-height: 2rem;
+                font-size: 1rem;
+                border: 0.1rem $border-color solid;
+                border-radius: 0.25rem;
+                outline: none;
+
+                &:focus {
+                    border: 0.1rem $border-color solid;
+                }
+
+                &:hover {
+                    border: 0.1rem $border-color solid;
+                }
+
+                &:disabled {
+                    background-color: transparent;
+                    color: black;
+                    // resize: none;
+                }
+            }
+        }
+    }
+}

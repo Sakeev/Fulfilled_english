@@ -1,4 +1,5 @@
 import { useEssay } from 'contexts/EssayContextProvider'
+import StaticMistakes from '../Mistakes/StaticMistakes'
 import { useEffect, useState, useRef } from 'react'
 import { Button } from 'components/ui'
 import { API } from 'helpers/consts'
@@ -36,7 +37,7 @@ const StudentEssay = () => {
                 }
             }
         }
-    }, [essayTemplate])
+    }, [essayTemplate, essay])
 
     const sendEssay = async () => {
         const data = {
@@ -53,14 +54,13 @@ const StudentEssay = () => {
         return <h3 className={styles.noEssay}>You haven't essay</h3>
     }
 
-    if (!essayTemplate || loading) {
+    if (!essayTemplate || !essay || loading) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
         )
     }
-
     return (
         <div className={styles.essayContainer}>
             <div className={styles.essay}>
@@ -68,43 +68,54 @@ const StudentEssay = () => {
                     <div className={styles.studentInfo}>
                         <h2>Essay</h2>
                         <span>
-                            Status: {essay?.checked ? '' : ' not'} checked
+                            Status: {essay.checked ? '' : ' not'} checked
                         </span>
                     </div>
                     <div className={styles.subject}>
                         <span>subject: </span>
                         <p>{essayTemplate?.title}</p>
                         {/* <audio
-                            src={essay ? `${API}${essay?.audio}` : ''}
+                            src={essay ? `${API}${essay.audio}` : ''}
                             controls
                         ></audio> */}
                     </div>
                 </div>
+                <div className={styles.description}>
+                    {essayTemplate?.description
+                        .split('\r\n')
+                        .map((line, index) => (
+                            <p key={index}>{line}</p>
+                        ))}
+                </div>
                 <div className={styles.windows}>
-                    {essay?.checked && (
-                        <div className={styles.mistakesWindow}>
-                            <p>Here is the teachers corrections:</p>
-                            <ul>
-                                {essay?.mistakes.map((mistake, index) => {
-                                    return (
-                                        <li
-                                            key={index}
-                                            className={styles.mistake}
-                                        >
-                                            <div
-                                                style={{
-                                                    backgroundColor:
-                                                        mistake.color,
-                                                }}
-                                            ></div>
-                                            <p>{mistake.description}</p>
-                                        </li>
-                                    )
-                                })}
-                            </ul>
-                        </div>
+                    {essay.checked && (
+                        <StaticMistakes
+                            essay={essayTemplate}
+                            studentEssay={essay}
+                        />
+                        // <div className={styles.mistakesWindow}>
+                        //     <p>Here is the teachers corrections:</p>
+                        //     <ul>
+                        //         {essay.mistakes.map((mistake, index) => {
+                        //             return (
+                        //                 <li
+                        //                     key={index}
+                        //                     className={styles.mistake}
+                        //                 >
+                        //                     <div
+                        //                         style={{
+                        //                             backgroundColor:
+                        //                                 mistake.color,
+                        //                         }}
+                        //                     ></div>
+                        //                     <p>{mistake.description}</p>
+                        //                 </li>
+                        //             )
+                        //         })}
+                        //     </ul>
+                        // </div>
                     )}
-                    {essay?.checked ? (
+                    {essay.checked ? (
                         <div
                             ref={highlightedText}
                             className={`${styles.essayWindow} ${styles.unactive}`}
@@ -114,7 +125,7 @@ const StudentEssay = () => {
                             className={`${essay ? 'unactive' : ''} ${
                                 styles.essayTextarea
                             }`}
-                            readOnly={essay?.accepted}
+                            readOnly={essay.accepted}
                             onChange={(e) => setEssayText(e.target.value)}
                             value={essayText}
                         />
@@ -122,12 +133,12 @@ const StudentEssay = () => {
                 </div>
                 <div className={styles.studentEssayBtns}>
                     <Button
-                        disabled={essay?.accepted}
+                        disabled={essay.accepted}
                         onClick={() => sendEssay(essayText)}
                     >
                         Send
                     </Button>
-                    {essay?.checked ? <span>{essay?.score}/10</span> : null}
+                    {essay.checked ? <span>{essay.score}/10</span> : null}
                 </div>
             </div>
         </div>

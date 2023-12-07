@@ -8,6 +8,7 @@ import { Button } from 'components/ui'
 import cancelled from 'assets/images/cancelled.png'
 
 import styles from './ViewEssay.module.scss'
+import StaticMistakes from 'components/Essay/Mistakes/StaticMistakes'
 
 const ViewEssay = () => {
     const { updateEssay, loading, getLesson, lesson, setEssayGrade } =
@@ -129,12 +130,18 @@ const ViewEssay = () => {
                         ></audio> */}
                     </div>
                 </div>
+                <div className={styles.description}>
+                    {essay.description.split('\r\n').map((line) => (
+                        <p>{line}</p>
+                    ))}
+                </div>
                 <div className={styles.windows}>
-                    <Mistakes
+                    {/* <Mistakes
                         essay={essay}
                         studentEssayHook={[studentEssay, setStudentEssay]}
                         studentEssay={studentEssay}
-                    />
+                    /> */}
+                    <StaticMistakes essay={essay} studentEssay={studentEssay} />
                     <div
                         ref={essayRef}
                         onMouseUp={(event) => onMouseUp(event)}

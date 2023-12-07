@@ -9,9 +9,10 @@
 
     .essay {
         @include flex(column);
-        width: 65%;
+        width: 70%;
         margin-left: 4em;
         margin-top: 4em;
+        padding-bottom: 5em;
 
         .essayHeader {
             @include flex(row, space-between);
@@ -47,6 +48,12 @@
             }
         }
 
+        .description {
+            p {
+                font-size: 1.125rem;
+            }
+        }
+
         .windows {
             @include flex(column);
             gap: 1.5em;
@@ -78,12 +85,13 @@
 
 // Mistakes styles -------------------------------
 
-.mistakesWindow {
-    width: 100%;
-    padding: 1em 0 1em 2em;
-    font-size: 1.125rem;
-    border: 0.1rem solid $border-color;
-    border-radius: 1rem;
+.mistakesWindow,
+.mistakesContainer {
+    // width: 100%;
+    // padding: 1em 0 1em 2em;
+    // font-size: 1.125rem;
+    // border: 0.1rem solid $border-color;
+    // border-radius: 1rem;
 
     & > p {
         margin-bottom: 0.5em;
@@ -91,8 +99,8 @@
 
     ul {
         list-style: none;
-        height: 16vh;
-        overflow-y: scroll;
+        // height: 16vh;
+        // overflow-y: scroll;
 
         .mistake {
             @include flex(row, flex-start, center);
@@ -101,8 +109,22 @@
 
             div {
                 width: 1em;
+                min-width: 1em;
                 height: 1em;
+                min-height: 1em;
                 border-radius: 0.25rem;
+
+                &.orange {
+                    background-color: orange;
+                }
+
+                &.red {
+                    background-color: red;
+                }
+
+                &.green {
+                    background-color: green;
+                }
             }
 
             img {
