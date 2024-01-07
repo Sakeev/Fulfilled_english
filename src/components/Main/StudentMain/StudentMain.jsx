@@ -8,17 +8,19 @@ import { useClassWork } from 'contexts/ClassWorkContextProvider'
 import { useUsers } from 'contexts/UsersContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { API } from 'helpers/consts'
+import { Button, Modal } from 'components/ui'
 
 const StudentMain = ({ currentTime, schedule }) => {
     const { getNotes, notes } = useClassWork()
     const { hwstudents, getUsers, teacherInfo, getTeacher } = useUsers()
-
+    const [modal, setModal] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
         getNotes()
         getUsers()
         getTeacher()
+        !JSON.parse(localStorage.getItem('user_agreement')) && setModal(true)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -39,6 +41,25 @@ const StudentMain = ({ currentTime, schedule }) => {
 
     return (
         <div className={styles.student}>
+            <Modal useStateHook={[modal, setModal]}>
+                <div className={styles.agreement_block}>
+                    <h4 className={styles.header}>
+                        Пользовательское соглашение
+                    </h4>
+                    <p className={styles.content}>
+                        <input type="checkbox" name="" id="agreement" />Я
+                        прочитал и согласен с{' '}
+                        <a
+                            href="https://www.fluentenglish.site/media/media/CV.pdf"
+                            target="_blank"
+                        >
+                            Правилами пользования сайтом и обработки
+                            персональных данных
+                        </a>
+                    </p>
+                    <Button className={styles.button}>Принимаю</Button>
+                </div>
+            </Modal>
             <div className={styles.userinfo}>
                 <div className={styles.progress}>
                     <div className={styles.animation}>

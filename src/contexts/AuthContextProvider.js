@@ -103,10 +103,11 @@ const AuthContextProvider = ({ children }) => {
         try {
             setIsLoading(true)
             let { data } = await api.post(`${AUTH_API}`, formData, config)
-            const { access, refresh, is_teacher } = data
+            const { access, refresh, is_teacher, user_agreement } = data
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }))
             localStorage.setItem('username', email)
+            localStorage.setItem('user_agreement', user_agreement)
             localStorage.setItem('isTeacher', JSON.stringify(is_teacher))
 
             dispatch({ type: 'SET_IS_TEACHER', payload: is_teacher })
@@ -171,6 +172,7 @@ const AuthContextProvider = ({ children }) => {
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         localStorage.removeItem('isTeacher')
+        localStorage.removeItem('user_agreement')
 
         dispatch({ type: 'SET_IS_TEACHER', payload: false })
 
