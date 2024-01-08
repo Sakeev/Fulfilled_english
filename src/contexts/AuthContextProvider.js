@@ -173,7 +173,6 @@ const AuthContextProvider = ({ children }) => {
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         localStorage.removeItem('isTeacher')
-        localStorage.removeItem('user_agreement')
 
         dispatch({ type: 'SET_IS_TEACHER', payload: false })
 

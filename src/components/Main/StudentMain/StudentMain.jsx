@@ -12,9 +12,10 @@ import { Button, Modal } from 'components/ui'
 
 const StudentMain = ({ currentTime, schedule }) => {
     const { getNotes, notes } = useClassWork()
-    const { hwstudents, getUsers, teacherInfo, getTeacher, updateAgreement } = useUsers()
+    const { hwstudents, getUsers, teacherInfo, getTeacher, updateAgreement } =
+        useUsers()
     const [modal, setModal] = useState(false)
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,7 +28,7 @@ const StudentMain = ({ currentTime, schedule }) => {
 
     useEffect(() => {
         if (modal) {
-            localStorage.setItem('u-agrm-s', true);
+            localStorage.setItem('u-agrm-s', true)
         }
     }, [modal])
 
@@ -54,8 +55,14 @@ const StudentMain = ({ currentTime, schedule }) => {
                         Пользовательское соглашение
                     </h4>
                     <p className={styles.content}>
-                        <input type="checkbox" name="" id="agreement" defaultChecked={checked} onChange={() => setChecked(!checked)} />Я
-                        прочитал и согласен с{' '}
+                        <input
+                            type="checkbox"
+                            name=""
+                            id="agreement"
+                            defaultChecked={checked}
+                            onChange={() => setChecked(!checked)}
+                        />
+                        Я прочитал(а) и согласен с{' '}
                         <a
                             href="https://www.fluentenglish.site/media/media/CV.pdf"
                             target="_blank"
@@ -65,10 +72,16 @@ const StudentMain = ({ currentTime, schedule }) => {
                             персональных данных
                         </a>
                     </p>
-                    <Button className={styles.button} onClick={() => {
-                        updateAgreement()
-                        setModal(false)
-                    }} disabled={!checked}>Принимаю</Button>
+                    <Button
+                        className={styles.button}
+                        onClick={() => {
+                            updateAgreement()
+                            setModal(false)
+                        }}
+                        disabled={!checked}
+                    >
+                        Принимаю
+                    </Button>
                 </div>
             </Modal>
             <div className={styles.userinfo}>
