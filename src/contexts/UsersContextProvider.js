@@ -4,6 +4,7 @@ import {
     API,
     API_USER_PROGRESS,
     TEACHER_PROFILE_API,
+    UPDATE_AGREEMENT_API,
     UPDATE_PROFILE_API,
 } from '../helpers/consts'
 import api from 'http'
@@ -180,6 +181,14 @@ const UsersContextProvider = ({ children }) => {
         }
     }
 
+    const updateAgreement = async () => {
+        try {
+            await axios.post(UPDATE_AGREEMENT_API, null, getConfig());
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const cloud = {
         getStudents,
         students: state.students,
@@ -199,6 +208,7 @@ const UsersContextProvider = ({ children }) => {
         getUser,
         getUserAndProgress,
         updateAvatar,
+        updateAgreement,
     }
 
     return (
