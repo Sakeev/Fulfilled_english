@@ -107,7 +107,8 @@ const AuthContextProvider = ({ children }) => {
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }))
             localStorage.setItem('username', email)
-            localStorage.setItem('user_agreement', user_agreement)
+            // localStorage.setItem('user_agreement', user_agreement)
+            localStorage.setItem('u-agrm-s', user_agreement) // u-agrm-s stands for user agreement shown
             localStorage.setItem('isTeacher', JSON.stringify(is_teacher))
 
             dispatch({ type: 'SET_IS_TEACHER', payload: is_teacher })

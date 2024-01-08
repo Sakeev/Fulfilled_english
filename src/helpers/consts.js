@@ -14,6 +14,7 @@ export const TEACHER_PROFILE_API =
     'https://www.fluentenglish.site/account/get_teacher_user/'
 export const UPDATE_PROFILE_API =
     'https://www.fluentenglish.site/account/update_user/'
+export const UPDATE_AGREEMENT_API = 'https://www.fluentenglish.site/account/update_agree/';
 
 // rena dobavil
 export const API_USER_PROGRESS = 'https://www.fluentenglish.site/room/rooms/'
