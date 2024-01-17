@@ -11,7 +11,7 @@ const StudentEssay = () => {
     const { getLesson, lesson, loading } = useEssay()
     const [essayTemplate, setEssayTemplate] = useState(null)
     const [essayText, setEssayText] = useState('')
-    const [essay, setEssay] = useState(null)
+    const [essay, setEssay] = useState({})
     const [noEssay, setNoEssay] = useState(false)
     const highlightedText = useRef()
 
@@ -53,14 +53,14 @@ const StudentEssay = () => {
     if (noEssay) {
         return <h3 className={styles.noEssay}>You haven't essay</h3>
     }
-
-    if (!essayTemplate || !essay || loading) {
+    if (!essayTemplate || loading) {
         return (
             <div className="loader-wrapper">
                 <div className="loader"></div>
             </div>
         )
     }
+
     return (
         <div className={styles.essayContainer}>
             <div className={styles.essay}>
