@@ -54,7 +54,7 @@ const StudentMain = ({ currentTime, schedule }) => {
                     <h4 className={styles.header}>
                         Пользовательское соглашение
                     </h4>
-                    <p className={styles.content}>
+                    <div className={styles.content}>
                         <input
                             type="checkbox"
                             name=""
@@ -62,16 +62,18 @@ const StudentMain = ({ currentTime, schedule }) => {
                             defaultChecked={checked}
                             onChange={() => setChecked(!checked)}
                         />
-                        Я прочитал(а) и согласен с{' '}
-                        <a
-                            href="https://www.fluentenglish.site/media/media/CV.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            Правилами пользования сайтом и обработки
-                            персональных данных
-                        </a>
-                    </p>
+                        <p>
+                            Я прочитал(а) и согласен с{' '}
+                            <a
+                                href="https://www.fluentenglish.site/media/media/terms_of_use.pdf"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Правилами пользования сайтом и обработки
+                                персональных данных
+                            </a>
+                        </p>
+                    </div>
                     <Button
                         className={styles.button}
                         onClick={() => {
