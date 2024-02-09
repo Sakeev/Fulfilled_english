@@ -53,26 +53,26 @@ const AuthContextProvider = ({ children }) => {
 
     const navigate = useNavigate()
 
-    const token = async (email, password) => {
-        let formData = {
-            email,
-            password,
-        }
+    // const token = async (email, password) => {
+    //     let formData = {
+    //         email,
+    //         password,
+    //     }
 
-        try {
-            const { data } = await axios.post(`${AUTH_API}`, formData)
-            const { access, refresh, isTeacher } = data
+    //     try {
+    //         const { data } = await axios.post(`${AUTH_API}`, formData)
+    //         const { access, refresh, isTeacher } = data
 
-            dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher })
+    //         dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher })
 
-            localStorage.setItem('token', JSON.stringify({ access, refresh }))
-            localStorage.setItem('username', email)
-            localStorage.setItem('isTeacher', JSON.stringify(isTeacher))
-            navigate('/')
-        } catch (error) {
-            setError(error)
-        }
-    }
+    //         localStorage.setItem('token', JSON.stringify({ access, refresh }))
+    //         localStorage.setItem('username', email)
+    //         localStorage.setItem('isTeacher', JSON.stringify(isTeacher))
+    //         navigate('/')
+    //     } catch (error) {
+    //         setError(error)
+    //     }
+    // }
 
     async function login(email, password) {
         setErrorObj((prev) => {
@@ -104,10 +104,10 @@ const AuthContextProvider = ({ children }) => {
             setIsLoading(true)
             let { data } = await api.post(`${AUTH_API}`, formData, config)
             const { access, refresh, is_teacher, user_agreement } = data
+            console.log({ access, refresh })
 
             localStorage.setItem('token', JSON.stringify({ access, refresh }))
             localStorage.setItem('username', email)
-            // localStorage.setItem('user_agreement', user_agreement)
             localStorage.setItem('u-agrm-s', user_agreement) // u-agrm-s stands for user agreement shown
             localStorage.setItem('isTeacher', JSON.stringify(is_teacher))
 
@@ -155,11 +155,14 @@ const AuthContextProvider = ({ children }) => {
                 }
             )
 
-            const { access, refresh } = data
             const userName = localStorage.getItem('username')
+            const { refresh } = JSON.parse(localStorage.getItem('token'))
             const isTeacher = JSON.parse(localStorage.getItem('isTeacher'))
 
-            localStorage.setItem('token', JSON.stringify({ access, refresh }))
+            localStorage.setItem(
+                'token',
+                JSON.stringify({ access: data.access, refresh })
+            )
             dispatch({ type: 'SET_IS_TEACHER', payload: isTeacher })
             setUser(userName)
         } catch (error) {
@@ -203,7 +206,7 @@ const AuthContextProvider = ({ children }) => {
         userId: state.userId,
         isTeacher: state.isTeacher,
         users: state.users,
-        token,
+        // token,
         login,
         logout,
         user,
